@@ -1,0 +1,616 @@
+[
+  {
+    "caso": "Portal Suba (Suba) -> Portal Tunal (Caracas Sur)",
+    "exito": true,
+    "origen": "Portal Suba",
+    "destino": "Portal Tunal",
+    "num_estaciones": 40,
+    "num_transferencias": 2,
+    "costo_total_km": 25.769,
+    "ruta": [
+      {
+        "cod_nodo": 3000,
+        "nom_est": "Portal Suba",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3001,
+        "nom_est": "La Campiña",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3002,
+        "nom_est": "Suba - TV. 91",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3003,
+        "nom_est": "21 Ángeles",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3004,
+        "nom_est": "Gratamira",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3005,
+        "nom_est": "Suba - AV. Boyacá",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3006,
+        "nom_est": "Niza - Calle 127",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3007,
+        "nom_est": "Humedal Córdoba",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3009,
+        "nom_est": "Suba - Calle 116",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3010,
+        "nom_est": "Puentelargo",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3011,
+        "nom_est": "Suba - Calle 100",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3012,
+        "nom_est": "Suba - Calle 95",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3013,
+        "nom_est": "Rionegro",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 3014,
+        "nom_est": "San Martín",
+        "nom_tronc": "Suba"
+      },
+      {
+        "cod_nodo": 9123,
+        "nom_est": "Calle 76 - San Felipe",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9122,
+        "nom_est": "Calle 72 - Areandina",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9121,
+        "nom_est": "Temporal Flores – Areandina",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9120,
+        "nom_est": "Calle 63",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9119,
+        "nom_est": "Temporal Calle 57",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9118,
+        "nom_est": "Temporal Marly",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9117,
+        "nom_est": "Calle 45 - American School Way",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9116,
+        "nom_est": "Temporal AV. 39",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9115,
+        "nom_est": "Temporal Calle 34",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9114,
+        "nom_est": "Calle 26 - Atrio",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9113,
+        "nom_est": "Temporal Calle 22",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9111,
+        "nom_est": "Calle 19",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9110,
+        "nom_est": "Temporal AV. Jiménez - Inter Eléctricas",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9109,
+        "nom_est": "Tercer Milenio",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9108,
+        "nom_est": "Hospital",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9107,
+        "nom_est": "Hortúa",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9106,
+        "nom_est": "Nariño",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9105,
+        "nom_est": "Fucha",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9104,
+        "nom_est": "Restrepo",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9103,
+        "nom_est": "Olaya",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9101,
+        "nom_est": "Quiroga",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9100,
+        "nom_est": "Calle 40 Sur",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9004,
+        "nom_est": "Santa Lucía",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 8002,
+        "nom_est": "Biblioteca",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 8001,
+        "nom_est": "Parque",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 8000,
+        "nom_est": "Portal Tunal",
+        "nom_tronc": "Caracas Sur"
+      }
+    ],
+    "transferencias": [
+      {
+        "en_estacion": "San Martín",
+        "de_troncal": "Suba",
+        "a_troncal": "Caracas"
+      },
+      {
+        "en_estacion": "Tercer Milenio",
+        "de_troncal": "Caracas",
+        "a_troncal": "Caracas Sur"
+      }
+    ]
+  },
+  {
+    "caso": "Portal Norte (Autopista Norte) -> Portal Usme (Caracas Sur)",
+    "exito": true,
+    "origen": "Portal Norte – Unicervantes",
+    "destino": "Portal Usme",
+    "num_estaciones": 44,
+    "num_transferencias": 2,
+    "costo_total_km": 30.129,
+    "ruta": [
+      {
+        "cod_nodo": 2000,
+        "nom_est": "Portal Norte – Unicervantes",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2001,
+        "nom_est": "Calle 187",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2101,
+        "nom_est": "Toberin - Foundever",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2102,
+        "nom_est": "Calle 161",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2103,
+        "nom_est": "Mazurén",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2104,
+        "nom_est": "Calle 146",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2105,
+        "nom_est": "Calle 142",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2200,
+        "nom_est": "Alcalá – Colegio S. Tomás Dominicos",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2201,
+        "nom_est": "Prado",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2202,
+        "nom_est": "Calle 127",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2204,
+        "nom_est": "Pepe Sierra Universidad UTEL",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2205,
+        "nom_est": "Calle 106 - Maletas Explora",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2300,
+        "nom_est": "Calle 100 - Marketmedios",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2302,
+        "nom_est": "Virrey",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2303,
+        "nom_est": "Calle 85",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 2304,
+        "nom_est": "Héroes - Colmena Seguros",
+        "nom_tronc": "Autopista Norte"
+      },
+      {
+        "cod_nodo": 9123,
+        "nom_est": "Calle 76 - San Felipe",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9122,
+        "nom_est": "Calle 72 - Areandina",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9121,
+        "nom_est": "Temporal Flores – Areandina",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9120,
+        "nom_est": "Calle 63",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9119,
+        "nom_est": "Temporal Calle 57",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9118,
+        "nom_est": "Temporal Marly",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9117,
+        "nom_est": "Calle 45 - American School Way",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9116,
+        "nom_est": "Temporal AV. 39",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9115,
+        "nom_est": "Temporal Calle 34",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9114,
+        "nom_est": "Calle 26 - Atrio",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9113,
+        "nom_est": "Temporal Calle 22",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9111,
+        "nom_est": "Calle 19",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9110,
+        "nom_est": "Temporal AV. Jiménez - Inter Eléctricas",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9109,
+        "nom_est": "Tercer Milenio",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9108,
+        "nom_est": "Hospital",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9107,
+        "nom_est": "Hortúa",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9106,
+        "nom_est": "Nariño",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9105,
+        "nom_est": "Fucha",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9104,
+        "nom_est": "Restrepo",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9103,
+        "nom_est": "Olaya",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9101,
+        "nom_est": "Quiroga",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9100,
+        "nom_est": "Calle 40 Sur",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9004,
+        "nom_est": "Santa Lucía",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9003,
+        "nom_est": "Socorro",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9002,
+        "nom_est": "Consuelo",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9001,
+        "nom_est": "Molinos",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9005,
+        "nom_est": "Danubio",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 9000,
+        "nom_est": "Portal Usme",
+        "nom_tronc": "Caracas Sur"
+      }
+    ],
+    "transferencias": [
+      {
+        "en_estacion": "Héroes - Colmena Seguros",
+        "de_troncal": "Autopista Norte",
+        "a_troncal": "Caracas"
+      },
+      {
+        "en_estacion": "Tercer Milenio",
+        "de_troncal": "Caracas",
+        "a_troncal": "Caracas Sur"
+      }
+    ]
+  },
+  {
+    "caso": "Museo Nacional (Carrera 7) -> Portal Americas (Americas)",
+    "exito": true,
+    "origen": "Museo Nacional",
+    "destino": "Portal Américas",
+    "num_estaciones": 22,
+    "num_transferencias": 5,
+    "costo_total_km": 15.93,
+    "ruta": [
+      {
+        "cod_nodo": 10009,
+        "nom_est": "Museo Nacional",
+        "nom_tronc": "Carrera 7"
+      },
+      {
+        "cod_nodo": 10008,
+        "nom_est": "San Diego",
+        "nom_tronc": "Carrera 10"
+      },
+      {
+        "cod_nodo": 10007,
+        "nom_est": "Las Nieves",
+        "nom_tronc": "Carrera 10"
+      },
+      {
+        "cod_nodo": 9111,
+        "nom_est": "Calle 19",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9110,
+        "nom_est": "Temporal AV. Jiménez - Inter Eléctricas",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9109,
+        "nom_est": "Tercer Milenio",
+        "nom_tronc": "Caracas"
+      },
+      {
+        "cod_nodo": 9108,
+        "nom_est": "Hospital",
+        "nom_tronc": "Caracas Sur"
+      },
+      {
+        "cod_nodo": 7111,
+        "nom_est": "Ricaurte - NQS",
+        "nom_tronc": "NQS Central"
+      },
+      {
+        "cod_nodo": 12003,
+        "nom_est": "Ricaurte - CL 13",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 12002,
+        "nom_est": "CDS - Carrera 32",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 12001,
+        "nom_est": "Carrera 43 - Comapan",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 12000,
+        "nom_est": "Puente Aranda",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5107,
+        "nom_est": "Distrito Grafiti",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5105,
+        "nom_est": "Pradera - Plaza Central",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5103,
+        "nom_est": "Marsella",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5102,
+        "nom_est": "AV. Américas - AV. Boyacá",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5101,
+        "nom_est": "Mandalay",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5100,
+        "nom_est": "Banderas",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5005,
+        "nom_est": "Transversal 86",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5002,
+        "nom_est": "Biblioteca Tintal",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5001,
+        "nom_est": "Patio Bonito",
+        "nom_tronc": "Americas"
+      },
+      {
+        "cod_nodo": 5000,
+        "nom_est": "Portal Américas",
+        "nom_tronc": "Americas"
+      }
+    ],
+    "transferencias": [
+      {
+        "en_estacion": "Museo Nacional",
+        "de_troncal": "Carrera 7",
+        "a_troncal": "Carrera 10"
+      },
+      {
+        "en_estacion": "Las Nieves",
+        "de_troncal": "Carrera 10",
+        "a_troncal": "Caracas"
+      },
+      {
+        "en_estacion": "Tercer Milenio",
+        "de_troncal": "Caracas",
+        "a_troncal": "Caracas Sur"
+      },
+      {
+        "en_estacion": "Hospital",
+        "de_troncal": "Caracas Sur",
+        "a_troncal": "NQS Central"
+      },
+      {
+        "en_estacion": "Ricaurte - NQS",
+        "de_troncal": "NQS Central",
+        "a_troncal": "Americas"
+      }
+    ]
+  }
+]
