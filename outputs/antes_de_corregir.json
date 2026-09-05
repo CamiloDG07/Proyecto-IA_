@@ -1,0 +1,105 @@
+{
+  "num_nodos": 152,
+  "num_aristas": 136,
+  "num_componentes_conexas": 16,
+  "componentes": [
+    {
+      "tamano": 17,
+      "troncales_o_trazados": [
+        "TZ009"
+      ]
+    },
+    {
+      "tamano": 17,
+      "troncales_o_trazados": [
+        "TZ002"
+      ]
+    },
+    {
+      "tamano": 16,
+      "troncales_o_trazados": [
+        "TZ001",
+        "TZ015"
+      ]
+    },
+    {
+      "tamano": 14,
+      "troncales_o_trazados": [
+        "TZ016"
+      ]
+    },
+    {
+      "tamano": 14,
+      "troncales_o_trazados": [
+        "TZ003"
+      ]
+    },
+    {
+      "tamano": 13,
+      "troncales_o_trazados": [
+        "TZ005"
+      ]
+    },
+    {
+      "tamano": 13,
+      "troncales_o_trazados": [
+        "TZ010"
+      ]
+    },
+    {
+      "tamano": 12,
+      "troncales_o_trazados": [
+        "TZ012"
+      ]
+    },
+    {
+      "tamano": 11,
+      "troncales_o_trazados": [
+        "TZ008"
+      ]
+    },
+    {
+      "tamano": 10,
+      "troncales_o_trazados": [
+        "TZ018"
+      ]
+    },
+    {
+      "tamano": 4,
+      "troncales_o_trazados": [
+        "TZ011"
+      ]
+    },
+    {
+      "tamano": 3,
+      "troncales_o_trazados": [
+        "TZ014"
+      ]
+    },
+    {
+      "tamano": 3,
+      "troncales_o_trazados": [
+        "TZ022"
+      ]
+    },
+    {
+      "tamano": 2,
+      "troncales_o_trazados": [
+        "TZ007"
+      ]
+    },
+    {
+      "tamano": 2,
+      "troncales_o_trazados": [
+        "TZ013"
+      ]
+    },
+    {
+      "tamano": 1,
+      "troncales_o_trazados": [
+        "TZ019"
+      ]
+    }
+  ],
+  "nota": "Construido con la logica original (nom_est como clave de nodo, aristas solo dentro de cada id_trazado). El numero de nodos es menor que el numero de filas del dataset porque el nombre duplicado 'Temporal AV. Jimenez - Inter Electricas' fusiona dos estaciones fisicas distintas (TZ001 y TZ015) en un solo nodo."
+}

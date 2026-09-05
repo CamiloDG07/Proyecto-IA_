@@ -1,0 +1,25 @@
+{
+  "num_nodos": 153,
+  "num_aristas": 158,
+  "num_componentes_conexas": 1,
+  "componentes": [
+    {
+      "tamano": 153,
+      "troncales_o_trazados": [
+        "Americas",
+        "Autopista Norte",
+        "Avenida Ciudad de Cali",
+        "Calle 26",
+        "Calle 80",
+        "Caracas",
+        "Caracas Sur",
+        "Carrera 10",
+        "Carrera 7",
+        "Eje Ambiental",
+        "NQS Central",
+        "NQS Sur",
+        "Suba"
+      ]
+    }
+  ]
+}

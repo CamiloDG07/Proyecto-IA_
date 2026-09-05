@@ -1,0 +1,32 @@
+{
+  "num_nodos": 153,
+  "num_aristas": 158,
+  "num_componentes_conexas": 1,
+  "num_troncales_fisicas": 13,
+  "num_trazados": 22,
+  "troncales_fisicas": [
+    "Americas",
+    "Autopista Norte",
+    "Avenida Ciudad de Cali",
+    "Calle 26",
+    "Calle 80",
+    "Caracas",
+    "Caracas Sur",
+    "Carrera 10",
+    "Carrera 7",
+    "Eje Ambiental",
+    "NQS Central",
+    "NQS Sur",
+    "Suba"
+  ],
+  "estaciones_por_tipo": {
+    "Sencilla": 129,
+    "Intermedia": 9,
+    "Intercambio": 6,
+    "Portal": 9
+  },
+  "grado_promedio": 2.065,
+  "grado_maximo": 5,
+  "estacion_grado_maximo": "Comuneros",
+  "densidad": 0.01359
+}
