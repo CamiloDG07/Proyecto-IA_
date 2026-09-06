@@ -39,6 +39,8 @@ el alcance de la asignatura.
 """
 
 import pickle
+import time
+import tracemalloc
 from pathlib import Path
 
 import networkx as nx
@@ -85,18 +87,44 @@ class AgenteRutas:
         """Calcula la ruta de menor costo entre origen y destino.
 
         origen/destino: nombre de estacion (str) o cod_nodo (int).
-        Retorna un dict con la lista de estaciones, el costo total y las
-        transferencias de troncal detectadas a lo largo de la ruta.
+        Retorna un dict con la lista de estaciones, el costo total, las
+        transferencias de troncal detectadas a lo largo de la ruta, y el
+        tiempo de calculo ("tiempo_calculo_ms") y memoria pico usada por el
+        calculo ("memoria_pico_kb", medida con tracemalloc, modulo estandar
+        de Python). Ambas metricas se miden solo alrededor del calculo de la
+        ruta (Dijkstra vía nx.shortest_path), no de la carga del grafo ni de
+        la resolucion de nombres a cod_nodo.
         """
         cod_origen = self.resolver_nodo(origen)
         cod_destino = self.resolver_nodo(destino)
 
+        tracemalloc.start()
+        t_inicio = time.perf_counter()
         try:
             camino = nx.shortest_path(self.G, cod_origen, cod_destino, weight="weight")
         except nx.NetworkXNoPath:
-            return {"exito": False, "mensaje": f"No existe ruta entre {origen} y {destino}."}
+            t_fin = time.perf_counter()
+            _, pico_bytes = tracemalloc.get_traced_memory()
+            tracemalloc.stop()
+            return {
+                "exito": False,
+                "mensaje": f"No existe ruta entre {origen} y {destino}.",
+                "tiempo_calculo_ms": (t_fin - t_inicio) * 1000,
+                "memoria_pico_kb": pico_bytes / 1024,
+            }
+        t_fin = time.perf_counter()
+        _, pico_bytes = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
 
-        costo_total = nx.shortest_path_length(self.G, cod_origen, cod_destino, weight="weight")
+        tiempo_calculo_ms = (t_fin - t_inicio) * 1000
+        memoria_pico_kb = pico_bytes / 1024
+
+        # Costo total = suma de pesos a lo largo del camino ya encontrado, en vez
+        # de una segunda llamada a nx.shortest_path_length (que repetiria todo el
+        # calculo de Dijkstra y falsearia el tiempo medido arriba).
+        costo_total = sum(
+            self.G[u][v]["weight"] for u, v in zip(camino, camino[1:])
+        )
 
         estaciones = [
             {"cod_nodo": c, "nom_est": self.G.nodes[c]["nom_est"], "nom_tronc": self.G.nodes[c]["nom_tronc"]}
@@ -121,6 +149,8 @@ class AgenteRutas:
             "num_estaciones": len(estaciones),
             "num_transferencias": len(transferencias),
             "costo_total_km": round(costo_total, 3),
+            "tiempo_calculo_ms": tiempo_calculo_ms,
+            "memoria_pico_kb": memoria_pico_kb,
             "ruta": estaciones,
             "transferencias": transferencias,
         }
@@ -133,7 +163,9 @@ class AgenteRutas:
 
         print(f"Ruta: {resultado['origen']} -> {resultado['destino']}")
         print(f"  Estaciones: {resultado['num_estaciones']} | Transferencias: {resultado['num_transferencias']} "
-              f"| Costo total: {resultado['costo_total_km']} km")
+              f"| Costo total: {resultado['costo_total_km']} km "
+              f"| Tiempo de calculo: {resultado['tiempo_calculo_ms']:.3f} ms "
+              f"| Memoria pico: {resultado['memoria_pico_kb']:.2f} KB")
         for i, est in enumerate(resultado["ruta"]):
             marca = " <-- transferencia" if i > 0 and est["nom_tronc"] != resultado["ruta"][i - 1]["nom_tronc"] else ""
             print(f"  {i+1:2d}. {est['nom_est']} ({est['nom_tronc']}){marca}")

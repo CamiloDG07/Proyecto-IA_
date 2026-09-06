@@ -17,9 +17,13 @@ id_trazado, sin conexiones entre troncales):
      completo) y Americas era otra componente de 17 nodos.
 
 Para cada par se imprime y guarda: la ruta completa, el numero de estaciones,
-el numero de transferencias de troncal y el costo total. Esto demuestra que
-la conexion entre troncales funciona de extremo a extremo (no solo que
-nx.number_connected_components(G) reporte 1).
+el numero de transferencias de troncal, el costo total, y el tiempo de
+calculo ("tiempo_calculo_ms") y memoria pico ("memoria_pico_kb") que reporta
+AgenteRutas.calcular_ruta(). Esto demuestra que la conexion entre troncales
+funciona de extremo a extremo (no solo que nx.number_connected_components(G)
+reporte 1) y deja una primera medida de rendimiento del placeholder de
+busqueda (Dijkstra via networkx) para comparar en el Corte 2 contra BFS/DFS/
+UCS/voraz/A*.
 """
 
 import json
@@ -68,6 +72,21 @@ def main():
 
     print(f"Guardado en {OUTPUT_DIR / 'pruebas_agente.json'}")
     print("\nTodas las pruebas pasaron: las 3 rutas, imposibles antes de la correccion, se resuelven correctamente.")
+
+    imprimir_tabla_tiempos(resultados)
+
+
+def imprimir_tabla_tiempos(resultados: list) -> None:
+    """Tabla resumen: ruta, tiempo de calculo, num_estaciones, num_transferencias."""
+    encabezado = f"{'Ruta':<45} {'Tiempo (ms)':>12} {'Estaciones':>11} {'Transferencias':>15}"
+    print("\n" + encabezado)
+    print("-" * len(encabezado))
+    for r in resultados:
+        ruta_txt = f"{r['origen']} -> {r['destino']}"
+        print(
+            f"{ruta_txt:<45} {r['tiempo_calculo_ms']:>12.3f} "
+            f"{r['num_estaciones']:>11} {r['num_transferencias']:>15}"
+        )
 
 
 if __name__ == "__main__":

@@ -7,6 +7,8 @@
     "num_estaciones": 40,
     "num_transferencias": 2,
     "costo_total_km": 25.769,
+    "tiempo_calculo_ms": 6.180399999720976,
+    "memoria_pico_kb": 51.037109375,
     "ruta": [
       {
         "cod_nodo": 3000,
@@ -230,6 +232,8 @@
     "num_estaciones": 44,
     "num_transferencias": 2,
     "costo_total_km": 30.129,
+    "tiempo_calculo_ms": 1.4253999979700893,
+    "memoria_pico_kb": 11.484375,
     "ruta": [
       {
         "cod_nodo": 2000,
@@ -473,6 +477,8 @@
     "num_estaciones": 22,
     "num_transferencias": 5,
     "costo_total_km": 15.93,
+    "tiempo_calculo_ms": 0.989200001640711,
+    "memoria_pico_kb": 8.78125,
     "ruta": [
       {
         "cod_nodo": 10009,
