@@ -20,6 +20,7 @@ src/
   build_graph.py         Construccion del grafo corregido (nodos, aristas, exportacion)
   agente.py              Prototipo del agente (modelo PEAS + shortest_path como placeholder)
   pruebas_agente.py      3 pruebas de rutas antes imposibles por fragmentacion
+  visualizar_ruta.py     Dibuja una ruta resaltada sobre la red completa (3 casos -> PNG)
 notebooks/
   diagrama_de_red.ipynb  Notebook corregido: construccion, antes/despues, visualizacion, demo del agente
 outputs/                 Imagenes .png y estadisticas .json generadas por el codigo
@@ -68,7 +69,14 @@ imposibles por estar en troncales/componentes distintas; guarda el resultado en
 python src/pruebas_agente.py
 ```
 
-**4. Notebook con las visualizaciones** (requiere haber corrido `build_graph.py` al
+**4. Generar las visualizaciones de ruta resaltada** (una imagen por cada uno de los
+3 casos de prueba, guardadas en `outputs/`):
+
+```bash
+python src/visualizar_ruta.py
+```
+
+**5. Notebook con las visualizaciones** (requiere haber corrido `build_graph.py` al
 menos una vez, o simplemente ejecutar todas las celdas del notebook, que reconstruye
 el grafo):
 
@@ -110,3 +118,30 @@ Ver el docstring de `src/agente.py`. Para el Corte 1 el agente usa
 `networkx.shortest_path` (Dijkstra) como placeholder funcional; en el Corte 2 se
 reemplaza por las implementaciones propias de BFS, DFS, UCS, busqueda voraz y A*
 del curso.
+
+## Rendimiento del agente
+
+`AgenteRutas.calcular_ruta()` mide, con `time.perf_counter()` y `tracemalloc` (ambos
+de la libreria estandar, sin dependencias nuevas), el tiempo y la memoria pico del
+calculo de la ruta en si (sin contar la carga del grafo). Resultado medido para los 3
+casos de prueba (`outputs/pruebas_agente.json`):
+
+| Ruta | Tiempo de calculo | Memoria pico | Estaciones | Transferencias |
+|---|---|---|---|---|
+| Portal Suba -> Portal Tunal | 6.18 ms | 51.04 KB | 40 | 2 |
+| Portal Norte -> Portal Usme | 1.43 ms | 11.48 KB | 44 | 2 |
+| Museo Nacional -> Portal Americas | 0.99 ms | 8.78 KB | 22 | 5 |
+
+Estos tiempos corresponden al placeholder de Dijkstra (`networkx.shortest_path`) sobre
+un grafo de 153 nodos / 158 aristas; sirven como linea base para comparar contra
+BFS/DFS/UCS/voraz/A* en el Corte 2. Los tiempos varian ligeramente entre corridas (son
+del orden de milisegundos, sensibles al estado de cache del interprete), por lo que no
+hay que esperar cifras identicas al volver a correr `python src/pruebas_agente.py`.
+
+`src/visualizar_ruta.py` genera, para cada uno de estos 3 casos, una imagen con la
+ruta resaltada (linea roja) sobre la red completa (gris claro de fondo), marcando las
+estaciones de transferencia en azul y origen/destino en verde:
+
+- `outputs/ruta_portal_suba_portal_tunal.png`
+- `outputs/ruta_portal_norte_portal_usme.png`
+- `outputs/ruta_museo_nacional_portal_americas.png`
