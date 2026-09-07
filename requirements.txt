@@ -2,6 +2,7 @@ pandas
 numpy
 networkx
 matplotlib
+shapely
 notebook
 nbconvert
 ipykernel

@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='utf-8'?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-  <key id="d10" for="edge" attr.name="descripcion" attr.type="string" />
-  <key id="d9" for="edge" attr.name="tipo" attr.type="string" />
-  <key id="d8" for="edge" attr.name="weight" attr.type="double" />
-  <key id="d7" for="node" attr.name="cap_art" attr.type="long" />
-  <key id="d6" for="node" attr.name="lon" attr.type="double" />
-  <key id="d5" for="node" attr.name="lat" attr.type="double" />
+  <key id="d11" for="edge" attr.name="descripcion" attr.type="string" />
+  <key id="d10" for="edge" attr.name="tipo" attr.type="string" />
+  <key id="d9" for="edge" attr.name="weight" attr.type="double" />
+  <key id="d8" for="node" attr.name="cap_art" attr.type="long" />
+  <key id="d7" for="node" attr.name="lon" attr.type="double" />
+  <key id="d6" for="node" attr.name="lat" attr.type="double" />
+  <key id="d5" for="node" attr.name="dist_en_linea_m" attr.type="double" />
   <key id="d4" for="node" attr.name="num_est" attr.type="long" />
   <key id="d3" for="node" attr.name="tipo_esta" attr.type="long" />
   <key id="d2" for="node" attr.name="nom_tronc" attr.type="string" />
@@ -18,9 +19,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7103</data>
-      <data key="d5">4.66635264</data>
-      <data key="d6">-74.07457455</data>
-      <data key="d7">224</data>
+      <data key="d5">7553.444662119209</data>
+      <data key="d6">4.66635264</data>
+      <data key="d7">-74.07457455</data>
+      <data key="d8">224</data>
     </node>
     <node id="6103">
       <data key="d0">CAN</data>
@@ -28,9 +30,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6103</data>
-      <data key="d5">4.64687639</data>
-      <data key="d6">-74.09904645</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.64687639</data>
+      <data key="d7">-74.09904645</data>
+      <data key="d8">140</data>
     </node>
     <node id="7106">
       <data key="d0">Campín - UAN</data>
@@ -38,9 +41,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7106</data>
-      <data key="d5">4.64539756</data>
-      <data key="d6">-74.07871009</data>
-      <data key="d7">152</data>
+      <data key="d5">5150.83880646076</data>
+      <data key="d6">4.64539756</data>
+      <data key="d7">-74.07871009</data>
+      <data key="d8">152</data>
     </node>
     <node id="10008">
       <data key="d0">San Diego</data>
@@ -48,9 +52,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">4</data>
       <data key="d4">10008</data>
-      <data key="d5">4.61089909</data>
-      <data key="d6">-74.07150007</data>
-      <data key="d7">144</data>
+      <data key="d5">162.85876970896808</data>
+      <data key="d6">4.61089909</data>
+      <data key="d7">-74.07150007</data>
+      <data key="d8">144</data>
     </node>
     <node id="4100">
       <data key="d0">Granja - Kr 77</data>
@@ -58,9 +63,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">2</data>
       <data key="d4">4100</data>
-      <data key="d5">4.69915096</data>
-      <data key="d6">-74.09601773</data>
-      <data key="d7">248</data>
+      <data key="d5">1921.9940630915348</data>
+      <data key="d6">4.69915096</data>
+      <data key="d7">-74.09601773</data>
+      <data key="d8">248</data>
     </node>
     <node id="7111">
       <data key="d0">Ricaurte - NQS</data>
@@ -68,9 +74,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">3</data>
       <data key="d4">7111</data>
-      <data key="d5">4.61168378</data>
-      <data key="d6">-74.09386595</data>
-      <data key="d7">224</data>
+      <data key="d5">864.0587884696481</data>
+      <data key="d6">4.61168378</data>
+      <data key="d7">-74.09386595</data>
+      <data key="d8">224</data>
     </node>
     <node id="4001">
       <data key="d0">Quirigua</data>
@@ -78,9 +85,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4001</data>
-      <data key="d5">4.70672525</data>
-      <data key="d6">-74.10873932</data>
-      <data key="d7">80</data>
+      <data key="d5">268.2818847752601</data>
+      <data key="d6">4.70672525</data>
+      <data key="d7">-74.10873932</data>
+      <data key="d8">80</data>
     </node>
     <node id="3011">
       <data key="d0">Suba - Calle 100</data>
@@ -88,9 +96,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3011</data>
-      <data key="d5">4.68696834</data>
-      <data key="d6">-74.06444284</data>
-      <data key="d7">160</data>
+      <data key="d5">3036.9015679595004</data>
+      <data key="d6">4.68696834</data>
+      <data key="d7">-74.06444284</data>
+      <data key="d8">160</data>
     </node>
     <node id="7102">
       <data key="d0">Calle 75 - Zona M</data>
@@ -98,9 +107,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7102</data>
-      <data key="d5">4.67015101</data>
-      <data key="d6">-74.07130492</data>
-      <data key="d7">152</data>
+      <data key="d5">8109.7614143888</data>
+      <data key="d6">4.67015101</data>
+      <data key="d7">-74.07130492</data>
+      <data key="d8">152</data>
     </node>
     <node id="4102">
       <data key="d0">AV. Boyacá</data>
@@ -108,9 +118,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4102</data>
-      <data key="d5">4.69393268</data>
-      <data key="d6">-74.08713194</data>
-      <data key="d7">160</data>
+      <data key="d5">3071.2611578811884</data>
+      <data key="d6">4.69393268</data>
+      <data key="d7">-74.08713194</data>
+      <data key="d8">160</data>
     </node>
     <node id="9100">
       <data key="d0">Calle 40 Sur</data>
@@ -118,9 +129,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">2</data>
       <data key="d4">9100</data>
-      <data key="d5">4.57579415</data>
-      <data key="d6">-74.12007924</data>
-      <data key="d7">224</data>
+      <data key="d5">4747.906941873006</data>
+      <data key="d6">4.57579415</data>
+      <data key="d7">-74.12007924</data>
+      <data key="d8">224</data>
     </node>
     <node id="5102">
       <data key="d0">AV. Américas - AV. Boyacá</data>
@@ -128,9 +140,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">5102</data>
-      <data key="d5">4.6301178</data>
-      <data key="d6">-74.13422457</data>
-      <data key="d7">152</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.6301178</data>
+      <data key="d7">-74.13422457</data>
+      <data key="d8">152</data>
     </node>
     <node id="5103">
       <data key="d0">Marsella</data>
@@ -138,9 +151,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">5103</data>
-      <data key="d5">4.62967723</data>
-      <data key="d6">-74.13016385</data>
-      <data key="d7">200</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62967723</data>
+      <data key="d7">-74.13016385</data>
+      <data key="d8">200</data>
     </node>
     <node id="3006">
       <data key="d0">Niza - Calle 127</data>
@@ -148,9 +162,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3006</data>
-      <data key="d5">4.71200123</data>
-      <data key="d6">-74.0723072</data>
-      <data key="d7">128</data>
+      <data key="d5">5979.994561738934</data>
+      <data key="d6">4.71200123</data>
+      <data key="d7">-74.0723072</data>
+      <data key="d8">128</data>
     </node>
     <node id="3001">
       <data key="d0">La Campiña</data>
@@ -158,9 +173,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3001</data>
-      <data key="d5">4.74265433</data>
-      <data key="d6">-74.09120046</data>
-      <data key="d7">208</data>
+      <data key="d5">10463.467290647195</data>
+      <data key="d6">4.74265433</data>
+      <data key="d7">-74.09120046</data>
+      <data key="d8">208</data>
     </node>
     <node id="5005">
       <data key="d0">Transversal 86</data>
@@ -168,9 +184,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">5005</data>
-      <data key="d5">4.63419465</data>
-      <data key="d6">-74.15206784</data>
-      <data key="d7">144</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.63419465</data>
+      <data key="d7">-74.15206784</data>
+      <data key="d8">144</data>
     </node>
     <node id="6106">
       <data key="d0">Corferias</data>
@@ -178,9 +195,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6106</data>
-      <data key="d5">4.63430649</data>
-      <data key="d6">-74.08970085</data>
-      <data key="d7">132</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.63430649</data>
+      <data key="d7">-74.08970085</data>
+      <data key="d8">132</data>
     </node>
     <node id="7201">
       <data key="d0">Guatoque - Veraguas</data>
@@ -188,9 +206,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7201</data>
-      <data key="d5">4.60417101</data>
-      <data key="d6">-74.09493313</data>
-      <data key="d7">132</data>
+      <data key="d5">402.6970533398492</data>
+      <data key="d6">4.60417101</data>
+      <data key="d7">-74.09493313</data>
+      <data key="d8">132</data>
     </node>
     <node id="12002">
       <data key="d0">CDS - Carrera 32</data>
@@ -198,9 +217,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">12002</data>
-      <data key="d5">4.61613616</data>
-      <data key="d6">-74.09394954</data>
-      <data key="d7">120</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.61613616</data>
+      <data key="d7">-74.09394954</data>
+      <data key="d8">120</data>
     </node>
     <node id="6107">
       <data key="d0">Ciudad Universitaria - Lotería de Bogotá</data>
@@ -208,9 +228,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6107</data>
-      <data key="d5">4.63087543</data>
-      <data key="d6">-74.08352723</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.63087543</data>
+      <data key="d7">-74.08352723</data>
+      <data key="d8">140</data>
     </node>
     <node id="7107">
       <data key="d0">Universidad Nacional</data>
@@ -218,9 +239,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7107</data>
-      <data key="d5">4.63712105</data>
-      <data key="d6">-74.07932618</data>
-      <data key="d7">232</data>
+      <data key="d5">4229.421035358446</data>
+      <data key="d6">4.63712105</data>
+      <data key="d7">-74.07932618</data>
+      <data key="d8">232</data>
     </node>
     <node id="6100">
       <data key="d0">Avenida Rojas - UNISALESIANA</data>
@@ -228,9 +250,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6100</data>
-      <data key="d5">4.66194444</data>
-      <data key="d6">-74.108772</data>
-      <data key="d7">200</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.66194444</data>
+      <data key="d7">-74.108772</data>
+      <data key="d8">200</data>
     </node>
     <node id="9109">
       <data key="d0">Tercer Milenio</data>
@@ -238,9 +261,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9109</data>
-      <data key="d5">4.59813501</data>
-      <data key="d6">-74.08383625</data>
-      <data key="d7">200</data>
+      <data key="d5">8186.700318954585</data>
+      <data key="d6">4.59813501</data>
+      <data key="d7">-74.08383625</data>
+      <data key="d8">200</data>
     </node>
     <node id="6108">
       <data key="d0">Concejo de Bogotá</data>
@@ -248,9 +272,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6108</data>
-      <data key="d5">4.62598737</data>
-      <data key="d6">-74.08028966</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62598737</data>
+      <data key="d7">-74.08028966</data>
+      <data key="d8">140</data>
     </node>
     <node id="7007">
       <data key="d0">Cl38A sur - CENTRO MAYOR</data>
@@ -258,9 +283,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7007</data>
-      <data key="d5">4.59380944</data>
-      <data key="d6">-74.12375508</data>
-      <data key="d7">140</data>
+      <data key="d5">6747.266445688355</data>
+      <data key="d6">4.59380944</data>
+      <data key="d7">-74.12375508</data>
+      <data key="d8">140</data>
     </node>
     <node id="7104">
       <data key="d0">7 de Agosto</data>
@@ -268,9 +294,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7104</data>
-      <data key="d5">4.65729528</data>
-      <data key="d6">-74.07768646</data>
-      <data key="d7">140</data>
+      <data key="d5">6476.8336547474555</data>
+      <data key="d6">4.65729528</data>
+      <data key="d7">-74.07768646</data>
+      <data key="d8">140</data>
     </node>
     <node id="4104">
       <data key="d0">AV. 68</data>
@@ -278,9 +305,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4104</data>
-      <data key="d5">4.68610088</data>
-      <data key="d6">-74.08076896</data>
-      <data key="d7">152</data>
+      <data key="d5">4192.3297410869945</data>
+      <data key="d6">4.68610088</data>
+      <data key="d7">-74.08076896</data>
+      <data key="d8">152</data>
     </node>
     <node id="5107">
       <data key="d0">Distrito Grafiti</data>
@@ -288,9 +316,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">5107</data>
-      <data key="d5">4.62785005</data>
-      <data key="d6">-74.11158411</data>
-      <data key="d7">152</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62785005</data>
+      <data key="d7">-74.11158411</data>
+      <data key="d8">152</data>
     </node>
     <node id="4108">
       <data key="d0">Polo - FINCOMERCIO</data>
@@ -298,9 +327,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4108</data>
-      <data key="d5">4.67016265</data>
-      <data key="d6">-74.06433866</data>
-      <data key="d7">192</data>
+      <data key="d5">6761.736217804954</data>
+      <data key="d6">4.67016265</data>
+      <data key="d7">-74.06433866</data>
+      <data key="d8">192</data>
     </node>
     <node id="7200">
       <data key="d0">Tygua - San José</data>
@@ -308,9 +338,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7200</data>
-      <data key="d5">4.5997872</data>
-      <data key="d6">-74.08876139</data>
-      <data key="d7">132</data>
+      <data key="d5">1243.1529653148032</data>
+      <data key="d6">4.5997872</data>
+      <data key="d7">-74.08876139</data>
+      <data key="d8">132</data>
     </node>
     <node id="6105">
       <data key="d0">Quinta Paredes</data>
@@ -318,9 +349,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6105</data>
-      <data key="d5">4.63750353</data>
-      <data key="d6">-74.09313226</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.63750353</data>
+      <data key="d7">-74.09313226</data>
+      <data key="d8">140</data>
     </node>
     <node id="6102">
       <data key="d0">Salitre - El Greco</data>
@@ -328,9 +360,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6102</data>
-      <data key="d5">4.65086482</data>
-      <data key="d6">-74.10164882</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.65086482</data>
+      <data key="d7">-74.10164882</data>
+      <data key="d8">140</data>
     </node>
     <node id="12007">
       <data key="d0">Zona Industrial</data>
@@ -338,9 +371,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">12007</data>
-      <data key="d5">4.62032526</data>
-      <data key="d6">-74.09868611</data>
-      <data key="d7">120</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62032526</data>
+      <data key="d7">-74.09868611</data>
+      <data key="d8">120</data>
     </node>
     <node id="7505">
       <data key="d0">León XIII</data>
@@ -348,9 +382,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7505</data>
-      <data key="d5">4.59217281</data>
-      <data key="d6">-74.19313531</data>
-      <data key="d7">152</data>
+      <data key="d5">1732.9641829031425</data>
+      <data key="d6">4.59217281</data>
+      <data key="d7">-74.19313531</data>
+      <data key="d8">152</data>
     </node>
     <node id="7110">
       <data key="d0">Paloquemao</data>
@@ -358,9 +393,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7110</data>
-      <data key="d5">4.61692188</data>
-      <data key="d6">-74.08955344</data>
-      <data key="d7">152</data>
+      <data key="d5">1617.2246663115675</data>
+      <data key="d6">4.61692188</data>
+      <data key="d7">-74.08955344</data>
+      <data key="d8">152</data>
     </node>
     <node id="4002">
       <data key="d0">Carrera 90</data>
@@ -368,9 +404,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4002</data>
-      <data key="d5">4.70466646</data>
-      <data key="d6">-74.10457027</data>
-      <data key="d7">160</data>
+      <data key="d5">785.3014524006117</data>
+      <data key="d6">4.70466646</data>
+      <data key="d7">-74.10457027</data>
+      <data key="d8">160</data>
     </node>
     <node id="6104">
       <data key="d0">Gobernación</data>
@@ -378,9 +415,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6104</data>
-      <data key="d5">4.64283002</data>
-      <data key="d6">-74.09653771</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.64283002</data>
+      <data key="d7">-74.09653771</data>
+      <data key="d8">140</data>
     </node>
     <node id="7504">
       <data key="d0">Terreros - Hospital Cardio Vascular</data>
@@ -388,9 +426,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7504</data>
-      <data key="d5">4.5889627</data>
-      <data key="d6">-74.19952261</data>
-      <data key="d7">212</data>
+      <data key="d5">939.4460971974256</data>
+      <data key="d6">4.5889627</data>
+      <data key="d7">-74.19952261</data>
+      <data key="d8">212</data>
     </node>
     <node id="4107">
       <data key="d0">Escuela Militar</data>
@@ -398,9 +437,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4107</data>
-      <data key="d5">4.67553501</data>
-      <data key="d6">-74.06980215</data>
-      <data key="d7">152</data>
+      <data key="d5">5904.8226806267585</data>
+      <data key="d6">4.67553501</data>
+      <data key="d7">-74.06980215</data>
+      <data key="d8">152</data>
     </node>
     <node id="5101">
       <data key="d0">Mandalay</data>
@@ -408,9 +448,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">5101</data>
-      <data key="d5">4.63086366</data>
-      <data key="d6">-74.14129817</data>
-      <data key="d7">144</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.63086366</data>
+      <data key="d7">-74.14129817</data>
+      <data key="d8">144</data>
     </node>
     <node id="4003">
       <data key="d0">AV. Cali</data>
@@ -418,9 +459,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">2</data>
       <data key="d4">4003</data>
-      <data key="d5">4.70248285</data>
-      <data key="d6">-74.10028965</data>
-      <data key="d7">160</data>
+      <data key="d5">1320.190311918585</data>
+      <data key="d6">4.70248285</data>
+      <data key="d7">-74.10028965</data>
+      <data key="d8">160</data>
     </node>
     <node id="3002">
       <data key="d0">Suba - TV. 91</data>
@@ -428,9 +470,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3002</data>
-      <data key="d5">4.73893679</data>
-      <data key="d6">-74.08699228</data>
-      <data key="d7">168</data>
+      <data key="d5">9837.27379650424</data>
+      <data key="d6">4.73893679</data>
+      <data key="d7">-74.08699228</data>
+      <data key="d8">168</data>
     </node>
     <node id="12003">
       <data key="d0">Ricaurte - CL 13</data>
@@ -438,9 +481,10 @@
       <data key="d2">Americas</data>
       <data key="d3">3</data>
       <data key="d4">12003</data>
-      <data key="d5">4.61301798</data>
-      <data key="d6">-74.0904765</data>
-      <data key="d7">192</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.61301798</data>
+      <data key="d7">-74.0904765</data>
+      <data key="d8">192</data>
     </node>
     <node id="9104">
       <data key="d0">Restrepo</data>
@@ -448,9 +492,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9104</data>
-      <data key="d5">4.58184906</data>
-      <data key="d6">-74.10142878</data>
-      <data key="d7">128</data>
+      <data key="d5">2556.171426778301</data>
+      <data key="d6">4.58184906</data>
+      <data key="d7">-74.10142878</data>
+      <data key="d8">128</data>
     </node>
     <node id="2201">
       <data key="d0">Prado</data>
@@ -458,9 +503,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2201</data>
-      <data key="d5">4.71455843</data>
-      <data key="d6">-74.05255829</data>
-      <data key="d7">176</data>
+      <data key="d5">6241.183732054494</data>
+      <data key="d6">4.71455843</data>
+      <data key="d7">-74.05255829</data>
+      <data key="d8">176</data>
     </node>
     <node id="2502">
       <data key="d0">Terminal</data>
@@ -468,9 +514,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2502</data>
-      <data key="d5">4.76881876</data>
-      <data key="d6">-74.04357255</data>
-      <data key="d7">80</data>
+      <data key="d5">132.69328814358033</data>
+      <data key="d6">4.76881876</data>
+      <data key="d7">-74.04357255</data>
+      <data key="d8">80</data>
     </node>
     <node id="2302">
       <data key="d0">Virrey</data>
@@ -478,9 +525,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2302</data>
-      <data key="d5">4.67599737</data>
-      <data key="d6">-74.05901952</data>
-      <data key="d7">208</data>
+      <data key="d5">10581.903790023536</data>
+      <data key="d6">4.67599737</data>
+      <data key="d7">-74.05901952</data>
+      <data key="d8">208</data>
     </node>
     <node id="2101">
       <data key="d0">Toberin - Foundever</data>
@@ -488,9 +536,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2101</data>
-      <data key="d5">4.74618498</data>
-      <data key="d6">-74.04725485</data>
-      <data key="d7">336</data>
+      <data key="d5">2680.5572786581956</data>
+      <data key="d6">4.74618498</data>
+      <data key="d7">-74.04725485</data>
+      <data key="d8">336</data>
     </node>
     <node id="2204">
       <data key="d0">Pepe Sierra Universidad UTEL</data>
@@ -498,9 +547,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2204</data>
-      <data key="d5">4.69812689</data>
-      <data key="d6">-74.0553088</data>
-      <data key="d7">128</data>
+      <data key="d5">8090.504952151136</data>
+      <data key="d6">4.69812689</data>
+      <data key="d7">-74.0553088</data>
+      <data key="d8">128</data>
     </node>
     <node id="2300">
       <data key="d0">Calle 100 - Marketmedios</data>
@@ -508,9 +558,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2300</data>
-      <data key="d5">4.68394944</data>
-      <data key="d6">-74.0577123</data>
-      <data key="d7">224</data>
+      <data key="d5">9687.017266389534</data>
+      <data key="d6">4.68394944</data>
+      <data key="d7">-74.0577123</data>
+      <data key="d8">224</data>
     </node>
     <node id="2105">
       <data key="d0">Calle 142</data>
@@ -518,9 +569,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2105</data>
-      <data key="d5">4.72685009</data>
-      <data key="d6">-74.05050333</data>
-      <data key="d7">132</data>
+      <data key="d5">4857.784374699224</data>
+      <data key="d6">4.72685009</data>
+      <data key="d7">-74.05050333</data>
+      <data key="d8">132</data>
     </node>
     <node id="2000">
       <data key="d0">Portal Norte – Unicervantes</data>
@@ -528,9 +580,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">1</data>
       <data key="d4">2000</data>
-      <data key="d5">4.75462286</data>
-      <data key="d6">-74.04604465</data>
-      <data key="d7">132</data>
+      <data key="d5">1732.4570902142973</data>
+      <data key="d6">4.75462286</data>
+      <data key="d7">-74.04604465</data>
+      <data key="d8">132</data>
     </node>
     <node id="2001">
       <data key="d0">Calle 187</data>
@@ -538,9 +591,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2001</data>
-      <data key="d5">4.76333655</data>
-      <data key="d6">-74.0444437</data>
-      <data key="d7">80</data>
+      <data key="d5">748.8535663392433</data>
+      <data key="d6">4.76333655</data>
+      <data key="d7">-74.0444437</data>
+      <data key="d8">80</data>
     </node>
     <node id="2200">
       <data key="d0">Alcalá – Colegio S. Tomás Dominicos</data>
@@ -548,9 +602,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2200</data>
-      <data key="d5">4.7211582</data>
-      <data key="d6">-74.05145916</data>
-      <data key="d7">224</data>
+      <data key="d5">5498.518772890503</data>
+      <data key="d6">4.7211582</data>
+      <data key="d7">-74.05145916</data>
+      <data key="d8">224</data>
     </node>
     <node id="2104">
       <data key="d0">Calle 146</data>
@@ -558,9 +613,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2104</data>
-      <data key="d5">4.73089106</data>
-      <data key="d6">-74.04981123</data>
-      <data key="d7">176</data>
+      <data key="d5">4402.570247251554</data>
+      <data key="d6">4.73089106</data>
+      <data key="d7">-74.04981123</data>
+      <data key="d8">176</data>
     </node>
     <node id="2202">
       <data key="d0">Calle 127</data>
@@ -568,9 +624,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2202</data>
-      <data key="d5">4.70463964</data>
-      <data key="d6">-74.05422516</data>
-      <data key="d7">128</data>
+      <data key="d5">7357.64352285841</data>
+      <data key="d6">4.70463964</data>
+      <data key="d7">-74.05422516</data>
+      <data key="d8">128</data>
     </node>
     <node id="2304">
       <data key="d0">Héroes - Colmena Seguros</data>
@@ -578,9 +635,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2304</data>
-      <data key="d5">4.66813603</data>
-      <data key="d6">-74.06030995</data>
-      <data key="d7">168</data>
+      <data key="d5">11466.781133926805</data>
+      <data key="d6">4.66813603</data>
+      <data key="d7">-74.06030995</data>
+      <data key="d8">168</data>
     </node>
     <node id="2102">
       <data key="d0">Calle 161</data>
@@ -588,9 +646,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2102</data>
-      <data key="d5">4.7419153</data>
-      <data key="d6">-74.04800035</data>
-      <data key="d7">96</data>
+      <data key="d5">3161.8051309979533</data>
+      <data key="d6">4.7419153</data>
+      <data key="d7">-74.04800035</data>
+      <data key="d8">96</data>
     </node>
     <node id="2205">
       <data key="d0">Calle 106 - Maletas Explora</data>
@@ -598,9 +657,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2205</data>
-      <data key="d5">4.6929826</data>
-      <data key="d6">-74.05618243</data>
-      <data key="d7">128</data>
+      <data key="d5">8669.69683979304</data>
+      <data key="d6">4.6929826</data>
+      <data key="d7">-74.05618243</data>
+      <data key="d8">128</data>
     </node>
     <node id="2103">
       <data key="d0">Mazurén</data>
@@ -608,9 +668,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2103</data>
-      <data key="d5">4.73458855</data>
-      <data key="d6">-74.04922624</data>
-      <data key="d7">176</data>
+      <data key="d5">3987.0062491312806</data>
+      <data key="d6">4.73458855</data>
+      <data key="d7">-74.04922624</data>
+      <data key="d8">176</data>
     </node>
     <node id="9117">
       <data key="d0">Calle 45 - American School Way</data>
@@ -618,9 +679,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9117</data>
-      <data key="d5">4.63145241</data>
-      <data key="d6">-74.06787872</data>
-      <data key="d7">200</data>
+      <data key="d5">4023.7156456198136</data>
+      <data key="d6">4.63145241</data>
+      <data key="d7">-74.06787872</data>
+      <data key="d8">200</data>
     </node>
     <node id="4105">
       <data key="d0">Carrera 53</data>
@@ -628,9 +690,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4105</data>
-      <data key="d5">4.68180475</data>
-      <data key="d6">-74.07742142</data>
-      <data key="d7">80</data>
+      <data key="d5">4797.016217403258</data>
+      <data key="d6">4.68180475</data>
+      <data key="d7">-74.07742142</data>
+      <data key="d8">80</data>
     </node>
     <node id="7101">
       <data key="d0">La Castellana</data>
@@ -638,9 +701,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7101</data>
-      <data key="d5">4.67561116</data>
-      <data key="d6">-74.06444317</data>
-      <data key="d7">160</data>
+      <data key="d5">9092.553852440658</data>
+      <data key="d6">4.67561116</data>
+      <data key="d7">-74.06444317</data>
+      <data key="d8">160</data>
     </node>
     <node id="10002">
       <data key="d0">AV. 1 Mayo</data>
@@ -648,9 +712,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">2</data>
       <data key="d4">10002</data>
-      <data key="d5">4.57693931</data>
-      <data key="d6">-74.0937094</data>
-      <data key="d7">216</data>
+      <data key="d5">4874.375067390194</data>
+      <data key="d6">4.57693931</data>
+      <data key="d7">-74.0937094</data>
+      <data key="d8">216</data>
     </node>
     <node id="14001">
       <data key="d0">De La Sabana</data>
@@ -658,9 +723,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">14001</data>
-      <data key="d5">4.6054211</data>
-      <data key="d6">-74.08189427</data>
-      <data key="d7">120</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.6054211</data>
+      <data key="d7">-74.08189427</data>
+      <data key="d8">120</data>
     </node>
     <node id="7506">
       <data key="d0">La Despensa</data>
@@ -668,9 +734,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7506</data>
-      <data key="d5">4.59459382</data>
-      <data key="d6">-74.18811218</data>
-      <data key="d7">152</data>
+      <data key="d5">2351.982784731446</data>
+      <data key="d6">4.59459382</data>
+      <data key="d7">-74.18811218</data>
+      <data key="d8">152</data>
     </node>
     <node id="9122">
       <data key="d0">Calle 72 - Areandina</data>
@@ -678,9 +745,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9122</data>
-      <data key="d5">4.65823755</data>
-      <data key="d6">-74.06206786</data>
-      <data key="d7">0</data>
+      <data key="d5">967.7715815961824</data>
+      <data key="d6">4.65823755</data>
+      <data key="d7">-74.06206786</data>
+      <data key="d8">0</data>
     </node>
     <node id="6109">
       <data key="d0">Centro Memoria</data>
@@ -688,9 +756,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6109</data>
-      <data key="d5">4.62046499</data>
-      <data key="d6">-74.07632059</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62046499</data>
+      <data key="d7">-74.07632059</data>
+      <data key="d8">140</data>
     </node>
     <node id="12001">
       <data key="d0">Carrera 43 - Comapan</data>
@@ -698,9 +767,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">12001</data>
-      <data key="d5">4.62278154</data>
-      <data key="d6">-74.10143788</data>
-      <data key="d7">120</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62278154</data>
+      <data key="d7">-74.10143788</data>
+      <data key="d8">120</data>
     </node>
     <node id="9002">
       <data key="d0">Consuelo</data>
@@ -708,9 +778,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9002</data>
-      <data key="d5">4.5602273</data>
-      <data key="d6">-74.12387433</data>
-      <data key="d7">120</data>
+      <data key="d5">6881.606343023958</data>
+      <data key="d6">4.5602273</data>
+      <data key="d7">-74.12387433</data>
+      <data key="d8">120</data>
     </node>
     <node id="9110">
       <data key="d0">Temporal AV. Jiménez - Inter Eléctricas</data>
@@ -718,9 +789,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">3</data>
       <data key="d4">9110</data>
-      <data key="d5">4.60286688</data>
-      <data key="d6">-74.08040995</data>
-      <data key="d7">192</data>
+      <data key="d5">7538.119068771293</data>
+      <data key="d6">4.60286688</data>
+      <data key="d7">-74.08040995</data>
+      <data key="d8">192</data>
     </node>
     <node id="7112">
       <data key="d0">Comuneros</data>
@@ -728,9 +800,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7112</data>
-      <data key="d5">4.60424998</data>
-      <data key="d6">-74.09986137</data>
-      <data key="d7">144</data>
+      <data key="d5">9983.00093739611</data>
+      <data key="d6">4.60424998</data>
+      <data key="d7">-74.09986137</data>
+      <data key="d8">144</data>
     </node>
     <node id="6101">
       <data key="d0">El Tiempo – Cámara de Comercio de Bogotá</data>
@@ -738,9 +811,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6101</data>
-      <data key="d5">4.65706705</data>
-      <data key="d6">-74.10564666</data>
-      <data key="d7">120</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.65706705</data>
+      <data key="d7">-74.10564666</data>
+      <data key="d8">120</data>
     </node>
     <node id="5002">
       <data key="d0">Biblioteca Tintal</data>
@@ -748,9 +822,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">5002</data>
-      <data key="d5">4.63790778</data>
-      <data key="d6">-74.15935249</data>
-      <data key="d7">160</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.63790778</data>
+      <data key="d7">-74.15935249</data>
+      <data key="d8">160</data>
     </node>
     <node id="10003">
       <data key="d0">Ciudad Jardín - UAN</data>
@@ -758,9 +833,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">4</data>
       <data key="d4">10003</data>
-      <data key="d5">4.58154254</data>
-      <data key="d6">-74.0903516</data>
-      <data key="d7">144</data>
+      <data key="d5">4241.820884394265</data>
+      <data key="d6">4.58154254</data>
+      <data key="d7">-74.0903516</data>
+      <data key="d8">144</data>
     </node>
     <node id="10005">
       <data key="d0">Bicentenario</data>
@@ -768,9 +844,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">2</data>
       <data key="d4">10005</data>
-      <data key="d5">4.59402077</data>
-      <data key="d6">-74.08183542</data>
-      <data key="d7">216</data>
+      <data key="d5">2563.9886590307906</data>
+      <data key="d6">4.59402077</data>
+      <data key="d7">-74.08183542</data>
+      <data key="d8">216</data>
     </node>
     <node id="9119">
       <data key="d0">Temporal Calle 57</data>
@@ -778,9 +855,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9119</data>
-      <data key="d5">4.64298162</data>
-      <data key="d6">-74.06582826</data>
-      <data key="d7">200</data>
+      <data key="d5">2723.8126344645525</data>
+      <data key="d6">4.64298162</data>
+      <data key="d7">-74.06582826</data>
+      <data key="d8">200</data>
     </node>
     <node id="8002">
       <data key="d0">Biblioteca</data>
@@ -788,9 +866,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">8002</data>
-      <data key="d5">4.57030352</data>
-      <data key="d6">-74.13038868</data>
-      <data key="d7">36</data>
+      <data key="d5">1166.555842755239</data>
+      <data key="d6">4.57030352</data>
+      <data key="d7">-74.13038868</data>
+      <data key="d8">36</data>
     </node>
     <node id="7108">
       <data key="d0">AV. ElDorado</data>
@@ -798,9 +877,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7108</data>
-      <data key="d5">4.63066841</data>
-      <data key="d6">-74.07987857</data>
-      <data key="d7">140</data>
+      <data key="d5">3510.3251587768036</data>
+      <data key="d6">4.63066841</data>
+      <data key="d7">-74.07987857</data>
+      <data key="d8">140</data>
     </node>
     <node id="9114">
       <data key="d0">Calle 26 - Atrio</data>
@@ -808,9 +888,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9114</data>
-      <data key="d5">4.61665155</data>
-      <data key="d6">-74.07215846</data>
-      <data key="d7">0</data>
+      <data key="d5">5749.951203720115</data>
+      <data key="d6">4.61665155</data>
+      <data key="d7">-74.07215846</data>
+      <data key="d8">0</data>
     </node>
     <node id="7005">
       <data key="d0">Alquería</data>
@@ -818,9 +899,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7005</data>
-      <data key="d5">4.59426993</data>
-      <data key="d6">-74.13426993</data>
-      <data key="d7">132</data>
+      <data key="d5">5571.558959134502</data>
+      <data key="d6">4.59426993</data>
+      <data key="d7">-74.13426993</data>
+      <data key="d8">132</data>
     </node>
     <node id="7010">
       <data key="d0">Bosa</data>
@@ -828,9 +910,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7010</data>
-      <data key="d5">4.59688795</data>
-      <data key="d6">-74.181225</data>
-      <data key="d7">152</data>
+      <data key="d5">306.0794103290973</data>
+      <data key="d6">4.59688795</data>
+      <data key="d7">-74.181225</data>
+      <data key="d8">152</data>
     </node>
     <node id="7109">
       <data key="d0">CAD</data>
@@ -838,9 +921,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7109</data>
-      <data key="d5">4.62341573</data>
-      <data key="d6">-74.08418121</data>
-      <data key="d7">152</data>
+      <data key="d5">2552.8484693591854</data>
+      <data key="d6">4.62341573</data>
+      <data key="d7">-74.08418121</data>
+      <data key="d8">152</data>
     </node>
     <node id="5100">
       <data key="d0">Banderas</data>
@@ -848,9 +932,10 @@
       <data key="d2">Americas</data>
       <data key="d3">2</data>
       <data key="d4">5100</data>
-      <data key="d5">4.63129454</data>
-      <data key="d6">-74.14576996</data>
-      <data key="d7">320</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.63129454</data>
+      <data key="d7">-74.14576996</data>
+      <data key="d8">320</data>
     </node>
     <node id="9111">
       <data key="d0">Calle 19</data>
@@ -858,9 +943,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9111</data>
-      <data key="d5">4.60786462</data>
-      <data key="d6">-74.07686968</data>
-      <data key="d7">200</data>
+      <data key="d5">6858.184335210227</data>
+      <data key="d6">4.60786462</data>
+      <data key="d7">-74.07686968</data>
+      <data key="d8">200</data>
     </node>
     <node id="14003">
       <data key="d0">Temporal AV. Jiménez - Inter Eléctricas</data>
@@ -868,9 +954,10 @@
       <data key="d2">Eje Ambiental</data>
       <data key="d3">3</data>
       <data key="d4">14003</data>
-      <data key="d5">4.60305325</data>
-      <data key="d6">-74.07909278</data>
-      <data key="d7">152</data>
+      <data key="d5">1860.609414407147</data>
+      <data key="d6">4.60305325</data>
+      <data key="d7">-74.07909278</data>
+      <data key="d8">152</data>
     </node>
     <node id="7105">
       <data key="d0">Movistar Arena</data>
@@ -878,9 +965,10 @@
       <data key="d2">NQS Central</data>
       <data key="d3">4</data>
       <data key="d4">7105</data>
-      <data key="d5">4.65003985</data>
-      <data key="d6">-74.07836246</data>
-      <data key="d7">152</data>
+      <data key="d5">5667.684903731013</data>
+      <data key="d6">4.65003985</data>
+      <data key="d7">-74.07836246</data>
+      <data key="d8">152</data>
     </node>
     <node id="9123">
       <data key="d0">Calle 76 - San Felipe</data>
@@ -888,9 +976,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9123</data>
-      <data key="d5">4.66302945</data>
-      <data key="d6">-74.06126126</data>
-      <data key="d7">200</data>
+      <data key="d5">428.3069953556516</data>
+      <data key="d6">4.66302945</data>
+      <data key="d7">-74.06126126</data>
+      <data key="d8">200</data>
     </node>
     <node id="9120">
       <data key="d0">Calle 63</data>
@@ -898,9 +987,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9120</data>
-      <data key="d5">4.64840397</data>
-      <data key="d6">-74.06487053</data>
-      <data key="d7">0</data>
+      <data key="d5">2112.5757059776147</data>
+      <data key="d6">4.64840397</data>
+      <data key="d7">-74.06487053</data>
+      <data key="d8">0</data>
     </node>
     <node id="2303">
       <data key="d0">Calle 85</data>
@@ -908,9 +998,10 @@
       <data key="d2">Autopista Norte</data>
       <data key="d3">4</data>
       <data key="d4">2303</data>
-      <data key="d5">4.67231279</data>
-      <data key="d6">-74.05964363</data>
-      <data key="d7">200</data>
+      <data key="d5">10997.256975079474</data>
+      <data key="d6">4.67231279</data>
+      <data key="d7">-74.05964363</data>
+      <data key="d8">200</data>
     </node>
     <node id="7008">
       <data key="d0">NQS - Calle 30 S</data>
@@ -918,9 +1009,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7008</data>
-      <data key="d5">4.59479847</data>
-      <data key="d6">-74.11788075</data>
-      <data key="d7">160</data>
+      <data key="d5">7409.444249064117</data>
+      <data key="d6">4.59479847</data>
+      <data key="d7">-74.11788075</data>
+      <data key="d8">160</data>
     </node>
     <node id="10001">
       <data key="d0">Country Sur</data>
@@ -928,9 +1020,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">4</data>
       <data key="d4">10001</data>
-      <data key="d5">4.57141673</data>
-      <data key="d6">-74.09863413</data>
-      <data key="d7">144</data>
+      <data key="d5">5696.757611023608</data>
+      <data key="d6">4.57141673</data>
+      <data key="d7">-74.09863413</data>
+      <data key="d8">144</data>
     </node>
     <node id="4106">
       <data key="d0">Carrera 47</data>
@@ -938,9 +1031,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4106</data>
-      <data key="d5">4.67775575</data>
-      <data key="d6">-74.07325476</data>
-      <data key="d7">160</data>
+      <data key="d5">5448.763750389567</data>
+      <data key="d6">4.67775575</data>
+      <data key="d7">-74.07325476</data>
+      <data key="d8">160</data>
     </node>
     <node id="4000">
       <data key="d0">Portal 80</data>
@@ -948,9 +1042,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">1</data>
       <data key="d4">4000</data>
-      <data key="d5">4.70982949</data>
-      <data key="d6">-74.11050627</data>
-      <data key="d7">110</data>
+      <data key="d5">0.0</data>
+      <data key="d6">4.70982949</data>
+      <data key="d7">-74.11050627</data>
+      <data key="d8">110</data>
     </node>
     <node id="9103">
       <data key="d0">Olaya</data>
@@ -958,9 +1053,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9103</data>
-      <data key="d5">4.57891519</data>
-      <data key="d6">-74.10736382</data>
-      <data key="d7">176</data>
+      <data key="d5">3291.32586744825</data>
+      <data key="d6">4.57891519</data>
+      <data key="d7">-74.10736382</data>
+      <data key="d8">176</data>
     </node>
     <node id="9001">
       <data key="d0">Molinos</data>
@@ -968,9 +1064,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">2</data>
       <data key="d4">9001</data>
-      <data key="d5">4.55706456</data>
-      <data key="d6">-74.12182779</data>
-      <data key="d7">160</data>
+      <data key="d5">7303.1133276509445</data>
+      <data key="d6">4.55706456</data>
+      <data key="d7">-74.12182779</data>
+      <data key="d8">160</data>
     </node>
     <node id="9106">
       <data key="d0">Nariño</data>
@@ -978,9 +1075,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9106</data>
-      <data key="d5">4.58628471</data>
-      <data key="d6">-74.09392542</data>
-      <data key="d7">96</data>
+      <data key="d5">1583.6890864666184</data>
+      <data key="d6">4.58628471</data>
+      <data key="d7">-74.09392542</data>
+      <data key="d8">96</data>
     </node>
     <node id="3004">
       <data key="d0">Gratamira</data>
@@ -988,9 +1086,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3004</data>
-      <data key="d5">4.72745584</data>
-      <data key="d6">-74.07472334</data>
-      <data key="d7">96</data>
+      <data key="d5">7737.5245288465485</data>
+      <data key="d6">4.72745584</data>
+      <data key="d7">-74.07472334</data>
+      <data key="d8">96</data>
     </node>
     <node id="5105">
       <data key="d0">Pradera - Plaza Central</data>
@@ -998,9 +1097,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">5105</data>
-      <data key="d5">4.62850646</data>
-      <data key="d6">-74.11867713</data>
-      <data key="d7">128</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62850646</data>
+      <data key="d7">-74.11867713</data>
+      <data key="d8">128</data>
     </node>
     <node id="10007">
       <data key="d0">Las Nieves</data>
@@ -1008,9 +1108,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">4</data>
       <data key="d4">10007</data>
-      <data key="d5">4.60606534</data>
-      <data key="d6">-74.07432675</data>
-      <data key="d7">144</data>
+      <data key="d5">784.9569854342834</data>
+      <data key="d6">4.60606534</data>
+      <data key="d7">-74.07432675</data>
+      <data key="d8">144</data>
     </node>
     <node id="6001">
       <data key="d0">Modelia</data>
@@ -1018,9 +1119,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6001</data>
-      <data key="d5">4.67502466</data>
-      <data key="d6">-74.1171471</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.67502466</data>
+      <data key="d7">-74.1171471</data>
+      <data key="d8">140</data>
     </node>
     <node id="6000">
       <data key="d0">Portal El Dorado – C.C. Nuestro Bogotá</data>
@@ -1028,9 +1130,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">1</data>
       <data key="d4">6000</data>
-      <data key="d5">4.68162203</data>
-      <data key="d6">-74.12139802</data>
-      <data key="d7">132</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.68162203</data>
+      <data key="d7">-74.12139802</data>
+      <data key="d8">132</data>
     </node>
     <node id="14004">
       <data key="d0">Museo del Oro</data>
@@ -1038,9 +1141,10 @@
       <data key="d2">Eje Ambiental</data>
       <data key="d3">4</data>
       <data key="d4">14004</data>
-      <data key="d5">4.60115298</data>
-      <data key="d6">-74.07290843</data>
-      <data key="d7">72</data>
+      <data key="d5">1106.9655986470323</data>
+      <data key="d6">4.60115298</data>
+      <data key="d7">-74.07290843</data>
+      <data key="d8">72</data>
     </node>
     <node id="7006">
       <data key="d0">General Santander</data>
@@ -1048,9 +1152,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">2</data>
       <data key="d4">7006</data>
-      <data key="d5">4.59355114</data>
-      <data key="d6">-74.12954496</data>
-      <data key="d7">212</data>
+      <data key="d5">6103.311980797383</data>
+      <data key="d6">4.59355114</data>
+      <data key="d7">-74.12954496</data>
+      <data key="d8">212</data>
     </node>
     <node id="10000">
       <data key="d0">Portal 20 de Julio</data>
@@ -1058,9 +1163,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">1</data>
       <data key="d4">10000</data>
-      <data key="d5">4.56571812</data>
-      <data key="d6">-74.09700841</data>
-      <data key="d7">220</data>
+      <data key="d5">6562.655928813931</data>
+      <data key="d6">4.56571812</data>
+      <data key="d7">-74.09700841</data>
+      <data key="d8">220</data>
     </node>
     <node id="3007">
       <data key="d0">Humedal Córdoba</data>
@@ -1068,9 +1174,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3007</data>
-      <data key="d5">4.70668982</data>
-      <data key="d6">-74.07117427</data>
-      <data key="d7">108</data>
+      <data key="d5">5376.88956430202</data>
+      <data key="d6">4.70668982</data>
+      <data key="d7">-74.07117427</data>
+      <data key="d8">108</data>
     </node>
     <node id="8001">
       <data key="d0">Parque</data>
@@ -1078,9 +1185,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">8001</data>
-      <data key="d5">4.56832656</data>
-      <data key="d6">-74.13541451</data>
-      <data key="d7">36</data>
+      <data key="d5">567.0170330016794</data>
+      <data key="d6">4.56832656</data>
+      <data key="d7">-74.13541451</data>
+      <data key="d8">36</data>
     </node>
     <node id="10004">
       <data key="d0">Policarpa</data>
@@ -1088,9 +1196,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">4</data>
       <data key="d4">10004</data>
-      <data key="d5">4.58611582</data>
-      <data key="d6">-74.08701654</data>
-      <data key="d7">144</data>
+      <data key="d5">3613.3783550450544</data>
+      <data key="d6">4.58611582</data>
+      <data key="d7">-74.08701654</data>
+      <data key="d8">144</data>
     </node>
     <node id="10009">
       <data key="d0">Museo Nacional</data>
@@ -1098,9 +1207,10 @@
       <data key="d2">Carrera 7</data>
       <data key="d3">4</data>
       <data key="d4">10009</data>
-      <data key="d5">4.6152449</data>
-      <data key="d6">-74.06921969</data>
-      <data key="d7">144</data>
+      <data key="d5">257.89105907201053</data>
+      <data key="d6">4.6152449</data>
+      <data key="d7">-74.06921969</data>
+      <data key="d8">144</data>
     </node>
     <node id="9108">
       <data key="d0">Hospital</data>
@@ -1108,9 +1218,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9108</data>
-      <data key="d5">4.59505052</data>
-      <data key="d6">-74.08622629</data>
-      <data key="d7">96</data>
+      <data key="d5">280.6341526940593</data>
+      <data key="d6">4.59505052</data>
+      <data key="d7">-74.08622629</data>
+      <data key="d8">96</data>
     </node>
     <node id="6002">
       <data key="d0">Normandía</data>
@@ -1118,9 +1229,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">4</data>
       <data key="d4">6002</data>
-      <data key="d5">4.66900868</data>
-      <data key="d6">-74.11328003</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.66900868</data>
+      <data key="d7">-74.11328003</data>
+      <data key="d8">140</data>
     </node>
     <node id="7001">
       <data key="d0">Perdomo</data>
@@ -1128,9 +1240,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7001</data>
-      <data key="d5">4.59578778</data>
-      <data key="d6">-74.16496973</data>
-      <data key="d7">128</data>
+      <data key="d5">2120.8309249796116</data>
+      <data key="d6">4.59578778</data>
+      <data key="d7">-74.16496973</data>
+      <data key="d8">128</data>
     </node>
     <node id="9107">
       <data key="d0">Hortúa</data>
@@ -1138,9 +1251,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9107</data>
-      <data key="d5">4.59084725</data>
-      <data key="d6">-74.090246</data>
-      <data key="d7">120</data>
+      <data key="d5">932.97597388186</data>
+      <data key="d6">4.59084725</data>
+      <data key="d7">-74.090246</data>
+      <data key="d8">120</data>
     </node>
     <node id="9000">
       <data key="d0">Portal Usme</data>
@@ -1148,9 +1262,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">1</data>
       <data key="d4">9000</data>
-      <data key="d5">4.53171458</data>
-      <data key="d6">-74.11939099</data>
-      <data key="d7">132</data>
+      <data key="d5">555.6385306862971</data>
+      <data key="d6">4.53171458</data>
+      <data key="d7">-74.11939099</data>
+      <data key="d8">132</data>
     </node>
     <node id="4103">
       <data key="d0">Ferias</data>
@@ -1158,9 +1273,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4103</data>
-      <data key="d5">4.69088593</data>
-      <data key="d6">-74.08460127</data>
-      <data key="d7">80</data>
+      <data key="d5">3511.3095559997446</data>
+      <data key="d6">4.69088593</data>
+      <data key="d7">-74.08460127</data>
+      <data key="d8">80</data>
     </node>
     <node id="9118">
       <data key="d0">Temporal Marly</data>
@@ -1168,9 +1284,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9118</data>
-      <data key="d5">4.63755905</data>
-      <data key="d6">-74.06678795</data>
-      <data key="d7">200</data>
+      <data key="d5">3335.0794601315065</data>
+      <data key="d6">4.63755905</data>
+      <data key="d7">-74.06678795</data>
+      <data key="d8">200</data>
     </node>
     <node id="5001">
       <data key="d0">Patio Bonito</data>
@@ -1178,9 +1295,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">5001</data>
-      <data key="d5">4.63318028</data>
-      <data key="d6">-74.16461427</data>
-      <data key="d7">160</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.63318028</data>
+      <data key="d7">-74.16461427</data>
+      <data key="d8">160</data>
     </node>
     <node id="8000">
       <data key="d0">Portal Tunal</data>
@@ -1188,9 +1306,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">1</data>
       <data key="d4">8000</data>
-      <data key="d5">4.56957146</data>
-      <data key="d6">-74.1392402</data>
-      <data key="d7">88</data>
+      <data key="d5">134.83681190828366</data>
+      <data key="d6">4.56957146</data>
+      <data key="d7">-74.1392402</data>
+      <data key="d8">88</data>
     </node>
     <node id="9105">
       <data key="d0">Fucha</data>
@@ -1198,9 +1317,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9105</data>
-      <data key="d5">4.58297258</data>
-      <data key="d6">-74.09940175</data>
-      <data key="d7">96</data>
+      <data key="d5">2298.9155647197845</data>
+      <data key="d6">4.58297258</data>
+      <data key="d7">-74.09940175</data>
+      <data key="d8">96</data>
     </node>
     <node id="4101">
       <data key="d0">Minuto de Dios</data>
@@ -1208,9 +1328,10 @@
       <data key="d2">Calle 80</data>
       <data key="d3">4</data>
       <data key="d4">4101</data>
-      <data key="d5">4.6968816</data>
-      <data key="d6">-74.09193285</data>
-      <data key="d7">152</data>
+      <data key="d5">2440.9485210182484</data>
+      <data key="d6">4.6968816</data>
+      <data key="d7">-74.09193285</data>
+      <data key="d8">152</data>
     </node>
     <node id="5000">
       <data key="d0">Portal Américas</data>
@@ -1218,9 +1339,10 @@
       <data key="d2">Americas</data>
       <data key="d3">1</data>
       <data key="d4">5000</data>
-      <data key="d5">4.62938131</data>
-      <data key="d6">-74.17305846</data>
-      <data key="d7">198</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62938131</data>
+      <data key="d7">-74.17305846</data>
+      <data key="d8">198</data>
     </node>
     <node id="14005">
       <data key="d0">Las Aguas - Centro Colombo Americano</data>
@@ -1228,9 +1350,10 @@
       <data key="d2">Eje Ambiental</data>
       <data key="d3">3</data>
       <data key="d4">14005</data>
-      <data key="d5">4.60257976</data>
-      <data key="d6">-74.06840144</data>
-      <data key="d7">72</data>
+      <data key="d5">352.82083556966313</data>
+      <data key="d6">4.60257976</data>
+      <data key="d7">-74.06840144</data>
+      <data key="d8">72</data>
     </node>
     <node id="3000">
       <data key="d0">Portal Suba</data>
@@ -1238,9 +1361,10 @@
       <data key="d2">Suba</data>
       <data key="d3">1</data>
       <data key="d4">3000</data>
-      <data key="d5">4.74681507</data>
-      <data key="d6">-74.0942789</data>
-      <data key="d7">176</data>
+      <data key="d5">11083.615016131538</data>
+      <data key="d6">4.74681507</data>
+      <data key="d7">-74.0942789</data>
+      <data key="d8">176</data>
     </node>
     <node id="3005">
       <data key="d0">Suba - AV. Boyacá</data>
@@ -1248,9 +1372,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3005</data>
-      <data key="d5">4.72126716</data>
-      <data key="d6">-74.07471163</data>
-      <data key="d7">96</data>
+      <data key="d5">7050.139699181615</data>
+      <data key="d6">4.72126716</data>
+      <data key="d7">-74.07471163</data>
+      <data key="d8">96</data>
     </node>
     <node id="9004">
       <data key="d0">Santa Lucía</data>
@@ -1258,9 +1383,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9004</data>
-      <data key="d5">4.57096848</data>
-      <data key="d6">-74.12470872</data>
-      <data key="d7">152</data>
+      <data key="d5">5568.573058278352</data>
+      <data key="d6">4.57096848</data>
+      <data key="d7">-74.12470872</data>
+      <data key="d8">152</data>
     </node>
     <node id="3014">
       <data key="d0">San Martín</data>
@@ -1268,9 +1394,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3014</data>
-      <data key="d5">4.67638966</data>
-      <data key="d6">-74.06717674</data>
-      <data key="d7">132</data>
+      <data key="d5">1680.1513952043508</data>
+      <data key="d6">4.67638966</data>
+      <data key="d7">-74.06717674</data>
+      <data key="d8">132</data>
     </node>
     <node id="6111">
       <data key="d0">Universidades – CityU</data>
@@ -1278,9 +1405,10 @@
       <data key="d2">Calle 26</data>
       <data key="d3">3</data>
       <data key="d4">6111</data>
-      <data key="d5">4.60464623</data>
-      <data key="d6">-74.06731585</data>
-      <data key="d7">140</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.60464623</data>
+      <data key="d7">-74.06731585</data>
+      <data key="d8">140</data>
     </node>
     <node id="7113">
       <data key="d0">Santa Isabel</data>
@@ -1288,9 +1416,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7113</data>
-      <data key="d5">4.60167503</data>
-      <data key="d6">-74.10261755</data>
-      <data key="d7">144</data>
+      <data key="d5">9563.893591304282</data>
+      <data key="d6">4.60167503</data>
+      <data key="d7">-74.10261755</data>
+      <data key="d8">144</data>
     </node>
     <node id="3012">
       <data key="d0">Suba - Calle 95</data>
@@ -1298,9 +1427,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3012</data>
-      <data key="d5">4.68469464</data>
-      <data key="d6">-74.06321827</data>
-      <data key="d7">96</data>
+      <data key="d5">2749.841833339879</data>
+      <data key="d6">4.68469464</data>
+      <data key="d7">-74.06321827</data>
+      <data key="d8">96</data>
     </node>
     <node id="12000">
       <data key="d0">Puente Aranda</data>
@@ -1308,9 +1438,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">12000</data>
-      <data key="d5">4.62566974</data>
-      <data key="d6">-74.10463943</data>
-      <data key="d7">120</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.62566974</data>
+      <data key="d7">-74.10463943</data>
+      <data key="d8">120</data>
     </node>
     <node id="9101">
       <data key="d0">Quiroga</data>
@@ -1318,9 +1449,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9101</data>
-      <data key="d5">4.57680973</data>
-      <data key="d6">-74.11438051</data>
-      <data key="d7">96</data>
+      <data key="d5">4104.969016238787</data>
+      <data key="d6">4.57680973</data>
+      <data key="d7">-74.11438051</data>
+      <data key="d8">96</data>
     </node>
     <node id="3010">
       <data key="d0">Puentelargo</data>
@@ -1328,9 +1460,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3010</data>
-      <data key="d5">4.69340077</data>
-      <data key="d6">-74.06720874</data>
-      <data key="d7">128</data>
+      <data key="d5">3818.611942408451</data>
+      <data key="d6">4.69340077</data>
+      <data key="d7">-74.06720874</data>
+      <data key="d8">128</data>
     </node>
     <node id="10006">
       <data key="d0">San Victorino</data>
@@ -1338,9 +1471,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">4</data>
       <data key="d4">10006</data>
-      <data key="d5">4.60102943</data>
-      <data key="d6">-74.07742242</data>
-      <data key="d7">216</data>
+      <data key="d5">1441.2818719855052</data>
+      <data key="d6">4.60102943</data>
+      <data key="d7">-74.07742242</data>
+      <data key="d8">216</data>
     </node>
     <node id="7002">
       <data key="d0">CC Paseo Villa del Río - Madelena</data>
@@ -1348,9 +1482,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7002</data>
-      <data key="d5">4.59628094</data>
-      <data key="d6">-74.15688105</data>
-      <data key="d7">132</data>
+      <data key="d5">3021.1524274257254</data>
+      <data key="d6">4.59628094</data>
+      <data key="d7">-74.15688105</data>
+      <data key="d8">132</data>
     </node>
     <node id="7503">
       <data key="d0">San Mateo - CC Unisur</data>
@@ -1358,9 +1493,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">2</data>
       <data key="d4">7503</data>
-      <data key="d5">4.58596064</data>
-      <data key="d6">-74.20544974</data>
-      <data key="d7">232</data>
+      <data key="d5">201.80538239909808</data>
+      <data key="d6">4.58596064</data>
+      <data key="d7">-74.20544974</data>
+      <data key="d8">232</data>
     </node>
     <node id="7003">
       <data key="d0">Sevillana</data>
@@ -1368,9 +1504,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7003</data>
-      <data key="d5">4.59510726</data>
-      <data key="d6">-74.14741029</data>
-      <data key="d7">132</data>
+      <data key="d5">4092.9099789869447</data>
+      <data key="d6">4.59510726</data>
+      <data key="d7">-74.14741029</data>
+      <data key="d8">132</data>
     </node>
     <node id="3013">
       <data key="d0">Rionegro</data>
@@ -1378,9 +1515,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3013</data>
-      <data key="d5">4.68035106</data>
-      <data key="d6">-74.06481662</data>
-      <data key="d7">96</data>
+      <data key="d5">2192.114233066653</data>
+      <data key="d6">4.68035106</data>
+      <data key="d7">-74.06481662</data>
+      <data key="d8">96</data>
     </node>
     <node id="3009">
       <data key="d0">Suba - Calle 116</data>
@@ -1388,9 +1526,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3009</data>
-      <data key="d5">4.69924111</data>
-      <data key="d6">-74.06984394</data>
-      <data key="d7">128</data>
+      <data key="d5">4533.7993103819645</data>
+      <data key="d6">4.69924111</data>
+      <data key="d7">-74.06984394</data>
+      <data key="d8">128</data>
     </node>
     <node id="10010">
       <data key="d0">San Bernardo</data>
@@ -1398,9 +1537,10 @@
       <data key="d2">Carrera 10</data>
       <data key="d3">4</data>
       <data key="d4">10010</data>
-      <data key="d5">4.59019556</data>
-      <data key="d6">-74.08432732</data>
-      <data key="d7">144</data>
+      <data key="d5">3070.9564653652487</data>
+      <data key="d6">4.59019556</data>
+      <data key="d7">-74.08432732</data>
+      <data key="d8">144</data>
     </node>
     <node id="7009">
       <data key="d0">SENA</data>
@@ -1408,9 +1548,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7009</data>
-      <data key="d5">4.59737051</data>
-      <data key="d6">-74.11064255</data>
-      <data key="d7">160</data>
+      <data key="d5">8264.096123199824</data>
+      <data key="d6">4.59737051</data>
+      <data key="d7">-74.11064255</data>
+      <data key="d8">160</data>
     </node>
     <node id="12004">
       <data key="d0">San Facon Carrera 22</data>
@@ -1418,9 +1559,10 @@
       <data key="d2">Americas</data>
       <data key="d3">4</data>
       <data key="d4">12004</data>
-      <data key="d5">4.60973521</data>
-      <data key="d6">-74.08679478</data>
-      <data key="d7">152</data>
+      <data key="d5">nan</data>
+      <data key="d6">4.60973521</data>
+      <data key="d7">-74.08679478</data>
+      <data key="d8">152</data>
     </node>
     <node id="9003">
       <data key="d0">Socorro</data>
@@ -1428,9 +1570,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9003</data>
-      <data key="d5">4.56465328</data>
-      <data key="d6">-74.12558394</data>
-      <data key="d7">128</data>
+      <data key="d5">6347.257302764118</data>
+      <data key="d6">4.56465328</data>
+      <data key="d7">-74.12558394</data>
+      <data key="d8">128</data>
     </node>
     <node id="3003">
       <data key="d0">21 Ángeles</data>
@@ -1438,9 +1581,10 @@
       <data key="d2">Suba</data>
       <data key="d3">4</data>
       <data key="d4">3003</data>
-      <data key="d5">4.73550811</data>
-      <data key="d6">-74.08098652</data>
-      <data key="d7">96</data>
+      <data key="d5">9047.032360524337</data>
+      <data key="d6">4.73550811</data>
+      <data key="d7">-74.08098652</data>
+      <data key="d8">96</data>
     </node>
     <node id="9115">
       <data key="d0">Temporal Calle 34</data>
@@ -1448,9 +1592,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9115</data>
-      <data key="d5">4.62157551</data>
-      <data key="d6">-74.06971918</data>
-      <data key="d7">200</data>
+      <data key="d5">5139.265023685759</data>
+      <data key="d6">4.62157551</data>
+      <data key="d7">-74.06971918</data>
+      <data key="d8">200</data>
     </node>
     <node id="7004">
       <data key="d0">Venecia</data>
@@ -1458,9 +1603,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">4</data>
       <data key="d4">7004</data>
-      <data key="d5">4.59556283</data>
-      <data key="d6">-74.14264921</data>
-      <data key="d7">132</data>
+      <data key="d5">4626.727822347086</data>
+      <data key="d6">4.59556283</data>
+      <data key="d7">-74.14264921</data>
+      <data key="d8">132</data>
     </node>
     <node id="9005">
       <data key="d0">Danubio</data>
@@ -1468,9 +1614,10 @@
       <data key="d2">Caracas Sur</data>
       <data key="d3">4</data>
       <data key="d4">9005</data>
-      <data key="d5">4.54365433</data>
-      <data key="d6">-74.12085159</data>
-      <data key="d7">160</data>
+      <data key="d5">1969.7370037779494</data>
+      <data key="d6">4.54365433</data>
+      <data key="d7">-74.12085159</data>
+      <data key="d8">160</data>
     </node>
     <node id="7000">
       <data key="d0">Portal Sur - JFK Coop. Financiera</data>
@@ -1478,9 +1625,10 @@
       <data key="d2">NQS Sur</data>
       <data key="d3">1</data>
       <data key="d4">7000</data>
-      <data key="d5">4.59693995</data>
-      <data key="d6">-74.16929784</data>
-      <data key="d7">132</data>
+      <data key="d5">1623.0579679683237</data>
+      <data key="d6">4.59693995</data>
+      <data key="d7">-74.16929784</data>
+      <data key="d8">132</data>
     </node>
     <node id="9113">
       <data key="d0">Temporal Calle 22</data>
@@ -1488,9 +1636,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9113</data>
-      <data key="d5">4.61001988</data>
-      <data key="d6">-74.07554139</data>
-      <data key="d7">200</data>
+      <data key="d5">6576.460870722758</data>
+      <data key="d6">4.61001988</data>
+      <data key="d7">-74.07554139</data>
+      <data key="d8">200</data>
     </node>
     <node id="9116">
       <data key="d0">Temporal AV. 39</data>
@@ -1498,9 +1647,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9116</data>
-      <data key="d5">4.62689718</data>
-      <data key="d6">-74.06869679</data>
-      <data key="d7">192</data>
+      <data key="d5">4537.471315114906</data>
+      <data key="d6">4.62689718</data>
+      <data key="d7">-74.06869679</data>
+      <data key="d8">192</data>
     </node>
     <node id="9121">
       <data key="d0">Temporal Flores – Areandina</data>
@@ -1508,9 +1658,10 @@
       <data key="d2">Caracas</data>
       <data key="d3">4</data>
       <data key="d4">9121</data>
-      <data key="d5">4.65490299</data>
-      <data key="d6">-74.06300913</data>
-      <data key="d7">120</data>
+      <data key="d5">1356.2752402573217</data>
+      <data key="d6">4.65490299</data>
+      <data key="d7">-74.06300913</data>
+      <data key="d8">120</data>
     </node>
     <node id="5011">
       <data key="d0">Tibanica - Primavera</data>
@@ -1518,9 +1669,10 @@
       <data key="d2">Avenida Ciudad de Cali</data>
       <data key="d3">4</data>
       <data key="d4">5011</data>
-      <data key="d5">4.60672702</data>
-      <data key="d6">-74.20605303</data>
-      <data key="d7">160</data>
+      <data key="d5">273.1374286300527</data>
+      <data key="d6">4.60672702</data>
+      <data key="d7">-74.20605303</data>
+      <data key="d8">160</data>
     </node>
     <node id="5010">
       <data key="d0">Los Laureles</data>
@@ -1528,9 +1680,10 @@
       <data key="d2">Avenida Ciudad de Cali</data>
       <data key="d3">4</data>
       <data key="d4">5010</data>
-      <data key="d5">4.61109139</data>
-      <data key="d6">-74.20232841</data>
-      <data key="d7">160</data>
+      <data key="d5">926.269725625368</data>
+      <data key="d6">4.61109139</data>
+      <data key="d7">-74.20232841</data>
+      <data key="d8">160</data>
     </node>
     <node id="5009">
       <data key="d0">Islandia</data>
@@ -1538,643 +1691,644 @@
       <data key="d2">Avenida Ciudad de Cali</data>
       <data key="d3">4</data>
       <data key="d4">5009</data>
-      <data key="d5">4.61434757</data>
-      <data key="d6">-74.19374374</data>
-      <data key="d7">160</data>
+      <data key="d5">2067.669687567489</data>
+      <data key="d6">4.61434757</data>
+      <data key="d7">-74.19374374</data>
+      <data key="d8">160</data>
     </node>
-    <edge source="7103" target="7102">
-      <data key="d8">0.5563093100226142</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
     <edge source="7103" target="7104">
-      <data key="d8">1.0630517810776443</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.0630517810776443</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="7103" target="7102">
+      <data key="d9">0.5563093100226142</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6103" target="6102">
-      <data key="d8">0.5286199871350472</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5286199871350472</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6103" target="6104">
-      <data key="d8">0.528468267127728</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="7106" target="7105">
-      <data key="d8">0.5167369286344832</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.528468267127728</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7106" target="7107">
-      <data key="d8">0.9212343650216235</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.9212343650216235</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="7106" target="7105">
+      <data key="d9">0.5167369286344832</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="10008" target="10007">
-      <data key="d8">0.621553010386712</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="10008" target="10010">
-      <data key="d8">2.703424305917556</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.621553010386712</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="10008" target="10009">
-      <data key="d8">0.5447623696657062</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">0.5447623696657062</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="4100" target="4003">
-      <data key="d8">0.6013577151409302</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6013577151409302</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4100" target="4101">
-      <data key="d8">0.5186948100207219</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5186948100207219</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7111" target="7110">
-      <data key="d8">0.7531285306437203</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7531285306437203</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7111" target="12003">
-      <data key="d8">0.404327475287766</data>
-      <data key="d9">intercambio</data>
+      <data key="d9">0.404327475287766</data>
+      <data key="d10">intercambio</data>
     </edge>
     <edge source="7111" target="7112">
-      <data key="d8">1.0600729169893208</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">1.0600729169893208</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="7111" target="9108">
-      <data key="d8">2.0317237669689314</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">2.0317237669689314</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="4001" target="4000">
-      <data key="d8">0.39648010243803317</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.39648010243803317</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4001" target="4002">
-      <data key="d8">0.5161153163071363</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="3011" target="3010">
-      <data key="d8">0.777208957270903</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5161153163071363</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3011" target="3012">
-      <data key="d8">0.286657008395561</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.286657008395561</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="3011" target="3010">
+      <data key="d9">0.777208957270903</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7102" target="7101">
-      <data key="d8">0.9733684308719427</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.9733684308719427</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4102" target="4101">
-      <data key="d8">0.6254026654230818</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6254026654230818</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4102" target="4103">
-      <data key="d8">0.43963534196128473</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="9100" target="9004">
-      <data key="d8">0.7422836167762282</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.43963534196128473</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9100" target="9101">
-      <data key="d8">0.6425253610158624</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6425253610158624</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="9100" target="9004">
+      <data key="d9">0.7422836167762282</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5102" target="5101">
-      <data key="d8">0.7895223625907439</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7895223625907439</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5102" target="5103">
-      <data key="d8">0.4533850519129596</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.4533850519129596</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5103" target="5105">
-      <data key="d8">1.2816315854632232</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="3006" target="3005">
-      <data key="d8">1.0625822062243397</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.2816315854632232</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3006" target="3007">
-      <data key="d8">0.6028292026651126</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6028292026651126</data>
+      <data key="d10">intra_trazado</data>
     </edge>
-    <edge source="3001" target="3000">
-      <data key="d8">0.5745099884104621</data>
-      <data key="d9">intra_trazado</data>
+    <edge source="3006" target="3005">
+      <data key="d9">1.0625822062243397</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3001" target="3002">
-      <data key="d8">0.6232714994849005</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6232714994849005</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="3001" target="3000">
+      <data key="d9">0.5745099884104621</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5005" target="5002">
-      <data key="d8">0.907580013497125</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.907580013497125</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5005" target="5100">
-      <data key="d8">0.769622568387551</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.769622568387551</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6106" target="6105">
-      <data key="d8">0.520584548779572</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.520584548779572</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6106" target="6107">
-      <data key="d8">0.7839913312106144</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7839913312106144</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7201" target="7200">
-      <data key="d8">0.8402939353625191</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8402939353625191</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7201" target="7112">
-      <data key="d8">0.5471048659354549</data>
-      <data key="d9">continuidad_troncal_auto</data>
+      <data key="d9">0.5471048659354549</data>
+      <data key="d10">continuidad_troncal_auto</data>
     </edge>
     <edge source="12002" target="12001">
-      <data key="d8">1.1113107538078537</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.1113107538078537</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="12002" target="12003">
-      <data key="d8">0.518086520163233</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.518086520163233</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6107" target="6108">
-      <data key="d8">0.6507950926625482</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6507950926625482</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7107" target="7108">
-      <data key="d8">0.7188627526422291</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7188627526422291</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6100" target="6002">
-      <data key="d8">0.9301894128217209</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.9301894128217209</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6100" target="6101">
-      <data key="d8">0.6430022513804559</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6430022513804559</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9109" target="9110">
-      <data key="d8">0.6484730332805185</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6484730332805185</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9109" target="7112">
-      <data key="d8">1.9038921429607019</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">1.9038921429607019</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="9109" target="9108">
-      <data key="d8">0.4331328916551869</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">0.4331328916551869</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="6108" target="6109">
-      <data key="d8">0.7548832252471184</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7548832252471184</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7007" target="7006">
-      <data key="d8">0.6433159087577318</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6433159087577318</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7007" target="7008">
-      <data key="d8">0.6612277853079449</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6612277853079449</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7104" target="7105">
-      <data key="d8">0.8088407884215536</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8088407884215536</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4104" target="4103">
-      <data key="d8">0.680487973197461</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.680487973197461</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4104" target="4105">
-      <data key="d8">0.6045451425234201</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6045451425234201</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5107" target="5105">
-      <data key="d8">0.7906894470570512</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7906894470570512</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5107" target="12000">
-      <data key="d8">0.8079574942728842</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8079574942728842</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4108" target="4107">
-      <data key="d8">0.8505235113474627</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8505235113474627</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6105" target="6104">
-      <data key="d8">0.7017499134250339</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7017499134250339</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6102" target="6101">
-      <data key="d8">0.8190745705789537</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8190745705789537</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="12007" target="12004">
-      <data key="d8">1.7674911980429002</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.7674911980429002</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="12007" target="14001">
-      <data key="d8">2.492190717191214</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">2.492190717191214</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7505" target="7504">
-      <data key="d8">0.7934940219267055</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7934940219267055</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7505" target="7506">
-      <data key="d8">0.6189494211497342</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6189494211497342</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7110" target="7109">
-      <data key="d8">0.9355064129374703</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.9355064129374703</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4002" target="4003">
-      <data key="d8">0.5333992967072849</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5333992967072849</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7504" target="7503">
-      <data key="d8">0.7374881623257052</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7374881623257052</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4107" target="4106">
-      <data key="d8">0.4556709123316774</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.4556709123316774</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4107" target="7101">
-      <data key="d8">0.59490683217457</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">0.59490683217457</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="5101" target="5100">
-      <data key="d8">0.49866758806455974</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.49866758806455974</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3002" target="3003">
-      <data key="d8">0.7676273976033846</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7676273976033846</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="12003" target="12004">
-      <data key="d8">0.5475309572486721</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="9104" target="9103">
-      <data key="d8">0.7348861692722575</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5475309572486721</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9104" target="9105">
-      <data key="d8">0.25725067965589876</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.25725067965589876</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="9104" target="9103">
+      <data key="d9">0.7348861692722575</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2201" target="2200">
-      <data key="d8">0.7426642518846857</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7426642518846857</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2201" target="2202">
-      <data key="d8">1.1164241313204473</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.1164241313204473</data>
+      <data key="d10">intra_trazado</data>
     </edge>
-    <edge source="2502" target="2304">
-      <data key="d8">11.329154344350785</data>
-      <data key="d9">intra_trazado</data>
+    <edge source="2502" target="2001">
+      <data key="d9">0.6161602781958165</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2302" target="2300">
-      <data key="d8">0.8945266896260272</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8945266896260272</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2302" target="2303">
-      <data key="d8">0.41481404056132787</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.41481404056132787</data>
+      <data key="d10">intra_trazado</data>
     </edge>
-    <edge source="2101" target="2001">
-      <data key="d8">1.9292263594660457</data>
-      <data key="d9">intra_trazado</data>
+    <edge source="2101" target="2000">
+      <data key="d9">0.946188916947762</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2101" target="2102">
-      <data key="d8">0.48110449653170007</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.48110449653170007</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2204" target="2202">
-      <data key="d8">0.7328538114531175</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7328538114531175</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2204" target="2205">
-      <data key="d8">0.5791918839167072</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5791918839167072</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2300" target="2205">
-      <data key="d8">1.016959209746613</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.016959209746613</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2300" target="3012">
-      <data key="d8">0.6167349060784915</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">0.6167349060784915</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="2105" target="2104">
-      <data key="d8">0.455078895309336</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.455078895309336</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2105" target="2200">
-      <data key="d8">0.640646217219953</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.640646217219953</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2000" target="2001">
-      <data key="d8">0.983408847956655</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.983408847956655</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2104" target="2103">
-      <data key="d8">0.4155263258087568</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.4155263258087568</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2304" target="2303">
-      <data key="d8">0.4694828480864513</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.4694828480864513</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="2304" target="9123">
-      <data key="d8">0.5765822320396815</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">0.5765822320396815</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="2102" target="2103">
-      <data key="d8">0.8245744049632597</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="9117" target="9116">
-      <data key="d8">0.5137196908173436</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8245744049632597</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9117" target="9118">
-      <data key="d8">0.6885654088258435</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6885654088258435</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="9117" target="9116">
+      <data key="d9">0.5137196908173436</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="4105" target="4106">
-      <data key="d8">0.6449038534705162</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="10002" target="10001">
-      <data key="d8">0.8213389134482165</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6449038534705162</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="10002" target="10003">
-      <data key="d8">0.6324521222578747</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6324521222578747</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="10002" target="10001">
+      <data key="d9">0.8213389134482165</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="14001" target="14003">
-      <data key="d8">0.407160646823046</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">0.407160646823046</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="7506" target="7010">
-      <data key="d8">0.8057734643512035</data>
-      <data key="d9">continuidad_troncal</data>
-    </edge>
-    <edge source="9122" target="9121">
-      <data key="d8">0.3845998570353869</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8057734643512035</data>
+      <data key="d10">continuidad_troncal</data>
     </edge>
     <edge source="9122" target="9123">
-      <data key="d8">0.5393835869616685</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5393835869616685</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="9122" target="9121">
+      <data key="d9">0.3845998570353869</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6109" target="6111">
-      <data key="d8">2.020439399413241</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">2.020439399413241</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="12001" target="12000">
-      <data key="d8">0.4786098309241576</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="9002" target="9001">
-      <data key="d8">0.41815116248854683</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.4786098309241576</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9002" target="9003">
-      <data key="d8">0.5266603808100025</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5266603808100025</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="9002" target="9001">
+      <data key="d9">0.41815116248854683</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9110" target="9111">
-      <data key="d8">0.679832336427706</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.679832336427706</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9110" target="14003">
-      <data key="d8">0.14766215252351686</data>
-      <data key="d9">intercambio</data>
-    </edge>
-    <edge source="7112" target="7010">
-      <data key="d8">9.068258280229022</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.14766215252351686</data>
+      <data key="d10">intercambio</data>
     </edge>
     <edge source="7112" target="7113">
-      <data key="d8">0.4186759867215117</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.4186759867215117</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5002" target="5001">
-      <data key="d8">0.7851677801663667</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7851677801663667</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="10003" target="10004">
-      <data key="d8">0.6282787791354721</data>
-      <data key="d9">intra_trazado</data>
-    </edge>
-    <edge source="10005" target="10004">
-      <data key="d8">1.0491246428268766</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6282787791354721</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="10005" target="10006">
-      <data key="d8">0.9193312170864446</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.9193312170864446</data>
+      <data key="d10">intra_trazado</data>
     </edge>
-    <edge source="9119" target="9118">
-      <data key="d8">0.6112590738619715</data>
-      <data key="d9">intra_trazado</data>
+    <edge source="10005" target="10010">
+      <data key="d9">0.506746270568842</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9119" target="9120">
-      <data key="d8">0.6111971489131419</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6111971489131419</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="9119" target="9118">
+      <data key="d9">0.6112590738619715</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="8002" target="8001">
-      <data key="d8">0.5994754139035336</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5994754139035336</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="8002" target="9004">
-      <data key="d8">0.6347814037321048</data>
-      <data key="d9">continuidad_troncal_auto</data>
+      <data key="d9">0.6347814037321048</data>
+      <data key="d10">continuidad_troncal_auto</data>
     </edge>
     <edge source="7108" target="7109">
-      <data key="d8">0.9360537147568044</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.9360537147568044</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7108" target="9116">
-      <data key="d8">1.3098676315008333</data>
-      <data key="d9">cruce_troncal</data>
-    </edge>
-    <edge source="9114" target="9113">
-      <data key="d8">0.8263594954422994</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.3098676315008333</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="9114" target="9115">
-      <data key="d8">0.6099494844234475</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6099494844234475</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="9114" target="9113">
+      <data key="d9">0.8263594954422994</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7005" target="7004">
-      <data key="d8">0.9411067018449997</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.9411067018449997</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7005" target="7006">
-      <data key="d8">0.5305056917330364</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5305056917330364</data>
+      <data key="d10">intra_trazado</data>
     </edge>
-    <edge source="7010" target="7009">
-      <data key="d8">7.834835052308455</data>
-      <data key="d9">intra_trazado</data>
+    <edge source="7010" target="7000">
+      <data key="d9">1.3239273423151205</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9111" target="9113">
-      <data key="d8">0.28101859261954465</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.28101859261954465</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9111" target="10007">
-      <data key="d8">0.34577705305937834</data>
-      <data key="d9">residual_geografico</data>
-      <data key="d10">Las Nieves &lt;-&gt; Calle 19 (Carrera 10 &lt;-&gt; Caracas)</data>
+      <data key="d9">0.34577705305937834</data>
+      <data key="d10">residual_geografico</data>
+      <data key="d11">Las Nieves &lt;-&gt; Calle 19 (Carrera 10 &lt;-&gt; Caracas)</data>
     </edge>
     <edge source="14003" target="14004">
-      <data key="d8">0.7181383548272819</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7181383548272819</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="14003" target="10006">
-      <data key="d8">0.2912761387217344</data>
-      <data key="d9">residual_geografico</data>
-      <data key="d10">San Victorino &lt;-&gt; Temporal AV. Jimenez (Carrera 10 &lt;-&gt; Eje Ambiental)</data>
+      <data key="d9">0.2912761387217344</data>
+      <data key="d10">residual_geografico</data>
+      <data key="d11">San Victorino &lt;-&gt; Temporal AV. Jimenez (Carrera 10 &lt;-&gt; Eje Ambiental)</data>
     </edge>
     <edge source="9123" target="3014">
-      <data key="d8">1.621846806381097</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">1.621846806381097</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="9120" target="9121">
-      <data key="d8">0.7503967056230995</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7503967056230995</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7008" target="7009">
-      <data key="d8">0.852657241938008</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.852657241938008</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="10001" target="10000">
-      <data key="d8">0.6577826794552957</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6577826794552957</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9103" target="9101">
-      <data key="d8">0.8131604266259539</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8131604266259539</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9001" target="9005">
-      <data key="d8">1.4924742957851882</data>
-      <data key="d9">continuidad_troncal</data>
-    </edge>
-    <edge source="9106" target="9105">
-      <data key="d8">0.7104034289007841</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.4924742957851882</data>
+      <data key="d10">continuidad_troncal</data>
     </edge>
     <edge source="9106" target="9107">
-      <data key="d8">0.6506049164062851</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6506049164062851</data>
+      <data key="d10">intra_trazado</data>
     </edge>
-    <edge source="3004" target="3003">
-      <data key="d8">1.132344050690776</data>
-      <data key="d9">intra_trazado</data>
+    <edge source="9106" target="9105">
+      <data key="d9">0.7104034289007841</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3004" target="3005">
-      <data key="d8">0.6869447097260266</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6869447097260266</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="3004" target="3003">
+      <data key="d9">1.132344050690776</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="10007" target="10006">
-      <data key="d8">0.6561551880580616</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6561551880580616</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6001" target="6000">
-      <data key="d8">0.8711598777124646</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8711598777124646</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="6001" target="6002">
-      <data key="d8">0.7938342987221378</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7938342987221378</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="14004" target="14005">
-      <data key="d8">0.5247455004196734</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5247455004196734</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3007" target="3009">
-      <data key="d8">0.8398898348462362</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8398898348462362</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="8001" target="8000">
-      <data key="d8">0.44656887834763426</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.44656887834763426</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="10004" target="10010">
+      <data key="d9">0.5423821961961452</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9108" target="9107">
-      <data key="d8">0.6455730530057933</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6455730530057933</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7001" target="7000">
-      <data key="d8">0.49715153907649084</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.49715153907649084</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7001" target="7002">
-      <data key="d8">0.8995106810838428</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.8995106810838428</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9107" target="7113">
-      <data key="d8">1.8249158522423092</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">1.8249158522423092</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="9000" target="9005">
-      <data key="d8">1.33519196912939</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.33519196912939</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5001" target="5000">
-      <data key="d8">1.0277935765617157</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.0277935765617157</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5000" target="5009">
-      <data key="d8">2.8384202976312634</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">2.8384202976312634</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="14005" target="6111">
-      <data key="d8">0.25910367222957303</data>
-      <data key="d9">cruce_troncal</data>
+      <data key="d9">0.25910367222957303</data>
+      <data key="d10">cruce_troncal</data>
     </edge>
     <edge source="9004" target="9003">
-      <data key="d8">0.707687123219143</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.707687123219143</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3014" target="3013">
-      <data key="d8">0.511839480099439</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.511839480099439</data>
+      <data key="d10">intra_trazado</data>
+    </edge>
+    <edge source="7113" target="7009">
+      <data key="d9">1.0108286621667495</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3012" target="3013">
-      <data key="d8">0.5137442864476343</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.5137442864476343</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="3010" target="3009">
-      <data key="d8">0.7112133928936756</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.7112133928936756</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7002" target="7003">
-      <data key="d8">1.0592960925869324</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.0592960925869324</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="7003" target="7004">
-      <data key="d8">0.530893712050689</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.530893712050689</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="9115" target="9116">
-      <data key="d8">0.6015078928769515</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6015078928769515</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5011" target="5010">
-      <data key="d8">0.6368781064697292</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">0.6368781064697292</data>
+      <data key="d10">intra_trazado</data>
     </edge>
     <edge source="5010" target="5009">
-      <data key="d8">1.019142419482263</data>
-      <data key="d9">intra_trazado</data>
+      <data key="d9">1.019142419482263</data>
+      <data key="d10">intra_trazado</data>
     </edge>
   </graph>
 </graphml>

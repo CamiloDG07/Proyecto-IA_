@@ -76,6 +76,53 @@ Con (a)-(d) el grafo completo (153 estaciones) queda en una sola componente
 conexa - ver outputs/despues_de_corregir.json para la verificacion.
 
 --------------------------------------------------------------------------------
+Bitacora: orden de estaciones dentro de cada trazado (corregido num_est -> geometria)
+--------------------------------------------------------------------------------
+Hallazgo: ordenar las estaciones de un id_trazado por `num_est` (como se hacia hasta
+ahora para las aristas intra_trazado) asume que num_est refleja la posicion real de
+la estacion a lo largo de la via. Eso es falso en varios trazados: el dataset de
+estaciones no garantiza que num_est sea correlativo con la geografia (numeros de
+codigo asignados por fases de construccion, no por orden fisico). Esto producia
+aristas "intra_trazado" con saltos absurdos, verificados con los pesos reales del
+grafo (ANTES, ordenando por num_est):
+
+    TZ002 (Autopista Norte): Heroes - Colmena Seguros -> Terminal      11.33 km
+    TZ010 (NQS Sur):         SENA -> Bosa                               7.83 km
+    TZ010 (NQS Sur):         Bosa -> Comuneros                          9.07 km
+    TZ018 (Carrera 10):      San Diego -> San Bernardo                  2.70 km
+
+(el promedio real de arista dentro de esos trazados es ~1-2 km; en los 4 casos una
+estacion tipo portal/terminal - Terminal, Bosa, San Bernardo - recibio el num_est
+mas alto de su trazado como si fuera la ultima parada, cuando geograficamente esta
+en otro punto de la linea).
+
+Correccion: en vez de num_est, se usa la geometria real de cada trazado
+(`data/Trazado_troncal.geojson`, MultiLineString/LineString por id_trazado) para
+proyectar cada estacion sobre la linea (`LineString.project`) y ordenar por esa
+posicion real a lo largo de la via. Los trazados con geometria partida en varios
+segmentos (MultiLineString) se intenta unificar con `shapely.ops.linemerge`; como
+en este dataset ningun segmento comparte coordenadas de extremo exactas, linemerge
+nunca logra fusionarlos, asi que se encadenan manualmente por el extremo mas
+cercano (permitiendo invertir el sentido de cada segmento) y se registra el hueco
+maximo introducido. Si ese hueco supera UMBRAL_HUECO_ENCADENADO_KM (500 m), se
+descarta la geometria para ese trazado y se deja el orden por num_est como
+fallback explicito (ver `calcular_orden_geometrico`): esto ocurre en TZ009
+(Americas) y TZ016 (Calle 26), cuya geometria tiene ramificaciones reales (no son
+una sola linea continua) y el encadenado introduce huecos de 2.4 km y 1.3 km
+respectivamente -peor que el problema que se intenta resolver-, asi que ahi se deja
+el orden original.
+
+DESPUES de la correccion, las 4 aristas de la tabla bajan a un rango normal
+(Terminal -> Calle 187: 0.62 km; Bosa -> Portal Sur: 1.32 km, SENA -> Santa Isabel:
+1.01 km; San Diego -> Las Nieves: 0.62 km). El grafo sigue en 153 nodos y 1 sola
+componente conexa (esta correccion solo reordena, no agrega ni quita estaciones ni
+cambia las conexiones entre troncales). TZ009 y TZ016 conservan, sin cambios, la
+arista mas larga que ya tenian con num_est (Zona Industrial -> De La Sabana 2.49 km
+y Centro Memoria -> Universidades-CityU 2.02 km): es una limitacion conocida y
+documentada del dataset, no algo que esta correccion pueda resolver sin inventar
+geometria que el dataset no tiene.
+
+--------------------------------------------------------------------------------
 Peso de las aristas
 --------------------------------------------------------------------------------
 El peso (`weight`, en km) es una aproximacion: distancia euclidiana en grados
@@ -97,6 +144,8 @@ from pathlib import Path
 import networkx as nx
 import numpy as np
 import pandas as pd
+from shapely.geometry import LineString, Point, shape
+from shapely.ops import linemerge
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
@@ -104,9 +153,16 @@ OUTPUT_DIR = BASE_DIR / "outputs"
 
 ESTACIONES_CSV = DATA_DIR / "Estacion_troncalT.csv"
 TRAZADOS_CSV = DATA_DIR / "Trazados_Troncales_de_TRANSMILENIO.csv"
+# Geometria real de cada trazado (para ordenar estaciones a lo largo de la via,
+# ver "Bitacora: orden de estaciones..." en el docstring del modulo). Ya estaba
+# en el repo como Trazado_troncal.geojson; hay una copia identica bajo el nombre
+# Trazados_Troncales_de_TRANSMILENIO.geojson (mismo contenido, byte a byte) que
+# no se usa aqui para no duplicar el dato.
+GEOJSON_TRAZADOS = DATA_DIR / "Trazado_troncal.geojson"
 
 UMBRAL_INTERCAMBIO_KM = 0.5
 UMBRAL_CRUCE_TRONCAL_KM = 3.0
+UMBRAL_HUECO_ENCADENADO_KM = 0.5
 
 # Conexiones residuales (c): no derivables de ori_traz/fin_traz, ver docstring.
 CONEXIONES_RESIDUALES = [
@@ -135,6 +191,98 @@ def cargar_datos():
     return estaciones, trazados
 
 
+def cargar_geometrias_trazados() -> dict:
+    """id_trazado -> geometria shapely (LineString o MultiLineString), desde el geojson."""
+    with open(GEOJSON_TRAZADOS, encoding="utf-8") as f:
+        geojson = json.load(f)
+    return {feat["properties"]["id_trazado"]: shape(feat["geometry"]) for feat in geojson["features"]}
+
+
+def _encadenar_partes_multilinestring(partes) -> tuple:
+    """Une las partes de un MultiLineString en una sola secuencia de coordenadas,
+    encadenando siempre la parte cuyo extremo (inicio o fin, permitiendo invertirla)
+    quede mas cerca del extremo actual de la cadena. Retorna (coords, hueco_max_km):
+    hueco_max_km es la mayor distancia que hubo que "saltar" para pegar dos partes
+    que no compartian coordenada exacta (normal en datos SIG reales: ver docstring
+    del modulo)."""
+    restantes = [list(p.coords) for p in partes]
+    cadena = restantes.pop(0)
+    hueco_max_km = 0.0
+    while restantes:
+        inicio, fin = cadena[0], cadena[-1]
+        mejor = None  # (hueco_km, indice, extremo_cadena, invertir_parte)
+        for i, parte in enumerate(restantes):
+            p_inicio, p_fin = parte[0], parte[-1]
+            candidatos = [
+                (distancia_aprox_km(fin[1], fin[0], p_inicio[1], p_inicio[0]), i, "fin", False),
+                (distancia_aprox_km(fin[1], fin[0], p_fin[1], p_fin[0]), i, "fin", True),
+                (distancia_aprox_km(inicio[1], inicio[0], p_inicio[1], p_inicio[0]), i, "inicio", True),
+                (distancia_aprox_km(inicio[1], inicio[0], p_fin[1], p_fin[0]), i, "inicio", False),
+            ]
+            for c in candidatos:
+                if mejor is None or c[0] < mejor[0]:
+                    mejor = c
+        hueco_km, idx, extremo, invertir = mejor
+        parte = restantes.pop(idx)
+        if invertir:
+            parte = list(reversed(parte))
+        cadena = cadena + parte if extremo == "fin" else parte + cadena
+        hueco_max_km = max(hueco_max_km, hueco_km)
+    return cadena, hueco_max_km
+
+
+def calcular_orden_geometrico(estaciones: pd.DataFrame) -> dict:
+    """Para cada id_trazado con estaciones, intenta construir una linea unica a
+    partir de su geometria real y decide si usarla ("geometria_real") o hacer
+    fallback a num_est ("num_est_fallback") cuando el trazado esta partido en
+    geometria con huecos grandes al encadenar (ver docstring del modulo).
+    Retorna id_trazado -> {"metodo", "linea" (si aplica), "hueco_max_km"}.
+    """
+    geometrias = cargar_geometrias_trazados()
+    info = {}
+    for idt in estaciones["id_trazado"].unique():
+        geom = geometrias.get(idt)
+        if geom is None:
+            info[idt] = {"metodo": "num_est_fallback", "motivo": "sin geometria en el dataset de trazados"}
+            continue
+
+        if geom.geom_type == "MultiLineString":
+            # linemerge fusiona partes que comparten coordenada de extremo exacta;
+            # en este dataset ninguna lo hace (ver docstring), pero se intenta primero
+            # por si la geometria cambiara en una actualizacion del dataset oficial.
+            fusionada = linemerge(geom)
+            if fusionada.geom_type == "LineString":
+                coords = [(x, y) for x, y, *_ in fusionada.coords]
+                info[idt] = {"metodo": "geometria_real", "linea": LineString(coords), "hueco_max_km": 0.0}
+                continue
+            coords, hueco_max_km = _encadenar_partes_multilinestring(list(geom.geoms))
+        else:
+            coords = list(geom.coords)
+            hueco_max_km = 0.0
+
+        coords = [(x, y) for x, y, *_ in coords]
+        if hueco_max_km <= UMBRAL_HUECO_ENCADENADO_KM:
+            info[idt] = {"metodo": "geometria_real", "linea": LineString(coords), "hueco_max_km": hueco_max_km}
+        else:
+            info[idt] = {
+                "metodo": "num_est_fallback",
+                "hueco_max_km": hueco_max_km,
+                "motivo": (
+                    f"hueco de {hueco_max_km * 1000:.0f} m al encadenar las partes de la "
+                    f"geometria (> {UMBRAL_HUECO_ENCADENADO_KM * 1000:.0f} m): probable "
+                    "ramificacion real del trazado, no una sola linea continua"
+                ),
+            }
+
+    print("  orden de estaciones por trazado (geometria real vs num_est fallback):")
+    for idt, datos in sorted(info.items()):
+        if datos["metodo"] == "geometria_real":
+            print(f"    {idt}: geometria_real (hueco max al encadenar: {datos['hueco_max_km'] * 1000:.0f} m)")
+        else:
+            print(f"    {idt}: num_est_fallback ({datos['motivo']})")
+    return info
+
+
 def construir_grafo_original_con_bug(estaciones: pd.DataFrame) -> nx.Graph:
     """Reproduce EXACTAMENTE la logica del notebook original (nom_est como clave,
     solo conecta consecutivos dentro de cada id_trazado, sin ordenar por num_est).
@@ -159,8 +307,14 @@ def construir_grafo_original_con_bug(estaciones: pd.DataFrame) -> nx.Graph:
     return G
 
 
-def agregar_nodos(G: nx.Graph, estaciones: pd.DataFrame) -> None:
+def agregar_nodos(G: nx.Graph, estaciones: pd.DataFrame, orden_geometrico: dict = None) -> None:
+    orden_geometrico = orden_geometrico or {}
     for _, row in estaciones.iterrows():
+        datos_orden = orden_geometrico.get(row["id_trazado"])
+        dist_en_linea_m = None
+        if datos_orden and datos_orden["metodo"] == "geometria_real":
+            punto = Point(row["longitud"], row["latitud"])
+            dist_en_linea_m = datos_orden["linea"].project(punto) * 111000.0
         G.add_node(
             row["cod_nodo"],
             nom_est=row["nom_est"],
@@ -168,6 +322,7 @@ def agregar_nodos(G: nx.Graph, estaciones: pd.DataFrame) -> None:
             nom_tronc=row["nom_tronc"],
             tipo_esta=int(row["tipo_esta"]),
             num_est=row["num_est"],
+            dist_en_linea_m=dist_en_linea_m,
             lat=row["latitud"],
             lon=row["longitud"],
             ub_est=row["ub_est"],
@@ -175,12 +330,21 @@ def agregar_nodos(G: nx.Graph, estaciones: pd.DataFrame) -> None:
         )
 
 
-def agregar_aristas_intra_trazado(G: nx.Graph, estaciones: pd.DataFrame) -> int:
-    """Conecta estaciones consecutivas de cada id_trazado, ordenadas explicitamente
-    por num_est (no se asume el orden de filas del CSV)."""
+def agregar_aristas_intra_trazado(G: nx.Graph, estaciones: pd.DataFrame, orden_geometrico: dict) -> int:
+    """Conecta estaciones consecutivas de cada id_trazado. El orden ya no es
+    num_est (ver docstring del modulo: no refleja la posicion geografica real);
+    es la proyeccion de cada estacion sobre la geometria real del trazado
+    (`dist_en_linea_m`, calculada en agregar_nodos), salvo en los id_trazado
+    marcados como "num_est_fallback" en `orden_geometrico`, donde se conserva
+    num_est por no haber una linea unica confiable."""
     n_antes = G.number_of_edges()
-    for _, grupo in estaciones.groupby("id_trazado"):
-        grupo = grupo.sort_values("num_est")
+    for idt, grupo in estaciones.groupby("id_trazado"):
+        metodo = orden_geometrico.get(idt, {}).get("metodo", "num_est_fallback")
+        if metodo == "geometria_real":
+            clave_orden = [G.nodes[cod]["dist_en_linea_m"] for cod in grupo["cod_nodo"]]
+            grupo = grupo.assign(_orden=clave_orden).sort_values("_orden")
+        else:
+            grupo = grupo.sort_values("num_est")
         filas = list(grupo.itertuples())
         for a, b in zip(filas, filas[1:]):
             d = distancia_aprox_km(a.latitud, a.longitud, b.latitud, b.longitud)
@@ -300,10 +464,13 @@ def agregar_conexiones_residuales(G: nx.Graph, estaciones: pd.DataFrame) -> int:
 
 
 def construir_grafo_corregido(estaciones: pd.DataFrame, trazados: pd.DataFrame) -> nx.Graph:
-    G = nx.Graph()
-    agregar_nodos(G, estaciones)
+    print("0) Orden de estaciones dentro de cada trazado (geometria real vs num_est):")
+    orden_geometrico = calcular_orden_geometrico(estaciones)
 
-    n_intra = agregar_aristas_intra_trazado(G, estaciones)
+    G = nx.Graph()
+    agregar_nodos(G, estaciones, orden_geometrico)
+
+    n_intra = agregar_aristas_intra_trazado(G, estaciones, orden_geometrico)
     print(f"1) Aristas intra-trazado: {n_intra} | componentes: {nx.number_connected_components(G)}")
 
     n_intercambio = agregar_aristas_intercambio(G, estaciones)
@@ -391,6 +558,11 @@ def exportar_grafo(G: nx.Graph) -> None:
     G_export = G.copy()
     for _, data in G_export.nodes(data=True):
         data.pop("ub_est", None)  # texto con posibles caracteres no soportados en graphml
+        # GraphML no admite None como valor de atributo (lo tiene dist_en_linea_m
+        # en los id_trazado con fallback a num_est, ver docstring del modulo);
+        # se usa NaN, que sigue siendo un float valido para GraphML.
+        if data.get("dist_en_linea_m") is None:
+            data["dist_en_linea_m"] = float("nan")
     nx.write_graphml(G_export, OUTPUT_DIR / "grafo_transmilenio.graphml")
 
     import pickle
