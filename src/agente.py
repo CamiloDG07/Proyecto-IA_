@@ -84,16 +84,20 @@ class AgenteRutas:
         return candidatos[0]
 
     def calcular_ruta(self, origen, destino) -> dict:
-        """Calcula la ruta de menor costo entre origen y destino.
+        """Calcula la ruta de menor costo (distancia, `weight`) entre origen y
+        destino.
 
         origen/destino: nombre de estacion (str) o cod_nodo (int).
-        Retorna un dict con la lista de estaciones, el costo total, las
-        transferencias de troncal detectadas a lo largo de la ruta, y el
-        tiempo de calculo ("tiempo_calculo_ms") y memoria pico usada por el
-        calculo ("memoria_pico_kb", medida con tracemalloc, modulo estandar
-        de Python). Ambas metricas se miden solo alrededor del calculo de la
-        ruta (Dijkstra vía nx.shortest_path), no de la carga del grafo ni de
-        la resolucion de nombres a cod_nodo.
+        Retorna un dict con la lista de estaciones, la distancia total
+        ("distancia_total_km"), el tiempo de viaje estimado sumando
+        `tiempo_min` a lo largo de la ruta ("tiempo_viaje_min" -distinto de
+        cuanto tarda el algoritmo en calcularla-), las transferencias de
+        troncal detectadas, y el tiempo de calculo ("tiempo_calculo_ms") y
+        memoria pico usada por el calculo ("memoria_pico_kb", medida con
+        tracemalloc, modulo estandar de Python). Estas dos ultimas metricas se
+        miden solo alrededor del calculo de la ruta (Dijkstra vía
+        nx.shortest_path), no de la carga del grafo ni de la resolucion de
+        nombres a cod_nodo.
         """
         cod_origen = self.resolver_nodo(origen)
         cod_destino = self.resolver_nodo(destino)
@@ -119,12 +123,13 @@ class AgenteRutas:
         tiempo_calculo_ms = (t_fin - t_inicio) * 1000
         memoria_pico_kb = pico_bytes / 1024
 
-        # Costo total = suma de pesos a lo largo del camino ya encontrado, en vez
-        # de una segunda llamada a nx.shortest_path_length (que repetiria todo el
-        # calculo de Dijkstra y falsearia el tiempo medido arriba).
-        costo_total = sum(
-            self.G[u][v]["weight"] for u, v in zip(camino, camino[1:])
-        )
+        # Distancia total = suma de pesos a lo largo del camino ya encontrado, en
+        # vez de una segunda llamada a nx.shortest_path_length (que repetiria todo
+        # el calculo de Dijkstra y falsearia el tiempo medido arriba). tiempo_viaje
+        # se suma de la misma forma sobre tiempo_min (ver build_graph.py).
+        aristas_ruta = list(zip(camino, camino[1:]))
+        distancia_total = sum(self.G[u][v]["weight"] for u, v in aristas_ruta)
+        tiempo_viaje_min = sum(self.G[u][v]["tiempo_min"] for u, v in aristas_ruta)
 
         estaciones = [
             {"cod_nodo": c, "nom_est": self.G.nodes[c]["nom_est"], "nom_tronc": self.G.nodes[c]["nom_tronc"]}
@@ -148,7 +153,8 @@ class AgenteRutas:
             "destino": estaciones[-1]["nom_est"],
             "num_estaciones": len(estaciones),
             "num_transferencias": len(transferencias),
-            "costo_total_km": round(costo_total, 3),
+            "distancia_total_km": round(distancia_total, 3),
+            "tiempo_viaje_min": round(tiempo_viaje_min, 2),
             "tiempo_calculo_ms": tiempo_calculo_ms,
             "memoria_pico_kb": memoria_pico_kb,
             "ruta": estaciones,
@@ -163,7 +169,8 @@ class AgenteRutas:
 
         print(f"Ruta: {resultado['origen']} -> {resultado['destino']}")
         print(f"  Estaciones: {resultado['num_estaciones']} | Transferencias: {resultado['num_transferencias']} "
-              f"| Costo total: {resultado['costo_total_km']} km "
+              f"| Distancia: {resultado['distancia_total_km']} km "
+              f"| Tiempo de viaje: {resultado['tiempo_viaje_min']:.1f} min "
               f"| Tiempo de calculo: {resultado['tiempo_calculo_ms']:.3f} ms "
               f"| Memoria pico: {resultado['memoria_pico_kb']:.2f} KB")
         for i, est in enumerate(resultado["ruta"]):

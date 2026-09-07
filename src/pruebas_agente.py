@@ -17,13 +17,25 @@ id_trazado, sin conexiones entre troncales):
      completo) y Americas era otra componente de 17 nodos.
 
 Para cada par se imprime y guarda: la ruta completa, el numero de estaciones,
-el numero de transferencias de troncal, el costo total, y el tiempo de
-calculo ("tiempo_calculo_ms") y memoria pico ("memoria_pico_kb") que reporta
-AgenteRutas.calcular_ruta(). Esto demuestra que la conexion entre troncales
-funciona de extremo a extremo (no solo que nx.number_connected_components(G)
-reporte 1) y deja una primera medida de rendimiento del placeholder de
-busqueda (Dijkstra via networkx) para comparar en el Corte 2 contra BFS/DFS/
-UCS/voraz/A*.
+el numero de transferencias de troncal, la distancia total ("distancia_total_km"),
+el tiempo de viaje estimado ("tiempo_viaje_min", suma de tiempo_min de cada
+arista de la ruta - ver build_graph.py), y el tiempo de calculo
+("tiempo_calculo_ms") y memoria pico ("memoria_pico_kb") que reporta
+AgenteRutas.calcular_ruta(). tiempo_viaje_min es cuanto dura el viaje;
+tiempo_calculo_ms es cuanto tarda el algoritmo en calcular la ruta - no
+confundirlos. Esto demuestra que la conexion entre troncales funciona de
+extremo a extremo (no solo que nx.number_connected_components(G) reporte 1) y
+deja una primera medida de rendimiento del placeholder de busqueda (Dijkstra
+via networkx) para comparar en el Corte 2 contra BFS/DFS/UCS/voraz/A*.
+
+Valores esperados (con el orden de estaciones ya corregido con la geometria
+real del trazado, ver "Bitacora: orden de estaciones..." en build_graph.py):
+    Portal Suba -> Portal Tunal:          40 estaciones, 2 transf., 25.77 km, ~67.8 min
+    Portal Norte -> Portal Usme:          43 estaciones, 2 transf., 28.16 km, ~73.5 min
+    Museo Nacional -> Portal Americas:    22 estaciones, 5 transf., 15.93 km, ~61.5 min
+Si Portal Norte -> Portal Usme da 44 estaciones (en vez de 43) o 30.13 km (en
+vez de 28.16 km), el grafo cargado no tiene el orden corregido de la Parte 1
+(revisar que se corrio build_graph.py despues de esa correccion).
 """
 
 import json
@@ -39,16 +51,19 @@ CASOS_DE_PRUEBA = [
         "descripcion": "Portal Suba (Suba) -> Portal Tunal (Caracas Sur)",
         "origen": 3000,  # Portal Suba
         "destino": 8000,  # Portal Tunal
+        "num_estaciones_esperado": 40,
     },
     {
         "descripcion": "Portal Norte (Autopista Norte) -> Portal Usme (Caracas Sur)",
         "origen": 2000,  # Portal Norte - Unicervantes
         "destino": 9000,  # Portal Usme
+        "num_estaciones_esperado": 43,
     },
     {
         "descripcion": "Museo Nacional (Carrera 7) -> Portal Americas (Americas)",
         "origen": 10009,  # Museo Nacional
         "destino": 5000,  # Portal Americas
+        "num_estaciones_esperado": 22,
     },
 ]
 
@@ -64,6 +79,11 @@ def main():
         resultado = agente.imprimir_ruta(caso["origen"], caso["destino"])
         assert resultado["exito"], f"La ruta deberia existir tras la correccion: {caso}"
         assert resultado["num_transferencias"] >= 1, "Se esperaba al menos una transferencia de troncal"
+        assert resultado["num_estaciones"] == caso["num_estaciones_esperado"], (
+            f"num_estaciones={resultado['num_estaciones']}, se esperaba "
+            f"{caso['num_estaciones_esperado']}: el grafo cargado no parece tener "
+            "el orden corregido de la Parte 1 (geometria real en vez de num_est)."
+        )
         resultados.append({"caso": caso["descripcion"], **resultado})
         print()
 
@@ -77,15 +97,19 @@ def main():
 
 
 def imprimir_tabla_tiempos(resultados: list) -> None:
-    """Tabla resumen: ruta, tiempo de calculo, num_estaciones, num_transferencias."""
-    encabezado = f"{'Ruta':<45} {'Tiempo (ms)':>12} {'Estaciones':>11} {'Transferencias':>15}"
+    """Tabla resumen: ruta, estaciones, transferencias, distancia, tiempo de viaje, tiempo de calculo."""
+    encabezado = (
+        f"{'Ruta':<45} {'Estaciones':>10} {'Transfer.':>9} "
+        f"{'Distancia':>10} {'T. viaje':>9} {'T. calculo':>11}"
+    )
     print("\n" + encabezado)
     print("-" * len(encabezado))
     for r in resultados:
         ruta_txt = f"{r['origen']} -> {r['destino']}"
         print(
-            f"{ruta_txt:<45} {r['tiempo_calculo_ms']:>12.3f} "
-            f"{r['num_estaciones']:>11} {r['num_transferencias']:>15}"
+            f"{ruta_txt:<45} {r['num_estaciones']:>10} {r['num_transferencias']:>9} "
+            f"{r['distancia_total_km']:>8.2f}km {r['tiempo_viaje_min']:>7.1f}' "
+            f"{r['tiempo_calculo_ms']:>9.3f}ms"
         )
 
 

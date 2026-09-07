@@ -82,7 +82,8 @@ def dibujar_ruta(agente: AgenteRutas, origen, destino, archivo_salida: Path) -> 
     titulo = (
         f"{resultado['origen']} -> {resultado['destino']}\n"
         f"Estaciones: {resultado['num_estaciones']} | Transferencias: {resultado['num_transferencias']} "
-        f"| Tiempo de calculo: {resultado['tiempo_calculo_ms']:.3f} ms"
+        f"| Distancia: {resultado['distancia_total_km']} km | Tiempo de viaje: {resultado['tiempo_viaje_min']:.1f} min\n"
+        f"Tiempo de calculo: {resultado['tiempo_calculo_ms']:.3f} ms"
     )
     ax.set_title(titulo, fontsize=13, fontweight="bold")
     ax.set_xlabel("Longitud")

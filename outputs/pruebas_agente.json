@@ -6,9 +6,10 @@
     "destino": "Portal Tunal",
     "num_estaciones": 40,
     "num_transferencias": 2,
-    "costo_total_km": 25.769,
-    "tiempo_calculo_ms": 6.180399999720976,
-    "memoria_pico_kb": 51.037109375,
+    "distancia_total_km": 25.769,
+    "tiempo_viaje_min": 67.85,
+    "tiempo_calculo_ms": 6.468799983849749,
+    "memoria_pico_kb": 50.857421875,
     "ruta": [
       {
         "cod_nodo": 3000,
@@ -229,20 +230,16 @@
     "exito": true,
     "origen": "Portal Norte – Unicervantes",
     "destino": "Portal Usme",
-    "num_estaciones": 44,
+    "num_estaciones": 43,
     "num_transferencias": 2,
-    "costo_total_km": 30.129,
-    "tiempo_calculo_ms": 1.4253999979700893,
+    "distancia_total_km": 28.163,
+    "tiempo_viaje_min": 73.59,
+    "tiempo_calculo_ms": 1.5460000140592456,
     "memoria_pico_kb": 11.484375,
     "ruta": [
       {
         "cod_nodo": 2000,
         "nom_est": "Portal Norte – Unicervantes",
-        "nom_tronc": "Autopista Norte"
-      },
-      {
-        "cod_nodo": 2001,
-        "nom_est": "Calle 187",
         "nom_tronc": "Autopista Norte"
       },
       {
@@ -476,8 +473,9 @@
     "destino": "Portal Américas",
     "num_estaciones": 22,
     "num_transferencias": 5,
-    "costo_total_km": 15.93,
-    "tiempo_calculo_ms": 0.989200001640711,
+    "distancia_total_km": 15.93,
+    "tiempo_viaje_min": 61.43,
+    "tiempo_calculo_ms": 0.9993999847210944,
     "memoria_pico_kb": 8.78125,
     "ruta": [
       {
