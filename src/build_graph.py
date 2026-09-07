@@ -132,6 +132,58 @@ es de un pequeno porcentaje, y no afecto ningun umbral usado en este script
 (se verifico explicitamente contra Haversine real). Se documenta aqui en vez
 de cambiarla porque no es necesaria mayor precision para el Corte 1; se podria
 reemplazar por Haversine en una fase posterior si se requiere.
+
+--------------------------------------------------------------------------------
+Bitacora: tiempo aproximado de viaje por arista (`tiempo_min`)
+--------------------------------------------------------------------------------
+Cada arista, ademas de `weight`/`distancia_km`, guarda `tiempo_min` (minutos
+aproximados), con un modelo de velocidad DIFERENCIADO por tipo de arista -no una
+velocidad unica para todo el grafo-, porque una arista `intra_trazado` (el bus
+avanza sobre el mismo corredor) y una arista `intercambio` (caminar entre dos
+estaciones del mismo complejo) no son comparables.
+
+Supuestos documentados (no hay una cifra oficial unica y verificable por troncal
+en fuentes publicas, asi que se declaran explicitamente como aproximaciones de
+orden de magnitud, igual que la formula de distancia * 111):
+
+  VELOCIDAD_CRUCERO_KMH = 25       velocidad comercial promedio asumida para un
+                                    bus en movimiento continuo (reportes publicos
+                                    de TransMilenio citan ~20-27 km/h segun
+                                    corredor y saturacion).
+  VELOCIDAD_CAMINATA_KMH = 4.5     velocidad peatonal estandar, para transbordos
+                                    a pie dentro del mismo complejo de estacion.
+  TIEMPO_ESPERA_TRANSBORDO_MIN = 3 espera fija adicional al cambiar de
+                                    servicio/troncal.
+
+Clasificacion por tipo de arista (el campo `tipo` que ya guarda cada arista):
+
+  Viaje continuo (mismo corredor fisico):
+    intra_trazado, continuidad_troncal, continuidad_troncal_auto
+      -> tiempo_min = (distancia_km / VELOCIDAD_CRUCERO_KMH) * 60
+
+  Transbordo a pie (mismo complejo de estacion, distancias cortas):
+    intercambio, residual_geografico
+      -> tiempo_min = (distancia_km / VELOCIDAD_CAMINATA_KMH) * 60
+                       + TIEMPO_ESPERA_TRANSBORDO_MIN
+
+  Transbordo entre troncales por cruce fisico (distancias mayores, no caminables):
+    cruce_troncal
+      -> tiempo_min = (distancia_km / VELOCIDAD_CRUCERO_KMH) * 60
+                       + TIEMPO_ESPERA_TRANSBORDO_MIN
+
+  Por que cruce_troncal es una categoria aparte de continuidad_troncal: las
+  aristas cruce_troncal llegan hasta ~2.84 km (serian >30 min si se modelaran
+  como caminata), asi que se asume que ese tramo se recorre en otro vehiculo, a
+  velocidad de crucero, pero SI llevan la penalizacion de espera por cambio de
+  troncal (a diferencia de continuidad_troncal, que conecta trazados del mismo
+  corredor fisico -p.ej. TZ012+TZ013+TZ014 de Caracas Sur- y no es un transbordo
+  real).
+
+Verificado sobre el grafo ya corregido, aristas alrededor de Comuneros:
+  Comuneros -> Guatoque-Veraguas (continuidad_troncal_auto, 0.55 km): ~1.3 min
+  Comuneros -> Santa Isabel      (intra_trazado, 0.42 km):            ~1.0 min
+  Comuneros -> Ricaurte-NQS      (cruce_troncal, 1.06 km):             ~5.5 min
+  Comuneros -> Tercer Milenio    (cruce_troncal, 1.90 km):             ~7.6 min
 """
 
 import itertools
@@ -164,6 +216,15 @@ UMBRAL_INTERCAMBIO_KM = 0.5
 UMBRAL_CRUCE_TRONCAL_KM = 3.0
 UMBRAL_HUECO_ENCADENADO_KM = 0.5
 
+# Modelo de tiempo por arista (ver "Bitacora: tiempo aproximado de viaje..." arriba).
+VELOCIDAD_CRUCERO_KMH = 25.0
+VELOCIDAD_CAMINATA_KMH = 4.5
+TIEMPO_ESPERA_TRANSBORDO_MIN = 3.0
+
+TIPOS_VIAJE_CONTINUO = {"intra_trazado", "continuidad_troncal", "continuidad_troncal_auto"}
+TIPOS_TRANSBORDO_A_PIE = {"intercambio", "residual_geografico"}
+TIPOS_CRUCE_TRONCAL = {"cruce_troncal"}
+
 # Conexiones residuales (c): no derivables de ori_traz/fin_traz, ver docstring.
 CONEXIONES_RESIDUALES = [
     (10006, 14003, "San Victorino <-> Temporal AV. Jimenez (Carrera 10 <-> Eje Ambiental)"),
@@ -181,6 +242,24 @@ def normalizar(texto: str) -> str:
 def distancia_aprox_km(lat1, lon1, lat2, lon2) -> float:
     """Aproximacion euclidiana en grados * 111 (ver docstring del modulo)."""
     return float(np.sqrt((lat2 - lat1) ** 2 + (lon2 - lon1) ** 2) * 111.0)
+
+
+def calcular_tiempo_min(tipo: str, distancia_km: float) -> float:
+    """Tiempo aproximado de viaje/transbordo para una arista, segun su tipo
+    (ver "Bitacora: tiempo aproximado de viaje..." en el docstring del modulo)."""
+    if tipo in TIPOS_VIAJE_CONTINUO:
+        return (distancia_km / VELOCIDAD_CRUCERO_KMH) * 60.0
+    if tipo in TIPOS_TRANSBORDO_A_PIE:
+        return (distancia_km / VELOCIDAD_CAMINATA_KMH) * 60.0 + TIEMPO_ESPERA_TRANSBORDO_MIN
+    if tipo in TIPOS_CRUCE_TRONCAL:
+        return (distancia_km / VELOCIDAD_CRUCERO_KMH) * 60.0 + TIEMPO_ESPERA_TRANSBORDO_MIN
+    raise ValueError(f"tipo de arista desconocido, no se puede clasificar para tiempo_min: {tipo!r}")
+
+
+def agregar_tiempos_viaje(G: nx.Graph) -> None:
+    """(6) Calcula `tiempo_min` para cada arista ya construida, segun su `tipo`."""
+    for _, _, data in G.edges(data=True):
+        data["tiempo_min"] = calcular_tiempo_min(data["tipo"], data["weight"])
 
 
 def cargar_datos():
@@ -487,6 +566,14 @@ def construir_grafo_corregido(estaciones: pd.DataFrame, trazados: pd.DataFrame) 
     print("5) Conexiones residuales (Carrera 10 / Carrera 7):")
     agregar_conexiones_residuales(G, estaciones)
     print(f"   componentes: {nx.number_connected_components(G)}")
+
+    print("6) Tiempo aproximado de viaje por arista (tiempo_min, segun tipo):")
+    agregar_tiempos_viaje(G)
+    tiempos_por_tipo = defaultdict(list)
+    for _, _, data in G.edges(data=True):
+        tiempos_por_tipo[data["tipo"]].append(data["tiempo_min"])
+    for tipo, tiempos in sorted(tiempos_por_tipo.items()):
+        print(f"   {tipo}: {len(tiempos)} aristas, tiempo promedio {sum(tiempos) / len(tiempos):.2f} min")
 
     return G
 

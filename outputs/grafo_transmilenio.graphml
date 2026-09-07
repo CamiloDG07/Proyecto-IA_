@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-  <key id="d11" for="edge" attr.name="descripcion" attr.type="string" />
+  <key id="d12" for="edge" attr.name="descripcion" attr.type="string" />
+  <key id="d11" for="edge" attr.name="tiempo_min" attr.type="double" />
   <key id="d10" for="edge" attr.name="tipo" attr.type="string" />
   <key id="d9" for="edge" attr.name="weight" attr.type="double" />
   <key id="d8" for="node" attr.name="cap_art" attr.type="long" />
@@ -1699,636 +1700,794 @@
     <edge source="7103" target="7104">
       <data key="d9">1.0630517810776443</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.5513242745863463</data>
     </edge>
     <edge source="7103" target="7102">
       <data key="d9">0.5563093100226142</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.335142344054274</data>
     </edge>
     <edge source="6103" target="6102">
       <data key="d9">0.5286199871350472</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2686879691241133</data>
     </edge>
     <edge source="6103" target="6104">
       <data key="d9">0.528468267127728</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2683238411065472</data>
     </edge>
     <edge source="7106" target="7107">
       <data key="d9">0.9212343650216235</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.2109624760518964</data>
     </edge>
     <edge source="7106" target="7105">
       <data key="d9">0.5167369286344832</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2401686287227596</data>
     </edge>
     <edge source="10008" target="10007">
       <data key="d9">0.621553010386712</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4917272249281086</data>
     </edge>
     <edge source="10008" target="10009">
       <data key="d9">0.5447623696657062</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">4.307429687197695</data>
     </edge>
     <edge source="4100" target="4003">
       <data key="d9">0.6013577151409302</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4432585163382323</data>
     </edge>
     <edge source="4100" target="4101">
       <data key="d9">0.5186948100207219</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2448675440497328</data>
     </edge>
     <edge source="7111" target="7110">
       <data key="d9">0.7531285306437203</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.8075084735449287</data>
     </edge>
     <edge source="7111" target="12003">
       <data key="d9">0.404327475287766</data>
       <data key="d10">intercambio</data>
+      <data key="d11">8.391033003836881</data>
     </edge>
     <edge source="7111" target="7112">
       <data key="d9">1.0600729169893208</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">5.54417500077437</data>
     </edge>
     <edge source="7111" target="9108">
       <data key="d9">2.0317237669689314</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">7.876137040725435</data>
     </edge>
     <edge source="4001" target="4000">
       <data key="d9">0.39648010243803317</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">0.9515522458512795</data>
     </edge>
     <edge source="4001" target="4002">
       <data key="d9">0.5161153163071363</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.238676759137127</data>
     </edge>
     <edge source="3011" target="3012">
       <data key="d9">0.286657008395561</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">0.6879768201493465</data>
     </edge>
     <edge source="3011" target="3010">
       <data key="d9">0.777208957270903</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.8653014974501672</data>
     </edge>
     <edge source="7102" target="7101">
       <data key="d9">0.9733684308719427</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.336084234092662</data>
     </edge>
     <edge source="4102" target="4101">
       <data key="d9">0.6254026654230818</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5009663970153961</data>
     </edge>
     <edge source="4102" target="4103">
       <data key="d9">0.43963534196128473</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.0551248207070834</data>
     </edge>
     <edge source="9100" target="9101">
       <data key="d9">0.6425253610158624</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.54206086643807</data>
     </edge>
     <edge source="9100" target="9004">
       <data key="d9">0.7422836167762282</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.7814806802629477</data>
     </edge>
     <edge source="5102" target="5101">
       <data key="d9">0.7895223625907439</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.8948536702177852</data>
     </edge>
     <edge source="5102" target="5103">
       <data key="d9">0.4533850519129596</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.088124124591103</data>
     </edge>
     <edge source="5103" target="5105">
       <data key="d9">1.2816315854632232</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">3.0759158051117357</data>
     </edge>
     <edge source="3006" target="3007">
       <data key="d9">0.6028292026651126</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4467900863962704</data>
     </edge>
     <edge source="3006" target="3005">
       <data key="d9">1.0625822062243397</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.5501972949384157</data>
     </edge>
     <edge source="3001" target="3002">
       <data key="d9">0.6232714994849005</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.495851598763761</data>
     </edge>
     <edge source="3001" target="3000">
       <data key="d9">0.5745099884104621</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.378823972185109</data>
     </edge>
     <edge source="5005" target="5002">
       <data key="d9">0.907580013497125</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.1781920323931</data>
     </edge>
     <edge source="5005" target="5100">
       <data key="d9">0.769622568387551</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.8470941641301224</data>
     </edge>
     <edge source="6106" target="6105">
       <data key="d9">0.520584548779572</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2494029170709728</data>
     </edge>
     <edge source="6106" target="6107">
       <data key="d9">0.7839913312106144</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.8815791949054743</data>
     </edge>
     <edge source="7201" target="7200">
       <data key="d9">0.8402939353625191</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.0167054448700457</data>
     </edge>
     <edge source="7201" target="7112">
       <data key="d9">0.5471048659354549</data>
       <data key="d10">continuidad_troncal_auto</data>
+      <data key="d11">1.3130516782450918</data>
     </edge>
     <edge source="12002" target="12001">
       <data key="d9">1.1113107538078537</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.667145809138849</data>
     </edge>
     <edge source="12002" target="12003">
       <data key="d9">0.518086520163233</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.243407648391759</data>
     </edge>
     <edge source="6107" target="6108">
       <data key="d9">0.6507950926625482</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5619082223901157</data>
     </edge>
     <edge source="7107" target="7108">
       <data key="d9">0.7188627526422291</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.7252706063413497</data>
     </edge>
     <edge source="6100" target="6002">
       <data key="d9">0.9301894128217209</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.23245459077213</data>
     </edge>
     <edge source="6100" target="6101">
       <data key="d9">0.6430022513804559</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.543205403313094</data>
     </edge>
     <edge source="9109" target="9110">
       <data key="d9">0.6484730332805185</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5563352798732446</data>
     </edge>
     <edge source="9109" target="7112">
       <data key="d9">1.9038921429607019</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">7.569341143105684</data>
     </edge>
     <edge source="9109" target="9108">
       <data key="d9">0.4331328916551869</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">4.0395189399724485</data>
     </edge>
     <edge source="6108" target="6109">
       <data key="d9">0.7548832252471184</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.811719740593084</data>
     </edge>
     <edge source="7007" target="7006">
       <data key="d9">0.6433159087577318</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5439581810185563</data>
     </edge>
     <edge source="7007" target="7008">
       <data key="d9">0.6612277853079449</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5869466847390676</data>
     </edge>
     <edge source="7104" target="7105">
       <data key="d9">0.8088407884215536</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.9412178922117287</data>
     </edge>
     <edge source="4104" target="4103">
       <data key="d9">0.680487973197461</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.6331711356739065</data>
     </edge>
     <edge source="4104" target="4105">
       <data key="d9">0.6045451425234201</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4509083420562081</data>
     </edge>
     <edge source="5107" target="5105">
       <data key="d9">0.7906894470570512</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.897654672936923</data>
     </edge>
     <edge source="5107" target="12000">
       <data key="d9">0.8079574942728842</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.939097986254922</data>
     </edge>
     <edge source="4108" target="4107">
       <data key="d9">0.8505235113474627</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.0412564272339107</data>
     </edge>
     <edge source="6105" target="6104">
       <data key="d9">0.7017499134250339</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.6841997922200813</data>
     </edge>
     <edge source="6102" target="6101">
       <data key="d9">0.8190745705789537</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.965778969389489</data>
     </edge>
     <edge source="12007" target="12004">
       <data key="d9">1.7674911980429002</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">4.24197887530296</data>
     </edge>
     <edge source="12007" target="14001">
       <data key="d9">2.492190717191214</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">5.981257721258913</data>
     </edge>
     <edge source="7505" target="7504">
       <data key="d9">0.7934940219267055</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.9043856526240934</data>
     </edge>
     <edge source="7505" target="7506">
       <data key="d9">0.6189494211497342</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.485478610759362</data>
     </edge>
     <edge source="7110" target="7109">
       <data key="d9">0.9355064129374703</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.245215391049929</data>
     </edge>
     <edge source="4002" target="4003">
       <data key="d9">0.5333992967072849</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2801583120974838</data>
     </edge>
     <edge source="7504" target="7503">
       <data key="d9">0.7374881623257052</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.7699715895816925</data>
     </edge>
     <edge source="4107" target="4106">
       <data key="d9">0.4556709123316774</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.0936101895960257</data>
     </edge>
     <edge source="4107" target="7101">
       <data key="d9">0.59490683217457</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">4.427776397218968</data>
     </edge>
     <edge source="5101" target="5100">
       <data key="d9">0.49866758806455974</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.1968022113549435</data>
     </edge>
     <edge source="3002" target="3003">
       <data key="d9">0.7676273976033846</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.842305754248123</data>
     </edge>
     <edge source="12003" target="12004">
       <data key="d9">0.5475309572486721</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.314074297396813</data>
     </edge>
     <edge source="9104" target="9105">
       <data key="d9">0.25725067965589876</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">0.617401631174157</data>
     </edge>
     <edge source="9104" target="9103">
       <data key="d9">0.7348861692722575</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.763726806253418</data>
     </edge>
     <edge source="2201" target="2200">
       <data key="d9">0.7426642518846857</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.7823942045232457</data>
     </edge>
     <edge source="2201" target="2202">
       <data key="d9">1.1164241313204473</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.6794179151690733</data>
     </edge>
     <edge source="2502" target="2001">
       <data key="d9">0.6161602781958165</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4787846676699596</data>
     </edge>
     <edge source="2302" target="2300">
       <data key="d9">0.8945266896260272</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.1468640551024656</data>
     </edge>
     <edge source="2302" target="2303">
       <data key="d9">0.41481404056132787</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">0.9955536973471869</data>
     </edge>
     <edge source="2101" target="2000">
       <data key="d9">0.946188916947762</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.270853400674629</data>
     </edge>
     <edge source="2101" target="2102">
       <data key="d9">0.48110449653170007</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.15465079167608</data>
     </edge>
     <edge source="2204" target="2202">
       <data key="d9">0.7328538114531175</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.758849147487482</data>
     </edge>
     <edge source="2204" target="2205">
       <data key="d9">0.5791918839167072</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.3900605214000972</data>
     </edge>
     <edge source="2300" target="2205">
       <data key="d9">1.016959209746613</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.440702103391871</data>
     </edge>
     <edge source="2300" target="3012">
       <data key="d9">0.6167349060784915</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">4.480163774588379</data>
     </edge>
     <edge source="2105" target="2104">
       <data key="d9">0.455078895309336</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.0921893487424064</data>
     </edge>
     <edge source="2105" target="2200">
       <data key="d9">0.640646217219953</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.537550921327887</data>
     </edge>
     <edge source="2000" target="2001">
       <data key="d9">0.983408847956655</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.360181235095972</data>
     </edge>
     <edge source="2104" target="2103">
       <data key="d9">0.4155263258087568</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">0.9972631819410163</data>
     </edge>
     <edge source="2304" target="2303">
       <data key="d9">0.4694828480864513</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.1267588354074831</data>
     </edge>
     <edge source="2304" target="9123">
       <data key="d9">0.5765822320396815</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">4.3837973568952355</data>
     </edge>
     <edge source="2102" target="2103">
       <data key="d9">0.8245744049632597</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.9789785719118234</data>
     </edge>
     <edge source="9117" target="9118">
       <data key="d9">0.6885654088258435</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.6525569811820244</data>
     </edge>
     <edge source="9117" target="9116">
       <data key="d9">0.5137196908173436</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2329272579616246</data>
     </edge>
     <edge source="4105" target="4106">
       <data key="d9">0.6449038534705162</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.547769248329239</data>
     </edge>
     <edge source="10002" target="10003">
       <data key="d9">0.6324521222578747</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5178850934188994</data>
     </edge>
     <edge source="10002" target="10001">
       <data key="d9">0.8213389134482165</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.9712133922757196</data>
     </edge>
     <edge source="14001" target="14003">
       <data key="d9">0.407160646823046</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">3.9771855523753104</data>
     </edge>
     <edge source="7506" target="7010">
       <data key="d9">0.8057734643512035</data>
       <data key="d10">continuidad_troncal</data>
+      <data key="d11">1.9338563144428882</data>
     </edge>
     <edge source="9122" target="9123">
       <data key="d9">0.5393835869616685</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2945206087080046</data>
     </edge>
     <edge source="9122" target="9121">
       <data key="d9">0.3845998570353869</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">0.9230396568849285</data>
     </edge>
     <edge source="6109" target="6111">
       <data key="d9">2.020439399413241</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">4.849054558591778</data>
     </edge>
     <edge source="12001" target="12000">
       <data key="d9">0.4786098309241576</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.1486635942179781</data>
     </edge>
     <edge source="9002" target="9003">
       <data key="d9">0.5266603808100025</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.263984913944006</data>
     </edge>
     <edge source="9002" target="9001">
       <data key="d9">0.41815116248854683</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.0035627899725124</data>
     </edge>
     <edge source="9110" target="9111">
       <data key="d9">0.679832336427706</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.6315976074264944</data>
     </edge>
     <edge source="9110" target="14003">
       <data key="d9">0.14766215252351686</data>
       <data key="d10">intercambio</data>
+      <data key="d11">4.9688287003135585</data>
     </edge>
     <edge source="7112" target="7113">
       <data key="d9">0.4186759867215117</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.004822368131628</data>
     </edge>
     <edge source="5002" target="5001">
       <data key="d9">0.7851677801663667</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.8844026723992802</data>
     </edge>
     <edge source="10003" target="10004">
       <data key="d9">0.6282787791354721</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5078690699251331</data>
     </edge>
     <edge source="10005" target="10006">
       <data key="d9">0.9193312170864446</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.206394921007467</data>
     </edge>
     <edge source="10005" target="10010">
       <data key="d9">0.506746270568842</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2161910493652208</data>
     </edge>
     <edge source="9119" target="9120">
       <data key="d9">0.6111971489131419</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4668731573915406</data>
     </edge>
     <edge source="9119" target="9118">
       <data key="d9">0.6112590738619715</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4670217772687315</data>
     </edge>
     <edge source="8002" target="8001">
       <data key="d9">0.5994754139035336</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.438740993368481</data>
     </edge>
     <edge source="8002" target="9004">
       <data key="d9">0.6347814037321048</data>
       <data key="d10">continuidad_troncal_auto</data>
+      <data key="d11">1.5234753689570515</data>
     </edge>
     <edge source="7108" target="7109">
       <data key="d9">0.9360537147568044</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.246528915416331</data>
     </edge>
     <edge source="7108" target="9116">
       <data key="d9">1.3098676315008333</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">6.143682315602</data>
     </edge>
     <edge source="9114" target="9115">
       <data key="d9">0.6099494844234475</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4638787626162741</data>
     </edge>
     <edge source="9114" target="9113">
       <data key="d9">0.8263594954422994</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.9832627890615182</data>
     </edge>
     <edge source="7005" target="7004">
       <data key="d9">0.9411067018449997</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.2586560844279995</data>
     </edge>
     <edge source="7005" target="7006">
       <data key="d9">0.5305056917330364</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2732136601592874</data>
     </edge>
     <edge source="7010" target="7000">
       <data key="d9">1.3239273423151205</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">3.1774256215562895</data>
     </edge>
     <edge source="9111" target="9113">
       <data key="d9">0.28101859261954465</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">0.6744446222869072</data>
     </edge>
     <edge source="9111" target="10007">
       <data key="d9">0.34577705305937834</data>
       <data key="d10">residual_geografico</data>
-      <data key="d11">Las Nieves &lt;-&gt; Calle 19 (Carrera 10 &lt;-&gt; Caracas)</data>
+      <data key="d12">Las Nieves &lt;-&gt; Calle 19 (Carrera 10 &lt;-&gt; Caracas)</data>
+      <data key="d11">7.610360707458377</data>
     </edge>
     <edge source="14003" target="14004">
       <data key="d9">0.7181383548272819</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.7235320515854766</data>
     </edge>
     <edge source="14003" target="10006">
       <data key="d9">0.2912761387217344</data>
       <data key="d10">residual_geografico</data>
-      <data key="d11">San Victorino &lt;-&gt; Temporal AV. Jimenez (Carrera 10 &lt;-&gt; Eje Ambiental)</data>
+      <data key="d12">San Victorino &lt;-&gt; Temporal AV. Jimenez (Carrera 10 &lt;-&gt; Eje Ambiental)</data>
+      <data key="d11">6.883681849623125</data>
     </edge>
     <edge source="9123" target="3014">
       <data key="d9">1.621846806381097</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">6.892432335314632</data>
     </edge>
     <edge source="9120" target="9121">
       <data key="d9">0.7503967056230995</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.8009520934954388</data>
     </edge>
     <edge source="7008" target="7009">
       <data key="d9">0.852657241938008</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.046377380651219</data>
     </edge>
     <edge source="10001" target="10000">
       <data key="d9">0.6577826794552957</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5786784306927095</data>
     </edge>
     <edge source="9103" target="9101">
       <data key="d9">0.8131604266259539</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.9515850239022894</data>
     </edge>
     <edge source="9001" target="9005">
       <data key="d9">1.4924742957851882</data>
       <data key="d10">continuidad_troncal</data>
+      <data key="d11">3.581938309884452</data>
     </edge>
     <edge source="9106" target="9107">
       <data key="d9">0.6506049164062851</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5614517993750845</data>
     </edge>
     <edge source="9106" target="9105">
       <data key="d9">0.7104034289007841</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.704968229361882</data>
     </edge>
     <edge source="3004" target="3005">
       <data key="d9">0.6869447097260266</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.648667303342464</data>
     </edge>
     <edge source="3004" target="3003">
       <data key="d9">1.132344050690776</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.7176257216578628</data>
     </edge>
     <edge source="10007" target="10006">
       <data key="d9">0.6561551880580616</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5747724513393477</data>
     </edge>
     <edge source="6001" target="6000">
       <data key="d9">0.8711598777124646</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.090783706509915</data>
     </edge>
     <edge source="6001" target="6002">
       <data key="d9">0.7938342987221378</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.905202316933131</data>
     </edge>
     <edge source="14004" target="14005">
       <data key="d9">0.5247455004196734</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.259389201007216</data>
     </edge>
     <edge source="3007" target="3009">
       <data key="d9">0.8398898348462362</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.0157356036309673</data>
     </edge>
     <edge source="8001" target="8000">
       <data key="d9">0.44656887834763426</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.0717653080343221</data>
     </edge>
     <edge source="10004" target="10010">
       <data key="d9">0.5423821961961452</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.3017172708707487</data>
     </edge>
     <edge source="9108" target="9107">
       <data key="d9">0.6455730530057933</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5493753272139037</data>
     </edge>
     <edge source="7001" target="7000">
       <data key="d9">0.49715153907649084</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.1931636937835781</data>
     </edge>
     <edge source="7001" target="7002">
       <data key="d9">0.8995106810838428</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.158825634601223</data>
     </edge>
     <edge source="9107" target="7113">
       <data key="d9">1.8249158522423092</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">7.379798045381542</data>
     </edge>
     <edge source="9000" target="9005">
       <data key="d9">1.33519196912939</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">3.204460725910536</data>
     </edge>
     <edge source="5001" target="5000">
       <data key="d9">1.0277935765617157</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.4667045837481174</data>
     </edge>
     <edge source="5000" target="5009">
       <data key="d9">2.8384202976312634</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">9.812208714315032</data>
     </edge>
     <edge source="14005" target="6111">
       <data key="d9">0.25910367222957303</data>
       <data key="d10">cruce_troncal</data>
+      <data key="d11">3.6218488133509754</data>
     </edge>
     <edge source="9004" target="9003">
       <data key="d9">0.707687123219143</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.698449095725943</data>
     </edge>
     <edge source="3014" target="3013">
       <data key="d9">0.511839480099439</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2284147522386537</data>
     </edge>
     <edge source="7113" target="7009">
       <data key="d9">1.0108286621667495</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.425988789200199</data>
     </edge>
     <edge source="3012" target="3013">
       <data key="d9">0.5137442864476343</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2329862874743223</data>
     </edge>
     <edge source="3010" target="3009">
       <data key="d9">0.7112133928936756</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.7069121429448215</data>
     </edge>
     <edge source="7002" target="7003">
       <data key="d9">1.0592960925869324</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.542310622208638</data>
     </edge>
     <edge source="7003" target="7004">
       <data key="d9">0.530893712050689</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.2741449089216537</data>
     </edge>
     <edge source="9115" target="9116">
       <data key="d9">0.6015078928769515</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.4436189429046837</data>
     </edge>
     <edge source="5011" target="5010">
       <data key="d9">0.6368781064697292</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">1.5285074555273501</data>
     </edge>
     <edge source="5010" target="5009">
       <data key="d9">1.019142419482263</data>
       <data key="d10">intra_trazado</data>
+      <data key="d11">2.445941806757431</data>
     </edge>
   </graph>
 </graphml>
