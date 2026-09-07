@@ -184,6 +184,20 @@ Verificado sobre el grafo ya corregido, aristas alrededor de Comuneros:
   Comuneros -> Santa Isabel      (intra_trazado, 0.42 km):            ~1.0 min
   Comuneros -> Ricaurte-NQS      (cruce_troncal, 1.06 km):             ~5.5 min
   Comuneros -> Tercer Milenio    (cruce_troncal, 1.90 km):             ~7.6 min
+
+--------------------------------------------------------------------------------
+Bitacora: dataset consolidado (data/processed/)
+--------------------------------------------------------------------------------
+`guardar_datasets_consolidados` escribe `data/processed/nodos_final.csv` (153
+filas: cod_nodo, nom_est, id_trazado, nom_tronc, tipo_esta, latitud, longitud,
+orden_en_trazado -este ultimo explicita el orden ya corregido en la Parte 1,
+geometria real o num_est fallback segun el trazado-) y
+`data/processed/aristas_final.csv` (158 filas: origen, destino, tipo,
+distancia_km, tiempo_min). Estos dos CSV reconstruyen el grafo completo por si
+solos (sin volver a leer los GeoJSON ni recalcular nada) y son, de aqui en
+adelante, la fuente de datos canonica del proyecto para el Corte 2 y el Corte 3
+-los datasets originales (Estacion_troncalT.csv, los GeoJSON) se conservan sin
+tocar como fuente cruda/de auditoria-.
 """
 
 import itertools
@@ -202,6 +216,7 @@ from shapely.ops import linemerge
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
 OUTPUT_DIR = BASE_DIR / "outputs"
+PROCESSED_DIR = DATA_DIR / "processed"
 
 ESTACIONES_CSV = DATA_DIR / "Estacion_troncalT.csv"
 TRAZADOS_CSV = DATA_DIR / "Trazados_Troncales_de_TRANSMILENIO.csv"
@@ -658,6 +673,71 @@ def exportar_grafo(G: nx.Graph) -> None:
         pickle.dump(G, f)
 
 
+def _orden_en_trazado(G: nx.Graph) -> dict:
+    """cod_nodo -> posicion (1..n) dentro de su id_trazado, con el mismo criterio
+    de orden que agregar_aristas_intra_trazado (dist_en_linea_m si esta disponible,
+    num_est en los id_trazado con fallback)."""
+    orden = {}
+    por_trazado = defaultdict(list)
+    for cod, data in G.nodes(data=True):
+        por_trazado[data["id_trazado"]].append(cod)
+    for _, cods in por_trazado.items():
+        usa_geometria = all(G.nodes[c]["dist_en_linea_m"] is not None for c in cods)
+        clave = (lambda c: G.nodes[c]["dist_en_linea_m"]) if usa_geometria else (lambda c: G.nodes[c]["num_est"])
+        for i, cod in enumerate(sorted(cods, key=clave), start=1):
+            orden[cod] = i
+    return orden
+
+
+def construir_datasets_consolidados(G: nx.Graph) -> tuple:
+    """Arma los dos DataFrames del dataset consolidado (ver "Bitacora: dataset
+    consolidado" en el docstring del modulo): nodos_final (153 filas, con el
+    orden ya corregido de la Parte 1 explicito en `orden_en_trazado`) y
+    aristas_final (158 filas, con distancia_km y tiempo_min ya calculados).
+    Estos dos archivos reconstruyen el grafo completo sin volver a leer los
+    GeoJSON ni recalcular nada."""
+    orden = _orden_en_trazado(G)
+    filas_nodos = []
+    for cod, data in G.nodes(data=True):
+        filas_nodos.append(
+            {
+                "cod_nodo": cod,
+                "nom_est": data["nom_est"],
+                "id_trazado": data["id_trazado"],
+                "nom_tronc": data["nom_tronc"],
+                "tipo_esta": data["tipo_esta"],
+                "latitud": data["lat"],
+                "longitud": data["lon"],
+                "orden_en_trazado": orden[cod],
+            }
+        )
+    df_nodos = pd.DataFrame(filas_nodos).sort_values(["id_trazado", "orden_en_trazado"]).reset_index(drop=True)
+
+    filas_aristas = []
+    for u, v, data in G.edges(data=True):
+        filas_aristas.append(
+            {
+                "origen": u,
+                "destino": v,
+                "tipo": data["tipo"],
+                "distancia_km": round(data["weight"], 5),
+                "tiempo_min": round(data["tiempo_min"], 3),
+            }
+        )
+    df_aristas = pd.DataFrame(filas_aristas)
+
+    return df_nodos, df_aristas
+
+
+def guardar_datasets_consolidados(G: nx.Graph) -> None:
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    df_nodos, df_aristas = construir_datasets_consolidados(G)
+    df_nodos.to_csv(PROCESSED_DIR / "nodos_final.csv", index=False, encoding="utf-8-sig")
+    df_aristas.to_csv(PROCESSED_DIR / "aristas_final.csv", index=False, encoding="utf-8-sig")
+    print(f"  {PROCESSED_DIR / 'nodos_final.csv'} ({len(df_nodos)} filas)")
+    print(f"  {PROCESSED_DIR / 'aristas_final.csv'} ({len(df_aristas)} filas)")
+
+
 def main():
     estaciones, trazados = cargar_datos()
     print(f"Estaciones cargadas: {len(estaciones)} | id_trazado distintos con estaciones: {estaciones['id_trazado'].nunique()}")
@@ -671,6 +751,9 @@ def main():
     generar_reporte_antes_despues(estaciones, trazados, G)
     stats = generar_estadisticas(G, trazados)
     exportar_grafo(G)
+
+    print("\n=== Dataset consolidado (data/processed/) ===")
+    guardar_datasets_consolidados(G)
 
     print("\n=== Estadisticas finales ===")
     print(json.dumps(stats, ensure_ascii=False, indent=2))
