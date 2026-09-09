@@ -1,30 +1,3 @@
-"""
-Diagrama de la red completa, con y sin los pesos de las aristas.
-
-Genera:
-  outputs/red_transmilenio_corregida.png   vista general, sin etiquetas
-  outputs/grafo_con_pesos.png              vista general, con distancia_km (y
-                                            tiempo_min) sobre cada arista
-  outputs/grafo_con_pesos_zoom_comuneros.png  zoom a la zona de cruces alrededor
-                                            de Comuneros/Ricaurte, donde las 136
-                                            aristas intra_trazado del mapa
-                                            completo hacen ilegible el detalle
-
-Las 158 aristas del grafo se dividen, para la version con etiquetas, en:
-  - 136 "intra_trazado": la mayoria, conectan estaciones consecutivas de un mismo
-    trazado. Se etiquetan con fuente pequena y color gris (el mapa completo de
-    Bogota con 158 etiquetas legibles a la vez no es posible; se prioriza que la
-    topologia general no se pierda bajo el texto).
-  - 22 aristas de transferencia (intercambio, cruce_troncal, continuidad_troncal,
-    continuidad_troncal_auto, residual_geografico): son las que de verdad importan
-    para leer el diagrama (donde se puede cambiar de troncal), y se etiquetan con
-    fuente mas grande y color segun tipo.
-
-Para el detalle fino se incluye ademas una vista con zoom a una de las zonas con
-mas cruces (Comuneros, Ricaurte, Tercer Milenio, Guatoque-Veraguas, Santa Isabel),
-donde sí caben las 27 etiquetas de esa zona con buena legibilidad.
-"""
-
 from pathlib import Path
 
 import matplotlib.pyplot as plt

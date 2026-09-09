@@ -1,18 +1,3 @@
-"""
-Visualizacion de una ruta especifica resaltada sobre la red completa.
-
-Dibuja toda la red corregida (grafo_transmilenio.gpickle) en gris claro de
-fondo -mismo estilo que outputs/red_transmilenio_corregida.png- y resalta
-encima, con una linea de color y grosor mayor, la ruta que calcula
-AgenteRutas para un par origen-destino. Las estaciones donde ocurre una
-transferencia de troncal se marcan con un punto de otro color.
-
-Genera las 3 imagenes para los casos de prueba de src/pruebas_agente.py:
-  outputs/ruta_portal_suba_portal_tunal.png
-  outputs/ruta_portal_norte_portal_usme.png
-  outputs/ruta_museo_nacional_portal_americas.png
-"""
-
 from pathlib import Path
 
 import matplotlib.pyplot as plt
