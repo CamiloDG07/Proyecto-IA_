@@ -4,7 +4,7 @@ import tracemalloc
 from pathlib import Path
 
 import networkx as nx
-
+  
 BASE_DIR = Path(__file__).resolve().parent.parent
 GRAFO_PICKLE = BASE_DIR / "outputs" / "grafo_transmilenio.gpickle"
 
