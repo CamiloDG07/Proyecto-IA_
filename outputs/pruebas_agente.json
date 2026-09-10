@@ -8,7 +8,7 @@
     "num_transferencias": 2,
     "distancia_total_km": 25.769,
     "tiempo_viaje_min": 67.85,
-    "tiempo_calculo_ms": 6.468799983849749,
+    "tiempo_calculo_ms": 7.764099999803875,
     "memoria_pico_kb": 50.857421875,
     "ruta": [
       {
@@ -223,6 +223,26 @@
         "de_troncal": "Caracas",
         "a_troncal": "Caracas Sur"
       }
+    ],
+    "rutas_tomadas": [
+      {
+        "ruta_facil": 6,
+        "troncal": "Suba",
+        "desde": "Portal Suba",
+        "hasta": "San Martín"
+      },
+      {
+        "ruta_facil": 1,
+        "troncal": "Caracas",
+        "desde": "Calle 76 - San Felipe",
+        "hasta": "Tercer Milenio"
+      },
+      {
+        "ruta_facil": 2,
+        "troncal": "Caracas Sur",
+        "desde": "Hospital",
+        "hasta": "Portal Tunal"
+      }
     ]
   },
   {
@@ -234,7 +254,7 @@
     "num_transferencias": 2,
     "distancia_total_km": 28.163,
     "tiempo_viaje_min": 73.59,
-    "tiempo_calculo_ms": 1.5460000140592456,
+    "tiempo_calculo_ms": 1.0114999995494145,
     "memoria_pico_kb": 11.484375,
     "ruta": [
       {
@@ -464,6 +484,26 @@
         "de_troncal": "Caracas",
         "a_troncal": "Caracas Sur"
       }
+    ],
+    "rutas_tomadas": [
+      {
+        "ruta_facil": 8,
+        "troncal": "Autopista Norte",
+        "desde": "Portal Norte – Unicervantes",
+        "hasta": "Héroes - Colmena Seguros"
+      },
+      {
+        "ruta_facil": 1,
+        "troncal": "Caracas",
+        "desde": "Calle 76 - San Felipe",
+        "hasta": "Tercer Milenio"
+      },
+      {
+        "ruta_facil": 2,
+        "troncal": "Caracas Sur",
+        "desde": "Hospital",
+        "hasta": "Portal Usme"
+      }
     ]
   },
   {
@@ -475,7 +515,7 @@
     "num_transferencias": 5,
     "distancia_total_km": 15.93,
     "tiempo_viaje_min": 61.43,
-    "tiempo_calculo_ms": 0.9993999847210944,
+    "tiempo_calculo_ms": 0.6707000002279528,
     "memoria_pico_kb": 8.78125,
     "ruta": [
       {
@@ -614,6 +654,44 @@
         "en_estacion": "Ricaurte - NQS",
         "de_troncal": "NQS Central",
         "a_troncal": "Americas"
+      }
+    ],
+    "rutas_tomadas": [
+      {
+        "ruta_facil": 7,
+        "troncal": "Carrera 7",
+        "desde": "Museo Nacional",
+        "hasta": "Museo Nacional"
+      },
+      {
+        "ruta_facil": 10,
+        "troncal": "Carrera 10",
+        "desde": "San Diego",
+        "hasta": "Las Nieves"
+      },
+      {
+        "ruta_facil": 1,
+        "troncal": "Caracas",
+        "desde": "Calle 19",
+        "hasta": "Tercer Milenio"
+      },
+      {
+        "ruta_facil": 2,
+        "troncal": "Caracas Sur",
+        "desde": "Hospital",
+        "hasta": "Hospital"
+      },
+      {
+        "ruta_facil": 3,
+        "troncal": "NQS Central",
+        "desde": "Ricaurte - NQS",
+        "hasta": "Ricaurte - NQS"
+      },
+      {
+        "ruta_facil": 5,
+        "troncal": "Americas",
+        "desde": "Ricaurte - CL 13",
+        "hasta": "Portal Américas"
       }
     ]
   }

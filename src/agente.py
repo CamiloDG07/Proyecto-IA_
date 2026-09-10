@@ -4,9 +4,30 @@ import tracemalloc
 from pathlib import Path
 
 import networkx as nx
-  
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 GRAFO_PICKLE = BASE_DIR / "outputs" / "grafo_transmilenio.gpickle"
+
+# BETA (Corte 1): numero de "ruta facil" asociado a cada troncal, para poder
+# mostrar en las pruebas del agente que ruta debe tomar el usuario en cada
+# tramo del camino calculado -- no son los codigos reales de servicio de
+# TransMilenio (eso, con datos GTFS reales, queda documentado como trabajo
+# futuro); es una simplificacion didactica para esta entrega.
+RUTA_FACIL_POR_TRONCAL = {
+    "Americas": 5,
+    "Autopista Norte": 8,
+    "Avenida Ciudad de Cali": 9,
+    "Calle 26": 26,
+    "Calle 80": 80,
+    "Caracas": 1,
+    "Caracas Sur": 2,
+    "Carrera 10": 10,
+    "Carrera 7": 7,
+    "Eje Ambiental": 11,
+    "NQS Central": 3,
+    "NQS Sur": 4,
+    "Suba": 6,
+}
 
 
 class AgenteRutas:
@@ -107,6 +128,8 @@ class AgenteRutas:
                     }
                 )
 
+        rutas_tomadas = self._agrupar_en_rutas_faciles(estaciones)
+
         return {
             "exito": True,
             "origen": estaciones[0]["nom_est"],
@@ -119,7 +142,37 @@ class AgenteRutas:
             "memoria_pico_kb": memoria_pico_kb,
             "ruta": estaciones,
             "transferencias": transferencias,
+            "rutas_tomadas": rutas_tomadas,
         }
+
+    @staticmethod
+    def _agrupar_en_rutas_faciles(estaciones: list) -> list:
+        """BETA: colapsa la secuencia estacion-a-estacion en tramos por troncal,
+        cada uno con el numero de "ruta facil" (RUTA_FACIL_POR_TRONCAL) que el
+        usuario tomaria en ese tramo. P.ej. en vez de listar las 40 estaciones
+        una por una, devuelve algo como "Ruta 8 (Autopista Norte): Portal Norte
+        -> San Martin", "Ruta 1 (Caracas): San Martin -> Tercer Milenio", etc.
+        """
+        tramos = []
+        actual = {
+            "ruta_facil": RUTA_FACIL_POR_TRONCAL.get(estaciones[0]["nom_tronc"]),
+            "troncal": estaciones[0]["nom_tronc"],
+            "desde": estaciones[0]["nom_est"],
+            "hasta": estaciones[0]["nom_est"],
+        }
+        for est in estaciones[1:]:
+            if est["nom_tronc"] == actual["troncal"]:
+                actual["hasta"] = est["nom_est"]
+            else:
+                tramos.append(actual)
+                actual = {
+                    "ruta_facil": RUTA_FACIL_POR_TRONCAL.get(est["nom_tronc"]),
+                    "troncal": est["nom_tronc"],
+                    "desde": est["nom_est"],
+                    "hasta": est["nom_est"],
+                }
+        tramos.append(actual)
+        return tramos
 
     def imprimir_ruta(self, origen, destino) -> dict:
         resultado = self.calcular_ruta(origen, destino)
@@ -136,6 +189,13 @@ class AgenteRutas:
         for i, est in enumerate(resultado["ruta"]):
             marca = " <-- transferencia" if i > 0 and est["nom_tronc"] != resultado["ruta"][i - 1]["nom_tronc"] else ""
             print(f"  {i+1:2d}. {est['nom_est']} ({est['nom_tronc']}){marca}")
+
+        print("  Rutas tomadas (beta, numero simplificado por troncal):")
+        for tramo in resultado["rutas_tomadas"]:
+            if tramo["desde"] == tramo["hasta"]:
+                print(f"    Ruta {tramo['ruta_facil']} ({tramo['troncal']}): solo transbordo en {tramo['desde']}")
+            else:
+                print(f"    Ruta {tramo['ruta_facil']} ({tramo['troncal']}): {tramo['desde']} -> {tramo['hasta']}")
         return resultado
 
 
