@@ -22,6 +22,7 @@ heuristica.py.
 """
 import csv
 import sys
+import textwrap
 
 from build_graph import SALIDA, cargar_grafo
 from despachador import Despachador, Solicitud
@@ -32,6 +33,7 @@ CRITERIOS_COMPARADOS = ("distancia", "peaje", "riesgo",
                         "compuesto_sin_riesgo", "compuesto")
 PESOS_IGUALES = {"distancia": 1.0, "peaje": 1.0}
 ARISTA_TRUNCADA = frozenset(("Chocontá", "Tunja"))
+ANCHO = 96
 
 
 def _aristas(ruta):
@@ -263,7 +265,9 @@ def formatear(r):
     if r["avisos"]:
         lineas.append("Advertencias:")
         lineas += [f"  - {a}" for a in r["avisos"]]
-    return "\n".join(lineas)
+    return "\n".join(
+        textwrap.fill(x, ANCHO, subsequent_indent="      ")
+        for x in lineas)
 
 
 def main(argumentos):

@@ -16,6 +16,7 @@
 \usepackage{amsmath}
 \usepackage{setspace}
 \usepackage{xurl}
+\usepackage{verbatim}
 
 \geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
@@ -453,19 +454,52 @@ falla en uno: de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de
 481.34 km (0.14\,\% más). Sumados los 992 pares, UCS expande 15\,872 nodos,
 A* con $\alpha$ 13\,377 y A* con $\alpha_{\mathrm{ref}}$ 12\,223.
 
-\section{Agente multifuncional}
+\section{Agente autónomo de rutas}
 \label{sec:agente}
 
-El agente se adapta a variantes del problema y usa un método exacto siempre
-que es viable. Está en \texttt{src/despachador.py} y reutiliza las búsquedas
-del proyecto: la matriz de costos entre paradas se calcula con UCS o con A*
-(tablas de $h$ precalculadas), guardando la ruta expandida de cada tramo; no
-se reimplementó ninguna búsqueda. Es genérico: funciona con cualquier grafo
-de \texttt{networkx} con costos no negativos por arista. La interfaz es de
-línea de comandos (\texttt{src/demostracion.py despachador}). En todo el
-informe,
-$n$ es el número de ciudades de una instancia (origen incluido) y $k$ el de
-paradas libres por ordenar ($k = n - 1$ en orden libre con regreso).
+\textbf{Entrada.} El usuario da solo el origen y el o los destinos
+(\texttt{agente\_rutas.py ORIGEN DESTINO ...} y, si se quiere volver, la
+opción \texttt{-{}-regreso}); no elige el tipo de problema ni el criterio. El agente decide
+el tipo, el criterio, el algoritmo y la heurística, y devuelve la mejor ruta
+con su explicación. La interfaz es de línea de comandos; el despachador
+conserva la suya como modo avanzado (\texttt{src/demostracion.py
+despachador}). Está en \texttt{src/agente\_rutas.py} y reutiliza el despachador,
+las búsquedas y la heurística del proyecto: no reimplementa ninguna búsqueda.
+En todo el informe, $n$ es el número de ciudades de una instancia (origen
+incluido) y $k$ el de paradas libres por ordenar ($k = n - 1$ en orden libre
+con regreso).
+
+\textbf{Decisión del tipo.} Un destino sin regreso es origen a destino. Varios
+destinos, o uno con regreso, es orden libre: el despachador usa Held-Karp si
+$k \le K_{\mathrm{exacto}}$, ACO si no, y el criterio compuesto sin riesgo.
+
+\textbf{Candidatas y evaluación.} Con un destino, el agente calcula la ruta
+óptima por distancia, peaje y compuesto sin riesgo (A* con heurística
+admisible en el primero y el tercero; UCS en peaje). Para cada una añade las
+alternativas que quedan al bloquear, una por vez, cada arista de la ruta
+óptima. Cada candidata se evalúa en km, peaje (COP) y riesgo (suma del
+GiZScore de las aristas con dato y porcentaje de aristas con dato), y se
+descartan las dominadas en km y peaje.
+
+\textbf{Regla de recomendación.} Se recomienda la candidata de menor costo
+compuesto sin riesgo, suma por tramo de
+$(w_d\, \mathrm{km}/\mathrm{km}_{\max} + w_p\, \mathrm{peaje}/
+\mathrm{peaje}_{\max})/(w_d + w_p)$, con $w_d = w_p = 1$ por defecto (es un
+parámetro de \texttt{recomendar}). Si el criterio \texttt{riesgo} o
+\texttt{compuesto} prefiere otra candidata, el agente lo avisa con la
+cobertura de datos de riesgo de ambas. También advierte si la ruta usa aristas
+con limitación conocida: Chocontá a Tunja (truncada), las marcadas por la
+auditoría y los tramos sin dato de riesgo. La Figura~\ref{fig:ejemplo-agente}
+es la salida real para un par que cruza el ciclo.
+
+\begin{figure}[H]
+\scriptsize
+\verbatiminput{outputs/ejemplo_agente_rutas.txt}
+\caption{Salida del agente para Duitama a Puente Nacional (cruza el ciclo).
+Fuente: elaboración propia}
+\label{fig:ejemplo-agente}
+\input{outputs/lectura_c2_ejemplo.tex}
+\end{figure}
 
 \subsection{Despachador y criterio de selección}
 
@@ -474,7 +508,7 @@ paradas libres por ordenar ($k = n - 1$ en orden libre con regreso).
 \caption{Tipos de solicitud y método elegido}
 \label{tab:despachador}
 \footnotesize
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{4.7cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{6.2cm}>{\raggedright\arraybackslash}p{3.7cm}}
 \toprule
 \textbf{Tipo de solicitud} & \textbf{Método si es viable (exacto)} &
 \textbf{Si el exacto no es viable} \\

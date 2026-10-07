@@ -17,6 +17,7 @@ import networkx as nx
 from build_graph import SALIDA, cargar_grafo, construir_grafo
 from exportar_latex import TRAMO_CICLO, costos
 from agente import AgenteRutas
+from agente_rutas import formatear, recomendar
 
 ALGORITMOS = ["BFS", "DFS", "UCS", "Voraz", "A*"]
 
@@ -378,10 +379,35 @@ def lecturas_corte2():
     # tablas_corte2.py (texto_cambio_sin_riesgo)
 
 
+def ejemplo_agente():
+    """Salida real del agente autónomo y su bloque «Cómo leerla»."""
+    r = recomendar("Duitama", ["Puente Nacional"])
+    with open(SALIDA / "ejemplo_agente_rutas.txt", "w",
+              encoding="utf-8") as f:
+        f.write(formatear(r) + "\n")
+    m, alt = r["recomendada"], r["alternativas"][0]
+    otros = [k for ruta, k in r["prefiere"].items()
+             if ruta == " > ".join(alt["ruta"])][0]
+    bloque(
+        "c2_ejemplo",
+        "bloques de la salida: ruta recomendada y sus medidas, regla, método "
+        "y heurística por criterio, alternativas con su margen, criterio que "
+        "prefiere cada candidata y advertencias.",
+        f"el agente recomienda {m['km']:.2f} km y {miles(m['peaje_cop'])} COP "
+        f"(costo {m['costos']['compuesto_sin_riesgo']:.3f}); la alternativa "
+        f"queda a {alt['margen']:.3f} ({alt['margen_pct']:.1f}\\,\\%) y es la "
+        f"preferida por {', '.join(otros)}.",
+        f"Medido: el riesgo tiene dato en el "
+        f"{m['cobertura_riesgo_pct']:.0f}\\,\\% de los tramos de la ruta "
+        f"recomendada y en el {alt['cobertura_riesgo_pct']:.0f}\\,\\% de los "
+        "de la alternativa.")
+
+
 def main():
     lecturas_corte1()
     texto_corte1_cambio_sin_riesgo()
     lecturas_corte2()
+    ejemplo_agente()
     print("Bloques 'Cómo leerla' escritos en", SALIDA)
 
 
