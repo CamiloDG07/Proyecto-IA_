@@ -74,6 +74,18 @@ Colombia, Barbosa-Santander y Barbosa-Antioquia- así que, siguiendo el mismo
 criterio de no inventar conexiones sin verificar, se dejó sin dato de riesgo
 en vez de asumirlo). Estas 7 aristas quedan con riesgo_puntos_criticos=0,
 limitación documentada igual que las demás aristas sin dato de riesgo.
+
+Limitaciones de la fuente detectadas en la auditoría geométrica (ver
+data/carga/VERIFICACION.md y outputs/auditoria_aristas.csv); ninguna se
+corrige en este script y las distancias son las del dato oficial:
+  - Las geometrías de INVÍAS de los sectores que salen de Bogotá empiezan en
+    el límite urbano (entre 8 y 19 km de la coordenada DANE de Bogotá): la
+    distancia por carretera excluye la entrada urbana.
+  - Chocontá - Tunja cubre solo 17.69 km de los cerca de 57 km de línea recta
+    entre los nodos (sector truncado en la fuente; ningún otro sector lo
+    completa).
+  - El sector de Bogotá - Mosquera pertenece a otra región (Eje Cafetero).
+  - En varios sectores el registro es mayor que el trazado de su geometría.
 """
 import csv
 import json
