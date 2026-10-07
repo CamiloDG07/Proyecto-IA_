@@ -1,0 +1,45 @@
+arista,sector,registro,calzada,A_longitud_registrada_km,pr_inicial,pr_final,distancia_inicial_m,distancia_final_m,B_pr_km,B_total_km,C_suma_km,C_camino_km,A_sobre_B_pr,A_sobre_B_total,A_sobre_C_suma,A_sobre_C_camino
+Barbosa - Tunja,Barbosa - Tunja,1,1,62.828,0,64,0,0,64.000,64.000,63.030,62.879,0.982,0.982,0.997,0.999
+Bogotá - Cajicá,Bogotá - Cajicá,1,2,37.179,0,11,0,700,11.000,11.700,37.348,11.229,3.380,3.178,0.995,3.311
+Bogotá - Fusagasugá,Fusagasugá - Silvania - Bogotá (Bosa),1,2,111.761,62,122,980,0,60.000,59.020,112.064,59.042,1.863,1.894,0.997,1.893
+Bogotá - Guasca,Bogotá (Los Patios) - Guasca,1,1,34.885,0,35,0,0,35.000,35.000,35.023,34.286,0.997,0.997,0.996,1.017
+Bogotá - Guasca,Bogotá (Los Patios) - Guasca,2,1,34.885,0,35,0,0,35.000,35.000,35.023,34.286,0.997,0.997,0.996,1.017
+Bogotá - Tocancipá,Bogotá - Tocancipá,1,2,38.368,0,21,0,1118,21.000,22.118,38.507,22.436,1.827,1.735,0.996,1.710
+Bogotá - Villavicencio,Bogotá (El Portal) - Villavicencio,1,2,93.718,0,86,0,55,86.000,86.055,93.975,85.433,1.090,1.089,0.997,1.097
+Bogotá - Villeta,Villeta - Bogotá,1,2,167.668,64,145,0,0,81.000,81.000,168.114,72.140,2.070,2.070,0.997,2.324
+Bucaramanga - Cuestaboba,Bucaramanga - Cuestaboba,1,2,70.062,3,70,400,0,67.000,66.600,70.273,64.560,1.046,1.052,0.997,1.085
+Cajicá - Zipaquirá,Cajicá - Zipaquirá,1,2,18.691,16,25,100,200,9.000,9.100,18.795,9.108,2.077,2.054,0.994,2.052
+Chiquinquirá - Sáchica,Chiquinquirá - Sáchica,1,1,37.464,0,37,0,0,37.000,37.000,37.544,37.544,1.013,1.013,0.998,0.998
+Chocontá - Tunja,Chocontá - Tunja,1,2,17.689,108,120,96,0,12.000,11.904,17.753,11.854,1.474,1.486,0.996,1.492
+Cuestaboba - Pamplona,Cuestaboba - Pamplona,1,2,54.308,70,123,0,909,53.000,53.909,54.462,50.846,1.025,1.007,0.997,1.068
+Fusagasugá - Girardot,Girardot - Fusagasugá,1,2,111.392,0,62,211,980,62.000,62.769,111.574,62.047,1.797,1.775,0.998,1.795
+Girardot - Cambao,Girardot - Cambao,1,2,88.714,0,87,0,306,87.000,87.306,89.090,,1.020,1.016,0.996,
+Girardot - Cambao,Girardot - Cambao,2,2,88.714,0,87,0,306,87.000,87.306,89.090,,1.020,1.016,0.996,
+Girardot - El Espinal,El Espinal - Girardot,1,2,19.361,45,61,0,0,16.000,16.000,19.439,15.752,1.210,1.210,0.996,1.229
+Honda - Mariquita,Mariquita - Honda (Puente Luis Ignacio Andrade),1,2,18.947,26,46,695,0,20.000,19.305,18.958,18.932,0.947,0.981,0.999,1.001
+La Palmera - Duitama,Duitama - La Palmera,1,2,141.014,0,134,0,193,134.000,134.193,141.501,135.756,1.052,1.051,0.997,1.039
+Madrid - Bogotá,Madrid - Bogotá (Rio Bogotá),1,2,19.464,63,73,950,72,10.000,9.122,19.485,8.471,1.946,2.134,0.999,2.298
+Pamplona - Presidente,Presidente - Pamplona,1,2,67.996,0,68,0,500,68.000,68.500,68.261,64.989,1.000,0.993,0.996,1.046
+Presidente - La Palmera,La Palmera - Presidente,1,1,100.898,0,102,0,210,102.000,102.210,101.306,100.205,0.989,0.987,0.996,1.007
+Presidente - La Palmera,La Palmera - Presidente,2,1,100.898,0,102,0,210,102.000,102.210,101.306,100.205,0.989,0.987,0.996,1.007
+Puente Nacional - San Gil,Puente Nacional - San Gil,1,1,124.724,0,125,0,800,125.000,125.800,125.148,125.089,0.998,0.991,0.997,0.997
+Puerto López - Puerto Gaitán,Puerto López - Puerto Gaitán,1,1,108.553,0,109,0,619,109.000,109.619,108.645,108.636,0.996,0.990,0.999,0.999
+Puerto López - Puerto Gaitán,Puerto López - Puerto Gaitán,2,1,108.553,0,109,0,619,109.000,109.619,108.645,108.636,0.996,0.990,0.999,0.999
+Puerto López - Puerto Gaitán,Puerto López - Puerto Gaitán,3,1,2.303,109,111,619,970,2.000,2.351,2.305,2.305,1.152,0.980,0.999,0.999
+San Gil - Bucaramanga,San Gil - Bucaramanga,1,2,26.189,80,93,881,180,13.000,12.299,26.289,12.407,2.015,2.129,0.996,2.111
+San Gil - Bucaramanga,San Gil - Bucaramanga,2,2,82.950,0,80,0,881,80.000,80.881,83.270,80.147,1.037,1.026,0.996,1.035
+Sáchica - Tunja,Sáchica - Tunja,1,1,35.150,37,73,0,0,36.000,36.000,35.227,35.227,0.976,0.976,0.998,0.998
+Sáchica - Tunja,Sáchica - Tunja,2,1,35.150,37,73,0,0,36.000,36.000,35.227,35.227,0.976,0.976,0.998,0.998
+Tocancipá - Chocontá,Tocancipá - Chocontá,1,2,66.485,25,59,964,0,34.000,33.036,66.644,32.498,1.955,2.013,0.998,2.046
+Tunja - Duitama,Tunja - Duitama,1,2,94.182,0,47,0,730,47.000,47.730,94.392,47.976,2.004,1.973,0.998,1.963
+Ubaté - Puente Nacional,Ubaté - Puente Nacional,1,2,94.478,0,89,0,340,89.000,89.340,94.859,89.957,1.062,1.058,0.996,1.050
+Villavicencio - Puerto López,Villavicencio - Paso por el Puente sobre el Río La Balsa -Puerto Lopez,1,1,77.618,0,78,654,222,78.000,77.568,77.673,77.670,0.995,1.001,0.999,0.999
+Villavicencio - Ye de Granada,Paso por el Puente sobre el Río Ocoa - Villavicencio,1,2,2.639,72,72,2775,3045,0.000,0.270,2.646,0.964,,9.773,0.997,2.738
+Villavicencio - Ye de Granada,Paso por el Puente sobre el Río Ocoa - Villavicencio,2,2,2.639,72,72,2775,3045,0.000,0.270,2.646,0.964,,9.773,0.997,2.738
+Villavicencio - Ye de Granada,Ye de Granada - Paso por el Puente sobre el Río Ocoa,1,2,69.989,0,69,0,925,69.000,69.925,70.309,70.279,1.014,1.001,0.995,0.996
+Villavicencio - Ye de Granada,Ye de Granada - Paso por el Puente sobre el Río Ocoa,2,2,69.989,0,69,0,925,69.000,69.925,70.309,70.279,1.014,1.001,0.995,0.996
+Villeta - Honda,Honda - Villeta,1,1,58.445,5,64,850,0,59.000,58.150,58.638,57.029,0.991,1.005,0.997,1.025
+Villeta - Honda,Honda - Villeta,2,1,58.445,5,64,850,0,59.000,58.150,58.638,57.029,0.991,1.005,0.997,1.025
+Ye de Granada - Granada,Ye de Granada - Casco Urbano Granada,1,1,2.428,103,106,938,0,3.000,2.062,2.442,2.442,0.809,1.178,0.994,0.994
+Ye de Granada - Granada,Ye de Granada - Casco Urbano Granada,2,1,2.428,103,106,938,0,3.000,2.062,2.442,2.442,0.809,1.178,0.994,0.994
+Zipaquirá - Ubaté,Zipaquirá - Ubaté,1,1,47.765,28,67,200,1134,39.000,39.934,47.944,40.156,1.225,1.196,0.996,1.189

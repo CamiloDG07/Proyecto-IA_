@@ -62,6 +62,10 @@ python src/build_graph.py        # grafo y estadísticas
 python src/agente.py             # demostración del agente
 python src/pruebas_agente.py     # pruebas
 python src/diagrama_red.py       # figura de la red
+python src/heuristica.py         # alfa y verificación de h
+python src/pruebas_busquedas.py  # BFS, DFS, UCS, voraz y A*
+python src/auditar_aristas.py    # auditoría geométrica (requiere red_vial.csv)
+python src/auditar_distancias.py # distancias por registro (requiere red_vial.csv)
 python src/exportar_latex.py     # tablas del informe
 
 pdflatex formulacion_corte1.tex  # dos pasadas
