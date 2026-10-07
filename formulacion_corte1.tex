@@ -206,8 +206,10 @@ todas verificables en el mismo conjunto de datos.
 
 \section{Red y estadísticas}
 
-La Figura~\ref{fig:red} muestra la red. La disposición de los nodos es
-esquemática, no geográfica. El ciclo, en rojo, pasa por Cajicá, Bogotá,
+La Figura~\ref{fig:red} muestra la red sobre coordenadas geográficas, con el
+trazado de INVÍAS de cada tramo; donde la geometría no llega al nodo, una
+línea punteada recta lo une con el extremo del trazado. El ciclo, en azul,
+pasa por Cajicá, Bogotá,
 Tocancipá, Chocontá, Tunja, Duitama, La Palmera, Presidente, Pamplona,
 Cuestaboba, Bucaramanga, San Gil, Puente Nacional, Ubaté y Zipaquirá. El
 detalle de las 32 aristas (distancia, peaje y riesgo de cada una) está en el
@@ -215,11 +217,12 @@ archivo \texttt{outputs/aristas\_red.json}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{diagrama_red.png}
-    \caption{Diagrama de la red de carga. Fuente: elaboración propia con los
-    datos de INVÍAS y ANSV (versión del 6 de octubre de 2026)}
+    \includegraphics[width=\textwidth]{mapa_red.pdf}
+    \caption{Mapa de la red de carga. Fuente: elaboración propia con el
+    trazado de INVÍAS, los límites departamentales del DANE~\cite{mgn} y las
+    coordenadas DIVIPOLA}
     \label{fig:red}
-    \input{outputs/lectura_c1_diagrama.tex}
+    \input{outputs/lectura_c1_mapa.tex}
 \end{figure}
 
 \begin{table}[H]
@@ -484,6 +487,9 @@ Upía y Yopal, y el nodo Mosquera, y tiene un solo ciclo. Los pares que no lo
 cruzan tienen una única ruta posible.
 \item \textbf{Mediciones.} El tiempo y la memoria de la
 Tabla~\ref{tab:criterios} provienen de una sola corrida.
+\item \textbf{Mapa.} El fondo departamental está generalizado a unos 330 m y
+no sirve para medir distancias. Los tramos punteados no tienen trazado en la
+fuente: la geometría de INVÍAS queda a más de 5 km de uno de sus nodos.
 \end{itemize}
 
 \section*{Referencias}
@@ -503,6 +509,12 @@ INVÍAS. (2026). \textit{Peajes}. Datos Abiertos Colombia.
 Agencia Nacional de Seguridad Vial. (2026). \textit{Sectores críticos de
 siniestralidad vial}. Datos Abiertos Colombia.
 \url{https://www.datos.gov.co/Transporte/SECTORES-CRITICOS-DE-SINIESTRALIDAD-VIAL/rs3u-8r4q}
+
+\bibitem{mgn}
+Departamento Administrativo Nacional de Estadística. (2020).
+\textit{Nivel de información Departamento del Marco Geoestadístico Nacional
+(MGN), versión 2020}. Datos Abiertos Colombia (descargado el 7 de octubre de
+2026). \url{https://www.datos.gov.co/d/jjim-6r88}
 
 \end{thebibliography}
 

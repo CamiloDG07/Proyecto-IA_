@@ -18,6 +18,9 @@ from build_graph import SALIDA, cargar_grafo, construir_grafo
 from exportar_latex import TRAMO_CICLO, costos
 from agente import AgenteRutas
 from agente_rutas import formatear, recomendar
+from mapa_geografico import (DESTINO, ORIGEN, UMBRAL_KM,
+                             algoritmos_por_via, cargar_trazado,
+                             costos_ruta, unir)
 
 ALGORITMOS = ["BFS", "DFS", "UCS", "Voraz", "A*"]
 
@@ -66,16 +69,25 @@ def lecturas_corte1():
     g = cargar_grafo()
     est = leer("estadisticas_grafo.json")
     ciclo = nx.cycle_basis(g)[0]
+    trazado = cargar_trazado()
+    lejos = [(max(t["km_extremo_origen"], t["km_extremo_destino"]), k)
+             for k, t in trazado.items()
+             if max(t["km_extremo_origen"], t["km_extremo_destino"])
+             > UMBRAL_KM]
+    mayor, arista = max(lejos)
     bloque(
-        "c1_diagrama",
-        "los nodos son las ciudades y las aristas los tramos, con su "
-        "distancia en km; el ciclo va en rojo y el resto de la red en gris.",
+        "c1_mapa",
+        "ejes de longitud y latitud; cada línea es el trazado de INVÍAS de "
+        "un tramo y cada punto una ciudad; el ciclo va en azul, el resto de "
+        "la red en gris y la línea punteada marca un tramo sin trazado en la "
+        "fuente.",
         f"la red tiene {est['nodos']} ciudades y {est['aristas']} tramos, "
         f"{est['distancia_total_km']:.2f} km en total; el ciclo, que cierra "
         f"por Santander, pasa por {len(ciclo)} ciudades.",
-        f"Medido: aristas menos nodos más uno da "
-        f"{est['aristas'] - est['nodos'] + 1}, es decir, un único ciclo "
-        "independiente.")
+        f"Medido: en {len(lejos)} de las {est['aristas']} aristas el "
+        f"trazado queda a más de {UMBRAL_KM:.0f} km de uno de sus nodos "
+        f"(hasta {mayor:.2f} km en {arista.replace('|', ' a ')}) y ahí se "
+        "dibuja punteado.")
     pruebas = leer("pruebas_agente.json")["ciclo"]
     por_via = {}
     for criterio in ("distancia", "peaje", "riesgo", "compuesto",
@@ -166,6 +178,28 @@ def texto_corte1_cambio_sin_riesgo():
             f"costo compuesto era {ab:.3f} por Bogotá y {as_:.3f} por "
             f"Santander, y ganaba {antes}; con las distancias corregidas es "
             f"{db:.3f} y {ds:.3f}, y gana {despues}.\n")
+
+
+def lectura_mapa_caso_central():
+    """Bloque del mapa del caso central (Corte 2)."""
+    g = cargar_grafo()
+    agente = AgenteRutas(g)
+    corta = agente.calcular_ruta(ORIGEN, DESTINO, "distancia")["ruta"]
+    desvio = agente.calcular_ruta(ORIGEN, DESTINO, "peaje")["ruta"]
+    km_c, pe_c = costos_ruta(g, corta)
+    km_d, pe_d = costos_ruta(g, desvio)
+    alg_b, alg_s = algoritmos_por_via()
+    bloque(
+        "c2_mapa_caso",
+        "ejes de longitud y latitud; azul con borde oscuro, la ruta por "
+        "Bogotá; naranja grueso, el desvío por Santander; halo claro, el "
+        "ciclo; punteado, un tramo sin trazado en la fuente.",
+        f"por Bogotá, {km_c:.2f} km y {miles(pe_c)} COP de peaje; por "
+        f"Santander, {km_d:.2f} km y {miles(pe_d)} COP; con el criterio "
+        f"distancia, {unir(alg_b)} devuelven la primera y {unir(alg_s)} la "
+        "segunda.",
+        f"Medido: el desvío es {km_d - km_c:.2f} km más largo y tiene "
+        f"{miles(pe_c - pe_d)} COP menos de peaje.")
 
 
 # ---------------------------------------------------------------- Corte 2
@@ -520,6 +554,7 @@ def main():
     lecturas_corte1()
     texto_corte1_cambio_sin_riesgo()
     lecturas_corte2()
+    lectura_mapa_caso_central()
     ejemplo_agente()
     print("Bloques 'Cómo leerla' escritos en", SALIDA)
 
