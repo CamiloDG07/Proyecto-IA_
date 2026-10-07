@@ -143,6 +143,9 @@ Cada atributo de arista se obtiene así:
 código agrupa subtramos de longitud distinta. Con el código se asignaba la
 misma longitud a subtramos diferentes (error real detectado y corregido).
 Cuando un sector tiene registros duplicados se toma la longitud máxima.
+En los registros de doble calzada digitalizada se usa el tramo entre
+progresivas en lugar de la longitud registrada (ver la sección de
+auditoría geométrica).
 \item \textbf{Peaje.} Para cada arista se identificó a mano el peaje de
 INVÍAS ubicado sobre ese subtramo. La tarifa de categoría III se lee de
 \texttt{peajes.csv}, mediante una tabla explícita entre el peaje del grafo y
@@ -158,13 +161,13 @@ Tres hechos de los datos condicionan el modelo:
 \begin{itemize}
 \item \textbf{San Gil a Bucaramanga.} Figura en la Red Vial en dos registros
 con progresivas complementarias (82.95 km y 26.19 km), no como duplicado de
-calzada. Se sumaron (109.14 km), coherente con la distancia real conocida
-(cerca de 110 km). Es la única arista donde se suman registros en vez de
-tomar el mayor.
-\item \textbf{Valor atípico de Bogotá a Villeta.} La fuente reporta
-167.67 km para ese sector, mientras que la distancia real es del orden de
-90 km. Es el valor oficial, no un error de cruce, y se documenta como
-limitación.
+calzada, por lo que se suman. Es la única arista donde se suman registros en
+vez de tomar el mayor. Con la regla de doble calzada, el registro de 26.19 km
+pasa a 12.30 km y la arista queda en 95.25 km.
+\item \textbf{Bogotá a Villeta: artefacto de doble calzada digitalizada.} La
+fuente reporta 167.67 km para ese sector, cerca del doble de su tramo entre
+progresivas (81.00 km), porque su geometría contiene ambas calzadas. La
+corrección aplicada deja 81.00 km.
 \item \textbf{Exclusión de una rama.} Se excluyó la rama Villavicencio,
 Barranca de Upía y Yopal por no existir un tramo verificable que conecte
 Barranca de Upía con Yopal.
@@ -274,8 +277,10 @@ todas pasan:
 
 \begin{itemize}
 \item \textbf{Pares que cruzan el ciclo.} Duitama a Puente Nacional da
-414.8 km por Bogotá. Con el tramo Bogotá a Tocancipá bloqueado, da 668.1 km
-por Santander.
+309.10 km por Bogotá. Con el tramo Bogotá a Tocancipá bloqueado, da 654.25 km
+por Santander. Ambas distancias se comprueban sumando las aristas del JSON.
+Con las distancias sin corregir (variante de sensibilidad) las cifras son
+414.8 y 668.1 km.
 \item \textbf{Pares que no cruzan el ciclo.} Bogotá a Villavicencio, Bogotá a
 Granada, Bogotá a Mariquita, Girardot a Cambao, Madrid a Puerto Gaitán y
 Chiquinquirá a Tunja. En cada par se enumeraron todos los caminos simples
@@ -293,23 +298,24 @@ memoria son de esa corrida única y se registran solo como referencia.
 \centering
 \caption{Duitama a Puente Nacional según el criterio (una corrida)}
 \label{tab:criterios}
-\small\setlength{	abcolsep}{4pt}
-\setlength{\tabcolsep}{4pt}
+\small\setlength{\tabcolsep}{4pt}
 \input{outputs/tabla_criterios.tex}
 \end{table}
 
-Con la distancia como criterio el agente elige la ruta por Bogotá. Con los
-demás criterios elige el desvío por Santander, y la Tabla~\ref{tab:rutas}
-explica por qué:
+Con la distancia y con el costo compuesto sin riesgo el agente elige la ruta
+por Bogotá. Con el peaje, el riesgo y el costo compuesto con riesgo faltante
+igual a 0 elige el desvío por Santander, y la Tabla~\ref{tab:rutas} explica
+por qué:
 
 \begin{itemize}
-\item El desvío es 253.30 km más largo, pero tiene 70\,600 COP menos de
+\item El desvío es 345.15 km más largo, pero tiene 70\,600 COP menos de
 peaje.
 \item El criterio de riesgo lo prefiere porque los siete tramos del desvío no
 tienen dato de riesgo y valen 0, no porque se haya medido que es más seguro.
 Es el sesgo descrito en la sección del costo compuesto.
-\item Sin el término de riesgo, el desvío sigue siendo el de menor costo,
-pero por poco (3.197 contra 3.290).
+\item Sin el término de riesgo, gana la ruta por Bogotá (3.149 contra
+3.524). Con las distancias sin corregir ganaba el desvío (3.197 contra
+3.290): la corrección de distancias cambia esa decisión.
 \end{itemize}
 
 \begin{table}[H]
@@ -336,9 +342,14 @@ de la carretera no son independientes. Hallazgos:
 Chocontá queda a 43.70 km de su geometría; la razón carretera/geodésica es
 0.3106. Ningún otro sector de la Red Vial completa el trazado, por lo que la
 arista conserva el valor oficial y su distancia está subestimada. Como
-consecuencia, la ruta corta de Duitama a Puente Nacional (414.84 km) tiene
-una cota inferior de $414.84 - 17.69 + 56.96 = 454.11$ km (cota inferior: la
-geodésica no excede la distancia por carretera); no es un valor estimado.
+consecuencia, la ruta corta de Duitama a Puente Nacional (309.10 km en la red
+corregida) tiene una cota inferior de $309.10 - 17.69 + 56.96 = 348.37$ km
+(cota inferior: la geodésica no excede la distancia por carretera); no es un
+valor estimado. Ambos sectores pertenecen a la ruta 55 y al mismo tramo
+(5501), y sus progresivas (Chocontá en PR 59.0 y Tunja en PR 120.0) dejan un
+intervalo de 49.1 km sin registro; por progresivas, Chocontá a Tunja mediría
+61.0 km, que se cita solo como evidencia de que la cota de 56.96 km es
+ajustada y no se aplica.
 \item \textbf{Bogotá a Mosquera excluida.} El sector asignado pertenecía a
 la Troncal del Eje Cafetero, a unos 160 km de Mosquera; el nodo se excluyó
 (ver la sección de datos y metodología). La auditoría de esta sección ya no
@@ -346,18 +357,31 @@ incluye esa arista.
 \item \textbf{Entrada urbana a Bogotá.} Las geometrías que salen de Bogotá
 empiezan en el límite urbano, a entre 8.50 y 19.06 km de la coordenada del
 municipio. Es una limitación de la fuente y no se corrige.
-\item \textbf{Seis aristas con la carretera más corta que la línea recta}
-(razón menor que 1): Chocontá a Tunja (0.311), Granada a Yé de Granada
-(0.798), Bogotá a Tocancipá (0.932), El Espinal a Girardot (0.948), Bogotá a
-Madrid (0.978) y Bogotá a Guasca (0.993).
-\item \textbf{Registros mayores que su trazado.} En 9 aristas el registro
-supera en más de 1.5 veces el camino de su propia geometría, que contiene
-partes paralelas compatibles con ambas calzadas; la columna de calzada de la
-fuente no lo explica por sí sola.
+\item \textbf{Ocho aristas con la carretera más corta que la línea recta}
+(razón menor que 1, ya con la corrección de doble calzada): Chocontá a Tunja
+(0.311), Madrid a Bogotá (0.458), Bogotá a Tocancipá (0.537), Cajicá a
+Zipaquirá (0.749), Granada a Yé de Granada (0.798), El Espinal a Girardot
+(0.948), Bogotá a Guasca (0.993) y Tunja a Duitama (0.999). Varias se deben
+a la entrada urbana a Bogotá.
+\item \textbf{Doble calzada digitalizada, corregida.} En 9 registros la
+longitud registrada es entre 1.7 y 2.3 veces el tramo entre progresivas,
+porque la geometría contiene ambas calzadas (Tunja a Duitama, Tocancipá a
+Chocontá, Cajicá a Zipaquirá, Bogotá a Villeta, Madrid a Bogotá, Bogotá a
+Fusagasugá, Fusagasugá a Girardot, Bogotá a Tocancipá y un registro de San Gil
+a Bucaramanga). La regla se fijó de antemano (si la razón está entre 1.7 y
+2.3 se usa el tramo entre progresivas; si no, la longitud registrada) y se
+verificó con una segunda medida oficial: en los 9 registros la diferencia
+relativa entre el tramo entre progresivas y el camino a lo largo de la
+geometría es a lo sumo 0.123 (límite 0.15).
+\item \textbf{Registros con patrón no estándar.} Quedan fuera de la banda y
+conservan la longitud registrada: Bogotá a Cajicá (razón 3.18), Chocontá a
+Tunja (1.49), El Espinal a Girardot (1.21) y el registro del Río Ocoa
+(9.77).
 \end{itemize}
 
-Ninguna distancia se ajustó para obtener un resultado: el principio es
-corregir solo errores demostrables de cruce, con datos oficiales.
+La regla se fijó de antemano y ninguna arista se revirtió por incumplir la
+heurística: el principio es corregir solo errores demostrables, con datos
+oficiales.
 
 \section{Registro de decisiones de diseño}
 
@@ -377,8 +401,11 @@ sin sentido la comparación de algoritmos del Corte 2 \\
 Excluir Mosquera (33 a 32 nodos) & Su sector pertenece a otra región, no hay
 sector oficial de reemplazo y era una hoja \\
 Mantener Chocontá a Tunja con el valor oficial & Solo se corrigen errores
-demostrables de cruce; el sector está truncado en la fuente y se declara
-como limitación \\
+demostrables; el sector está truncado en la fuente y se declara como
+limitación \\
+Regla de doble calzada digitalizada & En 9 registros la longitud es entre 1.7
+y 2.3 veces el tramo entre progresivas; la regla se fijó de antemano y se
+verificó con la geometría \\
 Cruce de distancia por \texttt{sector} exacto & Un mismo código de tramo
 agrupa subtramos de longitud distinta \\
 Normalización por el máximo & Conserva la proporcionalidad con la distancia
@@ -407,14 +434,15 @@ cada arista que lo compone; cuando una arista pertenece a dos corredores se
 promedia el puntaje y se suman fallecidos y puntos.
 \item \textbf{Vigencia de las tarifas.} Las tarifas de peaje se actualizan
 cada año; los costos corresponden a la descarga del 6 de octubre de 2026.
-\item \textbf{Valor atípico.} Bogotá a Villeta reporta 167.67 km en la
-fuente; la distancia real es del orden de 90 km.
+\item \textbf{Artefacto de doble calzada.} Bogotá a Villeta reportaba
+167.67 km por la doble calzada digitalizada; la corrección deja 81.00 km. Los
+registros con patrón no estándar conservan la longitud registrada.
 \item \textbf{Hallazgos de la auditoría geométrica.} Las distancias son las
 del dato oficial y no se corrigieron: la arista Chocontá a Tunja está
 truncada en la fuente (17.69 km frente a 56.96 km de línea recta; la ruta
-corta de Duitama a Puente Nacional tiene una cota inferior de 454.11 km),
-las distancias desde Bogotá excluyen la entrada urbana y varios registros
-superan el trazado de su geometría. Ver la sección de auditoría geométrica.
+corta de Duitama a Puente Nacional tiene una cota inferior de 348.37 km en
+la red corregida) y las distancias desde Bogotá excluyen la entrada urbana.
+Ver la sección de auditoría geométrica.
 \item \textbf{Alcance.} La red excluye la rama Villavicencio, Barranca de
 Upía y Yopal, y el nodo Mosquera, y tiene un solo ciclo. Los pares que no lo cruzan tienen una
 única ruta, por lo que en ellos solo se pueden comparar los costos de

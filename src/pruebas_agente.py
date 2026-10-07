@@ -10,6 +10,7 @@ from pathlib import Path
 import networkx as nx
 
 from agente import CRITERIOS, AgenteRutas
+from build_graph import construir_grafo
 
 RAIZ = Path(__file__).resolve().parent.parent
 SALIDA = RAIZ / "outputs"
@@ -32,18 +33,39 @@ def verificar(condicion, mensaje):
     print(f"  ok: {mensaje}")
 
 
+def distancias_json(variante):
+    """Distancia por arista leída directamente de aristas_red.json."""
+    campo = ("distancia_km" if variante == "corregida"
+             else "distancia_cruda_km")
+    with open(SALIDA / "aristas_red.json", encoding="utf-8") as f:
+        return {frozenset((a["origen"], a["destino"])): a[campo]
+                for a in json.load(f)}
+
+
+def suma_ruta(distancias, ruta):
+    return sum(distancias[frozenset(par)] for par in zip(ruta, ruta[1:]))
+
+
 def prueba_ciclo(agente, resultados):
     print("Pares que cruzan el ciclo: Duitama a Puente Nacional")
+    caminos = list(nx.all_simple_paths(agente.grafo, "Duitama",
+                                       "Puente Nacional"))
+    verificar(len(caminos) == 2, "exactamente dos rutas simples")
+    por_bogota = [c for c in caminos if "Bogotá" in c][0]
+    por_santander = [c for c in caminos if "Bucaramanga" in c][0]
+    distancias = distancias_json("corregida")
     corta = agente.calcular_ruta("Duitama", "Puente Nacional", "distancia")
-    verificar(round(corta["distancia_total_km"], 1) == 414.8,
-              "ruta corta por Bogotá = 414.8 km")
-    verificar("Bogotá" in corta["ruta"], "la ruta corta pasa por Bogotá")
+    verificar(corta["ruta"] == por_bogota, "distancia: ruta por Bogotá")
+    verificar(abs(corta["distancia_total_km"]
+                  - suma_ruta(distancias, por_bogota)) < 1e-6,
+              "distancia de la ruta corta = suma de aristas del JSON")
     desvio = agente.calcular_ruta("Duitama", "Puente Nacional", "distancia",
                                   tramos_bloqueados=[TRAMO_CICLO])
-    verificar(round(desvio["distancia_total_km"], 1) == 668.1,
-              "con Bogotá a Tocancipá bloqueado = 668.1 km por Santander")
-    verificar("Bucaramanga" in desvio["ruta"],
-              "el desvío pasa por Bucaramanga")
+    verificar(desvio["ruta"] == por_santander,
+              "con Bogotá a Tocancipá bloqueado: ruta por Santander")
+    verificar(abs(desvio["distancia_total_km"]
+                  - suma_ruta(distancias, por_santander)) < 1e-6,
+              "distancia del desvío = suma de aristas del JSON")
     resultados["ciclo"] = {"corta": corta, "desvio": desvio}
     for criterio in CRITERIOS:
         r = agente.calcular_ruta("Duitama", "Puente Nacional", criterio)
@@ -51,6 +73,16 @@ def prueba_ciclo(agente, resultados):
         via = "Santander" if "Bucaramanga" in r["ruta"] else "Bogotá"
         print(f"  {criterio:21s} {r['distancia_total_km']:7.2f} km "
               f"{r['peaje_total_cop']:7d} COP vía {via}")
+    # variante cruda (sensibilidad): distancias con shape__length
+    cruda = AgenteRutas(construir_grafo(distancia="cruda"))
+    c_corta = cruda.calcular_ruta("Duitama", "Puente Nacional", "distancia")
+    c_desvio = cruda.calcular_ruta("Duitama", "Puente Nacional", "distancia",
+                                   tramos_bloqueados=[TRAMO_CICLO])
+    verificar(round(c_corta["distancia_total_km"], 1) == 414.8,
+              "variante cruda: ruta corta = 414.8 km")
+    verificar(round(c_desvio["distancia_total_km"], 1) == 668.1,
+              "variante cruda: desvío = 668.1 km")
+    resultados["ciclo_cruda"] = {"corta": c_corta, "desvio": c_desvio}
 
 
 def prueba_sin_ciclo(agente, resultados):

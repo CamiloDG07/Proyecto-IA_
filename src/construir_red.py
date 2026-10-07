@@ -62,9 +62,10 @@ de siempre o por el desvío de Santander).
 Nota sobre "San Gil - Bucaramanga": red_vial.csv tiene ESTE sector registrado
 en dos filas con PR complementario (PR 0-881 = 82.95 km, PR 881-180 = 26.19
 km), no como una duplicación de calzada (que tendría el mismo largo en ambas
-filas). Se sumaron (109.14 km), coherente con la distancia real conocida de
-esa carretera (~110 km). Es la única arista de esta extensión donde se suman
-dos registros en vez de tomar uno solo.
+filas). Se suman los dos registros. Es la única arista de esta extensión
+donde se suman dos registros en vez de tomar uno solo. (Con la regla de doble
+calzada de más abajo, el registro de 26.19 km se reemplaza por su tramo entre
+progresivas, 12.30 km, y la arista queda en 95.25 km.)
 
 Para las 7 aristas nuevas no se encontró, en siniestralidad.csv, ningún
 corredor con nombre exactamente igual a estos sub-tramos (sí existe un
@@ -75,16 +76,31 @@ criterio de no inventar conexiones sin verificar, se dejó sin dato de riesgo
 en vez de asumirlo). Estas 7 aristas quedan con riesgo_puntos_criticos=0,
 limitación documentada igual que las demás aristas sin dato de riesgo.
 
+Regla de doble calzada digitalizada (7 de octubre de 2026): en 9 registros la
+longitud registrada (shape__length, A) es cerca del doble del tramo entre
+progresivas (B_tot), porque la geometría del registro contiene ambas calzadas
+(A coincide con la suma de todas las partes de su geometría en los 44
+registros auditados). Regla fijada de antemano: por registro, distancia =
+B_tot si 1.7 <= A / B_tot <= 2.3; en cualquier otro caso, A. Los registros se
+combinan como antes (mayor por sector; suma en San Gil - Bucaramanga). La
+regla se verificó con una segunda medida oficial: en los 9 registros
+corregidos, |B_tot - camino de la geometría| / camino es a lo sumo 0.123
+(umbral 0.15). Cada arista conserva además la distancia sin corregir en
+distancia_cruda_km, para el análisis de sensibilidad. Los registros fuera de
+la banda con A / B_tot menor que 0.8 o mayor que 1.2 (Bogotá - Cajicá,
+Chocontá - Tunja, El Espinal - Girardot y el registro del Río Ocoa) se marcan
+"patrón no estándar" en outputs/auditoria_distancias.csv y conservan A. El
+valor de 167.67 km de Bogotá - Villeta es un artefacto de esta doble calzada
+digitalizada y queda en 81.00 km.
+
 Limitaciones de la fuente detectadas en la auditoría geométrica (ver
-data/carga/VERIFICACION.md y outputs/auditoria_aristas.csv); ninguna se
-corrige en este script y las distancias son las del dato oficial:
+data/carga/VERIFICACION.md y outputs/auditoria_aristas.csv):
   - Las geometrías de INVÍAS de los sectores que salen de Bogotá empiezan en
     el límite urbano (entre 8 y 19 km de la coordenada DANE de Bogotá): la
-    distancia por carretera excluye la entrada urbana.
+    distancia por carretera excluye la entrada urbana. No se corrige.
   - Chocontá - Tunja cubre solo 17.69 km de los cerca de 57 km de línea recta
     entre los nodos (sector truncado en la fuente; ningún otro sector lo
-    completa).
-  - En varios sectores el registro es mayor que el trazado de su geometría.
+    completa). No se corrige.
 
 Exclusión de Mosquera (7 de octubre de 2026): la versión anterior unía Bogotá
 y Mosquera con el sector "Puente Mosquera - Cruce Avenida del Ferrocarril",
@@ -102,6 +118,10 @@ import sys
 from pathlib import Path
 
 csv.field_size_limit(sys.maxsize)
+
+# banda de A / B_tot que identifica la doble calzada digitalizada (fijada de
+# antemano; ver largo_corregido y src/auditar_distancias.py)
+REGLA_BANDA = (1.7, 2.3)
 
 RAIZ = Path(__file__).resolve().parent.parent
 DATOS = RAIZ / "data" / "carga"
@@ -226,6 +246,30 @@ def tarifa_peaje(peajes, nombre):
     return int(filas[0]["categoria_iii"])
 
 
+def largo_corregido(row, largo_m):
+    """Largo del registro (m) tras la regla de doble calzada digitalizada.
+
+    Si 1.7 <= A / B_tot <= 2.3, con A el largo registrado y B_tot el tramo
+    entre progresivas, se usa B_tot; en cualquier otro caso se conserva A.
+    B_tot = |(PR_final + distancia_final / 1000)
+             - (PR_inicial + distancia_inicial / 1000)| km. Requiere las
+    columnas de progresivas del red_vial.csv oficial.
+    """
+    for columna in ("poste_de_referencia_inicial",
+                    "poste_de_referencia_final"):
+        if columna not in row:
+            raise KeyError(f"red_vial.csv sin la columna {columna}; se "
+                           "necesita la descarga oficial del 6/10/2026")
+    pr_i = float(row["poste_de_referencia_inicial"] or 0)
+    pr_f = float(row["poste_de_referencia_final"] or 0)
+    d_i = float(row.get("distancia_inicial") or 0)
+    d_f = float(row.get("distancia_final") or 0)
+    b_tot_m = abs((pr_f + d_f / 1000) - (pr_i + d_i / 1000)) * 1000
+    if b_tot_m and REGLA_BANDA[0] <= largo_m / b_tot_m <= REGLA_BANDA[1]:
+        return b_tot_m
+    return largo_m
+
+
 def main():
     red_vial = carga_csv("red_vial.csv")
     peajes = carga_csv("peajes.csv")
@@ -234,22 +278,27 @@ def main():
     # Para cada sector, se junta TODOS sus registros (puede haber varios por
     # duplicado de calzada o por sub-registro con PR complementario); se
     # decide abajo, arista por arista, si corresponde sumar o tomar el mayor.
-    registros_por_sector = {}
+    # largo registrado (crudo) y largo con la regla de doble calzada, ambos
+    # por registro y en metros
+    crudos_por_sector = {}
+    corregidos_por_sector = {}
     for row in red_vial:
         sector = normaliza(row["sector"])
         try:
             largo = float(row["shape__length"])
         except (ValueError, KeyError):
             continue
-        registros_por_sector.setdefault(sector, []).append(largo)
+        crudos_por_sector.setdefault(sector, []).append(largo)
+        corregidos_por_sector.setdefault(sector, []).append(
+            largo_corregido(row, largo))
 
     # sectores donde, tras inspección manual (ver docstring), se confirmó que
     # hay que SUMAR los registros en vez de tomar el mayor (son PR
     # complementarios de un mismo tramo largo, no duplicados de calzada)
     SECTORES_SUMA = {"San Gil - Bucaramanga"}
 
-    def largo_sector(sector):
-        valores = registros_por_sector.get(sector)
+    def largo_sector(sector, por_sector):
+        valores = por_sector.get(sector)
         if not valores:
             return None
         if sector in SECTORES_SUMA:
@@ -291,14 +340,17 @@ def main():
     for sector, origen, destino, peaje in TRAMOS:
         nodos.add(origen)
         nodos.add(destino)
-        largo_m = largo_sector(sector)
+        largo_m = largo_sector(sector, corregidos_por_sector)
         if largo_m is None:
             sin_longitud.append(sector)
             continue
+        crudo_m = largo_sector(sector, crudos_por_sector)
         extra_sector = TRAMO_EXTRA_LONGITUD.get((sector, origen, destino))
         if extra_sector:
-            largo_m += largo_sector(extra_sector) or 0
+            largo_m += largo_sector(extra_sector, corregidos_por_sector) or 0
+            crudo_m += largo_sector(extra_sector, crudos_por_sector) or 0
         dist_km = round(largo_m / 1000, 2)
+        crudo_km = round(crudo_m / 1000, 2)
 
         if peaje:
             peaje_nombre, peaje_tarifa = peaje, tarifa_peaje(peajes, peaje)
@@ -317,6 +369,7 @@ def main():
             "origen": origen,
             "destino": destino,
             "distancia_km": dist_km,
+            "distancia_cruda_km": crudo_km,
             "peaje_nombre": peaje_nombre,
             "peaje_cop_camion": peaje_tarifa,
             "riesgo_gizscore_prom": round(giz_prom, 3),

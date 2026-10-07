@@ -39,20 +39,29 @@ def cargar_datos():
     return nodos, aristas
 
 
-def maximos(aristas):
+def maximos(aristas, campo="distancia_km"):
     """Máximo de cada criterio (el de riesgo solo sobre datos disponibles)."""
     return {
-        "distancia": max(a["distancia_km"] for a in aristas),
+        "distancia": max(a[campo] for a in aristas),
         "peaje": max(a["peaje_cop_camion"] for a in aristas),
         "riesgo": max(a["riesgo_gizscore_prom"] for a in aristas),
     }
 
 
-def construir_grafo(pesos=None):
-    """Construye el grafo no dirigido con los atributos de cada arista."""
+def construir_grafo(pesos=None, distancia="corregida"):
+    """Construye el grafo no dirigido con los atributos de cada arista.
+
+    distancia: "corregida" (base, con la regla de doble calzada) o "cruda"
+    (variante de sensibilidad, con shape__length). Ambas salen del mismo
+    aristas_red.json; el atributo distancia_km toma la elegida.
+    """
+    if distancia not in ("corregida", "cruda"):
+        raise ValueError(f"Variante de distancia desconocida: {distancia}")
+    campo = ("distancia_km" if distancia == "corregida"
+             else "distancia_cruda_km")
     pesos = pesos or PESOS
     nodos, aristas = cargar_datos()
-    tope = maximos(aristas)
+    tope = maximos(aristas, campo)
     w1, w2, w3 = pesos["distancia"], pesos["peaje"], pesos["riesgo"]
     suma_sin_riesgo = w1 + w2
 
@@ -60,12 +69,14 @@ def construir_grafo(pesos=None):
     grafo.add_nodes_from(nodos)
     for a in aristas:
         disponible = a["riesgo_puntos_criticos"] > 0
-        d = a["distancia_km"] / tope["distancia"]
+        d = a[campo] / tope["distancia"]
         p = a["peaje_cop_camion"] / tope["peaje"]
         r = a["riesgo_gizscore_prom"] / tope["riesgo"] if disponible else 0.0
         grafo.add_edge(
             a["origen"], a["destino"],
-            distancia_km=a["distancia_km"],
+            distancia_km=a[campo],
+            distancia_corregida_km=a["distancia_km"],
+            distancia_cruda_km=a["distancia_cruda_km"],
             peaje_nombre=a["peaje_nombre"],
             peaje_cop_camion=a["peaje_cop_camion"],
             riesgo_gizscore_prom=a["riesgo_gizscore_prom"],
@@ -77,6 +88,7 @@ def construir_grafo(pesos=None):
         )
     grafo.graph["pesos"] = dict(pesos)
     grafo.graph["maximos"] = tope
+    grafo.graph["variante_distancia"] = distancia
     return grafo
 
 
