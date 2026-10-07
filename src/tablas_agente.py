@@ -197,10 +197,14 @@ def tabla_ampliada(instancias):
         if "mayor" not in r["familia"]:
             continue
         a = r["aco"]
+        s = r.get("aco_sin_2opt")
+        sin = (f"{pct(s['brecha_media_pct'])} & "
+               f"{s['semillas_que_igualan_referencia']}/10" if s
+               else "--- & ---")
         lineas.append(
             f"Euclidiana $n={r['n']}$ (ref. 2-opt) & "
             f"{pct(a['brecha_media_pct'])} & "
-            f"{a['semillas_que_igualan_referencia']}/10 & --- & --- & --- & "
+            f"{a['semillas_que_igualan_referencia']}/10 & {sin} & --- & "
             "--- \\\\")
     escribir("tabla_ag_ampliada.tex",
              lineas + ["\\bottomrule", "\\end{tabular}"])

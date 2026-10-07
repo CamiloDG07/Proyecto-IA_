@@ -270,6 +270,7 @@ def validar_mayores():
                            "inicios": INICIOS_2OPT[n] + 1,
                            "costo": referencia, "tiempo_s": t_ref},
             "aco": medir_aco(matriz, referencia),
+            "aco_sin_2opt": medir_aco(matriz, referencia, False),
         }
         instancias.append(registro)
         print(f"  euclidiana n={n}: mejor con 2-opt {referencia:.4f} | ACO "
