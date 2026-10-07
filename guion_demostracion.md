@@ -1,6 +1,6 @@
 # Guion de la demostración, Corte 2
 
-Duración sugerida: 10 minutos. Todos los comandos se ejecutan desde la raíz
+Duración sugerida: 14 minutos. Todos los comandos se ejecutan desde la raíz
 del repositorio, con el entorno virtual activo (`venv\Scripts\activate`).
 Los valores que se mencionan salen de las corridas guardadas en `outputs\`.
 
@@ -68,7 +68,47 @@ la ruta de cada algoritmo sobre las coordenadas oficiales y la frontera
 exacta entre las dos rutas (19 de 66 puntos de la malla favorecen la ruta por
 Bogotá en la red corregida).
 
-## 6. Resultados completos y limitaciones (1 min)
+## 6. Agente multifuncional (4 min)
+
+El despachador elige el método según el tipo de solicitud (a, origen a
+destino; b, paradas en orden fijo; c, obligatorias o tramos bloqueados; d,
+orden libre con regreso; e, orden libre sin regreso). Solo llama a las
+búsquedas, a Held-Karp y al ACO ya programados; la interfaz es de línea de
+comandos.
+
+```
+python src/demostracion.py despachador a Duitama --destino "Puente Nacional"
+python src/demostracion.py despachador d Bogotá --paradas "Tunja,Villeta,Girardot,Duitama,Zipaquirá"
+python src/demostracion.py despachador c Duitama --destino "Puente Nacional" --obligatorias Tunja --bloqueados "Tunja/Chocontá"
+```
+
+| Comando | Qué mostrar |
+|---|---|
+| Tipo a | A* por tramo; el motivo dice que hay heurística admisible para `distancia`; 309.10 km |
+| Tipo d con cinco paradas | Held-Karp, porque k = 5 es menor o igual que el umbral medido (K = 20); el motivo y las métricas salen en la respuesta |
+| Tipo c con obligatoria y tramo bloqueado | El orden queda determinado (una obligatoria) y el tramo bloqueado se excluye de todas las búsquedas |
+
+Umbral: `outputs\umbral_held_karp.json` (k = 20 tarda 2.475 s; k = 21,
+13.597 s; la memoria no limita hasta k = 22). Aclarar que el umbral depende
+del estado de la máquina: una medición anterior dio K = 19
+(`outputs\umbral_held_karp_anterior.json`).
+
+ACO: tipos d y e con más de 20 paradas libres, o con matriz asimétrica (sin
+2-opt). Validación en `outputs\validacion_agente.json`: en la red de carga
+alcanza la referencia en las 130 semillas; en las instancias del taller con
+n = 20, brecha media de 0.040 % con 2-opt (48 de 50 semillas) y de 0.357 %
+sin 2-opt (32 de 50); con la ciudad de salida fija, sin 2-opt, 2.212 % (1 de
+50).
+
+Pregunta preparada: ¿por qué ACO si el 2-opt ya llega al óptimo? Respuesta
+con los datos: en la red de carga la brecha de la iteración 1 ya es a lo
+sumo 0.029 % y el ACO sin 2-opt también llega a la referencia, de modo que
+ahí la validación no separa el aporte de cada parte. La diferencia aparece donde el exacto no es viable: con n = 100 y 200
+el ACO con 2-opt mejora la mejor solución de 2-opt con inicios múltiples en
+0.171 % y 1.400 % de brecha media, 0 de 10 semillas la igualan. No se conoce
+la distancia al óptimo en esas instancias.
+
+## 7. Resultados completos y limitaciones (1 min)
 
 ```
 python src/experimentos_corte2.py

@@ -1,23 +1,61 @@
-"""Demostración en vivo: los cinco algoritmos sobre un par de ciudades.
+"""Demostración en vivo: los cinco algoritmos y el despachador.
 
 Uso:
     python src/demostracion.py ORIGEN DESTINO [CRITERIO]
+    python src/demostracion.py despachador TIPO ORIGEN [--destino D]
+        [--paradas A,B] [--obligatorias A,B] [--bloqueados U/V;X/Y]
+        [--criterio C]
 
 CRITERIO es distancia (por defecto), compuesto_sin_riesgo, compuesto, peaje o
-riesgo. Imprime, por algoritmo, la ruta, el costo, los nodos expandidos y
-generados, la frontera máxima y el tiempo medio de 200 repeticiones.
+riesgo. La primera forma imprime, por algoritmo, la ruta, el costo, los nodos
+expandidos y generados, la frontera máxima y el tiempo medio de 200
+repeticiones. La segunda llama al despachador y muestra la ruta, el costo, el
+método elegido, el motivo y las métricas. TIPO es a (origen a destino), b
+(paradas en orden fijo), c (obligatorias o tramos bloqueados), d (orden libre
+con regreso) o e (orden libre sin regreso).
 """
+import argparse
 import sys
 
 from agente import CRITERIOS
 from build_graph import cargar_grafo
 from busquedas import a_estrella, bfs, dfs, medir, ucs, voraz
+from despachador import Despachador, Solicitud
 from heuristica import Heuristica, alfa_minimo, cargar_coordenadas
 
 REPETICIONES = 200
 
 
 def main(argumentos):
+    if argumentos and argumentos[0] == "despachador":
+        lector = argparse.ArgumentParser(prog="demostracion.py despachador")
+        lector.add_argument("tipo", choices=list("abcde"))
+        lector.add_argument("origen")
+        lector.add_argument("--destino")
+        lector.add_argument("--paradas", default="")
+        lector.add_argument("--obligatorias", default="")
+        lector.add_argument("--bloqueados", default="")
+        lector.add_argument("--criterio", default="distancia",
+                            choices=list(CRITERIOS))
+        a = lector.parse_args(argumentos[1:])
+        lista = [x for x in a.paradas.split(",") if x]
+        restricciones = {
+            "obligatorias": [x for x in a.obligatorias.split(",") if x],
+            "bloqueados": [tuple(x.split("/"))
+                           for x in a.bloqueados.split(";") if x]}
+        grafo = cargar_grafo()
+        salida = Despachador(grafo, cargar_coordenadas()).resolver(
+            Solicitud(a.tipo, a.origen, a.destino, tuple(lista),
+                      a.criterio, restricciones))
+        print(f"Tipo {a.tipo} ({salida['tipo']}), criterio {a.criterio}")
+        print(f"Ruta: {' > '.join(salida['ruta'])}")
+        print(f"Orden de paradas: {' > '.join(salida['orden_paradas'])}")
+        print(f"Costo: {salida['costo']:.3f}")
+        print(f"Método: {salida['metodo']}")
+        print(f"Motivo: {salida['motivo']}")
+        for clave, valor in salida["metricas"].items():
+            print(f"  {clave}: {valor}")
+        return 0
     if len(argumentos) not in (2, 3):
         print(__doc__)
         return 1
