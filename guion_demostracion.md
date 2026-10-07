@@ -91,7 +91,7 @@ python src/demostracion.py despachador c Duitama --destino "Puente Nacional" --o
 Umbral: `outputs\umbral_held_karp.json` (k = 20 tarda 2.475 s; k = 21,
 13.597 s; la memoria no limita hasta k = 22). Aclarar que el umbral depende
 del estado de la máquina: una medición anterior dio K = 19
-(`outputs\umbral_held_karp_anterior.json`).
+(`outputs\umbral_sesion_1.json`).
 
 ACO: tipos d y e con más de 20 paradas libres, o con matriz asimétrica (sin
 2-opt). Validación en `outputs\validacion_agente.json`: en la red de carga

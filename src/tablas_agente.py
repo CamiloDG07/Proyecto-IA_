@@ -208,17 +208,20 @@ def tabla_ampliada(instancias):
 
 def tabla_umbral(umbral):
     limite = umbral["limite_memoria_mib"]
-    lineas = ["\\begin{tabular}{rrrrrcc}", "\\toprule",
-              "\\textbf{$k$} & \\textbf{Rep.} & "
-              "\\textbf{Mediana (s)} & \\textbf{Rango (s)} & "
+    n = len(umbral["sesiones"])
+    cabeza = " & ".join(f"\\textbf{{Mediana S{i + 1} (s)}}"
+                        for i in range(n))
+    lineas = ["\\begin{tabular}{r" + "r" * n + "rcc}", "\\toprule",
+              f"\\textbf{{$k$}} & {cabeza} & "
               "\\textbf{Memoria pico (MiB)} & "
               "\\textbf{Tiempo} & \\textbf{Memoria} \\\\", "\\midrule"]
     for m in [x for x in umbral["mediciones"] if x["k"] >= 16]:
-        ok_t = "sí" if m["mediana_s"] <= umbral["presupuesto_s"] else "no"
+        ok_t = ("sí" if max(m["medianas_s"]) <= umbral["presupuesto_s"]
+                else "no")
         ok_m = "sí" if m["memoria_pico_mib"] <= limite else "no"
+        medianas = " & ".join(f"{x:.3f}" for x in m["medianas_s"])
         lineas.append(
-            f"{m['k']} & {m['repeticiones']} & {m['mediana_s']:.3f} & "
-            f"{m['minimo_s']:.3f} a {m['maximo_s']:.3f} & "
+            f"{m['k']} & {medianas} & "
             f"{m['memoria_pico_mib']:.1f} & {ok_t} & {ok_m} \\\\")
     escribir("tabla_ag_umbral.tex", lineas + ["\\bottomrule",
                                               "\\end{tabular}"])
