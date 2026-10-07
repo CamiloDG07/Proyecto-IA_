@@ -129,18 +129,24 @@ TRAMOS = [
     ("Cajicá - Zipaquirá", "Cajicá", "Zipaquirá", None),
     ("Zipaquirá - Ubaté", "Zipaquirá", "Ubaté", "CASABLANCA"),
     ("Ubaté - Puente Nacional", "Ubaté", "Puente Nacional", "SABOYÁ"),
-    ("Puente Mosquera - Cruce Avenida del Ferrocarril", "Bogotá", "Mosquera", None),
+    ("Puente Mosquera - Cruce Avenida del Ferrocarril",
+     "Bogotá", "Mosquera", None),
     ("Madrid - Bogotá (Rio Bogotá)", "Madrid", "Bogotá", "RÍO BOGOTÁ"),
     ("Bogotá (Los Patios) - Guasca", "Bogotá", "Guasca", "LOS PATIOS"),
-    ("Bogotá (El Portal) - Villavicencio", "Bogotá", "Villavicencio", "NARANJAL"),
-    ("Ye de Granada - Paso por el Puente sobre el Río Ocoa", "Villavicencio", "Ye de Granada", "OCOA"),
+    ("Bogotá (El Portal) - Villavicencio",
+     "Bogotá", "Villavicencio", "NARANJAL"),
+    ("Ye de Granada - Paso por el Puente sobre el Río Ocoa",
+     "Villavicencio", "Ye de Granada", "OCOA"),
     ("Ye de Granada - Casco Urbano Granada", "Ye de Granada", "Granada", None),
-    ("Villavicencio - Paso por el Puente sobre el Río La Balsa -Puerto Lopez", "Villavicencio", "Puerto López", "LA LIBERTAD"),
+    ("Villavicencio - Paso por el Puente sobre el Río La Balsa -Puerto Lopez",
+     "Villavicencio", "Puerto López", "LA LIBERTAD"),
     ("Puerto López - Puerto Gaitán", "Puerto López", "Puerto Gaitán", "YUCAO"),
     ("Villeta - Bogotá", "Bogotá", "Villeta", "SIBERIA"),
     ("Honda - Villeta", "Villeta", "Honda", "BICENTENARIO"),
-    ("Mariquita - Honda (Puente Luis Ignacio Andrade)", "Honda", "Mariquita", "HONDA"),
-    ("Fusagasugá - Silvania - Bogotá (Bosa)", "Bogotá", "Fusagasugá", "CHUSACÁ"),
+    ("Mariquita - Honda (Puente Luis Ignacio Andrade)",
+     "Honda", "Mariquita", "HONDA"),
+    ("Fusagasugá - Silvania - Bogotá (Bosa)",
+     "Bogotá", "Fusagasugá", "CHUSACÁ"),
     ("Girardot - Fusagasugá", "Fusagasugá", "Girardot", "CHINAUTA"),
     ("El Espinal - Girardot", "Girardot", "El Espinal", "FLANDES"),
     ("Girardot - Cambao", "Girardot", "Cambao", "GUATAQUÍ"),
@@ -158,19 +164,24 @@ TRAMOS = [
 # sub-registros con PR complementario -- ver docstring para la verificación
 # de que esto no es duplicación de calzada sino continuación real del tramo)
 TRAMO_EXTRA_LONGITUD = {
-    ("Ye de Granada - Paso por el Puente sobre el Río Ocoa", "Villavicencio", "Ye de Granada"):
-        "Paso por el Puente sobre el Río Ocoa - Villavicencio",
+    ("Ye de Granada - Paso por el Puente sobre el Río Ocoa",
+     "Villavicencio", "Ye de Granada"):
+    "Paso por el Puente sobre el Río Ocoa - Villavicencio",
 }
 
 # Corredor (nombre en siniestralidad.csv) -> lista de aristas (origen, destino)
 CORREDOR_A_ARISTAS = {
-    "Bogotá - Tunja": [("Bogotá", "Tocancipá"), ("Tocancipá", "Chocontá"), ("Chocontá", "Tunja")],
+    "Bogotá - Tunja": [("Bogotá", "Tocancipá"), ("Tocancipá", "Chocontá"),
+                       ("Chocontá", "Tunja")],
     "Tunja - Duitama": [("Tunja", "Duitama")],
-    "Bogotá - Villavicencio": [("Bogotá", "Villavicencio"), ("Villavicencio", "Ye de Granada")],
-    "Granada - Villavicencio": [("Villavicencio", "Ye de Granada"), ("Ye de Granada", "Granada")],
+    "Bogotá - Villavicencio": [("Bogotá", "Villavicencio"),
+                               ("Villavicencio", "Ye de Granada")],
+    "Granada - Villavicencio": [("Villavicencio", "Ye de Granada"),
+                                ("Ye de Granada", "Granada")],
     "Bogotá - Villeta": [("Bogotá", "Villeta")],
     "Villeta-Honda": [("Villeta", "Honda")],
-    "Girardot - Bogotá": [("Bogotá", "Fusagasugá"), ("Fusagasugá", "Girardot")],
+    "Girardot - Bogotá": [("Bogotá", "Fusagasugá"),
+                          ("Fusagasugá", "Girardot")],
     "Bogotá - Mosquera": [("Bogotá", "Mosquera")],
 }
 
@@ -240,7 +251,8 @@ def main():
             fallecidos = float(row.get("fallecidos") or 0)
         except ValueError:
             fallecidos = 0
-        d = riesgo_por_corredor.setdefault(corredor, {"giz": [], "fallecidos": 0.0, "n": 0})
+        d = riesgo_por_corredor.setdefault(
+            corredor, {"giz": [], "fallecidos": 0.0, "n": 0})
         d["giz"].append(giz)
         d["fallecidos"] += fallecidos
         d["n"] += 1
@@ -252,7 +264,8 @@ def main():
             continue
         giz_prom = sum(info["giz"]) / len(info["giz"]) if info["giz"] else 0.0
         for par in aristas_cubiertas:
-            arista_a_riesgo.setdefault(par, []).append((giz_prom, info["fallecidos"], info["n"]))
+            arista_a_riesgo.setdefault(par, []).append(
+                (giz_prom, info["fallecidos"], info["n"]))
 
     nodos = set()
     aristas = []
@@ -295,7 +308,8 @@ def main():
 
     print(f"Nodos: {len(nodos)}")
     print(f"Aristas: {len(aristas)}")
-    print(f"Ciclos independientes (E - V + 1, solo valido si es conexo): {len(aristas) - len(nodos) + 1}")
+    print("Ciclos independientes (E - V + 1, solo valido si es conexo): "
+          f"{len(aristas) - len(nodos) + 1}")
     if sin_longitud:
         print("ADVERTENCIA -- sectores sin longitud encontrada:", sin_longitud)
     con_peaje = sum(1 for a in aristas if a["peaje_cop_camion"] > 0)
@@ -306,9 +320,12 @@ def main():
     print("Nodos:", sorted(nodos))
     print()
     for a in aristas:
-        pj = f'{a["peaje_nombre"]} ${a["peaje_cop_camion"]}' if a["peaje_nombre"] else "sin peaje"
-        print(f'{a["origen"]:17s} -> {a["destino"]:17s} | {a["distancia_km"]:7.2f} km | {pj:22s} | '
-              f'GiZ={a["riesgo_gizscore_prom"]:5.2f} | fallecidos={a["riesgo_fallecidos_hist"]:.0f} | '
+        pj = (f'{a["peaje_nombre"]} ${a["peaje_cop_camion"]}'
+              if a["peaje_nombre"] else "sin peaje")
+        print(f'{a["origen"]:17s} -> {a["destino"]:17s} | '
+              f'{a["distancia_km"]:7.2f} km | {pj:22s} | '
+              f'GiZ={a["riesgo_gizscore_prom"]:5.2f} | '
+              f'fallecidos={a["riesgo_fallecidos_hist"]:.0f} | '
               f'pts_criticos={a["riesgo_puntos_criticos"]}')
 
     SALIDA.mkdir(exist_ok=True)
