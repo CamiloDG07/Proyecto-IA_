@@ -1,0 +1,332 @@
+[
+  {
+    "origen": "Bogotá",
+    "destino": "Tocancipá",
+    "distancia_km": 38.37,
+    "peaje_nombre": "EL ROBLE",
+    "peaje_cop_camion": 29300,
+    "riesgo_gizscore_prom": 2.57,
+    "riesgo_fallecidos_hist": 34.0,
+    "riesgo_puntos_criticos": 4
+  },
+  {
+    "origen": "Tocancipá",
+    "destino": "Chocontá",
+    "distancia_km": 66.49,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 2.57,
+    "riesgo_fallecidos_hist": 34.0,
+    "riesgo_puntos_criticos": 4
+  },
+  {
+    "origen": "Chocontá",
+    "destino": "Tunja",
+    "distancia_km": 17.69,
+    "peaje_nombre": "ALBARRACÍN",
+    "peaje_cop_camion": 29300,
+    "riesgo_gizscore_prom": 2.57,
+    "riesgo_fallecidos_hist": 34.0,
+    "riesgo_puntos_criticos": 4
+  },
+  {
+    "origen": "Tunja",
+    "destino": "Duitama",
+    "distancia_km": 94.18,
+    "peaje_nombre": "TUTA",
+    "peaje_cop_camion": 29300,
+    "riesgo_gizscore_prom": 2.144,
+    "riesgo_fallecidos_hist": 10.0,
+    "riesgo_puntos_criticos": 2
+  },
+  {
+    "origen": "Barbosa",
+    "destino": "Tunja",
+    "distancia_km": 62.83,
+    "peaje_nombre": "ARCABUCO",
+    "peaje_cop_camion": 29300,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Chiquinquirá",
+    "destino": "Sáchica",
+    "distancia_km": 37.46,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Sáchica",
+    "destino": "Tunja",
+    "distancia_km": 35.15,
+    "peaje_nombre": "SÁCHICA",
+    "peaje_cop_camion": 29300,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Bogotá",
+    "destino": "Cajicá",
+    "distancia_km": 37.18,
+    "peaje_nombre": "FUSCA",
+    "peaje_cop_camion": 12500,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Cajicá",
+    "destino": "Zipaquirá",
+    "distancia_km": 18.69,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Zipaquirá",
+    "destino": "Ubaté",
+    "distancia_km": 47.76,
+    "peaje_nombre": "CASABLANCA",
+    "peaje_cop_camion": 35200,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Ubaté",
+    "destino": "Puente Nacional",
+    "distancia_km": 94.48,
+    "peaje_nombre": "SABOYÁ",
+    "peaje_cop_camion": 35200,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Bogotá",
+    "destino": "Mosquera",
+    "distancia_km": 10.35,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 4.771,
+    "riesgo_fallecidos_hist": 38.0,
+    "riesgo_puntos_criticos": 2
+  },
+  {
+    "origen": "Madrid",
+    "destino": "Bogotá",
+    "distancia_km": 19.46,
+    "peaje_nombre": "RÍO BOGOTÁ",
+    "peaje_cop_camion": 16200,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Bogotá",
+    "destino": "Guasca",
+    "distancia_km": 34.88,
+    "peaje_nombre": "LOS PATIOS",
+    "peaje_cop_camion": 35700,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Bogotá",
+    "destino": "Villavicencio",
+    "distancia_km": 93.72,
+    "peaje_nombre": "NARANJAL",
+    "peaje_cop_camion": 27500,
+    "riesgo_gizscore_prom": 2.528,
+    "riesgo_fallecidos_hist": 36.0,
+    "riesgo_puntos_criticos": 4
+  },
+  {
+    "origen": "Villavicencio",
+    "destino": "Ye de Granada",
+    "distancia_km": 72.63,
+    "peaje_nombre": "OCOA",
+    "peaje_cop_camion": 19200,
+    "riesgo_gizscore_prom": 2.434,
+    "riesgo_fallecidos_hist": 105.0,
+    "riesgo_puntos_criticos": 10
+  },
+  {
+    "origen": "Ye de Granada",
+    "destino": "Granada",
+    "distancia_km": 2.43,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 2.34,
+    "riesgo_fallecidos_hist": 69.0,
+    "riesgo_puntos_criticos": 6
+  },
+  {
+    "origen": "Villavicencio",
+    "destino": "Puerto López",
+    "distancia_km": 77.62,
+    "peaje_nombre": "LA LIBERTAD",
+    "peaje_cop_camion": 26200,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Puerto López",
+    "destino": "Puerto Gaitán",
+    "distancia_km": 108.55,
+    "peaje_nombre": "YUCAO",
+    "peaje_cop_camion": 8200,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Bogotá",
+    "destino": "Villeta",
+    "distancia_km": 167.67,
+    "peaje_nombre": "SIBERIA",
+    "peaje_cop_camion": 16500,
+    "riesgo_gizscore_prom": 3.423,
+    "riesgo_fallecidos_hist": 32.0,
+    "riesgo_puntos_criticos": 3
+  },
+  {
+    "origen": "Villeta",
+    "destino": "Honda",
+    "distancia_km": 58.45,
+    "peaje_nombre": "BICENTENARIO",
+    "peaje_cop_camion": 41600,
+    "riesgo_gizscore_prom": 2.588,
+    "riesgo_fallecidos_hist": 37.0,
+    "riesgo_puntos_criticos": 4
+  },
+  {
+    "origen": "Honda",
+    "destino": "Mariquita",
+    "distancia_km": 18.95,
+    "peaje_nombre": "HONDA",
+    "peaje_cop_camion": 15200,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Bogotá",
+    "destino": "Fusagasugá",
+    "distancia_km": 111.76,
+    "peaje_nombre": "CHUSACÁ",
+    "peaje_cop_camion": 31500,
+    "riesgo_gizscore_prom": 2.437,
+    "riesgo_fallecidos_hist": 117.0,
+    "riesgo_puntos_criticos": 14
+  },
+  {
+    "origen": "Fusagasugá",
+    "destino": "Girardot",
+    "distancia_km": 111.39,
+    "peaje_nombre": "CHINAUTA",
+    "peaje_cop_camion": 31500,
+    "riesgo_gizscore_prom": 2.437,
+    "riesgo_fallecidos_hist": 117.0,
+    "riesgo_puntos_criticos": 14
+  },
+  {
+    "origen": "Girardot",
+    "destino": "El Espinal",
+    "distancia_km": 19.36,
+    "peaje_nombre": "FLANDES",
+    "peaje_cop_camion": 23900,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Girardot",
+    "destino": "Cambao",
+    "distancia_km": 88.71,
+    "peaje_nombre": "GUATAQUÍ",
+    "peaje_cop_camion": 24400,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Puente Nacional",
+    "destino": "San Gil",
+    "distancia_km": 124.72,
+    "peaje_nombre": "OIBA",
+    "peaje_cop_camion": 35200,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "San Gil",
+    "destino": "Bucaramanga",
+    "distancia_km": 109.14,
+    "peaje_nombre": "LOS CUROS",
+    "peaje_cop_camion": 35200,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Bucaramanga",
+    "destino": "Cuestaboba",
+    "distancia_km": 70.06,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Cuestaboba",
+    "destino": "Pamplona",
+    "distancia_km": 54.31,
+    "peaje_nombre": "EL PICACHO",
+    "peaje_cop_camion": 29800,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Pamplona",
+    "destino": "Presidente",
+    "distancia_km": 68.0,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "Presidente",
+    "destino": "La Palmera",
+    "distancia_km": 100.9,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  },
+  {
+    "origen": "La Palmera",
+    "destino": "Duitama",
+    "distancia_km": 141.01,
+    "peaje_nombre": null,
+    "peaje_cop_camion": 0,
+    "riesgo_gizscore_prom": 0.0,
+    "riesgo_fallecidos_hist": 0.0,
+    "riesgo_puntos_criticos": 0
+  }
+]
