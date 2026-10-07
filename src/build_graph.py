@@ -48,12 +48,16 @@ def maximos(aristas, campo="distancia_km"):
     }
 
 
-def construir_grafo(pesos=None, distancia="corregida"):
+def construir_grafo(pesos=None, distancia="corregida",
+                    reemplazos=None):
     """Construye el grafo no dirigido con los atributos de cada arista.
 
     distancia: "corregida" (base, con la regla de doble calzada) o "cruda"
     (variante de sensibilidad, con shape__length). Ambas salen del mismo
     aristas_red.json; el atributo distancia_km toma la elegida.
+
+    reemplazos: diccionario {(u, v): km} que sustituye la distancia de
+    aristas concretas (solo para análisis de sensibilidad rotulados).
     """
     if distancia not in ("corregida", "cruda"):
         raise ValueError(f"Variante de distancia desconocida: {distancia}")
@@ -61,6 +65,10 @@ def construir_grafo(pesos=None, distancia="corregida"):
              else "distancia_cruda_km")
     pesos = pesos or PESOS
     nodos, aristas = cargar_datos()
+    cambios = {frozenset(par): km for par, km in (reemplazos or {}).items()}
+    aristas = [dict(a, **{campo: cambios.get(
+        frozenset((a["origen"], a["destino"])), a[campo])})
+        for a in aristas]
     tope = maximos(aristas, campo)
     w1, w2, w3 = pesos["distancia"], pesos["peaje"], pesos["riesgo"]
     suma_sin_riesgo = w1 + w2
@@ -84,7 +92,8 @@ def construir_grafo(pesos=None, distancia="corregida"):
             riesgo_puntos_criticos=a["riesgo_puntos_criticos"],
             riesgo_disponible=disponible,
             peso_multicriterio=w1 * d + w2 * p + w3 * r,
-            peso_sin_riesgo=(w1 * d + w2 * p) / suma_sin_riesgo,
+            peso_sin_riesgo=((w1 * d + w2 * p) / suma_sin_riesgo
+                             if suma_sin_riesgo else 0.0),
         )
     grafo.graph["pesos"] = dict(pesos)
     grafo.graph["maximos"] = tope

@@ -168,5 +168,28 @@
         ]
       }
     }
+  },
+  "geodesica_pura_distancia": {
+    "alfa": 1.0,
+    "admisibilidad": {
+      "pares": 992,
+      "violaciones": 66,
+      "margen_minimo": -56.51137948181665,
+      "par_margen_minimo": [
+        "Bogotá",
+        "Tunja"
+      ],
+      "margen_maximo": 425.59178245185467
+    },
+    "consistencia": {
+      "casos": 2048,
+      "violaciones": 141,
+      "margen_minimo": -39.26970818555529,
+      "caso_margen_minimo": [
+        "Chocontá",
+        "Tunja",
+        "Tunja"
+      ]
+    }
   }
 }

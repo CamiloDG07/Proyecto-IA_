@@ -164,6 +164,12 @@ def main():
             "admisibilidad": verificar_admisibilidad(grafo, h, criterio),
             "consistencia": verificar_consistencia(grafo, h, criterio),
         }
+    pura = Heuristica(grafo, coordenadas, "distancia", 1.0)
+    resultado["geodesica_pura_distancia"] = {
+        "alfa": 1.0,
+        "admisibilidad": verificar_admisibilidad(grafo, pura, "distancia"),
+        "consistencia": verificar_consistencia(grafo, pura, "distancia"),
+    }
     with open(SALIDA / "analisis_heuristica.json", "w",
               encoding="utf-8") as f:
         json.dump(resultado, f, ensure_ascii=False, indent=2)
