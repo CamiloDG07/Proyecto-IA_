@@ -76,11 +76,16 @@ def correr_escenarios(grafo, coordenadas, alfa):
         for criterio, limitado in CRITERIOS_EXPERIMENTO:
             atributo = CRITERIOS[criterio]
             h = Heuristica(grafo, coordenadas, criterio, alfa)
+            # h precalculada por destino: mismos valores, sin Haversine en
+            # cada evaluación; el tiempo de construir la tabla se mide aparte
+            tabla = h.precalcular(grafo, destino)
+            pre = medir(h.precalcular, REPETICIONES, grafo, destino)
             optimo = ucs(grafo, origen, destino, atributo)["costo"]
             for nombre, (funcion, args) in algoritmos(
-                    grafo, atributo, h, origen, destino).items():
+                    grafo, atributo, tabla, origen, destino).items():
                 m = medir(funcion, REPETICIONES, *args)
                 r = m["resultado"]
+                usa_h = nombre in ("Voraz", "A*")
                 resultados.append({
                     "origen": origen, "destino": destino, "motivo": motivo,
                     "rutas_simples": rutas_simples,
@@ -100,6 +105,10 @@ def correr_escenarios(grafo, coordenadas, alfa):
                     "tiempo_desv_s": m["tiempo_desv_s"],
                     "memoria_pico_kib": m["memoria_pico_kib"],
                     "repeticiones": m["repeticiones"],
+                    "precalculo_h_media_s":
+                        pre["tiempo_media_s"] if usa_h else None,
+                    "precalculo_h_desv_s":
+                        pre["tiempo_desv_s"] if usa_h else None,
                 })
         print(f"  {origen} - {destino}: {rutas_simples} ruta(s) simple(s)")
     return resultados

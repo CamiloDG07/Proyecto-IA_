@@ -1,0 +1,21 @@
+{
+ "grafos": 300,
+ "semilla": 20261020,
+ "coincidencias": 300,
+ "discrepancias": [],
+ "mayor_diferencia_absoluta": 4.263256414560601e-14,
+ "tolerancia": 1e-09,
+ "longitudes_de_ciclo": {
+  "3": 64,
+  "4": 61,
+  "5": 59,
+  "6": 41,
+  "7": 28,
+  "8": 17,
+  "9": 13,
+  "10": 9,
+  "11": 5,
+  "12": 3
+ },
+ "nodos": "5 a 12"
+}
