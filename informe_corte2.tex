@@ -365,7 +365,9 @@ La Figura~\ref{fig:rutas} muestra la ruta de cada algoritmo en el caso central
 con el criterio distancia, sobre las coordenadas oficiales y con el ciclo
 señalado; el algoritmo cambia el color y el trazo, no solo el color. La
 misma figura con el criterio compuesto sin riesgo está en
-\texttt{outputs/rutas\_central\_compuesto\_sin\_riesgo.png}.
+\texttt{outputs/rutas\_central\_compuesto\_sin\_riesgo.png}. La
+Figura~\ref{fig:mapa-caso} sitúa las dos rutas sobre el mapa, con el trazado de
+INVÍAS, sus km y su peaje, y rotula qué algoritmos devuelve cada una.
 
 \begin{figure}[H]
     \centering
@@ -374,6 +376,16 @@ misma figura con el criterio compuesto sin riesgo está en
     distancia. Fuente: elaboración propia con datos de INVÍAS y DANE}
     \label{fig:rutas}
     \input{outputs/lectura_c2_rutas.tex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{mapa_caso_central.pdf}
+    \caption{Caso central sobre el mapa: ruta por Bogotá y desvío por
+    Santander. Fuente: elaboración propia con el trazado de INVÍAS, los
+    límites departamentales del DANE~\cite{mgn} y las coordenadas DIVIPOLA}
+    \label{fig:mapa-caso}
+    \input{outputs/lectura_c2_mapa_caso.tex}
 \end{figure}
 
 \section{Barrido de pesos}
@@ -628,16 +640,9 @@ Igualan: semillas que alcanzan la referencia; tiempos medios}
 \input{outputs/lectura_c2_validacion.tex}
 \end{table}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.85\textwidth]{convergencia_aco.png}
-    \caption{Curvas de convergencia del ACO + 2-opt: brecha de la media de 10
-    semillas respecto de la referencia. Fuente: elaboración propia}
-    \label{fig:convergencia}
-    \input{outputs/lectura_c2_convergencia.tex}
-\end{figure}
-
-Lo que muestran las corridas:
+Las curvas de convergencia del ACO con 2-opt (brecha de la media de 10
+semillas respecto de la referencia) están en
+\texttt{outputs/convergencia\_aco.png}. Lo que muestran las corridas:
 
 \begin{itemize}
 \item \textbf{Red de carga.} El ACO con 2-opt alcanza el costo de Held-Karp en
@@ -770,6 +775,9 @@ dato y el dato no distingue subtramos.
 descarga del 6 de octubre de 2026.
 \item \textbf{Mediciones.} El tiempo tiene dispersión alta y la memoria es de
 una sola corrida por celda; los valores son indicativos.
+\item \textbf{Mapa.} El fondo departamental está generalizado a unos 330 m
+y no sirve para medir distancias. Los tramos punteados no tienen trazado en la
+fuente: la geometría de INVÍAS queda a más de 5 km de uno de sus nodos.
 \item \textbf{Alcance.} Un solo ciclo, 10 escenarios y 32 nodos.
 \end{itemize}
 
@@ -807,6 +815,12 @@ Arboleda.
 Departamento Administrativo Nacional de Estadística. (2025). \textit{DIVIPOLA:
 códigos de municipios y de cabeceras y centros poblados}. Datos Abiertos
 Colombia. \url{https://www.datos.gov.co/resource/gdxc-w37w}
+
+\bibitem{mgn}
+Departamento Administrativo Nacional de Estadística. (2020).
+\textit{Nivel de información Departamento del Marco Geoestadístico Nacional
+(MGN), versión 2020}. Datos Abiertos Colombia (descargado el 7 de octubre de
+2026). \url{https://www.datos.gov.co/d/jjim-6r88}
 
 \end{thebibliography}
 
