@@ -183,8 +183,7 @@ reemplazo. La red pasó de 33 a 32 nodos y de 33 a 32 aristas.
 \subsection{Hallazgo del barrido de ciclos}
 
 La primera versión de la red tenía 27 nodos y 26 aristas, es decir, un árbol:
-entre dos ciudades existe una sola ruta y cualquier algoritmo de búsqueda
-devolvería la misma. Se revisaron los 714 segmentos de la Red Vial vigentes
+entre dos ciudades cualesquiera existe una única ruta posible. Se revisaron los 714 segmentos de la Red Vial vigentes
 al inicio del trabajo, normalizando los nombres de los sitios. En el alcance
 regional original (Cundinamarca, Boyacá, Meta y Tolima), la red troncal
 resultó ser un árbol. El único ciclo real que toca los nodos del proyecto
@@ -232,9 +231,11 @@ ponderar los tres términos, por lo que se usan pesos iguales
 
 \textbf{Normalización por el máximo y no por mín-máx.} La normalización
 mín-máx resta el mínimo en cada arista, y el costo deja de ser proporcional a
-la distancia. La normalización por el máximo conserva esa proporcionalidad,
-condición necesaria para que una heurística basada en la distancia geodésica
-sea admisible en el Corte 2.
+la distancia. La normalización por el máximo conserva esa proporcionalidad:
+el término de distancia del costo de una arista sigue siendo proporcional a
+su longitud, lo que permite contrastarla con la línea recta entre los nodos
+como verificación de coherencia de los datos (la carretera no debería ser más
+corta que la línea recta; ver la sección de auditoría geométrica).
 
 \textbf{Riesgo faltante.} 21 de las 32 aristas no tienen dato de riesgo. No se
 imputa ningún valor: tratarlo como 0 sesga las rutas hacia corredores sin
@@ -379,9 +380,9 @@ Tunja (1.49), El Espinal a Girardot (1.21) y el registro del Río Ocoa
 (9.77).
 \end{itemize}
 
-La regla se fijó de antemano y ninguna arista se revirtió por incumplir la
-heurística: el principio es corregir solo errores demostrables, con datos
-oficiales.
+La regla se fijó de antemano y no se ajustó ninguna distancia para obtener un
+resultado determinado: el principio es corregir solo errores demostrables, con
+datos oficiales.
 
 \section{Registro de decisiones de diseño}
 
@@ -396,8 +397,8 @@ oficiales.
 \midrule
 Cambio de dominio de TransMilenio a carga interurbana & El profesor señaló
 que el tema anterior es básico y lo presentan muchos grupos \\
-Extender la red de 27 a 33 nodos & Un árbol da una sola ruta por par y deja
-sin sentido la comparación de algoritmos del Corte 2 \\
+Extender la red de 27 a 33 nodos & Un árbol tiene una única ruta posible
+entre cada par de ciudades \\
 Excluir Mosquera (33 a 32 nodos) & Su sector pertenece a otra región, no hay
 sector oficial de reemplazo y era una hoja \\
 Mantener Chocontá a Tunja con el valor oficial & Solo se corrigen errores
@@ -444,9 +445,8 @@ corta de Duitama a Puente Nacional tiene una cota inferior de 348.37 km en
 la red corregida) y las distancias desde Bogotá excluyen la entrada urbana.
 Ver la sección de auditoría geométrica.
 \item \textbf{Alcance.} La red excluye la rama Villavicencio, Barranca de
-Upía y Yopal, y el nodo Mosquera, y tiene un solo ciclo. Los pares que no lo cruzan tienen una
-única ruta, por lo que en ellos solo se pueden comparar los costos de
-búsqueda.
+Upía y Yopal, y el nodo Mosquera, y tiene un solo ciclo. Los pares que no lo
+cruzan tienen una única ruta posible.
 \item \textbf{Mediciones.} El tiempo y la memoria de la
 Tabla~\ref{tab:criterios} provienen de una sola corrida.
 \end{itemize}
