@@ -6,3 +6,6 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# snapshot oficial de INVIAS (238 MB), ver data/carga/VERIFICACION.md
+data/carga/red_vial.csv
