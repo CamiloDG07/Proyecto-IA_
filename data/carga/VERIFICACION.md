@@ -72,3 +72,20 @@ explica porque ese script no leía `peajes.csv`; la lectura de la tarifa desde
 el CSV se incorpora en el cambio siguiente. Para correr el script contra el
 `red_vial.csv` oficial hizo falta ampliar el límite de campo de `csv`, por la
 columna `multiline`.
+
+## Coordenadas de los nodos
+
+Fuente primaria: DANE, DIVIPOLA, con corte al 30 de diciembre de 2024,
+descargada de datos.gov.co el 7 de octubre de 2026 (formato decimal con coma).
+
+| Archivo | Identificador | Filas | Conteo API | SHA-256 |
+|---|---|---|---|---|
+| `divipola_municipios_gdxc-w37w.csv` | `gdxc-w37w` | 1122 | 1122 | `56f42b7cb97049ce52ee86e86b1393df0025aa1b1aec32b2b09f4b6acd5e1221` |
+| `divipola_centros_poblados_xaxy-8nri.csv` | `xaxy-8nri` | 8161 | 8161 | `d767c6845cfc0f79c17c1f3b1eecc9bec10729e33766ad6e28875aef027c93ec` |
+
+`coordenadas_nodos.csv` se genera con `src/obtener_coordenadas.py`. Cada
+punto DANE se contrasta con los extremos de la geometría INVÍAS
+(`multiline` de `red_vial.csv`) de los tramos adyacentes; la separación por
+nodo está en `outputs/verificacion_coordenadas.csv`. Los nodos sin
+coordenada DANE verificable se estiman como la unión de los dos tramos
+INVÍAS que llegan a ellos.
