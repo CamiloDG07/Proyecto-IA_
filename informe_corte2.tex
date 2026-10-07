@@ -73,32 +73,22 @@ Camilo Andrés Díaz García}\\[1.2cm]
 
 \section{Formulación de continuidad}
 
-El Corte 1 formuló el problema de un camión de carga (categoría III) que se
-desplaza entre ciudades colombianas. La red del Corte 2 tiene 32 nodos,
-32 aristas y un único ciclo (el desvío por Santander), y las mismas
-magnitudes por arista: distancia, peaje de categoría III y riesgo de
-siniestralidad. Respecto del Corte 1 hay dos cambios en los datos, ambos con
-método documentado en \texttt{data/carga/VERIFICACION.md}:
-
-\begin{itemize}
-\item Se excluyó Mosquera: su sector pertenecía a otra región y la Red Vial
-no tiene un sector oficial de reemplazo.
-\item Se corrigió la distancia de 9 aristas cuya longitud registrada es entre
-1.7 y 2.3 veces su tramo entre progresivas, porque la geometría del sector
-contiene ambas calzadas. La regla se fijó de antemano y se verificó con la
-geometría.
-\end{itemize}
-
-El problema de búsqueda queda definido así: el estado es la ciudad actual; las
-acciones son los tramos que salen de ella; el costo de una acción es el
-atributo de la arista según el criterio (\texttt{distancia},
-\texttt{compuesto\_sin\_riesgo}, \texttt{compuesto} o \texttt{riesgo}); la meta
-es la ciudad de destino. En la red corregida, el caso central (Duitama a
-Puente Nacional) tiene dos rutas: 309.10 km por Bogotá y 654.25 km por
-Santander. Como la distancia de Chocontá a Tunja está truncada en la fuente
-(17.69 km frente a 56.96 km de línea recta), la ruta por Bogotá tiene una
-cota inferior de $309.10 - 17.69 + 56.96 = 348.37$ km (cota inferior: la
-geodésica no excede la distancia por carretera); no es un valor estimado.
+La formulación del problema, los datos y su construcción están en el informe
+del Corte 1~\cite{formulacion}. La red corregida a la que se refiere este
+informe tiene 32 nodos, porque se excluyó Mosquera, y 9 registros con la
+distancia corregida por doble calzada digitalizada; ambos cambios se
+documentan en ese informe. Como problema
+de búsqueda, el estado es la ciudad actual; las acciones son los tramos que
+salen de ella; el costo de una acción es el atributo de la arista según el
+criterio (\texttt{distancia}, \texttt{compuesto\_sin\_riesgo},
+\texttt{compuesto} o \texttt{riesgo}); y la meta es la ciudad de destino. En el
+caso central, Duitama a Puente Nacional, las dos rutas miden 309.10 km por
+Bogotá y 654.25 km por Santander. El sector de Chocontá a Tunja está truncado
+en la fuente (17.69 km frente a 56.96 km de línea recta), por lo que la ruta
+por Bogotá tiene una cota inferior de $309.10 - 17.69 + 56.96 = 348.37$ km
+(cota inferior: la geodésica no excede la distancia por carretera; no es un
+valor estimado), y de esa arista depende el valor de $\alpha$ de la
+Sección~\ref{sec:heuristica}.
 
 \section{Implementación de los cinco algoritmos}
 
@@ -141,6 +131,7 @@ criterios. En todos, UCS y A* igualan el costo de
 búsqueda voraz devuelven rutas válidas. Todas las pruebas pasan.
 
 \section{Heurística: admisibilidad y consistencia}
+\label{sec:heuristica}
 
 Para los criterios basados en distancia se usa
 \begin{equation}
@@ -521,6 +512,12 @@ término de distancia; en \texttt{riesgo} es $h = 0$ y A* se reduce a UCS
 \addcontentsline{toc}{section}{Referencias}
 
 \begin{thebibliography}{9}
+
+\bibitem{formulacion}
+Andradé Gómez, J. D., Jiménez López, M., y Díaz García, C. A. (2026).
+\textit{Formulación del problema y agente de rutas para una red de carga
+interurbana} (Proyecto Integrador, Corte 1) [Documento del equipo].
+Universidad Sergio Arboleda.
 
 \bibitem{redvial}
 INVÍAS. (2026). \textit{Red Vial}. Datos Abiertos Colombia.
