@@ -1,1 +1,2 @@
 data/carga/** -text
+outputs/*.gpickle -text

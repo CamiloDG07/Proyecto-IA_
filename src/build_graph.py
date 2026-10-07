@@ -100,14 +100,26 @@ def estadisticas(grafo):
 def guardar_grafo(grafo, ruta=None):
     ruta = ruta or SALIDA / "grafo_carga.gpickle"
     with open(ruta, "wb") as f:
-        pickle.dump(grafo, f, protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(grafo, f, protocol=4)
     return ruta
 
 
 def cargar_grafo(ruta=None):
+    """Carga el grafo persistido; si no se puede leer, lo reconstruye.
+
+    El pickle depende de las versiones de Python y networkx. Si falta o no
+    se puede deserializar, se reconstruye desde los JSON versionados y no
+    hace falta el red_vial.csv oficial.
+    """
     ruta = ruta or SALIDA / "grafo_carga.gpickle"
-    with open(ruta, "rb") as f:
-        return pickle.load(f)
+    try:
+        with open(ruta, "rb") as f:
+            return pickle.load(f)
+    except (OSError, pickle.UnpicklingError, AttributeError, ImportError,
+            EOFError, ValueError) as error:
+        print(f"Aviso: no se pudo leer {ruta.name} ({error!r}); "
+              "se reconstruye desde los JSON.")
+        return construir_grafo()
 
 
 def main():
