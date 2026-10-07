@@ -73,6 +73,11 @@ python src/experimentos_corte2.py  # escenarios, barrido y sensibilidad
 python src/tablas_corte2.py       # tablas del informe del Corte 2
 python src/visualizar_rutas.py    # figuras de rutas y barrido
 python src/demostracion.py Duitama "Puente Nacional" distancia
+python src/pruebas_despachador.py  # agente multifuncional
+python src/pruebas_orden_libre.py  # Held-Karp, 2-opt y ACO
+python src/medir_umbral.py         # umbral de Held-Karp (varios minutos)
+python src/validacion_agente.py    # validacion del agente (varios minutos)
+python src/tablas_agente.py        # tablas y figura del agente
 
 pdflatex formulacion_corte1.tex  # dos pasadas
 pdflatex formulacion_corte1.tex

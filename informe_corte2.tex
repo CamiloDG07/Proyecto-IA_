@@ -414,6 +414,165 @@ falla en uno: de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de
 481.34 km (0.14\,\% más). Sumados los 992 pares, UCS expande 15\,872 nodos,
 A* con $\alpha$ 13\,377 y A* con $\alpha_{\mathrm{ref}}$ 12\,223.
 
+\section{Agente multifuncional}
+\label{sec:agente}
+
+El agente se adapta a variantes del problema y usa un método exacto siempre
+que es viable. Está en \texttt{src/despachador.py} y reutiliza las búsquedas
+del proyecto: la matriz de costos entre paradas se calcula con UCS o con A*
+(tablas de $h$ precalculadas), guardando la ruta expandida de cada tramo; no
+se reimplementó ninguna búsqueda. Es genérico: funciona con cualquier grafo
+de \texttt{networkx} con costos no negativos por arista.
+
+\subsection{Despachador y criterio de selección}
+
+\begin{table}[H]
+\centering
+\caption{Tipos de solicitud y método elegido}
+\label{tab:despachador}
+\footnotesize
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{4.7cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\toprule
+\textbf{Tipo de solicitud} & \textbf{Método si es viable (exacto)} &
+\textbf{Si el exacto no es viable} \\
+\midrule
+a. Origen a destino & A* si el criterio tiene heurística admisible
+(distancia, compuesto sin riesgo); UCS en los demás & No aplica \\
+b. Paradas en orden fijo & Un A* o UCS por tramo; el costo es la suma &
+No aplica \\
+c. Obligatoria(s) intermedia(s) o tramos bloqueados & Una obligatoria: orden
+determinado, A* o UCS por tramo. Varias: Held-Karp con final fijo; los
+bloqueos se excluyen de todas las búsquedas & ACO + 2-opt \\
+d. Orden libre con regreso & Held-Karp (ciclo) & ACO + 2-opt \\
+e. Orden libre sin regreso & Held-Karp (final libre) & ACO + 2-opt \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Regla fija.} Se usa un método exacto cuando es viable; la
+metaheurística solo cuando no lo es. En los tipos de orden libre, el exacto
+(Held-Karp, programación dinámica sobre subconjuntos de paradas) es viable si
+el número $k$ de paradas libres es menor o igual que $K_{\mathrm{exacto}}$.
+Ese umbral no se supuso: se midió el tiempo de Held-Karp en esta máquina
+(Tabla~\ref{tab:umbral}) y se fijó como el mayor $k$ cuyo tiempo mediano no
+supera un presupuesto de 5 s por solicitud. El presupuesto es una decisión de
+diseño (tiempo útil de respuesta); el umbral es la medición. Resultado:
+$K_{\mathrm{exacto}} = 19$ (con $k=19$, 2.725 s; con $k=20$, 6.134 s en una
+sola repetición). La respuesta del despachador incluye la ruta, el costo, el
+método usado, el motivo de la elección y las métricas.
+
+\begin{table}[H]
+\centering
+\caption{Medición de Held-Karp en esta máquina (Python 3.14.3, NumPy 2.5.2,
+procesador con 12 hilos lógicos): $k$ paradas libres, modo ciclo}
+\label{tab:umbral}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_ag_umbral.tex}
+\end{table}
+
+\subsection{ACO con búsqueda local 2-opt}
+
+El ACO está en \texttt{src/aco\_multiparada.py}, programado desde cero. Cada
+hormiga elige el siguiente nodo con probabilidad proporcional a
+$\tau_{ij}^{\alpha}\,\eta_{ij}^{\beta}$, con visibilidad $\eta_{ij} = 1/c_{ij}$
+(con un término $\varepsilon$ pequeño para costos nulos) y feromona por arista.
+Las hormigas depositan $1/L_k$ en su tour y el mejor tour de cada iteración,
+mejorado con 2-opt, deposita $1/L$ adicional. Parámetros, iguales para todas
+las instancias: $\alpha = 1.5$, $\beta = 5$ y $\rho = 0.1$, la configuración
+adoptada en el taller de ACO del curso tras su barrido de parámetros~\cite{aco};
+número de hormigas igual al número de nodos y 100 iteraciones, como en el
+taller para $n = 20$. No se reajustaron en este trabajo. Cada instancia se
+corre con 10 semillas fijas (1 a 10).
+
+\subsection{Validación}
+
+\textbf{Instancias.} (a) La red de carga con $k = 5, 10, 15$ y 20 ciudades
+(el origen cuenta como una de ellas, por lo que hay $k-1$ paradas libres), con
+tres instancias por $k$ elegidas con semilla fija, y con las 32 ciudades;
+criterio distancia, orden libre con regreso. (b) Las cinco instancias
+euclidianas de $n = 20$ del taller de ACO (semillas 1 a 5, generadas con el
+mismo generador xorshift64), cuyo óptimo de Held-Karp ya estaba calculado. (c)
+Dos instancias euclidianas mayores ($n = 100$ y $n = 200$) sin óptimo exacto,
+con referencia \emph{mejor encontrada con 2-opt} (2-opt desde el vecino más
+cercano y desde 300 y 150 inicios aleatorios), que no es un óptimo. Para las
+32 ciudades no hay Held-Karp; como referencia se usa el óptimo por estructura
+de la red (un solo ciclo): $2(W - C) + \min(C, 2(C - w_{\max}))$, con $W$ la
+suma de las aristas, $C$ la longitud del ciclo y $w_{\max}$ su arista mayor.
+
+\begin{table}[H]
+\centering
+\caption{Costos y brechas del ACO con 10 semillas. Ref.: exacto
+(Held-Karp), estructura (óptimo por estructura de la red) o 2-opt (mejor
+encontrada con 2-opt, no óptimo). Igualan: semillas que alcanzan la
+referencia}
+\label{tab:val-costos}
+\scriptsize\setlength{\tabcolsep}{2pt}
+\input{outputs/tabla_ag_costos.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Tiempo (sin \texttt{tracemalloc}, media $\pm$ desviación de 10
+corridas) y memoria pico (corrida aparte) del ACO; tiempo y memoria del
+exacto (una corrida y una corrida aparte)}
+\label{tab:val-recursos}
+\footnotesize\setlength{\tabcolsep}{2pt}
+\input{outputs/tabla_ag_recursos.tex}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{convergencia_aco.png}
+    \caption{Curvas de convergencia del ACO + 2-opt: brecha de la media de 10
+    semillas respecto de la referencia. Fuente: elaboración propia}
+    \label{fig:convergencia}
+\end{figure}
+
+Lo que muestran las corridas:
+
+\begin{itemize}
+\item \textbf{Red de carga.} En las 12 instancias con exacto, el ACO alcanza el
+costo de Held-Karp con las 10 semillas, y en las 32 ciudades alcanza el óptimo
+por estructura (2808.65 km) con las 10 semillas. Es decir, en la red de carga,
+casi un árbol, el exacto y el ACO coinciden. La brecha es 0 desde la primera
+iteración (Figura~\ref{fig:convergencia}): el 2-opt aplicado al mejor tour de
+esa iteración ya alcanza el óptimo, por lo que estas instancias no distinguen
+entre el ACO y la búsqueda local. Por eso se valida también en instancias
+euclidianas.
+\item \textbf{Instancias del taller ($n=20$).} Held-Karp de este proyecto
+coincide con el óptimo exacto del taller en las 5 semillas
+(4.10594, 4.26964, 3.53736, 4.07461 y 4.26586). El ACO alcanza el óptimo con
+su mejor corrida en las 5; la brecha media es 0 en tres instancias, 0.118\,\%
+en la semilla 1 (9 de 10 semillas alcanzan el óptimo) y 0.402\,\% en la semilla
+4 (8 de 10).
+\item \textbf{Instancias mayores.} El ACO obtiene costos menores que la
+referencia \emph{mejor encontrada con 2-opt}: con $n=100$, $-0.158$\,\% en la
+mejor corrida y $-0.065$\,\% en la media; con $n=200$, $-1.212$\,\% y
+$-0.887$\,\%. Ninguna semilla iguala la referencia. Como la referencia no es un
+óptimo, las brechas negativas solo indican que el ACO supera a esa búsqueda
+local desde inicios múltiples; no se conoce la distancia al óptimo.
+\item \textbf{Tiempo.} Con 20 ciudades, Held-Karp tarda entre 2.57 s y 3.04 s
+en las tres instancias de la red y 111.8 MiB; el ACO tarda entre 0.19 s y
+0.22 s. Con pocas paradas el exacto es más rápido (milisegundos hasta $k=10$).
+Con $n=200$ el ACO tarda $17.38 \pm 0.50$ s y 5389 KiB. La regla fija elige el
+exacto siempre que es viable, aunque el ACO resulte más rápido.
+\end{itemize}
+
+\subsection{Limitaciones del agente}
+
+\begin{itemize}
+\item El umbral $K_{\mathrm{exacto}} = 19$ depende de la máquina y del
+presupuesto de 5 s; las mediciones con $k \ge 20$ son de una sola repetición.
+\item Los parámetros del ACO se tomaron del taller y no se reajustaron; en la
+red de carga el 2-opt de la primera iteración ya alcanza el óptimo, por lo que
+esa validación no mide el aporte de las hormigas.
+\item El ACO con 2-opt requiere una matriz de costos simétrica (el exacto no).
+\item En las instancias mayores no hay referencia óptima; la referencia es la
+mejor encontrada con 2-opt.
+\item Los costos de la red son los de la red corregida, con las limitaciones de
+datos descritas arriba (Chocontá a Tunja truncada, entrada urbana a Bogotá).
+\end{itemize}
+
 \section{Discusión}
 
 \begin{itemize}
@@ -535,6 +694,12 @@ INVÍAS. (2026). \textit{Peajes}. Datos Abiertos Colombia.
 Agencia Nacional de Seguridad Vial. (2026). \textit{Sectores críticos de
 siniestralidad vial}. Datos Abiertos Colombia.
 \url{https://www.datos.gov.co/Transporte/SECTORES-CRITICOS-DE-SINIESTRALIDAD-VIAL/rs3u-8r4q}
+
+\bibitem{aco}
+Díaz García, C. A., Jiménez López, M., y Andradé Gómez, J. D. (2026).
+\textit{Colonia de hormigas aplicada al TSP} (taller de Inteligencia
+Artificial) [Documento del equipo, repositorio ACO\_IA]. Universidad Sergio
+Arboleda.
 
 \bibitem{divipola}
 Departamento Administrativo Nacional de Estadística. (2025). \textit{DIVIPOLA:
