@@ -470,8 +470,12 @@ En todo el informe, $n$ es el número de ciudades de una instancia (origen
 incluido) y $k$ el de paradas libres por ordenar ($k = n - 1$ en orden libre
 con regreso).
 
-\textbf{Decisión del tipo.} Un destino sin regreso es origen a destino. Varios
-destinos, o uno con regreso, es orden libre: el despachador usa Held-Karp si
+\textbf{Decisión del tipo.} Un destino sin regreso es origen a destino; con
+regreso es ida y vuelta: la ida es la recomendación y, sin bloqueos, el
+regreso es la ida invertida (los costos son simétricos). Con
+\texttt{-{}-bloquear-regreso A-B;C-D} el regreso se resuelve como una segunda
+solicitud de origen a destino con esos tramos bloqueados solo en el regreso.
+Varios destinos es orden libre: el despachador usa Held-Karp si
 $k \le K_{\mathrm{exacto}}$, ACO si no, y el criterio compuesto sin riesgo.
 
 \textbf{Candidatas y evaluación.} Con un destino, el agente calcula la ruta
@@ -508,6 +512,8 @@ el ciclo, (b) un par de ruta única y (c) varios destinos con regreso}
 \end{table}
 
 \input{outputs/texto_ejemplo_agente.tex}
+
+\textbf{Perfil de la red.} \input{outputs/texto_perfil_topologico.tex}
 
 \subsection{Despachador y criterio de selección}
 

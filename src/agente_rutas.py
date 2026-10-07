@@ -2,6 +2,8 @@
 
 Uso:
     python src/agente_rutas.py ORIGEN DESTINO [DESTINO ...] [--regreso]
+    python src/agente_rutas.py ORIGEN DESTINO --regreso \
+        --bloquear-regreso "A-B;C-D"
 
 El agente decide el tipo de problema, el criterio, el algoritmo y la
 heurística, y devuelve la mejor ruta con su explicación.
@@ -20,7 +22,13 @@ Regla de decisión:
     son un supuesto de modelado (no hay datos de costo operativo por
     kilómetro para calibrarlos); la recomendación se recalcula con otros
     pesos mediante el parámetro `pesos` de recomendar.
-  - Varios destinos, o un destino con regreso: orden libre de las paradas,
+  - Un destino con regreso: ida y vuelta. La ida es la recomendación de
+    origen a destino. Sin bloqueos, el regreso es la ida invertida (los
+    costos son simétricos). Con --bloquear-regreso "A-B;C-D", el regreso se
+    resuelve como una segunda solicitud de origen a destino (del destino al
+    origen) con esos tramos bloqueados solo en el regreso. Solo vale para un
+    destino con --regreso; con varios destinos es un error.
+  - Varios destinos: orden libre de las paradas, con o sin regreso,
     resuelto por el despachador (Held-Karp si k <= K_exacto, ACO si no) con
     el criterio compuesto sin riesgo.
 No reimplementa búsquedas: usa el despachador, que usa busquedas.py y
@@ -130,11 +138,14 @@ def _validar(grafo, origen, destinos):
                          "distintas")
 
 
-def _un_destino(grafo, despachador, origen, destino, pesos, auditadas):
+def _un_destino(grafo, despachador, origen, destino, pesos, auditadas,
+                bloqueados=()):
     metodos, rutas = [], {}
+    bloqueados = list(bloqueados)
     for criterio in CRITERIOS_CANDIDATAS:
-        base = despachador.resolver(Solicitud("a", origen, destino,
-                                              criterio=criterio))
+        base = despachador.resolver(Solicitud(
+            "a", origen, destino, criterio=criterio,
+            restricciones={"bloqueados": bloqueados}))
         metodos.append({"criterio": criterio, "metodo": base["metodo"],
                         "motivo": base["motivo"],
                         "nodos_expandidos": base["metricas"][
@@ -144,7 +155,7 @@ def _un_destino(grafo, despachador, origen, destino, pesos, auditadas):
             try:
                 alt = despachador.resolver(Solicitud(
                     "a", origen, destino, criterio=criterio,
-                    restricciones={"bloqueados": [arista]}))
+                    restricciones={"bloqueados": bloqueados + [arista]}))
             except ValueError:
                 continue
             rutas.setdefault(tuple(alt["ruta"]), f"alternativa de {criterio}")
@@ -192,6 +203,68 @@ def _un_destino(grafo, despachador, origen, destino, pesos, auditadas):
             "nodos_expandidos": sum(m["nodos_expandidos"] for m in metodos)}
 
 
+def parsear_bloqueos(texto, grafo):
+    """Lista de tramos (A, B) de un texto «A-B;C-D», validados contra la
+    red."""
+    if not isinstance(texto, str) or not texto.strip():
+        raise ValueError("Formato de bloqueo inválido: use \"A-B;C-D\" "
+                         "(ciudades separadas por guion, tramos por punto "
+                         "y coma)")
+    tramos = []
+    for trozo in texto.split(";"):
+        partes = [x.strip() for x in trozo.split("-")]
+        if len(partes) != 2 or not all(partes):
+            raise ValueError(f"Formato de bloqueo inválido: «{trozo}»; "
+                             "use \"A-B;C-D\"")
+        for ciudad in partes:
+            if ciudad not in grafo:
+                raise ValueError(f"Ciudad fuera de la red en el bloqueo: "
+                                 f"{ciudad}")
+        if not grafo.has_edge(*partes):
+            raise ValueError(f"No existe el tramo {partes[0]}-{partes[1]} "
+                             "en la red")
+        tramos.append(tuple(partes))
+    return tramos
+
+
+def _ida_y_vuelta(grafo, despachador, origen, destino, pesos, auditadas,
+                  bloqueos):
+    """Ida recomendada y regreso: la ida invertida o, con bloqueos, la
+    recomendación del destino al origen con esos tramos bloqueados."""
+    ida = _un_destino(grafo, despachador, origen, destino, pesos, auditadas)
+    mejor = ida["recomendada"]
+    regreso = {"bloqueos": bloqueos}
+    if bloqueos:
+        try:
+            v = _un_destino(grafo, despachador, destino, origen, pesos,
+                            auditadas, bloqueados=bloqueos)
+        except ValueError as error:
+            raise ValueError(
+                "Los tramos bloqueados en el regreso desconectan "
+                f"{destino} de {origen}") from error
+        vuelta = v["recomendada"]
+        regreso.update(metodos=v["metodos"], alternativas=v["alternativas"],
+                       avisos=v["avisos"],
+                       nodos_expandidos=v["nodos_expandidos"])
+        base = mejor["costos"]["compuesto_sin_riesgo"]
+        regreso["margen_pct"] = 100 * (
+            vuelta["costos"]["compuesto_sin_riesgo"] - base) / base
+        regreso["origen_del_regreso"] = "recalculado con los bloqueos"
+    else:
+        vuelta = _evaluar(grafo, mejor["ruta"][::-1], pesos)
+        regreso.update(metodos=[], alternativas=[], avisos=[],
+                       nodos_expandidos=0, margen_pct=0.0,
+                       origen_del_regreso="ida invertida")
+    ida.update({
+        "tipo": "ida_y_vuelta", "ida": mejor, "vuelta": vuelta,
+        "detalle_regreso": regreso,
+        "total": {"km": mejor["km"] + vuelta["km"],
+                  "peaje_cop": mejor["peaje_cop"] + vuelta["peaje_cop"]},
+        "nodos_expandidos": ida["nodos_expandidos"]
+        + regreso["nodos_expandidos"]})
+    return ida
+
+
 def _varios(grafo, despachador, origen, destinos, regreso, pesos, auditadas):
     tipo = "d" if regreso else "e"
     salida = despachador.resolver(Solicitud(
@@ -211,11 +284,14 @@ def _varios(grafo, despachador, origen, destinos, regreso, pesos, auditadas):
         "nodos_expandidos": salida["metricas"]["nodos_expandidos"]}
 
 
-def recomendar(origen, destinos, regreso=False, pesos=None, grafo=None):
+def recomendar(origen, destinos, regreso=False, pesos=None, grafo=None,
+               bloquear_regreso=None):
     """Mejor ruta con su explicación. destinos es una lista de ciudades.
 
     pesos: pesos de distancia y peaje de la regla de recomendación (iguales
     por defecto); se normalizan por el máximo de cada atributo en la red.
+    bloquear_regreso: texto «A-B;C-D» (o lista de tramos) bloqueados solo en
+    el regreso; solo con un destino y regreso=True.
     """
     grafo = grafo if grafo is not None else cargar_grafo()
     pesos = pesos or PESOS_IGUALES
@@ -223,9 +299,22 @@ def recomendar(origen, destinos, regreso=False, pesos=None, grafo=None):
         destinos = [destinos]
     destinos = list(destinos)
     _validar(grafo, origen, destinos)
+    bloqueos = []
+    if bloquear_regreso:
+        if not regreso:
+            raise ValueError("El bloqueo en el regreso requiere --regreso")
+        if len(destinos) != 1:
+            raise ValueError("El bloqueo en el regreso solo se admite con "
+                             "un destino")
+        bloqueos = (parsear_bloqueos(bloquear_regreso, grafo)
+                    if isinstance(bloquear_regreso, str)
+                    else [tuple(x) for x in bloquear_regreso])
     despachador = Despachador(grafo, COORDENADAS)
     auditadas = _leer_auditadas()
-    if len(destinos) == 1 and not regreso:
+    if len(destinos) == 1 and regreso:
+        r = _ida_y_vuelta(grafo, despachador, origen, destinos[0], pesos,
+                          auditadas, bloqueos)
+    elif len(destinos) == 1:
         r = _un_destino(grafo, despachador, origen, destinos[0], pesos,
                         auditadas)
     else:
@@ -238,8 +327,56 @@ def recomendar(origen, destinos, regreso=False, pesos=None, grafo=None):
     return r
 
 
+def _linea_ruta(titulo, m):
+    return [f"{titulo}: {' > '.join(m['ruta'])}",
+            f"  Distancia: {m['km']:.2f} km   Peaje: "
+            f"{m['peaje_cop']:,.0f} COP".replace(",", " ")]
+
+
+def _formatear_ida_y_vuelta(r):
+    ida, vuelta = r["ida"], r["vuelta"]
+    reg, total = r["detalle_regreso"], r["total"]
+    lineas = [f"Origen: {r['origen']}  Destino: {r['destinos'][0]}  "
+              "Regreso: sí",
+              "Tipo de problema decidido: ida_y_vuelta"]
+    lineas += _linea_ruta("Ida", ida)
+    lineas.append(f"  Riesgo (suma de GiZScore con dato): {ida['riesgo']:.2f};"
+                  f" dato en el {ida['cobertura_riesgo_pct']:.0f} % de los "
+                  "tramos")
+    lineas += _linea_ruta("Vuelta", vuelta)
+    if reg["bloqueos"]:
+        bloqueados = "; ".join(f"{a}-{b}" for a, b in reg["bloqueos"])
+        lineas.append(f"  Regreso recalculado con los tramos bloqueados "
+                      f"solo en el regreso: {bloqueados}; costo compuesto "
+                      f"sin riesgo {reg['margen_pct']:+.1f} % respecto de la "
+                      "ida invertida")
+    else:
+        lineas.append("  Sin bloqueos, el regreso es la ida invertida")
+    lineas.append(f"Total ida y vuelta: {total['km']:.2f} km   Peaje: "
+                  f"{total['peaje_cop']:,.0f} COP".replace(",", " "))
+    lineas.append("Método y heurística de la ida:")
+    for x in r["metodos"]:
+        lineas.append(f"  {x['criterio']}: {x['metodo']}; "
+                      f"{x['nodos_expandidos']} nodos expandidos")
+    if reg["metodos"]:
+        lineas.append("Método y heurística del regreso:")
+        for x in reg["metodos"]:
+            lineas.append(f"  {x['criterio']}: {x['metodo']}; "
+                          f"{x['nodos_expandidos']} nodos expandidos")
+    lineas.append(f"  alfa de la heurística: {r['alfa']:.6f}; total de nodos "
+                  f"expandidos: {r['nodos_expandidos']}")
+    avisos = list(r["avisos"]) + [f"Regreso: {a}" for a in reg["avisos"]]
+    if avisos:
+        lineas.append("Advertencias:")
+        lineas += [f"  - {a}" for a in avisos]
+    return "\n".join(textwrap.fill(x, ANCHO, subsequent_indent="      ")
+                     for x in lineas)
+
+
 def formatear(r):
     """Texto legible de la recomendación."""
+    if r["tipo"] == "ida_y_vuelta":
+        return _formatear_ida_y_vuelta(r)
     m = r["recomendada"]
     pesos = r["pesos"]
     lineas = [f"Origen: {r['origen']}  Destinos: {', '.join(r['destinos'])}"
@@ -292,12 +429,28 @@ def formatear(r):
 
 def main(argumentos):
     regreso = "--regreso" in argumentos
-    ciudades = [a for a in argumentos if a != "--regreso"]
+    bloqueo = None
+    resto = [a for a in argumentos if a != "--regreso"]
+    for i, a in enumerate(resto):
+        if a == "--bloquear-regreso":
+            if i + 1 >= len(resto):
+                print("Error: --bloquear-regreso requiere un valor "
+                      "\"A-B;C-D\"")
+                return 1
+            bloqueo = resto[i + 1]
+            del resto[i:i + 2]
+            break
+        if a.startswith("--bloquear-regreso="):
+            bloqueo = a.split("=", 1)[1]
+            del resto[i]
+            break
+    ciudades = resto
     if len(ciudades) < 2:
         print(__doc__)
         return 1
     try:
-        print(formatear(recomendar(ciudades[0], ciudades[1:], regreso)))
+        print(formatear(recomendar(ciudades[0], ciudades[1:], regreso,
+                                   bloquear_regreso=bloqueo)))
     except ValueError as error:
         print(f"Error: {error}")
         return 1
