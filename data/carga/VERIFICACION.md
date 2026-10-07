@@ -255,3 +255,23 @@ es una medida aproximada (extremos por doble barrido).
    que en esos tres nodos coordenada y geometría no son independientes.
    Presidente tiene punto DANE (centro poblado), solo contrastado con la
    geometría.
+
+## Límites departamentales para los mapas (descarga del 7 de octubre de 2026)
+
+| Campo | Valor |
+|---|---|
+| Archivo | `data/carga/mgn2020_departamentos_dane.json` |
+| Nombre | Nivel de Información Departamento del Marco Geoestadístico Nacional (MGN), Versión 2020 (capa «Departamentos») |
+| Entidad | Departamento Administrativo Nacional de Estadística (DANE); límites oficiales suministrados por el IGAC |
+| Catálogo | https://www.datos.gov.co/d/jjim-6r88 |
+| Servicio | https://portalgis.dane.gov.co/mparcgis/rest/services/MGN2020/Serv_CapaDepartamentos_2020/MapServer/0 |
+| Fecha de descarga | 7 de octubre de 2026 |
+| Consulta | `query?where=OBJECTID>0&outFields=*&returnGeometry=true&outSR=4326&maxAllowableOffset=0.003&f=json` |
+| Contenido | 33 departamentos (incluido Bogotá, D.C.), anillos en grados (EPSG:4326), formato JSON de ArcGIS |
+| SHA-256 | `3e7ee22f955d9b853d526005c4944287a5e03646f9e0bb8491d11f4ac95804c6` |
+
+El parámetro `maxAllowableOffset=0.003` (unos 330 m) es una generalización que
+aplica el propio servicio; los límites sirven solo de fondo de las figuras, no
+para medir distancias ni áreas. Las capas MGN 2024 y 2025 del mismo portal
+respondieron sin geometría en la misma consulta, por eso se usó la versión
+2020. Las figuras no usan mosaicos (tiles).
