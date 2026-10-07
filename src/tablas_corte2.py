@@ -52,7 +52,9 @@ def celda(c, metrica, criterio):
             else f"{c['costo']:.3f}"
     if c["optima"]:
         return "sí"
-    return f"no ($+{100 * c['exceso_relativo']:.1f}\\,\\%$)"
+    if not c["costo_optimo"]:
+        return f"no (óptimo $0$, costo {c['costo']:.3f})"
+    return f"no (+{100 * c['exceso_relativo']:.1f}\\,\\%)"
 
 
 def tabla_metrica(resultados, criterio, metrica):
@@ -105,7 +107,7 @@ def tabla_barrido(barridos):
     escribir("tabla_c2_barrido.tex",
              ["\\begin{tabular}{lrr}", "\\toprule",
               "\\textbf{Medida} & \\textbf{Base} & "
-              "\\textbf{Sensibilidad con cota inferior} \\\\", "\\midrule"]
+              "\\textbf{Con cota inferior} \\\\", "\\midrule"]
              + [f"{a} & {b} & {c} \\\\" for a, b, c in filas]
              + ["\\bottomrule", "\\end{tabular}"])
 
@@ -212,9 +214,10 @@ def tabla_escenarios(resultados):
         if (clave not in vistos and c["criterio"] == "distancia"
                 and c["algoritmo"] == "UCS"):
             vistos[clave] = c
-    lineas = ["\\begin{tabular}{lcrl}", "\\toprule",
-              "\\textbf{Escenario} & \\textbf{Rutas simples} & "
-              "\\textbf{Saltos (óptima)} & \\textbf{Motivo} \\\\",
+    lineas = ["\\begin{tabular}{lcr>{\\raggedright\\arraybackslash}p{5.4cm}}",
+              "\\toprule",
+              "\\textbf{Escenario} & \\textbf{Rutas} & "
+              "\\textbf{Saltos} & \\textbf{Motivo} \\\\",
               "\\midrule"]
     for (origen, destino), c in vistos.items():
         lineas.append(f"{origen} -- {destino} & {c['rutas_simples']} & "

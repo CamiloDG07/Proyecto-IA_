@@ -1,0 +1,545 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{xcolor}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{xurl}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
+\graphicspath{{data/}{outputs/}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Corte 2: algoritmos de búsqueda}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14.5pt}
+\setlength{\emergencystretch}{3em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+
+\vspace*{0.5cm}
+\includegraphics[width=0.30\textwidth]{sergio_logo.png}\\[0.4cm]
+
+{\fontsize{13}{15}\selectfont\textbf{UNIVERSIDAD SERGIO ARBOLEDA}}\\[2.0cm]
+
+{\fontsize{14}{17}\selectfont\textbf{ALGORITMOS DE BÚSQUEDA SOBRE UNA RED DE\\
+CARGA INTERURBANA: BFS, DFS, COSTO UNIFORME,\\
+VORAZ Y A*}}\\[0.6cm]
+{\fontsize{12}{14}\selectfont Proyecto Integrador, Corte 2}\\[2.2cm]
+
+{\fontsize{12}{14}\selectfont\textbf{Inteligencia Artificial (SIST5036)}}\\[1.5cm]
+
+{\fontsize{12}{14}\selectfont
+Juan David Andradé Gómez\\[0.2cm]
+Mario Jiménez López\\[0.2cm]
+Camilo Andrés Díaz García}\\[1.2cm]
+
+{\fontsize{12}{14}\selectfont Profesor: Joaquín F. Sánchez}
+
+\vfill
+
+\begin{center}
+    \textit{Universidad Sergio Arboleda}\\
+    \textit{Facultad de Sistemas e Ingeniería}\\
+    \textit{Bogotá D.C., 2026}
+\end{center}
+
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Formulación de continuidad}
+
+El Corte 1 formuló el problema de un camión de carga (categoría III) que se
+desplaza entre ciudades colombianas. La red del Corte 2 tiene 32 nodos,
+32 aristas y un único ciclo (el desvío por Santander), y las mismas
+magnitudes por arista: distancia, peaje de categoría III y riesgo de
+siniestralidad. Respecto del Corte 1 hay dos cambios en los datos, ambos con
+método documentado en \texttt{data/carga/VERIFICACION.md}:
+
+\begin{itemize}
+\item Se excluyó Mosquera: su sector pertenecía a otra región y la Red Vial
+no tiene un sector oficial de reemplazo.
+\item Se corrigió la distancia de 9 aristas cuya longitud registrada es entre
+1.7 y 2.3 veces su tramo entre progresivas, porque la geometría del sector
+contiene ambas calzadas. La regla se fijó de antemano y se verificó con la
+geometría.
+\end{itemize}
+
+El problema de búsqueda queda definido así: el estado es la ciudad actual; las
+acciones son los tramos que salen de ella; el costo de una acción es el
+atributo de la arista según el criterio (\texttt{distancia},
+\texttt{compuesto\_sin\_riesgo}, \texttt{compuesto} o \texttt{riesgo}); la meta
+es la ciudad de destino. En la red corregida, el caso central (Duitama a
+Puente Nacional) tiene dos rutas: 309.10 km por Bogotá y 654.25 km por
+Santander. Como la distancia de Chocontá a Tunja está truncada en la fuente
+(17.69 km frente a 56.96 km de línea recta), la ruta por Bogotá tiene una
+cota inferior de $309.10 - 17.69 + 56.96 = 348.37$ km (cota inferior: la
+geodésica no excede la distancia por carretera); no es un valor estimado.
+
+\section{Implementación de los cinco algoritmos}
+
+Los algoritmos están en \texttt{src/busquedas.py}, programados desde cero: el
+grafo solo aporta vecinos y costos, y no se usa ninguna búsqueda de
+\texttt{networkx} (para poder contar nodos expandidos).
+
+\begin{table}[H]
+\centering
+\caption{Los cinco algoritmos}
+\label{tab:algoritmos}
+\small
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{6.3cm}}
+\toprule
+\textbf{Algoritmo} & \textbf{Frontera} & \textbf{Resultado garantizado} \\
+\midrule
+BFS & Cola FIFO & Mínimo número de saltos, no mínimo costo \\
+DFS & Pila LIFO & Primera ruta que encuentra; sin garantía \\
+UCS & Cola de prioridad por $g(n)$ & Óptimo para costos no negativos \\
+Voraz & Cola de prioridad por $h(n)$ & Sin garantía de optimalidad \\
+A* & Cola de prioridad por $g(n)+h(n)$ & Óptimo si $h$ es admisible \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Convenciones comunes, para que los contadores sean comparables: la prueba de
+meta se hace al extraer el nodo de la frontera; \emph{nodos expandidos} son los
+extraídos cuyos sucesores se generan (la meta no se cuenta); \emph{nodos
+generados} son los insertados en la frontera; y los vecinos se recorren en
+orden alfabético, de modo que BFS y DFS son deterministas. UCS y A* admiten
+reexpansión de un nodo si su costo mejora; con una heurística consistente no
+ocurre. Todos devuelven la ruta, el costo, los nodos expandidos y generados y
+el tamaño máximo de la frontera.
+
+\textbf{Pruebas de corrección} (\texttt{src/pruebas\_busquedas.py}): un grafo
+de juguete con resultado conocido; 600 pares en 25 grafos geométricos
+aleatorios con semilla fija; y los 992 pares de nodos de la red con los cinco
+criterios. En todos, UCS y A* igualan el costo de
+\texttt{nx.shortest\_path\_length}, BFS iguala su número de saltos, y DFS y la
+búsqueda voraz devuelven rutas válidas. Todas las pruebas pasan.
+
+\section{Heurística: admisibilidad y consistencia}
+
+Para los criterios basados en distancia se usa
+\begin{equation}
+h(n) = \alpha\, d_{\mathrm{geo}}(n, \text{meta}), \qquad
+h(n) = \frac{w_1}{w_1 + w_2}\,\alpha\,\frac{d_{\mathrm{geo}}(n, \text{meta})}
+{d_{\max}}
+\end{equation}
+para \texttt{distancia} y \texttt{compuesto\_sin\_riesgo}, respectivamente, con
+$d_{\mathrm{geo}}$ la distancia de Haversine entre las coordenadas oficiales
+(DANE, DIVIPOLA) y $\alpha$ el mínimo de la razón carretera/geodésica entre las
+aristas, redondeado hacia abajo a 6 decimales. Con ese $\alpha$,
+$\alpha\, d_{\mathrm{geo}}(u,v) \le c(u,v)$ en toda arista, lo que garantiza
+admisibilidad y consistencia por la desigualdad triangular. Los términos de
+peaje y de riesgo (no negativos) no se incluyen en $h$ y no la rompen.
+
+\textbf{Valor de $\alpha$.} $\alpha = 0.310570$ (razón mínima exacta
+0.3105704113). La determina la arista de Chocontá a Tunja, cuyo sector está
+truncado en la fuente. Las demás aristas con razón menor que 1 se muestran en
+la Tabla~\ref{tab:razones}.
+
+\begin{table}[H]
+\centering
+\caption{Aristas con razón carretera/geodésica menor que 1}
+\label{tab:razones}
+\small
+\input{outputs/tabla_c2_razones.tex}
+\end{table}
+
+\textbf{Verificación numérica} (Tabla~\ref{tab:heuristica}). La admisibilidad
+compara $h(n)$ con el costo óptimo real $h^*(n)$ de Dijkstra para los 992
+pares $(n, \text{meta})$; la consistencia comprueba $h(u) \le c(u,v) + h(v)$
+en cada arista, en ambos sentidos y para las 32 metas. Con $\alpha = 0.310570$
+no hay violaciones y el margen mínimo es de 0.000023 km, en Chocontá a Tunja.
+Con la geodésica pura ($\alpha = 1$) hay 66 violaciones de admisibilidad y 141
+de consistencia: el peor margen es $-56.51$ km.
+
+\begin{table}[H]
+\centering
+\caption{Verificación de admisibilidad y consistencia (margen mínimo en las
+unidades del criterio)}
+\label{tab:heuristica}
+\small
+\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_heuristica.tex}
+\end{table}
+
+\textbf{Aristas con carretera menor que la geodésica.} Se reportan todas
+(Tabla~\ref{tab:razones}); no se ajustó ninguna distancia para que la
+heurística cumpla. Varias se explican por la entrada urbana a Bogotá, que la
+geometría de INVÍAS no cubre. Como $\alpha$ es la razón mínima, la
+heurística es poco informativa en los corredores donde la carretera es mucho
+más larga que la línea recta.
+
+\textbf{Criterios con heurística limitada.} En \texttt{compuesto} (riesgo
+faltante igual a 0) se usa solo el término de distancia, $w_1 \alpha
+d_{\mathrm{geo}}/d_{\max}$, y los resultados se reportan aparte, rotulados
+como limitados. En \texttt{riesgo} y \texttt{peaje} no hay información
+geométrica: la heurística admisible es $h = 0$, y A* se reduce a costo
+uniforme.
+
+\section{Escenarios}
+
+\begin{table}[H]
+\centering
+\caption{Escenarios origen-destino}
+\label{tab:escenarios}
+\small
+\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_escenarios.tex}
+\end{table}
+
+Los cuatro primeros pares cruzan el ciclo y tienen dos rutas simples
+distintas; los seis restantes tienen ruta única y de 1 a 6 saltos. El número
+de rutas simples se comprueba en cada corrida. Cada escenario se ejecuta con
+los cinco algoritmos y con los cuatro criterios.
+
+\textbf{Mediciones.} Cada celda (escenario, criterio, algoritmo) se repite
+2000 veces; el tiempo se mide sin \texttt{tracemalloc} y se reporta como media
+y desviación estándar; la memoria pico se mide en una corrida aparte con
+\texttt{tracemalloc}. Las desviaciones son grandes respecto de las medias (la
+mayor es 1.93 veces la media), por lo que las diferencias de tiempo entre
+algoritmos solo son indicativas.
+
+\section{Resultados}
+
+\textbf{Honestidad metodológica.} La red tiene un solo ciclo. En los pares que
+no lo cruzan, los cinco algoritmos devuelven la misma ruta y solo cambian los
+nodos expandidos, el tiempo y la memoria. BFS minimiza el número de saltos, no
+el costo. DFS devuelve la primera ruta que encuentra en su orden de
+exploración. Las diferencias reales de ruta aparecen únicamente en los pares
+que cruzan el ciclo.
+
+\subsection{Criterio distancia}
+
+Las siguientes tablas se calcularon con \texttt{distancia} como criterio. El
+asterisco marca los pares que cruzan el ciclo.
+
+\begin{table}[H]
+\centering
+\caption{Nodos expandidos, criterio distancia}
+\label{tab:dist-exp}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_distancia_expandidos.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Tiempo medio $\pm$ desviación estándar ($\mu$s), criterio distancia,
+2000 repeticiones}
+\label{tab:dist-t}
+\footnotesize\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_c2_distancia_tiempo.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Memoria pico (KiB), criterio distancia}
+\label{tab:dist-mem}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_distancia_memoria.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Costo de la ruta (km), criterio distancia}
+\label{tab:dist-costo}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_distancia_costo.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Optimalidad respecto de UCS, criterio distancia}
+\label{tab:dist-opt}
+\small\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_c2_distancia_optimalidad.tex}
+\end{table}
+
+Lo que muestran las corridas:
+
+\begin{itemize}
+\item En el caso central, BFS y DFS devuelven la ruta por Santander
+(654.25 km, 111.7\,\% más cara que el óptimo): BFS porque tiene un salto menos
+(7 contra 8), y DFS por su orden de exploración. UCS, la búsqueda voraz y A*
+devuelven la ruta óptima por Bogotá (309.10 km). En Bucaramanga a Bogotá, DFS
+devuelve una ruta 35.8\,\% más cara.
+\item En los seis pares de ruta única, los cinco algoritmos devuelven la misma
+ruta y el mismo costo.
+\item Sumados los diez escenarios, los nodos expandidos fueron: BFS 143,
+DFS 142, UCS 144, voraz 50 y A* 120. A* expande menos nodos que UCS en cada
+escenario o igual, y la búsqueda voraz es la que menos expande y devuelve la
+ruta óptima en los diez escenarios, aunque no lo garantiza.
+\item A* tarda más que UCS pese a expandir menos nodos (en el caso central,
+$300 \pm 138$ $\mu$s contra $151 \pm 33$ $\mu$s), porque cada evaluación de $h$
+calcula una distancia de Haversine.
+\end{itemize}
+
+\subsection{Criterio compuesto sin riesgo}
+
+\begin{table}[H]
+\centering
+\caption{Nodos expandidos, criterio compuesto sin riesgo}
+\label{tab:sr-exp}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_compuesto_sin_riesgo_expandidos.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Costo compuesto sin riesgo}
+\label{tab:sr-costo}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_compuesto_sin_riesgo_costo.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Optimalidad respecto de UCS, criterio compuesto sin riesgo}
+\label{tab:sr-opt}
+\small\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_c2_compuesto_sin_riesgo_optimalidad.tex}
+\end{table}
+
+Con este criterio, BFS y DFS vuelven a elegir el desvío en el caso central
+(11.9\,\% más caro), y DFS es 2.8\,\% más caro en Bucaramanga a Bogotá. UCS,
+la búsqueda voraz y A* son óptimos. Sumados los diez escenarios, los nodos
+expandidos fueron 143 (BFS), 142 (DFS), 141 (UCS), 50 (voraz) y 129 (A*).
+
+El tiempo y la memoria de los cuatro criterios están en el archivo de
+resultados del Corte 2 de la carpeta \texttt{outputs}. Los resultados de
+\texttt{compuesto} y \texttt{riesgo}, rotulados como limitados, están en el
+Anexo B.
+
+\subsection{Rutas}
+
+La Figura~\ref{fig:rutas} muestra la ruta de cada algoritmo en el caso central
+con el criterio distancia, sobre las coordenadas oficiales y con el ciclo
+señalado. La Figura~\ref{fig:rutas-sr} muestra lo mismo con el criterio
+compuesto sin riesgo; el criterio y el algoritmo cambian el color y el trazo,
+no solo el color.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{rutas_central_distancia.png}
+    \caption{Rutas de los cinco algoritmos, Duitama a Puente Nacional, criterio
+    distancia. Fuente: elaboración propia con datos de INVÍAS y DANE}
+    \label{fig:rutas}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{rutas_central_compuesto_sin_riesgo.png}
+    \caption{Rutas de los cinco algoritmos, Duitama a Puente Nacional, criterio
+    compuesto sin riesgo. Fuente: elaboración propia con datos de INVÍAS y
+    DANE}
+    \label{fig:rutas-sr}
+\end{figure}
+
+\section{Barrido de pesos}
+
+Para Duitama a Puente Nacional se varió $(w_1, w_2, w_3)$ en una malla de paso
+0.1 con suma 1 (66 puntos) y se registró qué ruta gana con el costo compuesto
+(riesgo faltante igual a 0). Como solo hay dos rutas simples, el costo de cada
+una es lineal en los pesos, $w_1 D + w_2 P + w_3 R$, con $D$, $P$ y $R$ las
+sumas de los términos normalizados de la ruta; gana la ruta por Bogotá si
+$w_1 \Delta D + w_2 \Delta P + w_3 \Delta R < 0$, con $\Delta$ igual a la ruta
+por Bogotá menos la ruta por Santander. En la malla, el ganador de cada punto
+coincide con el signo de esta frontera.
+
+\begin{table}[H]
+\centering
+\caption{Resultado del barrido de pesos}
+\label{tab:barrido}
+\small
+\input{outputs/tabla_c2_barrido.tex}
+\end{table}
+
+En la red corregida, la ruta por Bogotá gana en 19 de los 66 puntos y la
+frontera corta la recta $w_3 = 0$ en $w_1 = 0.4095$; sin el término de riesgo
+gana en 37 de los 65 puntos donde esa variante está definida (en
+$w_1 = w_2 = 0$ no lo está). La variante \emph{sensibilidad con cota inferior}
+reemplaza la distancia de Chocontá a Tunja por 56.96 km: la frontera se
+desplaza a $w_1 = 0.4389$, la ruta por Bogotá gana en 17 puntos, y el ganador
+cambia en dos puntos de la malla, $(0.5, 0.2, 0.3)$ y $(0.5, 0.3, 0.2)$, que
+pasan a Santander. Sin riesgo cambia en un punto, $(0.3, 0.4, 0.3)$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{barrido_pesos.png}
+    \caption{Ruta ganadora en la malla de pesos, red corregida y sensibilidad
+    con cota inferior. Fuente: elaboración propia}
+    \label{fig:barrido}
+\end{figure}
+
+\section{Sensibilidad de A* ante el defecto de Chocontá a Tunja}
+
+Variante única, rotulada como sensibilidad: A* con $\alpha_{\mathrm{ref}} =
+0.458156$, el mínimo de la razón entre las aristas restantes (sin Chocontá a
+Tunja; la determina Madrid a Bogotá). Esta $h$ \emph{no es admisible} en la red
+tal como está, porque Chocontá a Tunja tiene razón 0.3106 y $\alpha_{\mathrm{ref}}$
+la excede.
+
+\begin{table}[H]
+\centering
+\caption{Nodos expandidos con $\alpha$ y con $\alpha_{\mathrm{ref}}$,
+criterio distancia}
+\label{tab:sens-alfa}
+\footnotesize\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_c2_sensibilidad_alfa.tex}
+\end{table}
+
+A* con $\alpha_{\mathrm{ref}}$ devuelve la ruta óptima en los diez escenarios y
+expande menos nodos que con $\alpha = 0.310570$ y que UCS (en el caso central
+17, 20 y 25). Sobre los 992 pares de nodos, devuelve la ruta óptima en 991 y
+falla en uno: de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de
+481.34 km (0.14\,\% más). Sumados los 992 pares, UCS expande 15\,872 nodos,
+A* con $\alpha$ 13\,377 y A* con $\alpha_{\mathrm{ref}}$ 12\,223.
+
+\section{Discusión}
+
+\begin{itemize}
+\item Las rutas de los algoritmos solo difieren en los pares que cruzan el
+ciclo: BFS y DFS pueden devolver el desvío, y UCS, A* con $h$ admisible y, en
+estos escenarios, la búsqueda voraz devuelven la ruta de menor costo. Con un
+solo ciclo, la comparación en los demás pares se limita a nodos expandidos,
+tiempo y memoria.
+\item A* con heurística admisible expande menos nodos que UCS (120 contra 144
+en la suma de los diez escenarios con distancia), pero la ventaja es modesta
+porque $\alpha = 0.310570$ hace a $h$ poco informativa.
+\item El resultado de los criterios que incluyen el riesgo depende de la
+cobertura de los datos: 21 de las 32 aristas no tienen dato de riesgo y valen
+0, por lo que \texttt{riesgo} y \texttt{compuesto} prefieren el desvío porque
+sus tramos no se midieron, no porque sean más seguros.
+\item La corrección de distancias cambia la decisión del criterio compuesto
+sin riesgo en el caso central: con las distancias sin corregir elegía el
+desvío; con las corregidas elige la ruta por Bogotá (Anexo A).
+\end{itemize}
+
+\section{Limitaciones}
+
+\begin{itemize}
+\item \textbf{Chocontá a Tunja truncada.} El sector cubre 17.69 km frente a
+56.96 km de línea recta; fija $\alpha$ y subestima la ruta por Bogotá (cota
+inferior 348.37 km). Las progresivas de la fuente dejan 49.1 km sin registro
+entre Chocontá y Tunja; por progresivas la arista mediría 61.0 km, cifra que
+solo evidencia que la cota es ajustada y no se aplicó.
+\item \textbf{Entrada urbana a Bogotá.} Las geometrías de INVÍAS que salen de
+Bogotá empiezan en el límite urbano; las distancias desde Bogotá excluyen ese
+tramo.
+\item \textbf{Registros con patrón no estándar} (Bogotá a Cajicá, Chocontá a
+Tunja, El Espinal a Girardot y el registro del Río Ocoa) conservan la longitud
+registrada.
+\item \textbf{Riesgo incompleto y por corredor.} Solo 11 de 32 aristas tienen
+dato y el dato no distingue subtramos.
+\item \textbf{Tarifas de peaje.} Se actualizan cada año; corresponden a la
+descarga del 6 de octubre de 2026.
+\item \textbf{Mediciones.} El tiempo tiene dispersión alta y la memoria es de
+una sola corrida por celda; los valores son indicativos.
+\item \textbf{Alcance.} Un solo ciclo, 10 escenarios y 32 nodos.
+\end{itemize}
+
+\newpage
+\section*{Anexo A: sensibilidad con distancias sin corregir}
+\addcontentsline{toc}{section}{Anexo A: sensibilidad con distancias sin
+corregir}
+
+La Tabla~\ref{tab:anexo-sens} compara la red corregida (base) con una
+variante construida con la longitud registrada (\texttt{shape\_\_length}). Se
+genera con la función \texttt{construir\_grafo}, dando el valor
+\texttt{cruda} al parámetro \texttt{distancia}, a partir del mismo
+\texttt{aristas\_red.json}. La tabla muestra la ruta óptima de Duitama a
+Puente Nacional por criterio y el resultado del barrido de pesos.
+
+\begin{table}[H]
+\centering
+\caption{Sensibilidad: red corregida y distancias sin corregir}
+\label{tab:anexo-sens}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_anexo_sensibilidad.tex}
+\end{table}
+
+\section*{Anexo B: criterios con heurística limitada}
+\addcontentsline{toc}{section}{Anexo B: criterios con heurística limitada}
+
+En \texttt{compuesto} (riesgo faltante igual a 0) la heurística usa solo el
+término de distancia; en \texttt{riesgo} es $h = 0$ y A* se reduce a UCS
+(los nodos expandidos coinciden). Ambos resultados son limitados.
+
+\begin{table}[H]
+\centering
+\caption{Nodos expandidos, criterio compuesto (limitado)}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_compuesto_expandidos.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Optimalidad, criterio compuesto (limitado)}
+\small\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_c2_compuesto_optimalidad.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Nodos expandidos, criterio riesgo (limitado, $h=0$)}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_riesgo_expandidos.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Optimalidad, criterio riesgo (limitado, $h=0$)}
+\footnotesize\setlength{\tabcolsep}{2pt}
+\input{outputs/tabla_c2_riesgo_optimalidad.tex}
+\end{table}
+
+\section*{Referencias}
+\addcontentsline{toc}{section}{Referencias}
+
+\begin{thebibliography}{9}
+
+\bibitem{redvial}
+INVÍAS. (2026). \textit{Red Vial}. Datos Abiertos Colombia.
+\url{https://www.datos.gov.co/Transporte/Red-Vial/ie7y-asdn}
+
+\bibitem{peajes}
+INVÍAS. (2026). \textit{Peajes}. Datos Abiertos Colombia.
+\url{https://www.datos.gov.co/Transporte/Peajes/68qj-5xux}
+
+\bibitem{siniestralidad}
+Agencia Nacional de Seguridad Vial. (2026). \textit{Sectores críticos de
+siniestralidad vial}. Datos Abiertos Colombia.
+\url{https://www.datos.gov.co/Transporte/SECTORES-CRITICOS-DE-SINIESTRALIDAD-VIAL/rs3u-8r4q}
+
+\bibitem{divipola}
+Departamento Administrativo Nacional de Estadística. (2025). \textit{DIVIPOLA:
+códigos de municipios y de cabeceras y centros poblados}. Datos Abiertos
+Colombia. \url{https://www.datos.gov.co/resource/gdxc-w37w}
+
+\end{thebibliography}
+
+\end{document}
