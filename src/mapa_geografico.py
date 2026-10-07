@@ -32,6 +32,8 @@ from heuristica import cargar_coordenadas, haversine_km  # noqa: E402
 from obtener_coordenadas import DATOS  # noqa: E402
 
 UMBRAL_KM = 5.0
+ANCHO_IN = 5.906   # ancho de texto de los informes (15 cm)
+FUENTE = 7.0       # tamaño mínimo de letra, en puntos
 TOLERANCIA_GRADOS = 0.0004
 SUPERFICIE = "#fcfcfb"
 TINTA = "#0b0b0b"
@@ -42,6 +44,7 @@ GRIS_VIA = "#6b6a66"
 GRIS_FONDO = "#efeee9"
 GRIS_LIMITE = "#cfcdc6"
 GRIS_RED_B = "#b9b8b3"
+GRIS_CICLO = "#d9c9c0"
 ORIGEN, DESTINO = "Duitama", "Puente Nacional"
 
 
@@ -160,22 +163,35 @@ def departamentos():
 
 
 # ---------------------------------------------------------------- dibujo
-def preparar_eje(ax, lon, lat, fondo=True):
-    lat0 = np.mean(lat)
+def crear_figura(lon, lat, relleno_alto=0.0):
+    """Figura del ancho de texto de los informes (ANCHO_IN), con el alto
+    que da la proporción geográfica; el PDF se incluye a ancho de texto, de
+    modo que el tamaño de letra del PDF es el impreso."""
+    izq, der, aba, arr = 0.105, 0.985, 0.075, 0.99
+    ancho_eje = (der - izq) * ANCHO_IN
+    alto_eje = ancho_eje * (lat[1] - lat[0]) / (
+        (lon[1] - lon[0]) * np.cos(np.radians(np.mean(lat))))
+    alto = alto_eje / (arr - aba) + relleno_alto
+    fig = plt.figure(figsize=(ANCHO_IN, alto))
+    ax = fig.add_axes([izq, aba + relleno_alto / alto / 2, der - izq,
+                       (arr - aba) - relleno_alto / alto])
+    return fig, ax
+
+
+def preparar_eje(ax, lon, lat):
     ax.set_xlim(*lon)
     ax.set_ylim(*lat)
-    ax.set_aspect(1 / np.cos(np.radians(lat0)))
+    ax.set_aspect(1 / np.cos(np.radians(np.mean(lat))))
     ax.set_facecolor(SUPERFICIE)
-    if fondo:
-        for nombre, anillos in departamentos():
-            for a in anillos:
-                ax.fill(a[:, 0], a[:, 1], color=GRIS_FONDO,
-                        ec=GRIS_LIMITE, lw=0.7, zorder=0)
+    for nombre, anillos in departamentos():
+        for a in anillos:
+            ax.fill(a[:, 0], a[:, 1], color=GRIS_FONDO, ec=GRIS_LIMITE,
+                    lw=0.7, zorder=0)
     for borde in ("top", "right"):
         ax.spines[borde].set_visible(False)
-    ax.set_xlabel("Longitud (°)", fontsize=8, color=TINTA_2)
-    ax.set_ylabel("Latitud (°)", fontsize=8, color=TINTA_2)
-    ax.tick_params(labelsize=7, colors=TINTA_2)
+    ax.set_xlabel("Longitud (°)", fontsize=FUENTE, color=TINTA_2)
+    ax.set_ylabel("Latitud (°)", fontsize=FUENTE, color=TINTA_2)
+    ax.tick_params(labelsize=FUENTE, colors=TINTA_2)
 
 
 def rotular_departamentos(ax, lon, lat):
@@ -183,28 +199,32 @@ def rotular_departamentos(ax, lon, lat):
         mayor = max(anillos, key=lambda a: abs(np.cumsum(
             a[:-1, 0] * a[1:, 1] - a[1:, 0] * a[:-1, 1])[-1]))
         x, y = mayor[:, 0].mean(), mayor[:, 1].mean()
-        if lon[0] + 0.1 < x < lon[1] - 0.1 and lat[0] + 0.1 < y < lat[1] - 0.1:
-            ax.text(x, y, nombre.upper(), fontsize=7, color="#a9a79f",
+        if (lon[0] + 0.1 < x < lon[1] - 0.1
+                and lat[0] + 0.1 < y < lat[1] - 0.1):
+            ax.text(x, y, nombre.upper(), fontsize=FUENTE, color="#a9a79f",
                     ha="center", va="center", style="italic", zorder=0.5)
 
 
+def clave_de(trazado, u, v):
+    return f"{u}|{v}" if f"{u}|{v}" in trazado else f"{v}|{u}"
+
+
 def dibujar_aristas(ax, grafo, trazado, color_de, ancho_de, orden_de,
-                    discontinua=lambda u, v: False):
-    """Trazo de cada arista; punteado recto donde falta el trazado. Las
-    aristas discontinuas se dibujan con un solo registro (el más largo)."""
+                    casco=lambda u, v: False):
+    """Trazo continuo de cada arista y, donde el trazado no llega al nodo,
+    línea punteada recta: el punteado se reserva a «tramo sin trazado»."""
     coord = cargar_coordenadas()
     for u, v in grafo.edges:
-        clave = f"{u}|{v}" if f"{u}|{v}" in trazado else f"{v}|{u}"
+        clave = clave_de(trazado, u, v)
         t = trazado[clave]
         o, d = clave.split("|")
         color, ancho = color_de(u, v), ancho_de(u, v)
         estilo = dict(color=color, lw=ancho, solid_capstyle="round",
                       zorder=orden_de(u, v))
-        partes = t["partes"]
-        if discontinua(u, v):
-            estilo.update(ls=(0, (3, 2)), solid_capstyle="butt")
-            partes = t["registro_largo"]
-        for parte in partes:
+        if casco(u, v):
+            estilo["path_effects"] = [efectos.withStroke(
+                linewidth=ancho + 1.6, foreground=TINTA)]
+        for parte in t["partes"]:
             p = np.array(parte)
             ax.plot(p[:, 1], p[:, 0], **estilo)
         for nodo, ext, km in ((o, t["extremo_origen"],
@@ -218,82 +238,140 @@ def dibujar_aristas(ax, grafo, trazado, color_de, ancho_de, orden_de,
     return coord
 
 
-def rotular_nodos(ax, fig, coord, nodos, tam=7.0, fuertes=()):
+def rotular_nodos(ax, fig, coord, nodos, fuertes=()):
     """Etiquetas sin solaparse: prueba 8 posiciones por nodo y elige la
     primera cuyo rectángulo no cruce otra etiqueta ni otro nodo."""
     fig.canvas.draw()
     rend = fig.canvas.get_renderer()
-    ocupados = []
     puntos = {n: ax.transData.transform((coord[n][1], coord[n][0]))
               for n in nodos}
-    for p in puntos.values():
-        ocupados.append((p[0] - 4, p[1] - 4, p[0] + 4, p[1] + 4))
+    ocupados = [(p[0] - 4, p[1] - 4, p[0] + 4, p[1] + 4)
+                for p in puntos.values()]
     desplazamientos = [(7, 5, "left", "bottom"), (7, -5, "left", "top"),
                        (-7, 5, "right", "bottom"), (-7, -5, "right", "top"),
                        (0, 9, "center", "bottom"), (0, -9, "center", "top"),
-                       (12, 0, "left", "center"), (-12, 0, "right", "center")]
-    # primero los nodos más aislados
+                       (12, 0, "left", "center"), (-12, 0, "right", "center"),
+                       (16, 12, "left", "bottom"), (-16, 12, "right",
+                                                    "bottom"),
+                       (16, -12, "left", "top"), (-16, -12, "right", "top"),
+                       (26, 20, "left", "bottom"), (-26, 20, "right",
+                                                    "bottom"),
+                       (26, -20, "left", "top"), (-26, -20, "right", "top"),
+                       (34, 0, "left", "center"), (-34, 0, "right", "center"),
+                       (0, 26, "center", "bottom"), (0, -26, "center", "top"),
+                       (40, 28, "left", "bottom"), (-40, 28, "right",
+                                                    "bottom"),
+                       (40, -28, "left", "top"), (-40, -28, "right", "top")]
+    caja = ax.get_window_extent(rend)
+    solapes, cajas = 0, []
     orden = sorted(nodos, key=lambda n: sum(
         1 for m in nodos if m != n and np.hypot(
             *(puntos[n] - puntos[m])) < 60))
-    dpi = fig.dpi / 72
     for n in orden:
         mejor, mejor_sol = None, None
-        for dx, dy, ha, va in desplazamientos:
+        for desp in desplazamientos:
+            dx, dy, ha, va = desp
             t = ax.annotate(n, xy=(coord[n][1], coord[n][0]),
                             xytext=(dx, dy), textcoords="offset points",
-                            fontsize=tam, ha=ha, va=va, color=TINTA,
-                            arrowprops=dict(arrowstyle="-", lw=0.5,
-                                            color=TINTA_2, shrinkA=0,
-                                            shrinkB=2),
-                            fontweight="bold" if n in fuertes else "normal",
-                            zorder=6,
-                            path_effects=[efectos.withStroke(
-                                linewidth=2.2, foreground=SUPERFICIE)])
+                            fontsize=FUENTE, ha=ha, va=va,
+                            fontweight="bold" if n in fuertes else "normal")
             bb = t.get_window_extent(rend)
+            t.remove()
             r = (bb.x0, bb.y0, bb.x1, bb.y1)
             sol = sum(max(0, min(r[2], o[2]) - max(r[0], o[0]))
                       * max(0, min(r[3], o[3]) - max(r[1], o[1]))
                       for o in ocupados)
-            if sol == 0:
-                if mejor:
-                    mejor[0].remove()
-                mejor, mejor_sol = (t, r), 0
-                break
+            if (r[0] < caja.x0 or r[2] > caja.x1 or r[1] < caja.y0
+                    or r[3] > caja.y1):
+                sol += 1e6
             if mejor_sol is None or sol < mejor_sol:
-                if mejor:
-                    mejor[0].remove()
-                mejor, mejor_sol = (t, r), sol
-            else:
-                t.remove()
-        ocupados.append(mejor[1])
-        _ = dpi
+                mejor, mejor_sol = (desp, r), sol
+            if sol == 0:
+                break
+        (dx, dy, ha, va), r = mejor
+        ax.annotate(n, xy=(coord[n][1], coord[n][0]), xytext=(dx, dy),
+                    textcoords="offset points", fontsize=FUENTE, ha=ha,
+                    va=va, color=TINTA, zorder=6,
+                    arrowprops=dict(arrowstyle="-", lw=0.5, color=TINTA_2,
+                                    shrinkA=0, shrinkB=2),
+                    fontweight="bold" if n in fuertes else "normal",
+                    path_effects=[efectos.withStroke(
+                        linewidth=2.2, foreground=SUPERFICIE)])
+        ocupados.append(r)
+        cajas.append((n, r))
+        if mejor_sol > 0:
+            solapes += 1
+    return solapes, cajas
 
 
 def barra_escala(ax, lat, x0, lat0, km=100):
     grados = km / (111.32 * np.cos(np.radians(np.mean(lat))))
     ax.plot([x0, x0 + grados], [lat0, lat0], color=TINTA, lw=2,
             solid_capstyle="butt", zorder=7)
-    ax.text(x0 + grados / 2, lat0 + 0.05, f"{km} km", fontsize=7,
+    ax.text(x0 + grados / 2, lat0 + 0.04, f"{km} km", fontsize=FUENTE,
             ha="center", va="bottom", color=TINTA, zorder=7)
 
 
-def leyenda(ax, entradas, ubicacion="upper right"):
-    ax.legend(handles=entradas, loc=ubicacion, fontsize=7, frameon=True,
-              facecolor=SUPERFICIE, edgecolor=GRIS_LIMITE, framealpha=0.95)
+def leyenda(ax, entradas, ubicacion):
+    return ax.legend(handles=entradas, loc=ubicacion, fontsize=FUENTE,
+                     frameon=True, facecolor=SUPERFICIE,
+                     edgecolor=GRIS_LIMITE, framealpha=0.97,
+                     labelspacing=0.55, handlelength=2.6)
 
 
 def fuente(fig):
-    fig.text(0.01, 0.005, "Fuentes: INVÍAS, Red Vial (trazado); DANE, MGN "
-             "2020 (límites departamentales); DANE, DIVIPOLA (nodos).",
-             fontsize=6, color=TINTA_2, ha="left", va="bottom")
+    fig.text(0.01, 0.006, "Fuentes: INVÍAS (trazado); DANE, MGN 2020 "
+             "(límites); DANE, DIVIPOLA (nodos).", fontsize=FUENTE,
+             color=TINTA_2, ha="left", va="bottom")
+
+
+# ------------------------------------------------- datos desde outputs/
+def algoritmos_por_via():
+    """Algoritmos que devuelven cada ruta del caso central, con el criterio
+    distancia (outputs/resultados_corte2.json)."""
+    with open(SALIDA / "resultados_corte2.json", encoding="utf-8") as f:
+        celdas = json.load(f)["resultados"]
+    por_bogota, por_santander = [], []
+    for c in celdas:
+        if (c["origen"], c["destino"], c["criterio"]) == (
+                ORIGEN, DESTINO, "distancia"):
+            (por_bogota if "Bogotá" in c["ruta"]
+             else por_santander).append(c["algoritmo"])
+    return por_bogota, por_santander
+
+
+def unir(nombres):
+    if len(nombres) < 2:
+        return "".join(nombres)
+    return ", ".join(nombres[:-1]) + " y " + nombres[-1]
+
+
+def trazado_disponible(origen, destino):
+    """(km de carretera con trazado, km en línea recta) de una arista, desde
+    outputs/auditoria_aristas.csv."""
+    with open(SALIDA / "auditoria_aristas.csv", encoding="utf-8") as f:
+        for r in csv.DictReader(f):
+            if (r["origen"], r["destino"]) == (origen, destino):
+                return (float(r["distancia_carretera_km"]),
+                        float(r["geodesica_km"]))
+    raise KeyError((origen, destino))
+
+
+def costos_ruta(grafo, ruta):
+    pares = list(zip(ruta, ruta[1:]))
+    return (sum(grafo[u][v]["distancia_km"] for u, v in pares),
+            sum(grafo[u][v]["peaje_cop_camion"] for u, v in pares))
+
+
+def miles(x):
+    return f"{x:,.0f}".replace(",", " ")
 
 
 # ---------------------------------------------------------------- figuras
 def mapa_red(grafo, trazado):
     ciclo, aristas_ciclo = aristas_del_ciclo(grafo)
     lon, lat = (-75.25, -71.75), (3.35, 7.65)
-    fig, ax = plt.subplots(figsize=(7.2, 8.6))
+    fig, ax = crear_figura(lon, lat, relleno_alto=0.25)
     preparar_eje(ax, lon, lat)
     rotular_departamentos(ax, lon, lat)
 
@@ -304,11 +382,10 @@ def mapa_red(grafo, trazado):
         ax, grafo, trazado, lambda u, v: AZUL if en(u, v) else GRIS_VIA,
         lambda u, v: 2.3 if en(u, v) else 1.4,
         lambda u, v: 3 if en(u, v) else 2)
-    xs = [coord[n][1] for n in grafo]
-    ys = [coord[n][0] for n in grafo]
-    ax.scatter(xs, ys, s=16, color=SUPERFICIE, edgecolors=TINTA, lw=0.9,
-               zorder=5)
-    rotular_nodos(ax, fig, coord, list(grafo), tam=7.0)
+    ax.scatter([coord[n][1] for n in grafo], [coord[n][0] for n in grafo],
+               s=16, color=SUPERFICIE, edgecolors=TINTA, lw=0.9, zorder=5)
+    fig.solapes, fig.cajas_nodos = rotular_nodos(ax, fig, coord,
+                                                 list(grafo))
     barra_escala(ax, lat, -72.95, 5.15)
     leyenda(ax, [
         Line2D([0], [0], color=AZUL, lw=2.3, label="Ciclo de la red"),
@@ -321,12 +398,6 @@ def mapa_red(grafo, trazado):
     return fig
 
 
-def costos_ruta(grafo, ruta):
-    pares = list(zip(ruta, ruta[1:]))
-    return (sum(grafo[u][v]["distancia_km"] for u, v in pares),
-            sum(grafo[u][v]["peaje_cop_camion"] for u, v in pares))
-
-
 def mapa_caso_central(grafo, trazado):
     agente = AgenteRutas(grafo)
     corta = agente.calcular_ruta(ORIGEN, DESTINO, "distancia")["ruta"]
@@ -335,10 +406,18 @@ def mapa_caso_central(grafo, trazado):
         raise ValueError("Las rutas del caso central no son las esperadas")
     pares_corta = {frozenset(p) for p in zip(corta, corta[1:])}
     pares_desvio = {frozenset(p) for p in zip(desvio, desvio[1:])}
-    lon, lat = (-74.45, -72.35), (4.45, 7.55)
-    fig, ax = plt.subplots(figsize=(7.2, 8.0))
+    ciclo, aristas_ciclo = aristas_del_ciclo(grafo)
+    lon, lat = (-75.7, -72.1), (4.45, 7.55)
+    fig, ax = crear_figura(lon, lat, relleno_alto=0.25)
     preparar_eje(ax, lon, lat)
     rotular_departamentos(ax, lon, lat)
+    # halo del ciclo bajo las dos rutas
+    for u, v in grafo.edges:
+        if frozenset((u, v)) in aristas_ciclo:
+            for parte in trazado[clave_de(trazado, u, v)]["partes"]:
+                p = np.array(parte)
+                ax.plot(p[:, 1], p[:, 0], color=GRIS_CICLO, lw=9,
+                        solid_capstyle="round", zorder=1)
 
     def color(u, v):
         k = frozenset((u, v))
@@ -347,43 +426,65 @@ def mapa_caso_central(grafo, trazado):
 
     def ancho(u, v):
         k = frozenset((u, v))
-        return 3.0 if k in pares_corta | pares_desvio else 1.1
-    coord = dibujar_aristas(ax, grafo, trazado, color, ancho,
-                            lambda u, v: 4 if frozenset((u, v))
-                            in pares_corta | pares_desvio else 2,
-                            lambda u, v: frozenset((u, v)) in pares_desvio)
+        return 3.0 if k in pares_corta else 4.6 if k in pares_desvio else 1.1
+
+    def orden(u, v):
+        k = frozenset((u, v))
+        return 4 if k in pares_corta else 3 if k in pares_desvio else 2
+
+    coord = dibujar_aristas(ax, grafo, trazado, color, ancho, orden,
+                            lambda u, v: frozenset((u, v)) in pares_corta)
     en_rutas = set(corta) | set(desvio)
     visibles = [n for n in grafo if lon[0] < coord[n][1] < lon[1]
                 and lat[0] < coord[n][0] < lat[1]]
-    ax.scatter([coord[n][1] for n in visibles], [coord[n][0]
-                                                 for n in visibles],
+    ax.scatter([coord[n][1] for n in visibles],
+               [coord[n][0] for n in visibles],
                s=[34 if n in en_rutas else 12 for n in visibles],
                color=SUPERFICIE, edgecolors=TINTA, lw=0.9, zorder=6)
     for nodo, marca in ((ORIGEN, "o"), (DESTINO, "s")):
         ax.scatter([coord[nodo][1]], [coord[nodo][0]], s=70, marker=marca,
                    color=TINTA, zorder=7)
-    rotular_nodos(ax, fig, coord, visibles, tam=7.2,
-                  fuertes=(ORIGEN, DESTINO))
+    fig.solapes, fig.cajas_nodos = rotular_nodos(
+        ax, fig, coord, visibles, fuertes=(ORIGEN, DESTINO))
+    # rótulos directos de cada ruta (la identidad no depende del color)
+    ax.text(-72.78, 6.1, "Desvío por\nSantander", fontsize=FUENTE,
+            color=TINTA, ha="left", va="center", zorder=8,
+            bbox=dict(boxstyle="round,pad=0.2", fc=SUPERFICIE,
+                      ec=NARANJA, lw=1.2))
+    ax.plot([-73.2, -72.8], [5.72, 5.3], color=AZUL, lw=0.8, zorder=7)
+    ax.text(-72.8, 5.3, "Ruta por\nBogotá", fontsize=FUENTE, color=TINTA,
+            ha="center", va="center", zorder=8,
+            bbox=dict(boxstyle="round,pad=0.2", fc=SUPERFICIE, ec=AZUL,
+                      lw=1.2))
     km_c, pe_c = costos_ruta(grafo, corta)
     km_d, pe_d = costos_ruta(grafo, desvio)
-
-    def miles(x):
-        return f"{x:,.0f}".replace(",", " ")
-
-    leyenda(ax, [
-        Line2D([0], [0], color=AZUL, lw=3.0,
-               label=f"Por Bogotá: {km_c:.2f} km, peaje {miles(pe_c)} COP"),
-        Line2D([0], [0], color=NARANJA, lw=3.0, ls=(0, (3, 2)),
-               label=f"Por Santander: {km_d:.2f} km, peaje "
-                     f"{miles(pe_d)} COP"),
-        Line2D([0], [0], color=GRIS_RED_B, lw=1.1, label="Resto de la red"),
-        Line2D([0], [0], color=TINTA_2, lw=1.2, ls=(0, (1, 2)),
-               label="Tramo sin trazado en la fuente"),
-        Line2D([0], [0], marker="o", color="none", mfc=TINTA, mec=TINTA,
-               label="Origen: Duitama"),
-        Line2D([0], [0], marker="s", color="none", mfc=TINTA, mec=TINTA,
-               label="Destino: Puente Nacional")], "upper left")
-    barra_escala(ax, lat, -73.0, 4.75, 50)
+    alg_b, alg_s = algoritmos_por_via()
+    disp, recta = trazado_disponible("Chocontá", "Tunja")
+    h_corta = Line2D([0], [0], color=AZUL, lw=3.0,
+                     path_effects=[efectos.withStroke(
+                         linewidth=4.6, foreground=TINTA)])
+    ax.legend(
+        handles=[h_corta, Line2D([0], [0], color=NARANJA, lw=4.6),
+                 Line2D([0], [0], color=GRIS_CICLO, lw=9),
+                 Line2D([0], [0], color=GRIS_RED_B, lw=1.1),
+                 Line2D([0], [0], color=TINTA_2, lw=1.2, ls=(0, (1, 2))),
+                 Line2D([0], [0], marker="o", color="none", mfc=TINTA,
+                        mec=TINTA),
+                 Line2D([0], [0], marker="s", color="none", mfc=TINTA,
+                        mec=TINTA)],
+        labels=[
+            f"Ruta recomendada (por Bogotá)\n{km_c:.2f} km, peaje "
+            f"{miles(pe_c)} COP\nLa devuelven {unir(alg_b)}",
+            f"Desvío por Santander\n{km_d:.2f} km, peaje {miles(pe_d)} COP"
+            f"\nLo devuelven {unir(alg_s)}",
+            "Ciclo de la red", "Resto de la red",
+            "Tramo sin trazado en la fuente\n(Chocontá a Tunja: trazado "
+            f"disponible\n{disp:.2f} km de {recta:.2f} km en línea recta)",
+            f"Origen: {ORIGEN}", f"Destino: {DESTINO}"],
+        loc="upper left", fontsize=FUENTE, frameon=True,
+        facecolor=SUPERFICIE, edgecolor=GRIS_LIMITE, framealpha=0.97,
+        labelspacing=0.7, handlelength=2.6)
+    barra_escala(ax, lat, -73.05, 4.75, 50)
     fuente(fig)
     return fig
 
@@ -395,9 +496,8 @@ def main():
                            ("mapa_caso_central",
                             mapa_caso_central(grafo, trazado))):
         figura.savefig(SALIDA / f"{nombre}.png", dpi=200,
-                       facecolor=SUPERFICIE, bbox_inches="tight")
-        figura.savefig(SALIDA / f"{nombre}.pdf", facecolor=SUPERFICIE,
-                       bbox_inches="tight")
+                       facecolor=SUPERFICIE)
+        figura.savefig(SALIDA / f"{nombre}.pdf", facecolor=SUPERFICIE)
         plt.close(figura)
     print("Mapas escritos en", SALIDA)
 
