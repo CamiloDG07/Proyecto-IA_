@@ -16,10 +16,24 @@
 \usepackage{amsmath}
 \usepackage{setspace}
 \usepackage{xurl}
+\usepackage{verbatim}
 
 \geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
 \graphicspath{{data/}{outputs/}}
+
+% bloque "Cómo leerla" de figuras y tablas de resultados
+\newcommand{\comoleerla}[3]{%
+  \begin{center}\footnotesize
+  \begin{minipage}{0.94\linewidth}
+  \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\topsep}{2pt}%
+    \setlength{\parsep}{0pt}
+  \item \textbf{Estructura:} #1
+  \item \textbf{Qué se ve:} #2
+  \item \textbf{Por qué:} #3
+  \end{itemize}
+  \end{minipage}
+  \end{center}}
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -176,6 +190,7 @@ unidades del criterio)}
 \small
 \setlength{\tabcolsep}{4pt}
 \input{outputs/tabla_c2_heuristica.tex}
+\input{outputs/lectura_c2_heuristica.tex}
 \end{table}
 
 \textbf{Aristas con carretera menor que la geodésica.} Se reportan todas
@@ -214,8 +229,8 @@ y desviación estándar; la memoria pico se mide en una corrida aparte con
 \texttt{tracemalloc}. Voraz y A* consultan una tabla de $h$ precalculada hacia
 el destino (mismos valores, mismas rutas y mismos nodos expandidos); el tiempo
 de construir la tabla se mide aparte y no está incluido en sus tiempos (media
-de 96.8 $\mu$s, entre 19.1 y 215.3 $\mu$s). Las desviaciones son grandes
-respecto de las medias (la mayor es 1.44 veces la media), por lo que las
+de 47.7 $\mu$s, entre 8.4 y 109.2 $\mu$s). Las desviaciones son grandes
+respecto de las medias (la mayor es 1.77 veces la media), por lo que las
 diferencias de tiempo entre algoritmos solo son indicativas.
 
 \section{Resultados}
@@ -238,6 +253,7 @@ asterisco marca los pares que cruzan el ciclo.
 \label{tab:dist-exp}
 \small\setlength{\tabcolsep}{4pt}
 \input{outputs/tabla_c2_distancia_expandidos.tex}
+\input{outputs/lectura_c2_t_expandidos.tex}
 \end{table}
 
 \begin{table}[H]
@@ -247,6 +263,7 @@ asterisco marca los pares que cruzan el ciclo.
 \label{tab:dist-t}
 \footnotesize\setlength{\tabcolsep}{3pt}
 \input{outputs/tabla_c2_distancia_tiempo.tex}
+\input{outputs/lectura_c2_t_tiempo.tex}
 \end{table}
 
 \begin{table}[H]
@@ -255,6 +272,7 @@ asterisco marca los pares que cruzan el ciclo.
 \label{tab:dist-mem}
 \small\setlength{\tabcolsep}{4pt}
 \input{outputs/tabla_c2_distancia_memoria.tex}
+\input{outputs/lectura_c2_t_memoria.tex}
 \end{table}
 
 \begin{table}[H]
@@ -263,6 +281,7 @@ asterisco marca los pares que cruzan el ciclo.
 \label{tab:dist-costo}
 \small\setlength{\tabcolsep}{4pt}
 \input{outputs/tabla_c2_distancia_costo.tex}
+\input{outputs/lectura_c2_t_costo.tex}
 \end{table}
 
 \begin{table}[H]
@@ -271,6 +290,7 @@ asterisco marca los pares que cruzan el ciclo.
 \label{tab:dist-opt}
 \small\setlength{\tabcolsep}{3pt}
 \input{outputs/tabla_c2_distancia_optimalidad.tex}
+\input{outputs/lectura_c2_t_optimalidad.tex}
 \end{table}
 
 Lo que muestran las corridas:
@@ -287,10 +307,11 @@ ruta y el mismo costo.
 DFS 142, UCS 144, voraz 50 y A* 120. A* expande menos nodos que UCS en cada
 escenario o igual, y la búsqueda voraz es la que menos expande y devuelve la
 ruta óptima en los diez escenarios, aunque no lo garantiza.
-\item Expandir menos nodos no se traduce siempre en menos tiempo: en el caso
-central A* tarda $156 \pm 45$ $\mu$s contra $147 \pm 31$ $\mu$s de UCS, aunque
-expande 20 nodos contra 25. Esos tiempos excluyen la construcción de la tabla
-de $h$, que se mide aparte.
+\item En el caso central A* tarda $115 \pm 40$ $\mu$s contra $167 \pm 74$
+$\mu$s de UCS, con 20 nodos contra 25. En dos escenarios (Girardot a Cambao y
+Chiquinquirá a Tunja) A* tarda más que UCS con el mismo número de nodos; con
+estas desviaciones las diferencias de tiempo son indicativas. Esos tiempos
+excluyen la construcción de la tabla de $h$, que se mide aparte.
 \end{itemize}
 
 \subsection{Criterio compuesto sin riesgo}
@@ -305,14 +326,6 @@ de $h$, que se mide aparte.
 
 \begin{table}[H]
 \centering
-\caption{Costo compuesto sin riesgo}
-\label{tab:sr-costo}
-\small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_compuesto_sin_riesgo_costo.tex}
-\end{table}
-
-\begin{table}[H]
-\centering
 \caption{Optimalidad respecto de UCS, criterio compuesto sin riesgo}
 \label{tab:sr-opt}
 \small\setlength{\tabcolsep}{3pt}
@@ -323,19 +336,36 @@ Con este criterio, BFS y DFS vuelven a elegir el desvío en el caso central
 (11.9\,\% más caro), y DFS es 2.8\,\% más caro en Bucaramanga a Bogotá. UCS,
 la búsqueda voraz y A* son óptimos. Sumados los diez escenarios, los nodos
 expandidos fueron 143 (BFS), 142 (DFS), 141 (UCS), 50 (voraz) y 129 (A*).
+\input{outputs/texto_cambio_sin_riesgo.tex}
 
 El tiempo y la memoria de los cuatro criterios están en el archivo de
-resultados del Corte 2 de la carpeta \texttt{outputs}. Los resultados de
-\texttt{compuesto} y \texttt{riesgo}, rotulados como limitados, están en el
-Anexo B.
+resultados del Corte 2 de la carpeta \texttt{outputs}.
+
+\subsection{Criterios con heurística limitada}
+
+En \texttt{compuesto} (riesgo faltante igual a 0) la heurística usa solo el
+término de distancia; en \texttt{riesgo} es $h = 0$ y A* se reduce a UCS (los
+nodos expandidos coinciden). Ambos resultados son limitados. La
+Tabla~\ref{tab:limitados} da, por criterio y algoritmo, los nodos expandidos
+sumados en los diez escenarios y, tras la barra, el número de escenarios en
+que el algoritmo devuelve la ruta óptima.
+
+\begin{table}[H]
+\centering
+\caption{Criterios con heurística limitada: nodos expandidos sumados en los
+diez escenarios / escenarios con ruta óptima}
+\label{tab:limitados}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_limitados.tex}
+\end{table}
 
 \subsection{Rutas}
 
 La Figura~\ref{fig:rutas} muestra la ruta de cada algoritmo en el caso central
 con el criterio distancia, sobre las coordenadas oficiales y con el ciclo
-señalado. La Figura~\ref{fig:rutas-sr} muestra lo mismo con el criterio
-compuesto sin riesgo; el criterio y el algoritmo cambian el color y el trazo,
-no solo el color.
+señalado; el algoritmo cambia el color y el trazo, no solo el color. La
+misma figura con el criterio compuesto sin riesgo está en
+\texttt{outputs/rutas\_central\_compuesto\_sin\_riesgo.png}.
 
 \begin{figure}[H]
     \centering
@@ -343,15 +373,7 @@ no solo el color.
     \caption{Rutas de los cinco algoritmos, Duitama a Puente Nacional, criterio
     distancia. Fuente: elaboración propia con datos de INVÍAS y DANE}
     \label{fig:rutas}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{rutas_central_compuesto_sin_riesgo.png}
-    \caption{Rutas de los cinco algoritmos, Duitama a Puente Nacional, criterio
-    compuesto sin riesgo. Fuente: elaboración propia con datos de INVÍAS y
-    DANE}
-    \label{fig:rutas-sr}
+    \input{outputs/lectura_c2_rutas.tex}
 \end{figure}
 
 \section{Barrido de pesos}
@@ -371,6 +393,7 @@ coincide con el signo de esta frontera.
 \label{tab:barrido}
 \small
 \input{outputs/tabla_c2_barrido.tex}
+\input{outputs/lectura_c2_barrido_tabla.tex}
 \end{table}
 
 En la red corregida, la ruta por Bogotá gana en 19 de los 66 puntos y la
@@ -388,7 +411,25 @@ pasan a Santander. Sin riesgo cambia en un punto, $(0.3, 0.4, 0.3)$.
     \caption{Ruta ganadora en la malla de pesos, red corregida y sensibilidad
     con cota inferior. Fuente: elaboración propia}
     \label{fig:barrido}
+    \input{outputs/lectura_c2_barrido_figura.tex}
 \end{figure}
+
+\subsection{Sensibilidad con distancias sin corregir}
+
+La Tabla~\ref{tab:sens-cruda} compara la red corregida (base) con una
+variante construida con la longitud registrada (\texttt{shape\_\_length}). Se
+genera con la función \texttt{construir\_grafo}, dando el valor
+\texttt{cruda} al parámetro \texttt{distancia}, a partir del mismo
+\texttt{aristas\_red.json}. La tabla muestra la ruta óptima de Duitama a
+Puente Nacional por criterio y el resultado del barrido de pesos.
+
+\begin{table}[H]
+\centering
+\caption{Sensibilidad: red corregida y distancias sin corregir}
+\label{tab:sens-cruda}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tabla_c2_sensibilidad_cruda.tex}
+\end{table}
 
 \section{Sensibilidad de A* ante el defecto de Chocontá a Tunja}
 
@@ -414,17 +455,59 @@ falla en uno: de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de
 481.34 km (0.14\,\% más). Sumados los 992 pares, UCS expande 15\,872 nodos,
 A* con $\alpha$ 13\,377 y A* con $\alpha_{\mathrm{ref}}$ 12\,223.
 
-\section{Agente multifuncional}
+\section{Agente autónomo de rutas}
 \label{sec:agente}
 
-El agente se adapta a variantes del problema y usa un método exacto siempre
-que es viable. Está en \texttt{src/despachador.py} y reutiliza las búsquedas
-del proyecto: la matriz de costos entre paradas se calcula con UCS o con A*
-(tablas de $h$ precalculadas), guardando la ruta expandida de cada tramo; no
-se reimplementó ninguna búsqueda. Es genérico: funciona con cualquier grafo
-de \texttt{networkx} con costos no negativos por arista. En todo el informe,
-$n$ es el número de ciudades de una instancia (origen incluido) y $k$ el de
-paradas libres por ordenar ($k = n - 1$ en orden libre con regreso).
+\textbf{Entrada.} El usuario da solo el origen y el o los destinos
+(\texttt{agente\_rutas.py ORIGEN DESTINO ...} y, si se quiere volver, la
+opción \texttt{-{}-regreso}); no elige el tipo de problema ni el criterio. El agente decide
+el tipo, el criterio, el algoritmo y la heurística, y devuelve la mejor ruta
+con su explicación. La interfaz es de línea de comandos; el despachador
+conserva la suya como modo avanzado (\texttt{src/demostracion.py
+despachador}). Está en \texttt{src/agente\_rutas.py} y reutiliza el despachador,
+las búsquedas y la heurística del proyecto: no reimplementa ninguna búsqueda.
+En todo el informe, $n$ es el número de ciudades de una instancia (origen
+incluido) y $k$ el de paradas libres por ordenar ($k = n - 1$ en orden libre
+con regreso).
+
+\textbf{Decisión del tipo.} Un destino sin regreso es origen a destino. Varios
+destinos, o uno con regreso, es orden libre: el despachador usa Held-Karp si
+$k \le K_{\mathrm{exacto}}$, ACO si no, y el criterio compuesto sin riesgo.
+
+\textbf{Candidatas y evaluación.} Con un destino, el agente calcula la ruta
+óptima por distancia, peaje y compuesto sin riesgo (A* con heurística
+admisible en el primero y el tercero; UCS en peaje). Para cada una añade las
+alternativas que quedan al bloquear, una por vez, cada arista de la ruta
+óptima; en esta red de un solo ciclo eso encuentra el otro camino, pero en un
+grafo con más ciclos no garantiza las $k$ mejores rutas. Cada candidata se
+evalúa en km, peaje (COP) y riesgo (suma del GiZScore de las aristas con dato y
+porcentaje de aristas con dato), y se descartan las dominadas en km y peaje.
+
+\textbf{Regla de recomendación.} Se recomienda la candidata de menor costo
+compuesto sin riesgo, suma por tramo de
+$(w_d\, \mathrm{km}/\mathrm{km}_{\max} + w_p\, \mathrm{peaje}/
+\mathrm{peaje}_{\max})/(w_d + w_p)$, con $w_d = w_p = 1$ por defecto. Los pesos
+iguales son un supuesto de modelado, sin datos de costo operativo por
+kilómetro para calibrarlos; la recomendación se recalcula con otros pesos
+(parámetro de \texttt{recomendar}). Si el criterio \texttt{riesgo} o
+\texttt{compuesto} prefiere otra candidata, el agente lo avisa con la
+cobertura de datos de riesgo de ambas. También advierte si la ruta usa aristas
+con limitación conocida: Chocontá a Tunja (truncada), las marcadas por la
+auditoría y los tramos sin dato de riesgo. La Tabla~\ref{tab:ejemplos-agente}
+muestra la salida real del agente en tres solicitudes; la ruta de (a) está en
+la Figura~\ref{fig:rutas}.
+
+\begin{table}[H]
+\centering
+\caption{Salida del agente autónomo en tres solicitudes: (a) un par que cruza
+el ciclo, (b) un par de ruta única y (c) varios destinos con regreso}
+\label{tab:ejemplos-agente}
+\scriptsize\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_agente_ejemplos.tex}
+\input{outputs/lectura_c2_ejemplos.tex}
+\end{table}
+
+\input{outputs/texto_ejemplo_agente.tex}
 
 \subsection{Despachador y criterio de selección}
 
@@ -433,7 +516,7 @@ paradas libres por ordenar ($k = n - 1$ en orden libre con regreso).
 \caption{Tipos de solicitud y método elegido}
 \label{tab:despachador}
 \footnotesize
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.1cm}>{\raggedright\arraybackslash}p{4.7cm}>{\raggedright\arraybackslash}p{3.7cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{6.2cm}>{\raggedright\arraybackslash}p{3.7cm}}
 \toprule
 \textbf{Tipo de solicitud} & \textbf{Método si es viable (exacto)} &
 \textbf{Si el exacto no es viable} \\
@@ -461,25 +544,35 @@ y se tomó el más restrictivo de dos límites: el de tiempo, el mayor $k$ cuyo
 tiempo mediano no supera 5 s, y el de memoria, el mayor $k$ medido cuya
 memoria pico no supera el 25\,\% de la RAM instalada (4064 MiB). El
 presupuesto de 5 s y el 25\,\% son decisiones de diseño; los umbrales son
-mediciones. Resultado: el límite de tiempo es $k = 19$ (mediana 2.735 s; con
-$k = 20$, 5.986 s, rango 5.844 a 6.047 s); la memoria no limita hasta $k = 22$,
-el mayor medido (1009.8 MiB). Por tanto $K_{\mathrm{exacto}} = 19$, fijado por
-el tiempo. La respuesta del despachador incluye la ruta, el costo, el método
-usado, el motivo de la elección y las métricas.
+mediciones. Para que el umbral no dependa de una sesión, se repitió la
+medición y se toma el mayor $k$ cuyo tiempo mediano cabe en el presupuesto en
+todas las sesiones. Resultado con las tres sesiones de la
+Tabla~\ref{tab:umbral}: $k = 19$ cabe en las tres (2.735, 1.227 y 1.694 s) y
+$k = 20$ no (5.986 s en la sesión 1; 2.475 y 3.676 s en la 2 y la 3); la
+memoria no limita hasta $k = 22$, el mayor medido (1009.8 MiB). Por tanto
+$K_{\mathrm{exacto}} = 19$, fijado por el tiempo. Los tiempos de una sesión a
+otra difieren hasta 2.75 veces ($k = 17$) con $k$ entre 16 y 20 y hasta 1.70
+veces con $k \ge 21$; la causa no se midió (Hipótesis: estado de la máquina).
+Las sesiones 1 y 2 no registraron plan de energía ni conexión a corriente; la
+sesión 3, la de la medición final de este informe (7 de octubre de 2026,
+15:55 a 16:05), se hizo conectada a corriente y con el plan de energía
+Equilibrado.
 
 \textbf{Simetría.} Antes de usar la metaheurística, el despachador comprueba
 si la matriz de costos entre paradas es simétrica. Si lo es, el ACO usa
 búsqueda local 2-opt; si no, corre sin 2-opt (que exige simetría) y el motivo
-de la elección lo dice. Held-Karp no requiere simetría. Se probó con una matriz
-asimétrica sintética.
+de la elección lo dice. Held-Karp no requiere simetría (probado con una matriz
+asimétrica sintética).
 
 \begin{table}[H]
 \centering
 \caption{Medición de Held-Karp en esta máquina: $k$ paradas libres, modo
-ciclo, con 3 repeticiones desde $k = 17$ (5 hasta $k = 16$). Tiempo y memoria
-dentro del presupuesto de 5 s y del límite de 4064 MiB}
+ciclo, con 3 repeticiones desde $k = 17$ (5 hasta $k = 16$). S1 a S3: mediana
+de cada una de las tres sesiones. La columna Tiempo indica si las tres
+medianas caben en el presupuesto de 5 s, y Memoria si la mayor memoria pico
+cabe en el límite de 4064 MiB; se muestran los $k \ge 16$}
 \label{tab:umbral}
-\small\setlength{\tabcolsep}{3pt}
+\footnotesize\setlength{\tabcolsep}{2pt}
 \input{outputs/tabla_ag_umbral.tex}
 \end{table}
 
@@ -490,12 +583,15 @@ hormiga elige el siguiente nodo con probabilidad proporcional a
 $\tau_{ij}^{\alpha}\,\eta_{ij}^{\beta}$, con visibilidad $\eta_{ij} = 1/c_{ij}$
 (con un término $\varepsilon$ pequeño para costos nulos) y feromona por arista.
 Las hormigas depositan $1/L_k$ en su tour y el mejor tour de cada iteración,
-mejorado con 2-opt, deposita $1/L$ adicional. Parámetros, iguales para todas
-las instancias: $\alpha = 1.5$, $\beta = 5$ y $\rho = 0.1$, la configuración
-adoptada en el taller de ACO del curso tras su barrido de parámetros~\cite{aco};
-número de hormigas igual al número de nodos y 100 iteraciones, como en el
-taller para $n = 20$. No se reajustaron en este trabajo. Cada instancia se
-corre con 10 semillas fijas (1 a 10).
+mejorado con 2-opt, deposita $1/L$ adicional. En el modo de ciclo cada hormiga
+sale de una ciudad elegida al azar y el tour resultante se rota hasta el
+origen; en los modos de orden libre sin regreso y de inicio fijo la salida es
+la indicada. Parámetros, iguales para todas las instancias: $\alpha = 1.5$,
+$\beta = 5$, $\rho = 0.1$, el número de hormigas (igual al de nodos) y las 100
+iteraciones son los del taller de ACO del curso~\cite{aco}; el depósito de
+feromona, la inicialización y el inicio de las hormigas son propios y difieren
+del taller. No se reajustaron en este trabajo. Cada instancia se corre con 10
+semillas fijas (1 a 10).
 
 \subsection{Validación}
 
@@ -505,12 +601,13 @@ criterio distancia, orden libre con regreso. (b) Las cinco instancias
 euclidianas de $n = 20$ del taller de ACO (semillas 1 a 5, generadas con el
 mismo generador xorshift64), cuyo óptimo de Held-Karp ya estaba calculado. (c)
 Dos instancias euclidianas mayores ($n = 100$ y 200) sin óptimo exacto, con
-referencia \emph{mejor encontrada con 2-opt}; están en el Anexo~C. Para las 32
+referencia \emph{mejor encontrada con 2-opt}
+(Tabla~\ref{tab:val-ampliada}). Para las 32
 ciudades no hay Held-Karp; la referencia es el óptimo por estructura de la red
 (un solo ciclo), $2(W - C) + \min(C, 2(C - w_{\max}))$, con $W$ la suma de las
 aristas, $C$ la longitud del ciclo y $w_{\max}$ su arista mayor. Es una
 derivación propia, verificada contra Held-Karp en 300 grafos aleatorios de un
-solo ciclo, con 0 discrepancias (Anexo~C).
+solo ciclo, con 0 discrepancias (Sección~\ref{sec:estructura}).
 
 \begin{table}[H]
 \centering
@@ -521,6 +618,7 @@ Igualan: semillas que alcanzan la referencia; tiempos medios}
 \label{tab:val-resumen}
 \footnotesize\setlength{\tabcolsep}{3pt}
 \input{outputs/tabla_ag_resumen.tex}
+\input{outputs/lectura_c2_validacion.tex}
 \end{table}
 
 \begin{figure}[H]
@@ -529,43 +627,98 @@ Igualan: semillas que alcanzan la referencia; tiempos medios}
     \caption{Curvas de convergencia del ACO + 2-opt: brecha de la media de 10
     semillas respecto de la referencia. Fuente: elaboración propia}
     \label{fig:convergencia}
+    \input{outputs/lectura_c2_convergencia.tex}
 \end{figure}
 
 Lo que muestran las corridas:
 
 \begin{itemize}
 \item \textbf{Red de carga.} El ACO con 2-opt alcanza el costo de Held-Karp en
-las 12 instancias con exacto (30 de 30 semillas por $n$) y el óptimo por
-estructura en las 32 ciudades (2808.65 km, 10 de 10). En la red de carga, casi
-un árbol, el exacto y el ACO con 2-opt coinciden. La brecha es 0 desde la
-primera iteración (Figura~\ref{fig:convergencia}): el 2-opt aplicado al mejor
-tour de esa iteración ya alcanza el óptimo. Sin búsqueda local el ACO no
-siempre llega: brecha media de 2.608\,\% con $n = 15$ (20 de 30 semillas) y de
-2.836\,\% con $n = 20$ (13 de 30), y 0 con $n = 5, 10$ y 32 (Anexo~C).
+las 12 instancias con exacto (120 de 120 semillas) y el óptimo por estructura
+en las 32 ciudades (2808.65 km, 10 de 10). En la red de carga, casi un árbol,
+el exacto y el ACO coinciden. Con inicio aleatorio de las hormigas el ACO sin
+2-opt también alcanza la referencia en las 130 semillas de la red.
 \item \textbf{Instancias del taller ($n=20$).} Held-Karp de este proyecto
 coincide con el óptimo exacto del taller en las 5 semillas. El ACO con 2-opt
-alcanza el óptimo con su mejor corrida en las 5; la brecha media es 0.104\,\%
-(47 de 50 semillas lo alcanzan; la semilla 1 con 9 de 10 y la 4 con 8 de 10).
-Sin 2-opt, la brecha media sube a 2.212\,\% y solo 1 de 50 semillas lo
-alcanza.
-\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 2.49 s y
-2.62 s y 111.8 MiB; el ACO, entre 0.17 s y 0.22 s. Con pocas paradas el exacto
+alcanza el óptimo con su mejor corrida en las 5; la brecha media es 0.040\,\%
+(48 de 50 semillas lo alcanzan; la semilla 1 con 8 de 10). Sin 2-opt, con
+inicio aleatorio, la brecha media sube a 0.357\,\% y 32 de 50 semillas lo
+alcanzan: el aporte del 2-opt es nulo en la red y pequeño en el taller
+($n = 20$), con una brecha media de 0.357\,\% sin 2-opt contra 0.040\,\% con
+él.
+\item \textbf{Efecto del inicio de las hormigas.} Con la ciudad de salida
+fija (contraste, «inicio fijo»), el ACO sin 2-opt tenía una brecha media de
+2.212\,\% en el taller (1 de 50 semillas), de 2.608\,\% con $n = 15$ (20 de 30)
+y de 2.836\,\% con $n = 20$ (13 de 30) en la red. Esa brecha se debía al inicio
+fijo de las hormigas y no a la ausencia de 2-opt: con el inicio aleatorio, sin
+cambiar nada más, es 0.357\,\% en el taller y 0 en la red
+(Tabla~\ref{tab:val-ampliada}). El aporte del 2-opt se reporta con inicio
+aleatorio y crece con $n$: nulo en la red, pequeño con $n = 20$ y grande con
+$n = 100$ y 200.
+\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 1.26 s y
+1.97 s y 111.8 MiB; el ACO, entre 0.07 s y 0.14 s. Con pocas paradas el exacto
 es más rápido (milisegundos hasta $n = 10$). La regla fija elige el exacto
-siempre que es viable, aunque el ACO resulte más rápido.
+siempre que es viable, aunque el ACO resulte más rápido. Con $n = 100$ y 200
+el ACO con 2-opt tarda $2.06 \pm 0.08$ s y $10.62 \pm 0.49$ s, y sin 2-opt
+$1.53 \pm 0.06$ s y $8.85 \pm 0.68$ s.
 \end{itemize}
+
+\subsection{Referencia por estructura}
+\label{sec:estructura}
+
+En un grafo conexo con un solo ciclo, el recorrido cerrado de menor costo que
+visita todos los nodos cuesta $2(W - C) + \min(C, 2(C - w_{\max}))$: todo
+puente se recorre dos veces y, por la paridad de los grados, el ciclo se
+recorre una vez completo o dos veces todo menos su arista mayor. Es una
+derivación propia. Se comprobó contra Held-Karp, sobre la matriz de caminos
+mínimos, en 300 grafos aleatorios de un solo ciclo con semilla fija (5 a 12
+nodos): 300 coincidencias y 0 discrepancias, con una diferencia absoluta máxima
+de $4.26 \times 10^{-14}$ (\texttt{outputs/tabla\_ag\_estructura.tex}).
+
+\subsection{Validación ampliada: ACO con y sin 2-opt}
+
+La Tabla~\ref{tab:val-ampliada} repite los mismos grupos con el ACO sin
+2-opt (inicio aleatorio y, para citar las cifras anteriores, inicio fijo) e
+incluye las dos instancias euclidianas mayores, cuya referencia es la mejor
+encontrada con 2-opt (2-opt desde el vecino más cercano y desde 300 y 150
+inicios aleatorios), que no es un óptimo. Con $n = 100$ el ACO con 2-opt
+obtiene $-0.315$\,\% en la mejor corrida y $-0.171$\,\% en la media respecto de
+esa referencia; con $n = 200$, $-1.937$\,\% y $-1.400$\,\%, sin que ninguna
+semilla la iguale. Las brechas negativas solo indican que el ACO supera a esa
+búsqueda local desde inicios múltiples: no se conoce la distancia al óptimo.
+Sin 2-opt, con inicio aleatorio, la brecha media respecto de la misma
+referencia es $5.599$\,\% con $n = 100$ y $6.209$\,\% con $n = 200$, y
+ninguna semilla la iguala: el aporte del 2-opt es grande (sin él la brecha es
+de 5--6\,\%; con él el ACO supera la referencia). No se
+corrió el ACO sin 2-opt con inicio fijo en ellas. La
+convergencia de estas dos instancias está en
+\texttt{outputs/convergencia\_aco\_mayores.png}.
+
+\begin{table}[H]
+\centering
+\caption{Brecha media (\%) del ACO por grupo de instancias, 10 semillas por
+instancia: con 2-opt, sin 2-opt e inicio aleatorio, y sin 2-opt con inicio
+fijo. Igualan: semillas que alcanzan la referencia}
+\label{tab:val-ampliada}
+\footnotesize\setlength{\tabcolsep}{2pt}
+\input{outputs/tabla_ag_ampliada.tex}
+\end{table}
 
 \subsection{Limitaciones del agente}
 
 \begin{itemize}
-\item $K_{\mathrm{exacto}} = 19$ depende de la máquina y del presupuesto de
-5 s; la memoria no limita hasta $k = 22$, el mayor medido.
-\item Los parámetros del ACO se tomaron del taller y no se reajustaron. Sin
-búsqueda local el ACO no alcanza el óptimo en la mayoría de las instancias del
-taller; el 2-opt es esencial, y en la red de carga la validación no mide el
-aporte de las hormigas.
+\item $K_{\mathrm{exacto}} = 19$ depende de la máquina, de su estado y del
+presupuesto de 5 s; los tiempos con $k = 19$ variaron entre 1.227 y 2.735 s
+entre sesiones (Hipótesis: estado de la máquina, no se midió).
+\item Los parámetros $\alpha$, $\beta$, $\rho$, el número de hormigas y las
+iteraciones se tomaron del taller y no se reajustaron. El ACO sin búsqueda
+local, con inicio aleatorio, alcanza la referencia en 32 de 50 semillas del
+taller y en toda la red de carga; el aporte del 2-opt crece con $n$ (nulo en
+la red, 0.357\,\% contra 0.040\,\% en $n = 20$, y de 5.599\,\% y 6.209\,\% en
+$n = 100$ y 200).
 \item El ACO con 2-opt requiere una matriz simétrica; con una asimétrica corre
 sin 2-opt, que no se validó en instancias de tamaño real.
-\item En las instancias mayores no hay referencia óptima (Anexo~C).
+\item En las instancias mayores no hay referencia óptima.
 \item Los costos de la red son los de la red corregida, con las limitaciones de
 datos descritas arriba (Chocontá a Tunja truncada, entrada urbana a Bogotá).
 \end{itemize}
@@ -587,7 +740,7 @@ cobertura de los datos: 21 de las 32 aristas no tienen dato de riesgo y valen
 sus tramos no se midieron, no porque sean más seguros.
 \item La corrección de distancias cambia la decisión del criterio compuesto
 sin riesgo en el caso central: con las distancias sin corregir elegía el
-desvío; con las corregidas elige la ruta por Bogotá (Anexo A).
+desvío; con las corregidas elige la ruta por Bogotá (Tabla~\ref{tab:sens-cruda}).
 \end{itemize}
 
 \section{Limitaciones}
@@ -612,137 +765,6 @@ descarga del 6 de octubre de 2026.
 una sola corrida por celda; los valores son indicativos.
 \item \textbf{Alcance.} Un solo ciclo, 10 escenarios y 32 nodos.
 \end{itemize}
-
-\newpage
-\section*{Anexo A: sensibilidad con distancias sin corregir}
-\addcontentsline{toc}{section}{Anexo A: sensibilidad con distancias sin
-corregir}
-
-La Tabla~\ref{tab:anexo-sens} compara la red corregida (base) con una
-variante construida con la longitud registrada (\texttt{shape\_\_length}). Se
-genera con la función \texttt{construir\_grafo}, dando el valor
-\texttt{cruda} al parámetro \texttt{distancia}, a partir del mismo
-\texttt{aristas\_red.json}. La tabla muestra la ruta óptima de Duitama a
-Puente Nacional por criterio y el resultado del barrido de pesos.
-
-\begin{table}[H]
-\centering
-\caption{Sensibilidad: red corregida y distancias sin corregir}
-\label{tab:anexo-sens}
-\small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_anexo_sensibilidad.tex}
-\end{table}
-
-\section*{Anexo B: criterios con heurística limitada}
-\addcontentsline{toc}{section}{Anexo B: criterios con heurística limitada}
-
-En \texttt{compuesto} (riesgo faltante igual a 0) la heurística usa solo el
-término de distancia; en \texttt{riesgo} es $h = 0$ y A* se reduce a UCS
-(los nodos expandidos coinciden). Ambos resultados son limitados.
-
-\begin{table}[H]
-\centering
-\caption{Nodos expandidos, criterio compuesto (limitado)}
-\small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_compuesto_expandidos.tex}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Optimalidad, criterio compuesto (limitado)}
-\small\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_c2_compuesto_optimalidad.tex}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Nodos expandidos, criterio riesgo (limitado, $h=0$)}
-\small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_riesgo_expandidos.tex}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Optimalidad, criterio riesgo (limitado, $h=0$)}
-\footnotesize\setlength{\tabcolsep}{2pt}
-\input{outputs/tabla_c2_riesgo_optimalidad.tex}
-\end{table}
-
-\section*{Anexo C: validación del agente, detalle}
-\addcontentsline{toc}{section}{Anexo C: validación del agente, detalle}
-
-\textbf{Referencia por estructura (derivación propia).} En un grafo conexo con
-un solo ciclo, el recorrido cerrado de menor costo que visita todos los nodos
-cuesta $2(W - C) + \min(C, 2(C - w_{\max}))$: todo puente se recorre dos veces
-y, por la paridad de los grados, el ciclo se recorre una vez completo o dos
-veces todo menos su arista mayor. Se comprobó contra Held-Karp, sobre la
-matriz de caminos mínimos, en grafos aleatorios con semilla fija
-(Tabla~\ref{tab:estructura}); no hubo discrepancias.
-
-\begin{table}[H]
-\centering
-\caption{Verificación de la referencia por estructura contra Held-Karp}
-\label{tab:estructura}
-\small
-\input{outputs/tabla_ag_estructura.tex}
-\end{table}
-
-\textbf{Resultados por instancia.} La Tabla~\ref{tab:val-costos} da los costos
-y brechas del ACO con 2-opt en cada instancia, incluidas las euclidianas
-mayores, cuya referencia es la mejor encontrada con 2-opt (2-opt desde el
-vecino más cercano y desde 300 y 150 inicios aleatorios), que no es un
-óptimo; la Tabla~\ref{tab:val-recursos}, el tiempo (sin \texttt{tracemalloc},
-media y desviación de 10 corridas) y la memoria pico (corrida aparte). Con
-$n = 100$, el ACO obtiene $-0.158$\,\% en la mejor corrida y $-0.065$\,\% en la
-media respecto de esa referencia; con $n = 200$, $-1.212$\,\% y $-0.887$\,\%,
-sin que ninguna semilla la iguale. Las brechas negativas solo indican que el
-ACO supera a esa búsqueda local desde inicios múltiples: no se conoce la
-distancia al óptimo. El ACO tarda $2.89 \pm 0.05$ s con $n = 100$ y
-$10.91 \pm 0.21$ s con $n = 200$ (5389 KiB).
-
-\begin{table}[H]
-\centering
-\caption{Costos y brechas del ACO con 2-opt y 10 semillas. Ref.: exacto
-(Held-Karp), estructura (óptimo por estructura de la red) o 2-opt (mejor
-encontrada con 2-opt, no óptimo). Igualan: semillas que alcanzan la
-referencia}
-\label{tab:val-costos}
-\scriptsize\setlength{\tabcolsep}{2pt}
-\input{outputs/tabla_ag_costos.tex}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Tiempo (media $\pm$ desviación de 10 corridas) y memoria pico del
-ACO; tiempo y memoria del exacto (una corrida y una corrida aparte)}
-\label{tab:val-recursos}
-\footnotesize\setlength{\tabcolsep}{2pt}
-\input{outputs/tabla_ag_recursos.tex}
-\end{table}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.55\textwidth]{convergencia_aco_mayores.png}
-    \caption{Convergencia del ACO + 2-opt en las instancias euclidianas
-    mayores, respecto de la mejor encontrada con 2-opt (no óptima). Fuente:
-    elaboración propia}
-    \label{fig:mayores}
-\end{figure}
-
-\textbf{ACO sin búsqueda local.} La Tabla~\ref{tab:sin-2opt} repite las
-instancias de la red y del taller con el ACO sin 2-opt, con los mismos
-parámetros y semillas. Sin búsqueda local el ACO no alcanza el óptimo en la
-mayoría de las instancias del taller y falla en parte de las de la red con
-$n = 15$ y 20; con $n \le 10$ y en las 32 ciudades coincide con la referencia.
-
-\begin{table}[H]
-\centering
-\caption{ACO sin búsqueda local frente al ACO con 2-opt, por grupo de
-instancias (10 semillas por instancia)}
-\label{tab:sin-2opt}
-\footnotesize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_ag_sin_2opt.tex}
-\end{table}
 
 \section*{Referencias}
 \addcontentsline{toc}{section}{Referencias}

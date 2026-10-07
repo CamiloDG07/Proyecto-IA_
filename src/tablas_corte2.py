@@ -6,7 +6,9 @@ outputs/ los archivos tabla_c2_*.tex que incluye informe_corte2.tex.
 """
 import json
 
-from build_graph import SALIDA
+import networkx as nx
+
+from build_graph import SALIDA, construir_grafo
 from experimentos_corte2 import ALGORITMOS
 
 NOMBRES_CRITERIO = {
@@ -120,7 +122,7 @@ def tabla_sensibilidad_alfa(sens):
               "\\textbf{Óptima} \\\\" % (sens["alfa_base"],
                                          sens["alfa_ref"]),
               "\\midrule"]
-    for e in sens["por_escenario"]:
+    for e in sens["por_escenario"][:1]:
         lineas.append(
             f"{e['origen']} -- {e['destino']} & {e['expandidos_ucs']} & "
             f"{e['expandidos_alfa_base']} & {e['expandidos_alfa_ref']} & "
@@ -135,7 +137,7 @@ def tabla_sensibilidad_alfa(sens):
     escribir("tabla_c2_sensibilidad_alfa.tex", lineas)
 
 
-def tabla_anexo_sensibilidad(sens, barridos):
+def tabla_sensibilidad_cruda(sens, barridos):
     base = sens["rutas_optimas_duitama_puente_nacional"]["base"]
     cruda = sens["rutas_optimas_duitama_puente_nacional"]["crudas"]
     nombres = {"distancia": "distancia", "peaje": "peaje",
@@ -167,7 +169,7 @@ def tabla_anexo_sensibilidad(sens, barridos):
         f"\\multicolumn{{2}}{{r}}{{{bc['w1_umbral_sobre_w3_cero']:.4f}}} "
         "\\\\",
         "\\bottomrule", "\\end{tabular}"]
-    escribir("tabla_c2_anexo_sensibilidad.tex", lineas)
+    escribir("tabla_c2_sensibilidad_cruda.tex", lineas)
 
 
 def tabla_heuristica():
@@ -226,6 +228,52 @@ def tabla_escenarios(resultados):
              lineas + ["\\bottomrule", "\\end{tabular}"])
 
 
+def tabla_limitados(resultados):
+    """Criterios con heurística limitada: expandidos totales y óptimos."""
+    lineas = ["\\begin{tabular}{l" + "r" * len(ALGORITMOS) + "}",
+              "\\toprule",
+              "\\textbf{Criterio} & " + " & ".join(
+                  f"\\textbf{{{a}}}" for a in ALGORITMOS) + " \\\\",
+              "\\midrule"]
+    nombres = {"compuesto": "compuesto (riesgo faltante $=0$)",
+               "riesgo": "riesgo ($h=0$)"}
+    for criterio, nombre in nombres.items():
+        celdas = []
+        for algoritmo in ALGORITMOS:
+            filas = [c for c in resultados if c["criterio"] == criterio
+                     and c["algoritmo"] == algoritmo]
+            expandidos = sum(c["nodos_expandidos"] for c in filas)
+            optimos = sum(1 for c in filas if c["optima"])
+            celdas.append(f"{expandidos} / {optimos}")
+        lineas.append(f"{nombre} & " + " & ".join(celdas) + " \\\\")
+    escribir("tabla_c2_limitados.tex",
+             lineas + ["\\bottomrule", "\\end{tabular}"])
+
+
+def texto_cambio_sin_riesgo():
+    """Costos compuestos sin riesgo de las dos rutas, antes y después de
+    corregir las distancias (generado desde el grafo)."""
+    salida = {}
+    for variante in ("cruda", "corregida"):
+        g = construir_grafo(distancia=variante)
+        caminos = list(nx.all_simple_paths(g, "Duitama", "Puente Nacional"))
+        por_bogota = next(c for c in caminos if "Bogotá" in c)
+        por_santander = next(c for c in caminos if "Bucaramanga" in c)
+        salida[variante] = tuple(
+            sum(g[u][v]["peso_sin_riesgo"] for u, v in zip(c, c[1:]))
+            for c in (por_bogota, por_santander))
+    (ab, as_), (db, ds) = salida["cruda"], salida["corregida"]
+    ganador_antes = "el desvío por Santander" if as_ < ab \
+        else "la ruta por Bogotá"
+    ganador_despues = "la ruta por Bogotá" if db < ds \
+        else "el desvío por Santander"
+    escribir("texto_cambio_sin_riesgo.tex", [
+        f"Con las distancias sin corregir, el costo compuesto sin riesgo era "
+        f"{ab:.3f} por Bogotá y {as_:.3f} por Santander, y ganaba "
+        f"{ganador_antes}; con las distancias corregidas es {db:.3f} por "
+        f"Bogotá y {ds:.3f} por Santander, y gana {ganador_despues}."])
+
+
 def main():
     resultados = leer("resultados_corte2.json")["resultados"]
     barridos = leer("barrido_pesos.json")
@@ -233,9 +281,11 @@ def main():
     tablas_escenarios(resultados)
     tabla_barrido(barridos)
     tabla_sensibilidad_alfa(sens)
-    tabla_anexo_sensibilidad(sens, barridos)
+    tabla_sensibilidad_cruda(sens, barridos)
     tabla_heuristica()
     tabla_escenarios(resultados)
+    tabla_limitados(resultados)
+    texto_cambio_sin_riesgo()
     print("Tablas del Corte 2 escritas en", SALIDA)
 
 

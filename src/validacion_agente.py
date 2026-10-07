@@ -18,6 +18,10 @@ c. Instancias euclidianas mayores (n = 100 y 200) sin óptimo exacto; la
    referencia se rotula "mejor encontrada con 2-opt" (2-opt desde el vecino
    más cercano y desde inicios aleatorios), nunca óptimo.
 
+El ACO usa inicio aleatorio por hormiga en modo ciclo; para las instancias
+de la red y del taller se registra además el ACO sin 2-opt con inicio fijo
+(aco_sin_2opt_inicio_fijo), el comportamiento anterior.
+
 Por instancia: costo medio y mejor del ACO, brecha, tiempo (sin tracemalloc),
 memoria pico (corrida aparte) y curva de convergencia. Escribe
 outputs/validacion_agente.json, outputs/convergencia_aco.csv y
@@ -103,14 +107,16 @@ def medir_exacto(matriz):
             "memoria_pico_mib": pico / 2 ** 20}
 
 
-def medir_aco(matriz, referencia, busqueda_local=True):
+def medir_aco(matriz, referencia, busqueda_local=True,
+              inicio_aleatorio=True):
     """ACO con 10 semillas: costos, brechas, tiempo, memoria y curva."""
     resumen = aco_semillas(matriz, 0, "ciclo", semillas=SEMILLAS,
-                           busqueda_local=busqueda_local)
+                           busqueda_local=busqueda_local,
+                           inicio_aleatorio=inicio_aleatorio)
     tiempos = [r["tiempo_s"] for r in resumen["corridas"]]
     tracemalloc.start()
     aco(matriz, 0, "ciclo", semilla=SEMILLAS[0],
-        busqueda_local=busqueda_local)
+        busqueda_local=busqueda_local, inicio_aleatorio=inicio_aleatorio)
     _, pico = tracemalloc.get_traced_memory()
     tracemalloc.stop()
     costos = [r["costo"] for r in resumen["corridas"]]
@@ -206,6 +212,8 @@ def validar_red(grafo, coordenadas, despachador):
                     costos, 200, SEMILLA_INSTANCIAS)}
         registro["aco"] = medir_aco(costos, referencia)
         registro["aco_sin_2opt"] = medir_aco(costos, referencia, False)
+        registro["aco_sin_2opt_inicio_fijo"] = medir_aco(
+            costos, referencia, False, inicio_aleatorio=False)
         instancias.append(registro)
         print(f"  red n={k:2d} #{i + 1}: ref {referencia:9.3f} "
               f"ACO mejor {registro['aco']['costo_mejor']:9.3f} "
@@ -235,6 +243,8 @@ def validar_taller():
                            "costo": referencia},
             "aco": medir_aco(matriz, referencia),
             "aco_sin_2opt": medir_aco(matriz, referencia, False),
+            "aco_sin_2opt_inicio_fijo": medir_aco(
+                matriz, referencia, False, inicio_aleatorio=False),
         }
         instancias.append(registro)
         print(f"  taller semilla {semilla}: Held-Karp {referencia:.5f} "
@@ -260,6 +270,7 @@ def validar_mayores():
                            "inicios": INICIOS_2OPT[n] + 1,
                            "costo": referencia, "tiempo_s": t_ref},
             "aco": medir_aco(matriz, referencia),
+            "aco_sin_2opt": medir_aco(matriz, referencia, False),
         }
         instancias.append(registro)
         print(f"  euclidiana n={n}: mejor con 2-opt {referencia:.4f} | ACO "
@@ -288,7 +299,9 @@ def escribir_csv(instancias):
                     "semillas_que_igualan", "tiempo_aco_medio_s",
                     "tiempo_aco_desv_s", "memoria_aco_kib",
                     "tiempo_exacto_s", "memoria_exacto_mib",
-                    "sin_2opt_brecha_media_pct", "sin_2opt_igualan"])
+                    "sin_2opt_brecha_media_pct", "sin_2opt_igualan",
+                    "sin_2opt_inicio_fijo_brecha_media_pct",
+                    "sin_2opt_inicio_fijo_igualan"])
         for r in instancias:
             a, e = r["aco"], r.get("exacto", {})
             w.writerow([
@@ -305,7 +318,12 @@ def escribir_csv(instancias):
                 f"{r['aco_sin_2opt']['brecha_media_pct']:.3f}"
                 if "aco_sin_2opt" in r else "",
                 r["aco_sin_2opt"]["semillas_que_igualan_referencia"]
-                if "aco_sin_2opt" in r else ""])
+                if "aco_sin_2opt" in r else "",
+                f"{r['aco_sin_2opt_inicio_fijo']['brecha_media_pct']:.3f}"
+                if "aco_sin_2opt_inicio_fijo" in r else "",
+                r["aco_sin_2opt_inicio_fijo"][
+                    "semillas_que_igualan_referencia"]
+                if "aco_sin_2opt_inicio_fijo" in r else ""])
 
 
 def main():

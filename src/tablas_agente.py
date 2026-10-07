@@ -176,19 +176,56 @@ def tabla_sin_2opt(instancias):
              lineas + ["\\bottomrule", "\\end{tabular}"])
 
 
+def tabla_ampliada(instancias):
+    """UNA tabla de la validación ampliada: ACO con y sin 2-opt."""
+    lineas = ["\\begin{tabular}{lrrrrrr}", "\\toprule",
+              "\\textbf{Grupo} & \\textbf{Con 2-opt} & "
+              "\\textbf{Igualan} & \\textbf{Sin 2-opt} & "
+              "\\textbf{Igualan} & \\textbf{Sin 2-opt, inicio fijo} & "
+              "\\textbf{Igualan} \\\\", "\\midrule"]
+    for nombre, miembros in grupos(instancias):
+        celdas = [nombre]
+        for clave in ("aco", "aco_sin_2opt", "aco_sin_2opt_inicio_fijo"):
+            datos = [r[clave] for r in miembros]
+            total = 10 * len(miembros)
+            iguales = sum(d["semillas_que_igualan_referencia"]
+                          for d in datos)
+            celdas += [pct(media([d["brecha_media_pct"] for d in datos])),
+                       f"{iguales}/{total}"]
+        lineas.append(" & ".join(celdas) + " \\\\")
+    for r in instancias:
+        if "mayor" not in r["familia"]:
+            continue
+        a = r["aco"]
+        s = r.get("aco_sin_2opt")
+        sin = (f"{pct(s['brecha_media_pct'])} & "
+               f"{s['semillas_que_igualan_referencia']}/10" if s
+               else "--- & ---")
+        lineas.append(
+            f"Euclidiana $n={r['n']}$ (ref. 2-opt) & "
+            f"{pct(a['brecha_media_pct'])} & "
+            f"{a['semillas_que_igualan_referencia']}/10 & {sin} & --- & "
+            "--- \\\\")
+    escribir("tabla_ag_ampliada.tex",
+             lineas + ["\\bottomrule", "\\end{tabular}"])
+
+
 def tabla_umbral(umbral):
     limite = umbral["limite_memoria_mib"]
-    lineas = ["\\begin{tabular}{rrrrrcc}", "\\toprule",
-              "\\textbf{$k$} & \\textbf{Rep.} & "
-              "\\textbf{Mediana (s)} & \\textbf{Rango (s)} & "
+    n = len(umbral["sesiones"])
+    cabeza = " & ".join(f"\\textbf{{Mediana S{i + 1} (s)}}"
+                        for i in range(n))
+    lineas = ["\\begin{tabular}{r" + "r" * n + "rcc}", "\\toprule",
+              f"\\textbf{{$k$}} & {cabeza} & "
               "\\textbf{Memoria pico (MiB)} & "
               "\\textbf{Tiempo} & \\textbf{Memoria} \\\\", "\\midrule"]
-    for m in umbral["mediciones"]:
-        ok_t = "sí" if m["mediana_s"] <= umbral["presupuesto_s"] else "no"
+    for m in [x for x in umbral["mediciones"] if x["k"] >= 16]:
+        ok_t = ("sí" if max(m["medianas_s"]) <= umbral["presupuesto_s"]
+                else "no")
         ok_m = "sí" if m["memoria_pico_mib"] <= limite else "no"
+        medianas = " & ".join(f"{x:.3f}" for x in m["medianas_s"])
         lineas.append(
-            f"{m['k']} & {m['repeticiones']} & {m['mediana_s']:.3f} & "
-            f"{m['minimo_s']:.3f} a {m['maximo_s']:.3f} & "
+            f"{m['k']} & {medianas} & "
             f"{m['memoria_pico_mib']:.1f} & {ok_t} & {ok_m} \\\\")
     escribir("tabla_ag_umbral.tex", lineas + ["\\bottomrule",
                                               "\\end{tabular}"])
@@ -306,6 +343,7 @@ def main():
     tabla_costos(datos)
     tabla_recursos(datos)
     tabla_sin_2opt(datos)
+    tabla_ampliada(datos)
     tabla_umbral(leer("umbral_held_karp.json"))
     tabla_estructura(leer("verificacion_estructura.json"))
     figura_convergencia(datos)

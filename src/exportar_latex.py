@@ -136,18 +136,17 @@ CODIGOS_AUDITORIA = {
 
 
 def tabla_auditoria():
+    """Solo las aristas marcadas por la auditoría (el CSV las trae todas)."""
     with open(SALIDA / "auditoria_aristas.csv", encoding="utf-8") as f:
         filas = list(csv.DictReader(f))
     lineas = [
-        "\\begin{longtable}{lrrrrl}",
-        "\\caption{Auditoría geométrica de las aristas}"
-        "\\label{tab:auditoria}\\\\",
+        "\\begin{tabular}{lrrrrl}",
         "\\toprule",
         "\\textbf{Arista} & \\textbf{Carr.} & \\textbf{Geod.} & "
         "\\textbf{Razón} & \\textbf{Ext.} & \\textbf{Marcas} \\\\",
-        "\\midrule", "\\endhead",
+        "\\midrule",
     ]
-    for r in filas:
+    for r in [x for x in filas if x["anomalia"]]:
         marcas = ",".join(sorted(
             CODIGOS_AUDITORIA[m] for m in r["anomalia"].split("; ") if m))
         ext = max(float(r["extremo_a_origen_km"]),
@@ -156,7 +155,7 @@ def tabla_auditoria():
             f"{r['origen']} -- {r['destino']} & "
             f"{r['distancia_carretera_km']} & {r['geodesica_km']} & "
             f"{float(r['razon']):.3f} & {ext:.2f} & {marcas or '---'} \\\\")
-    lineas += ["\\bottomrule", "\\end{longtable}"]
+    lineas += ["\\bottomrule", "\\end{tabular}"]
     escribir("tabla_auditoria.tex", lineas)
 
 

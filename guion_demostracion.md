@@ -1,6 +1,6 @@
 # Guion de la demostración, Corte 2
 
-Duración sugerida: 10 minutos. Todos los comandos se ejecutan desde la raíz
+Duración sugerida: 15 minutos. Todos los comandos se ejecutan desde la raíz
 del repositorio, con el entorno virtual activo (`venv\Scripts\activate`).
 Los valores que se mencionan salen de las corridas guardadas en `outputs\`.
 
@@ -68,7 +68,75 @@ la ruta de cada algoritmo sobre las coordenadas oficiales y la frontera
 exacta entre las dos rutas (19 de 66 puntos de la malla favorecen la ruta por
 Bogotá en la red corregida).
 
-## 6. Resultados completos y limitaciones (1 min)
+## 6. Agente autónomo de rutas (4 min)
+
+El usuario solo da origen y destino(s); el agente decide el tipo de problema,
+el criterio, el algoritmo y la heurística, y devuelve la mejor ruta con su
+explicación. Regla: con un destino calcula la ruta óptima por distancia, por
+peaje y por compuesto sin riesgo (A* con heurística admisible o UCS), añade las
+rutas alternativas que quedan al bloquear una arista de cada una, descarta las
+dominadas en km y peaje y recomienda la de menor compuesto sin riesgo con pesos
+iguales. Con varios destinos, o con regreso, ordena las paradas con el
+despachador (Held-Karp si k es menor o igual que K_exacto; ACO si no).
+
+```
+python src/agente_rutas.py Duitama "Puente Nacional"
+python src/agente_rutas.py Bogotá Granada
+python src/agente_rutas.py Duitama Tunja Bogotá Villeta --regreso
+```
+
+| Caso | Qué mostrar |
+|---|---|
+| Duitama a Puente Nacional (cruza el ciclo) | Recomienda la ruta por Bogotá: 309.10 km, 170 800 COP, compuesto sin riesgo 3.149. La alternativa por Santander (654.25 km, 100 200 COP) queda a 0.375 (11.9 %). Los criterios peaje, riesgo y compuesto prefieren el desvío; el aviso dice que el riesgo solo tiene dato en el 50 % de los tramos de la recomendada y en el 0 % de los del desvío. Advierte Chocontá a Tunja truncada |
+| Bogotá a Granada (ruta única) | Una sola candidata: 168.78 km, 46 700 COP; todos los criterios coinciden; solo advierte aristas marcadas por la auditoría |
+| Duitama, Tunja, Bogotá y Villeta con regreso | Orden libre: Held-Karp (k = 3); orden Duitama, Villeta, Bogotá, Tunja, Duitama; 403.16 km y 208 800 COP |
+
+Decir sin adornos: la recomendación es la de menor compuesto sin riesgo; los
+criterios con riesgo se avisan, no se imponen, porque faltan datos.
+
+## 7. Modo avanzado: despachador, Held-Karp y ACO (3 min)
+
+El despachador elige el método según el tipo de solicitud (a, origen a
+destino; b, paradas en orden fijo; c, obligatorias o tramos bloqueados; d,
+orden libre con regreso; e, orden libre sin regreso). Solo llama a las
+búsquedas, a Held-Karp y al ACO ya programados; la interfaz es de línea de
+comandos.
+
+```
+python src/demostracion.py despachador a Duitama --destino "Puente Nacional"
+python src/demostracion.py despachador d Bogotá --paradas "Tunja,Villeta,Girardot,Duitama,Zipaquirá"
+python src/demostracion.py despachador c Duitama --destino "Puente Nacional" --obligatorias Tunja --bloqueados "Tunja/Chocontá"
+```
+
+| Comando | Qué mostrar |
+|---|---|
+| Tipo a | A* por tramo; el motivo dice que hay heurística admisible para `distancia`; 309.10 km |
+| Tipo d con cinco paradas | Held-Karp, porque k = 5 es menor o igual que el umbral medido (K = 19); el motivo y las métricas salen en la respuesta |
+| Tipo c con obligatoria y tramo bloqueado | El orden queda determinado (una obligatoria) y el tramo bloqueado se excluye de todas las búsquedas |
+
+Umbral: `outputs\umbral_held_karp.json` combina las sesiones guardadas
+(`outputs\umbral_sesion_N.json`) y toma el mayor k dentro del presupuesto en
+todas ellas. Aclarar que los tiempos dependen del estado de la máquina; la
+tabla del informe muestra la mediana de cada sesión.
+
+ACO: tipos d y e con más de 20 paradas libres, o con matriz asimétrica (sin
+2-opt). Validación en `outputs\validacion_agente.json`: en la red de carga
+alcanza la referencia en las 130 semillas; en las instancias del taller con
+n = 20, brecha media de 0.040 % con 2-opt (48 de 50 semillas) y de 0.357 %
+sin 2-opt (32 de 50); con la ciudad de salida fija, sin 2-opt, 2.212 % (1 de
+50).
+
+Pregunta preparada: ¿por qué ACO si el 2-opt ya llega al óptimo? Respuesta
+con los datos: en la red de carga la brecha de la iteración 1 ya es a lo
+sumo 0.029 % y el ACO sin 2-opt también llega a la referencia: el aporte
+del 2-opt es nulo ahí, pequeño con n = 20 (0.357 % sin 2-opt contra 0.040 %
+con él) y crece con n. Donde el exacto no es viable, con n = 100 y 200, sin
+2-opt la brecha es 5.599 % y 6.209 %, y con 2-opt el ACO mejora la mejor
+solución de 2-opt con inicios múltiples en 0.171 % y 1.400 % de brecha media
+(0 de 10 semillas la igualan). No se conoce la distancia al óptimo en esas
+instancias.
+
+## 8. Resultados completos y limitaciones (1 min)
 
 ```
 python src/experimentos_corte2.py

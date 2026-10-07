@@ -1,0 +1,24 @@
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.9cm}}
+\toprule
+\textbf{Fila} & \textbf{(a)} & \textbf{(b)} & \textbf{(c)} \\
+\midrule
+\textbf{Solicitud} & Duitama a Puente Nacional (ciclo) & Bogotá a Granada (ruta única) & Duitama; paradas Tunja, Bogotá y Villeta; con regreso \\
+\addlinespace[2pt]
+\textbf{Tipo decidido} & origen a destino & origen a destino & orden libre con regreso \\
+\addlinespace[2pt]
+\textbf{Ruta u orden} & Duitama $\to$ Tunja $\to$ Chocontá $\to$ Tocancipá $\to$ Bogotá $\to$ Cajicá $\to$ Zipaquirá $\to$ Ubaté $\to$ Puente Nacional & Bogotá $\to$ Villavicencio $\to$ Ye de Granada $\to$ Granada & Duitama $\to$ Villeta $\to$ Bogotá $\to$ Tunja $\to$ Duitama \\
+\addlinespace[2pt]
+\textbf{Distancia (km)} & 309.10 & 168.78 & 403.16 \\
+\addlinespace[2pt]
+\textbf{Peaje (COP)} & 170\,800 & 46\,700 & 208\,800 \\
+\addlinespace[2pt]
+\textbf{Riesgo} & 9.85 (dato en el 50\,\%) & 7.30 (dato en el 100\,\%) & 26.55 (dato en el 100\,\%) \\
+\addlinespace[2pt]
+\textbf{Método y heurística} & A* (distancia, compuesto sin riesgo); UCS (peaje); $\alpha = 0.310570$; 62 nodos expandidos & A* (distancia, compuesto sin riesgo); UCS (peaje); $\alpha = 0.310570$; 37 nodos expandidos & Held-Karp, $k = 3 \le K_{\mathrm{exacto}} = 19$; $\alpha = 0.310570$; 48 nodos expandidos \\
+\addlinespace[2pt]
+\textbf{Alternativas y margen} & desvío por Santander: 654.25 km, 100\,200 COP; margen 0.375 (11.9\,\%) & ninguna (un solo camino) & no aplica (orden exacto de las paradas) \\
+\addlinespace[2pt]
+\textbf{Advertencias} & Chocontá a Tunja truncada; 4 aristas marcadas por la auditoría; 4 de 8 tramos sin dato de riesgo; riesgo y compuesto prefieren otra ruta & 3 aristas marcadas por la auditoría & Chocontá a Tunja truncada; 3 aristas marcadas por la auditoría \\
+\addlinespace[2pt]
+\bottomrule
+\end{tabular}
