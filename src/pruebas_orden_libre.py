@@ -5,6 +5,8 @@ aleatorias, simétricas y asimétricas, para los tres modos. El ACO se prueba
 en validez de los tours, reproducibilidad con semilla fija y brecha no
 negativa respecto del exacto.
 """
+import hashlib
+import json
 import random
 from itertools import permutations
 
@@ -145,10 +147,61 @@ def prueba_aco():
               "simétrica sin 2-opt: tour válido")
 
 
+# huellas de los modos libre y fijo (ACO sin 2-opt, matriz 12 x 12) obtenidas
+# antes de introducir el inicio aleatorio: ese cambio no debe alterarlas
+HUELLAS_SIN_CAMBIO = {
+    ("libre", 3): "1d073ace64de43d7", ("libre", 4): "0023989ccfc30293",
+    ("fijo", 3): "68f731fb650d13ab", ("fijo", 4): "a90ed36f616bbac9",
+}
+
+
+def huella(r):
+    texto = json.dumps([r["orden"], r["costo"], r["curva"]])
+    return hashlib.sha256(texto.encode()).hexdigest()[:16]
+
+
+def prueba_inicio_aleatorio():
+    print("ACO con inicio aleatorio en modo ciclo")
+    m = matriz_aleatoria(11, 55, True)
+    for inicio in (0, 3, 10):
+        r = aco(m, inicio, "ciclo", semilla=5)
+        verificar(r["inicio_aleatorio"] is True
+                  and tour_valido(r["orden"], 11, inicio, "ciclo", None),
+                  f"origen {inicio}: el tour empieza y termina en el origen")
+        verificar(abs(costo_de_orden(m, r["orden"]) - r["costo"]) < EPS,
+                  f"origen {inicio}: el costo informado es el recalculado")
+        ciclo = r["orden"][:-1]
+        otro = ciclo[4:] + ciclo[:4]
+        verificar(abs(costo_de_orden(m, otro + [otro[0]]) - r["costo"])
+                  < EPS, f"origen {inicio}: la rotación conserva el costo")
+        r2 = aco(m, inicio, "ciclo", semilla=5)
+        verificar(r["orden"] == r2["orden"] and r["curva"] == r2["curva"],
+                  f"origen {inicio}: reproducible con semilla fija")
+    sin = aco(m, 3, "ciclo", semilla=5, busqueda_local=False)
+    verificar(tour_valido(sin["orden"], 11, 3, "ciclo", None)
+              and abs(costo_de_orden(m, sin["orden"]) - sin["costo"]) < EPS,
+              "sin 2-opt: tour válido rotado al origen")
+    fijo_antes = aco(m, 3, "ciclo", semilla=5, inicio_aleatorio=False)
+    verificar(fijo_antes["inicio_aleatorio"] is False
+              and tour_valido(fijo_antes["orden"], 11, 3, "ciclo", None),
+              "inicio_aleatorio=False conserva el inicio en el origen")
+    m12 = matriz_aleatoria(12, 31, True)
+    for (modo, semilla), esperada in HUELLAS_SIN_CAMBIO.items():
+        fin = 11 if modo == "fijo" else None
+        r = aco(m12, 0, modo, fin, semilla=semilla, busqueda_local=False)
+        verificar(huella(r) == esperada and r["inicio_aleatorio"] is False,
+                  f"{modo} (semilla {semilla}): resultado sin cambio")
+        r_f = aco(m12, 0, modo, fin, semilla=semilla, busqueda_local=False,
+                  inicio_aleatorio=False)
+        verificar(huella(r_f) == esperada,
+                  f"{modo} (semilla {semilla}): inicio_aleatorio no influye")
+
+
 def main():
     prueba_held_karp()
     prueba_dos_opt()
     prueba_aco()
+    prueba_inicio_aleatorio()
     print("Todas las pruebas de orden libre pasaron.")
 
 

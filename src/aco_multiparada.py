@@ -10,6 +10,10 @@ Algoritmo (Ant System con búsqueda local):
     produzcan infinitos;
   - feromona inicial tau_0 = m / C_nn, con C_nn el costo del tour del vecino
     más cercano y m el número de hormigas;
+  - en modo ciclo cada hormiga sale de una ciudad aleatoria (el tour es
+    una rotación del mismo ciclo) y el mejor tour se rota al final para
+    empezar en el origen, con el mismo costo; en los modos libre y fijo todas
+    salen del origen, porque el inicio forma parte del problema;
   - cada hormiga elige el siguiente nodo con probabilidad proporcional a
     tau_ij^alfa * eta_ij^beta entre los no visitados;
   - evaporación tau <- (1 - rho) tau y depósito 1 / L_k de cada hormiga en
@@ -111,17 +115,23 @@ def dos_opt(c, tour, modo):
 
 def aco(matriz, inicio=0, modo="ciclo", fin=None, hormigas=None,
         iteraciones=ITERACIONES, alfa=ALFA, beta=BETA, rho=RHO, semilla=1,
-        busqueda_local=True):
+        busqueda_local=True, inicio_aleatorio=True):
     """Una corrida del ACO. Devuelve un diccionario con el mejor orden, su
     costo y la curva de convergencia (mejor costo global por iteración).
 
     busqueda_local: aplica 2-opt al mejor tour de cada iteración (requiere
     matriz simétrica). Con False es el ACO sin búsqueda local, el único modo
     válido para una matriz asimétrica; entonces el depósito de feromona es
-    dirigido (solo en el sentido recorrido)."""
+    dirigido (solo en el sentido recorrido).
+
+    inicio_aleatorio: en modo ciclo cada hormiga sale de una ciudad
+    aleatoria; el orden devuelto se rota para empezar en `inicio`. Con False,
+    todas salen de `inicio` (comportamiento anterior). En los modos libre y
+    fijo el inicio es siempre `inicio` y este parámetro no tiene efecto."""
     c = np.asarray(matriz, dtype=float)
     _validar(c, inicio, modo, fin, busqueda_local)
     simetrica = es_simetrica(c)
+    aleatorio = bool(inicio_aleatorio) and modo == "ciclo"
     n = len(c)
     m = hormigas or n
     azar = np.random.default_rng(semilla)
@@ -139,14 +149,18 @@ def aco(matriz, inicio=0, modo="ciclo", fin=None, hormigas=None,
     curva = []
     for _ in range(iteraciones):
         peso = (tau ** alfa) * eta_beta
+        filas = np.arange(m)
+        if aleatorio:
+            partida = azar.integers(0, n, m)
+        else:
+            partida = np.full(m, inicio)
         visitado = np.zeros((m, n), dtype=bool)
-        visitado[:, inicio] = True
+        visitado[filas, partida] = True
         if modo == "fijo":
             visitado[:, fin] = True
         tours = np.empty((m, n), dtype=np.int64)
-        tours[:, 0] = inicio
-        actual = np.full(m, inicio)
-        filas = np.arange(m)
+        tours[:, 0] = partida
+        actual = partida.copy()
         for paso in range(1, libres_por_tour + 1):
             p = peso[actual] * ~visitado
             suma = p.sum(axis=1)
@@ -198,9 +212,12 @@ def aco(matriz, inicio=0, modo="ciclo", fin=None, hormigas=None,
         tau += depositos
     orden = list(mejor_orden)
     if modo == "ciclo":
+        desde = orden.index(inicio)
+        orden = orden[desde:] + orden[:desde]
         orden.append(inicio)
     return {"orden": orden, "costo": mejor_costo, "curva": curva,
             "semilla": semilla, "busqueda_local": busqueda_local,
+            "inicio_aleatorio": aleatorio,
             "tiempo_s": time.perf_counter() - inicio_t}
 
 
