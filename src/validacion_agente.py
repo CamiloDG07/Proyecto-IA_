@@ -1,9 +1,10 @@
 """Validación del agente multifuncional.
 
 a. Red de carga, orden libre con regreso (tipo d), criterio distancia:
-   k = 5, 10, 15 y 20 ciudades (origen incluido; k - 1 paradas libres) con 3
-   instancias por k elegidas con semilla fija, y todas las ciudades (32).
-   Exacto: Held-Karp (cuando k - 1 <= K_EXACTO); ACO + 2-opt con 10 semillas.
+   n = 5, 10, 15 y 20 ciudades (origen incluido; k = n - 1 paradas libres)
+   con 3 instancias por n elegidas con semilla fija, y todas las ciudades
+   (n = 32). Exacto: Held-Karp (cuando k <= K_EXACTO); ACO + 2-opt con 10
+   semillas.
    Para las 32 ciudades no hay Held-Karp; se reporta además el óptimo por
    estructura (red unicíclica): 2 (W - C) + min(C, 2 (C - w_max)), con W la
    suma de todas las aristas, C la longitud del ciclo y w_max su arista más
@@ -102,12 +103,14 @@ def medir_exacto(matriz):
             "memoria_pico_mib": pico / 2 ** 20}
 
 
-def medir_aco(matriz, referencia):
+def medir_aco(matriz, referencia, busqueda_local=True):
     """ACO con 10 semillas: costos, brechas, tiempo, memoria y curva."""
-    resumen = aco_semillas(matriz, 0, "ciclo", semillas=SEMILLAS)
+    resumen = aco_semillas(matriz, 0, "ciclo", semillas=SEMILLAS,
+                           busqueda_local=busqueda_local)
     tiempos = [r["tiempo_s"] for r in resumen["corridas"]]
     tracemalloc.start()
-    aco(matriz, 0, "ciclo", semilla=SEMILLAS[0])
+    aco(matriz, 0, "ciclo", semilla=SEMILLAS[0],
+        busqueda_local=busqueda_local)
     _, pico = tracemalloc.get_traced_memory()
     tracemalloc.stop()
     costos = [r["costo"] for r in resumen["corridas"]]
@@ -181,7 +184,7 @@ def validar_red(grafo, coordenadas, despachador):
         respuesta = despachador.resolver(solicitud)
         t_desp = time.perf_counter() - t0
         registro = {
-            "familia": "red de carga", "k": k, "instancia": i + 1,
+            "familia": "red de carga", "n": k, "instancia": i + 1,
             "origen": seleccion[0], "paradas_libres": libres,
             "despachador_metodo": respuesta["metodo"],
             "despachador_costo": respuesta["costo"],
@@ -202,8 +205,9 @@ def validar_red(grafo, coordenadas, despachador):
                 "mejor_con_2opt": mejor_con_2opt(
                     costos, 200, SEMILLA_INSTANCIAS)}
         registro["aco"] = medir_aco(costos, referencia)
+        registro["aco_sin_2opt"] = medir_aco(costos, referencia, False)
         instancias.append(registro)
-        print(f"  red k={k:2d} #{i + 1}: ref {referencia:9.3f} "
+        print(f"  red n={k:2d} #{i + 1}: ref {referencia:9.3f} "
               f"ACO mejor {registro['aco']['costo_mejor']:9.3f} "
               f"media {registro['aco']['costo_medio']:9.3f} "
               f"({registro['despachador_metodo']})")
@@ -221,7 +225,7 @@ def validar_taller():
         exacto = medir_exacto(matriz)
         referencia = exacto["costo"]
         registro = {
-            "familia": "euclidiana n=20 del taller", "k": 20,
+            "familia": "euclidiana n=20 del taller", "n": 20,
             "instancia": semilla, "paradas_libres": 19,
             "exacto": {k2: v for k2, v in exacto.items() if k2 != "orden"},
             "optimo_del_taller": valores[semilla],
@@ -230,6 +234,7 @@ def validar_taller():
             "referencia": {"tipo": "óptimo exacto (Held-Karp)",
                            "costo": referencia},
             "aco": medir_aco(matriz, referencia),
+            "aco_sin_2opt": medir_aco(matriz, referencia, False),
         }
         instancias.append(registro)
         print(f"  taller semilla {semilla}: Held-Karp {referencia:.5f} "
@@ -249,7 +254,7 @@ def validar_mayores():
                                     SEMILLA_INSTANCIAS)
         t_ref = time.perf_counter() - t0
         registro = {
-            "familia": "euclidiana mayor (sin óptimo exacto)", "k": n,
+            "familia": "euclidiana mayor (sin óptimo exacto)", "n": n,
             "instancia": 1, "paradas_libres": n - 1,
             "referencia": {"tipo": "mejor encontrada con 2-opt",
                            "inicios": INICIOS_2OPT[n] + 1,
@@ -267,26 +272,27 @@ def escribir_csv(instancias):
     with open(SALIDA / "convergencia_aco.csv", "w", encoding="utf-8",
               newline="") as f:
         w = csv.writer(f)
-        w.writerow(["familia", "k", "instancia", "iteracion",
+        w.writerow(["familia", "n", "instancia", "iteracion",
                     "costo_medio_mejor_global", "brecha_pct"])
         for r in instancias:
             ref = r["referencia"]["costo"]
             for it, c in enumerate(r["aco"]["curva_media"], start=1):
-                w.writerow([r["familia"], r["k"], r["instancia"], it,
+                w.writerow([r["familia"], r["n"], r["instancia"], it,
                             f"{c:.6f}", f"{100 * (c - ref) / ref:.4f}"])
     with open(SALIDA / "validacion_agente.csv", "w", encoding="utf-8",
               newline="") as f:
         w = csv.writer(f)
-        w.writerow(["familia", "k", "instancia", "referencia_tipo",
+        w.writerow(["familia", "n", "instancia", "referencia_tipo",
                     "referencia", "aco_mejor", "aco_medio", "aco_peor",
                     "brecha_mejor_pct", "brecha_media_pct",
                     "semillas_que_igualan", "tiempo_aco_medio_s",
                     "tiempo_aco_desv_s", "memoria_aco_kib",
-                    "tiempo_exacto_s", "memoria_exacto_mib"])
+                    "tiempo_exacto_s", "memoria_exacto_mib",
+                    "sin_2opt_brecha_media_pct", "sin_2opt_igualan"])
         for r in instancias:
             a, e = r["aco"], r.get("exacto", {})
             w.writerow([
-                r["familia"], r["k"], r["instancia"], r["referencia"]["tipo"],
+                r["familia"], r["n"], r["instancia"], r["referencia"]["tipo"],
                 f"{r['referencia']['costo']:.5f}",
                 f"{a['costo_mejor']:.5f}", f"{a['costo_medio']:.5f}",
                 f"{a['costo_peor']:.5f}", f"{a['brecha_mejor_pct']:.3f}",
@@ -295,7 +301,11 @@ def escribir_csv(instancias):
                 f"{a['tiempo_medio_s']:.4f}", f"{a['tiempo_desv_s']:.4f}",
                 f"{a['memoria_pico_kib']:.1f}",
                 f"{e['tiempo_s']:.4f}" if e else "",
-                f"{e['memoria_pico_mib']:.1f}" if e else ""])
+                f"{e['memoria_pico_mib']:.1f}" if e else "",
+                f"{r['aco_sin_2opt']['brecha_media_pct']:.3f}"
+                if "aco_sin_2opt" in r else "",
+                r["aco_sin_2opt"]["semillas_que_igualan_referencia"]
+                if "aco_sin_2opt" in r else ""])
 
 
 def main():

@@ -1,21 +1,21 @@
-familia,k,instancia,referencia_tipo,referencia,aco_mejor,aco_medio,aco_peor,brecha_mejor_pct,brecha_media_pct,semillas_que_igualan,tiempo_aco_medio_s,tiempo_aco_desv_s,memoria_aco_kib,tiempo_exacto_s,memoria_exacto_mib
-red de carga,5,1,óptimo exacto (Held-Karp),885.44000,885.44000,885.44000,885.44000,0.000,0.000,10,0.1227,0.0074,13.7,0.0012,0.0
-red de carga,5,2,óptimo exacto (Held-Karp),1097.82000,1097.82000,1097.82000,1097.82000,0.000,0.000,10,0.0619,0.0061,12.8,0.0006,0.0
-red de carga,5,3,óptimo exacto (Held-Karp),1207.05000,1207.05000,1207.05000,1207.05000,0.000,-0.000,10,0.0522,0.0081,12.7,0.0006,0.0
-red de carga,10,1,óptimo exacto (Held-Karp),1504.84000,1504.84000,1504.84000,1504.84000,0.000,0.000,10,0.1091,0.0416,22.9,0.0054,0.1
-red de carga,10,2,óptimo exacto (Held-Karp),2003.14000,2003.14000,2003.14000,2003.14000,0.000,0.000,10,0.0762,0.0083,21.5,0.0024,0.1
-red de carga,10,3,óptimo exacto (Held-Karp),2131.59000,2131.59000,2131.59000,2131.59000,0.000,0.000,10,0.0756,0.0063,21.5,0.0038,0.1
-red de carga,15,1,óptimo exacto (Held-Karp),2009.33000,2009.33000,2009.33000,2009.33000,0.000,0.000,10,0.1241,0.0232,39.9,0.0652,2.8
-red de carga,15,2,óptimo exacto (Held-Karp),1732.79000,1732.79000,1732.79000,1732.79000,0.000,0.000,10,0.1431,0.0097,39.8,0.0328,2.8
-red de carga,15,3,óptimo exacto (Held-Karp),2125.59000,2125.59000,2125.59000,2125.59000,0.000,0.000,10,0.1346,0.0053,39.8,0.0371,2.8
-red de carga,20,1,óptimo exacto (Held-Karp),2282.25000,2282.25000,2282.25000,2282.25000,0.000,0.000,10,0.1866,0.0167,64.3,2.5715,111.8
-red de carga,20,2,óptimo exacto (Held-Karp),2213.55000,2213.55000,2213.55000,2213.55000,0.000,0.000,10,0.2164,0.0468,59.0,3.0399,111.8
-red de carga,20,3,óptimo exacto (Held-Karp),2269.45000,2269.45000,2269.45000,2269.45000,0.000,0.000,10,0.2008,0.0120,64.4,2.7221,111.8
-red de carga,32,1,óptimo por estructura de la red unicíclica,2808.65000,2808.65000,2808.65000,2808.65000,-0.000,0.000,10,0.3327,0.1054,151.7,,
-euclidiana n=20 del taller,20,1,óptimo exacto (Held-Karp),4.10594,4.10594,4.11077,4.15422,0.000,0.118,9,0.1169,0.0114,64.3,1.9138,111.8
-euclidiana n=20 del taller,20,2,óptimo exacto (Held-Karp),4.26964,4.26964,4.26964,4.26964,0.000,0.000,10,0.1175,0.0133,64.2,1.9243,111.8
-euclidiana n=20 del taller,20,3,óptimo exacto (Held-Karp),3.53736,3.53736,3.53736,3.53736,0.000,0.000,10,0.2042,0.0443,64.2,3.0497,111.8
-euclidiana n=20 del taller,20,4,óptimo exacto (Held-Karp),4.07461,4.07461,4.09101,4.15661,0.000,0.402,8,0.1930,0.0581,64.3,4.1118,111.8
-euclidiana n=20 del taller,20,5,óptimo exacto (Held-Karp),4.26586,4.26586,4.26586,4.26586,0.000,0.000,10,0.2934,0.1195,64.2,2.6105,111.8
-euclidiana mayor (sin óptimo exacto),100,1,mejor encontrada con 2-opt,7.76833,7.75605,7.76327,7.80018,-0.158,-0.065,0,3.1245,0.3482,1400.8,,
-euclidiana mayor (sin óptimo exacto),200,1,mejor encontrada con 2-opt,11.23660,11.10038,11.13690,11.20190,-1.212,-0.887,0,17.3791,0.5015,5388.9,,
+familia,n,instancia,referencia_tipo,referencia,aco_mejor,aco_medio,aco_peor,brecha_mejor_pct,brecha_media_pct,semillas_que_igualan,tiempo_aco_medio_s,tiempo_aco_desv_s,memoria_aco_kib,tiempo_exacto_s,memoria_exacto_mib,sin_2opt_brecha_media_pct,sin_2opt_igualan
+red de carga,5,1,óptimo exacto (Held-Karp),885.44000,885.44000,885.44000,885.44000,0.000,0.000,10,0.0330,0.0005,13.4,0.0004,0.0,0.000,10
+red de carga,5,2,óptimo exacto (Held-Karp),1097.82000,1097.82000,1097.82000,1097.82000,0.000,0.000,10,0.0385,0.0048,12.6,0.0004,0.0,0.000,10
+red de carga,5,3,óptimo exacto (Held-Karp),1207.05000,1207.05000,1207.05000,1207.05000,0.000,-0.000,10,0.0505,0.0053,12.7,0.0006,0.0,-0.000,10
+red de carga,10,1,óptimo exacto (Held-Karp),1504.84000,1504.84000,1504.84000,1504.84000,0.000,0.000,10,0.0890,0.0030,22.7,0.0042,0.1,0.000,10
+red de carga,10,2,óptimo exacto (Held-Karp),2003.14000,2003.14000,2003.14000,2003.14000,0.000,0.000,10,0.0829,0.0041,21.3,0.0038,0.1,0.000,10
+red de carga,10,3,óptimo exacto (Held-Karp),2131.59000,2131.59000,2131.59000,2131.59000,0.000,0.000,10,0.0819,0.0027,21.3,0.0039,0.1,0.000,10
+red de carga,15,1,óptimo exacto (Held-Karp),2009.33000,2009.33000,2009.33000,2009.33000,0.000,0.000,10,0.1323,0.0031,39.8,0.0275,2.8,0.000,10
+red de carga,15,2,óptimo exacto (Held-Karp),1732.79000,1732.79000,1732.79000,1732.79000,0.000,0.000,10,0.1511,0.0058,39.7,0.0370,2.8,7.825,0
+red de carga,15,3,óptimo exacto (Held-Karp),2125.59000,2125.59000,2125.59000,2125.59000,0.000,0.000,10,0.1379,0.0089,39.7,0.0373,2.8,0.000,10
+red de carga,20,1,óptimo exacto (Held-Karp),2282.25000,2282.25000,2282.25000,2282.25000,0.000,0.000,10,0.2199,0.0275,64.2,2.6195,111.8,3.491,2
+red de carga,20,2,óptimo exacto (Held-Karp),2213.55000,2213.55000,2213.55000,2213.55000,0.000,0.000,10,0.1718,0.0137,58.8,2.6093,111.8,0.000,10
+red de carga,20,3,óptimo exacto (Held-Karp),2269.45000,2269.45000,2269.45000,2269.45000,0.000,0.000,10,0.1884,0.0211,64.1,2.5435,111.8,5.018,1
+red de carga,32,1,óptimo por estructura de la red unicíclica,2808.65000,2808.65000,2808.65000,2808.65000,-0.000,0.000,10,0.3023,0.0069,151.6,,,0.000,10
+euclidiana n=20 del taller,20,1,óptimo exacto (Held-Karp),4.10594,4.10594,4.11077,4.15422,0.000,0.118,9,0.1719,0.0088,64.2,2.5493,111.8,1.176,0
+euclidiana n=20 del taller,20,2,óptimo exacto (Held-Karp),4.26964,4.26964,4.26964,4.26964,0.000,0.000,10,0.1663,0.0074,64.1,2.4906,111.8,0.699,1
+euclidiana n=20 del taller,20,3,óptimo exacto (Held-Karp),3.53736,3.53736,3.53736,3.53736,0.000,0.000,10,0.1902,0.0077,64.1,2.5167,111.8,5.339,0
+euclidiana n=20 del taller,20,4,óptimo exacto (Held-Karp),4.07461,4.07461,4.09101,4.15661,0.000,0.402,8,0.1782,0.0166,64.1,2.5180,111.8,1.636,0
+euclidiana n=20 del taller,20,5,óptimo exacto (Held-Karp),4.26586,4.26586,4.26586,4.26586,0.000,0.000,10,0.1836,0.0069,64.1,2.6105,111.8,2.209,0
+euclidiana mayor (sin óptimo exacto),100,1,mejor encontrada con 2-opt,7.76833,7.75605,7.76327,7.80018,-0.158,-0.065,0,2.8938,0.0531,1400.7,,,,
+euclidiana mayor (sin óptimo exacto),200,1,mejor encontrada con 2-opt,11.23660,11.10038,11.13690,11.20190,-1.212,-0.887,0,10.9071,0.2119,5388.8,,,,
