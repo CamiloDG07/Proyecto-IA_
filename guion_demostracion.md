@@ -128,11 +128,13 @@ sin 2-opt (32 de 50); con la ciudad de salida fija, sin 2-opt, 2.212 % (1 de
 
 Pregunta preparada: ¿por qué ACO si el 2-opt ya llega al óptimo? Respuesta
 con los datos: en la red de carga la brecha de la iteración 1 ya es a lo
-sumo 0.029 % y el ACO sin 2-opt también llega a la referencia, de modo que
-ahí la validación no separa el aporte de cada parte. La diferencia aparece donde el exacto no es viable: con n = 100 y 200
-el ACO con 2-opt mejora la mejor solución de 2-opt con inicios múltiples en
-0.171 % y 1.400 % de brecha media, 0 de 10 semillas la igualan. No se conoce
-la distancia al óptimo en esas instancias.
+sumo 0.029 % y el ACO sin 2-opt también llega a la referencia: el aporte
+del 2-opt es nulo ahí, pequeño con n = 20 (0.357 % sin 2-opt contra 0.040 %
+con él) y crece con n. Donde el exacto no es viable, con n = 100 y 200, sin
+2-opt la brecha es 5.599 % y 6.209 %, y con 2-opt el ACO mejora la mejor
+solución de 2-opt con inicios múltiples en 0.171 % y 1.400 % de brecha media
+(0 de 10 semillas la igualan). No se conoce la distancia al óptimo en esas
+instancias.
 
 ## 8. Resultados completos y limitaciones (1 min)
 

@@ -643,8 +643,9 @@ coincide con el óptimo exacto del taller en las 5 semillas. El ACO con 2-opt
 alcanza el óptimo con su mejor corrida en las 5; la brecha media es 0.040\,\%
 (48 de 50 semillas lo alcanzan; la semilla 1 con 8 de 10). Sin 2-opt, con
 inicio aleatorio, la brecha media sube a 0.357\,\% y 32 de 50 semillas lo
-alcanzan; el aporte medido del 2-opt en el taller es pasar de 0.357\,\% a
-0.040\,\% de brecha media y de 32 a 48 semillas.
+alcanzan: el aporte del 2-opt es nulo en la red y pequeño en el taller
+($n = 20$), con una brecha media de 0.357\,\% sin 2-opt contra 0.040\,\% con
+él.
 \item \textbf{Efecto del inicio de las hormigas.} Con la ciudad de salida
 fija (contraste, «inicio fijo»), el ACO sin 2-opt tenía una brecha media de
 2.212\,\% en el taller (1 de 50 semillas), de 2.608\,\% con $n = 15$ (20 de 30)
@@ -652,7 +653,8 @@ y de 2.836\,\% con $n = 20$ (13 de 30) en la red. Esa brecha se debía al inicio
 fijo de las hormigas y no a la ausencia de 2-opt: con el inicio aleatorio, sin
 cambiar nada más, es 0.357\,\% en el taller y 0 en la red
 (Tabla~\ref{tab:val-ampliada}). El aporte del 2-opt se reporta con inicio
-aleatorio.
+aleatorio y crece con $n$: nulo en la red, pequeño con $n = 20$ y grande con
+$n = 100$ y 200.
 \item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 1.26 s y
 1.97 s y 111.8 MiB; el ACO, entre 0.07 s y 0.14 s. Con pocas paradas el exacto
 es más rápido (milisegundos hasta $n = 10$). La regla fija elige el exacto
@@ -686,7 +688,8 @@ semilla la iguale. Las brechas negativas solo indican que el ACO supera a esa
 búsqueda local desde inicios múltiples: no se conoce la distancia al óptimo.
 Sin 2-opt, con inicio aleatorio, la brecha media respecto de la misma
 referencia es $5.599$\,\% con $n = 100$ y $6.209$\,\% con $n = 200$, y
-ninguna semilla la iguala; en estas instancias el 2-opt sí aporta. No se
+ninguna semilla la iguala: el aporte del 2-opt es grande (sin él la brecha es
+de 5--6\,\%; con él el ACO supera la referencia). No se
 corrió el ACO sin 2-opt con inicio fijo en ellas. La
 convergencia de estas dos instancias está en
 \texttt{outputs/convergencia\_aco\_mayores.png}.
@@ -709,9 +712,10 @@ presupuesto de 5 s; los tiempos con $k = 19$ variaron entre 1.227 y 2.735 s
 entre sesiones (Hipótesis: estado de la máquina, no se midió).
 \item Los parámetros $\alpha$, $\beta$, $\rho$, el número de hormigas y las
 iteraciones se tomaron del taller y no se reajustaron. El ACO sin búsqueda
-local, con inicio aleatorio, no alcanza el óptimo en parte de las instancias
-del taller (32 de 50 semillas); en la red de carga alcanza la referencia con y
-sin 2-opt, de modo que esa validación no separa el aporte del 2-opt.
+local, con inicio aleatorio, alcanza la referencia en 32 de 50 semillas del
+taller y en toda la red de carga; el aporte del 2-opt crece con $n$ (nulo en
+la red, 0.357\,\% contra 0.040\,\% en $n = 20$, y de 5.599\,\% y 6.209\,\% en
+$n = 100$ y 200).
 \item El ACO con 2-opt requiere una matriz simétrica; con una asimétrica corre
 sin 2-opt, que no se validó en instancias de tamaño real.
 \item En las instancias mayores no hay referencia óptima.

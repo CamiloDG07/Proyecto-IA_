@@ -212,6 +212,7 @@ def lecturas_corte2():
     fin_red = max(100 * abs(r["aco"]["curva_media"][-1]
                             - r["referencia"]["costo"])
                   / r["referencia"]["costo"] for r in red)
+    mayores = [r for r in val if "mayor" in r["familia"]]
     sin_red = media([r["aco_sin_2opt"]["brecha_media_pct"] for r in red])
     sin_tal = media([r["aco_sin_2opt"]["brecha_media_pct"] for r in taller])
     bloque(
@@ -226,9 +227,11 @@ def lecturas_corte2():
         f"{ini:.2f}\\,\\% en la iteración 1 a {pct(fin, 3)}\\,\\% en la "
         "100.",
         f"Medido: sin 2-opt la brecha media final es {pct(sin_red)}\\,\\% en "
-        f"la red y {pct(sin_tal)}\\,\\% en el taller. Hipótesis: el 2-opt "
-        "aplicado al mejor tour acelera la convergencia; no se midió la "
-        "curva sin 2-opt.")
+        f"la red y {pct(sin_tal)}\\,\\% en el taller (con 2-opt, "
+        f"{pct(fin, 3)}\\,\\%); en $n = 100$ y $200$ es "
+        f"{pct(mayores[0]['aco_sin_2opt']['brecha_media_pct'])}\\,\\% y "
+        f"{pct(mayores[1]['aco_sin_2opt']['brecha_media_pct'])}\\,\\% y con "
+        "2-opt supera la referencia: el aporte del 2-opt crece con $n$.")
     # --- figura y tabla del barrido
     b0, b1 = bar[0], bar[1]
     d0, d1 = b0["delta_corta_menos_desvio"], b1["delta_corta_menos_desvio"]
