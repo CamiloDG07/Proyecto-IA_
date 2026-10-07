@@ -151,6 +151,85 @@ def prueba_avisos():
        "ruta sin Chocontá a Tunja: sin esa advertencia")
 
 
+def mejor_camino_sin(origen, destino, quitados=()):
+    """Mínimo compuesto sin riesgo entre todos los caminos simples del
+    grafo sin los tramos quitados (enumeración independiente)."""
+    h = grafo.copy()
+    h.remove_edges_from(quitados)
+    caminos = list(nx.all_simple_paths(h, origen, destino))
+    return min(caminos, key=puntaje) if caminos else None
+
+
+def prueba_ida_y_vuelta():
+    origen, destino = "Duitama", "Puente Nacional"
+    ida_esperada = mejor_camino_sin(origen, destino)
+    # sin bloqueos: el regreso es la ida invertida
+    r = recomendar(origen, destino, regreso=True, grafo=grafo)
+    ok(r["tipo"] == "ida_y_vuelta" and r["ida"]["ruta"] == ida_esperada,
+       "con un destino y regreso, la ida es el mínimo de los caminos simples")
+    ok(r["vuelta"]["ruta"] == ida_esperada[::-1],
+       "sin bloqueos, el regreso es la ida invertida")
+    ok(abs(r["total"]["km"] - 2 * r["ida"]["km"]) < 1e-9
+       and r["total"]["peaje_cop"] == 2 * r["ida"]["peaje_cop"],
+       "el total es la suma de la ida y la vuelta (km y peaje)")
+    # (a) un tramo de la ruta corta bloqueado en el regreso
+    b = recomendar(origen, destino, regreso=True, grafo=grafo,
+                   bloquear_regreso="Tunja-Chocontá")
+    vuelta_esperada = mejor_camino_sin(destino, origen,
+                                       [("Tunja", "Chocontá")])
+    ok(b["ida"]["ruta"] == ida_esperada,
+       "con el bloqueo solo en el regreso, la ida no cambia")
+    ok(b["vuelta"]["ruta"] == vuelta_esperada
+       and "Bucaramanga" in vuelta_esperada,
+       "el regreso es el mínimo de los caminos simples sin el tramo "
+       "bloqueado y va por Santander")
+    ok(abs(b["total"]["km"] - (b["ida"]["km"] + b["vuelta"]["km"])) < 1e-9,
+       "el total de ida y vuelta con bloqueo suma ambos viajes")
+    # (b) un tramo que el regreso no usa: el regreso no cambia
+    c = recomendar(origen, destino, regreso=True, grafo=grafo,
+                   bloquear_regreso="San Gil-Bucaramanga")
+    ok(c["vuelta"]["ruta"] == ida_esperada[::-1],
+       "bloquear un tramo no usado deja el regreso igual a la ida invertida")
+    # (c) bloqueo que desconecta
+    for bloqueo, o, d in (("Villavicencio-Ye de Granada", "Bogotá",
+                           "Granada"),):
+        try:
+            recomendar(o, d, regreso=True, grafo=grafo,
+                       bloquear_regreso=bloqueo)
+        except ValueError as error:
+            ok("desconectan" in str(error),
+               f"bloqueo que desconecta: error claro ({error})")
+        else:
+            ok(False, "el bloqueo que desconecta debía fallar")
+    # (d) formato inválido y restricciones de uso
+    invalidos = [("Tunja Chocontá", "Formato de bloqueo inválido"),
+                 ("Tunja-Chocontá-Bogotá", "Formato de bloqueo inválido"),
+                 ("Tunja-Narnia", "fuera de la red"),
+                 ("Tunja-Bogotá", "No existe el tramo"),
+                 ("Tunja-Chocontá;", "Formato de bloqueo inválido")]
+    for texto, esperado in invalidos:
+        try:
+            recomendar(origen, destino, regreso=True, grafo=grafo,
+                       bloquear_regreso=texto)
+        except ValueError as error:
+            ok(esperado in str(error),
+               f"bloqueo «{texto}»: error claro ({error})")
+        else:
+            ok(False, f"el bloqueo «{texto}» debía fallar")
+    for args, esperado in (
+            (dict(destinos=["Tunja", "Bogotá"], regreso=True),
+             "solo se admite con un destino"),
+            (dict(destinos=["Tunja"], regreso=False),
+             "requiere --regreso")):
+        try:
+            recomendar("Duitama", args["destinos"], args["regreso"],
+                       grafo=grafo, bloquear_regreso="Tunja-Chocontá")
+        except ValueError as error:
+            ok(esperado in str(error), f"uso inválido: {error}")
+        else:
+            ok(False, "el uso inválido debía fallar")
+
+
 def main():
     prueba_un_destino()
     prueba_pesos()
@@ -158,6 +237,7 @@ def main():
     prueba_varios_destinos()
     prueba_entradas_invalidas()
     prueba_avisos()
+    prueba_ida_y_vuelta()
     print("Todas las pruebas del agente autónomo pasaron.")
 
 
