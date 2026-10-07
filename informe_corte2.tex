@@ -211,9 +211,12 @@ los cinco algoritmos y con los cuatro criterios.
 \textbf{Mediciones.} Cada celda (escenario, criterio, algoritmo) se repite
 2000 veces; el tiempo se mide sin \texttt{tracemalloc} y se reporta como media
 y desviación estándar; la memoria pico se mide en una corrida aparte con
-\texttt{tracemalloc}. Las desviaciones son grandes respecto de las medias (la
-mayor es 1.93 veces la media), por lo que las diferencias de tiempo entre
-algoritmos solo son indicativas.
+\texttt{tracemalloc}. Voraz y A* consultan una tabla de $h$ precalculada hacia
+el destino (mismos valores, mismas rutas y mismos nodos expandidos); el tiempo
+de construir la tabla se mide aparte y no está incluido en sus tiempos (media
+de 96.8 $\mu$s, entre 19.1 y 215.3 $\mu$s). Las desviaciones son grandes
+respecto de las medias (la mayor es 1.44 veces la media), por lo que las
+diferencias de tiempo entre algoritmos solo son indicativas.
 
 \section{Resultados}
 
@@ -284,9 +287,10 @@ ruta y el mismo costo.
 DFS 142, UCS 144, voraz 50 y A* 120. A* expande menos nodos que UCS en cada
 escenario o igual, y la búsqueda voraz es la que menos expande y devuelve la
 ruta óptima en los diez escenarios, aunque no lo garantiza.
-\item A* tarda más que UCS pese a expandir menos nodos (en el caso central,
-$300 \pm 138$ $\mu$s contra $151 \pm 33$ $\mu$s), porque cada evaluación de $h$
-calcula una distancia de Haversine.
+\item Expandir menos nodos no se traduce siempre en menos tiempo: en el caso
+central A* tarda $156 \pm 45$ $\mu$s contra $147 \pm 31$ $\mu$s de UCS, aunque
+expande 20 nodos contra 25. Esos tiempos excluyen la construcción de la tabla
+de $h$, que se mide aparte.
 \end{itemize}
 
 \subsection{Criterio compuesto sin riesgo}

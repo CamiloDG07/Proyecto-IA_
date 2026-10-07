@@ -106,6 +106,31 @@ class Heuristica:
         return self.factor * haversine_km(*self.coordenadas[nodo],
                                           *self.coordenadas[meta])
 
+    def precalcular(self, grafo, meta):
+        """Tabla de h hacia `meta` para todos los nodos (mismos valores)."""
+        return HeuristicaPrecalculada(self, grafo, meta)
+
+
+class HeuristicaPrecalculada:
+    """h hacia una meta fija, precalculada: devuelve los mismos valores.
+
+    La tabla se construye una vez por destino; la búsqueda solo consulta.
+    """
+
+    def __init__(self, heuristica, grafo, meta):
+        self.meta = meta
+        self.criterio = heuristica.criterio
+        self.alfa = heuristica.alfa
+        self.limitada = heuristica.limitada
+        self.factor = heuristica.factor
+        self.tabla = {nodo: heuristica(nodo, meta) for nodo in grafo}
+
+    def __call__(self, nodo, meta):
+        if meta != self.meta:
+            raise ValueError(f"Tabla precalculada hacia {self.meta}, "
+                             f"no hacia {meta}")
+        return self.tabla[nodo]
+
 
 def verificar_admisibilidad(grafo, h, criterio):
     """h(n, m) <= costo óptimo de n a m, para todo par con n distinto de m."""
