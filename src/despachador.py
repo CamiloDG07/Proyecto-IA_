@@ -40,7 +40,7 @@ import time
 import tracemalloc
 from dataclasses import dataclass, field
 
-from aco_multiparada import aco_semillas
+from aco_multiparada import aco_semillas, es_simetrica
 from agente import CRITERIOS
 from build_graph import SALIDA
 from held_karp import held_karp
@@ -253,14 +253,23 @@ class Despachador:
                       "(umbral medido en esta máquina para un presupuesto "
                       f"de {extra['presupuesto_s']} s)")
         else:
+            simetrica = es_simetrica(matriz.costo)
             resumen = aco_semillas(matriz.costo, 0, modo, fin,
-                                   semillas=SEMILLAS_ACO)
+                                   semillas=SEMILLAS_ACO,
+                                   busqueda_local=simetrica)
             indices = resumen["mejor"]["orden"]
-            metodo = f"ACO + 2-opt ({len(SEMILLAS_ACO)} semillas)"
+            extra["matriz_simetrica"] = simetrica
             motivo = (f"exacto no viable: k = {k} paradas libres > {umbral} "
                       "(umbral medido en esta máquina para un presupuesto "
                       f"de {extra['presupuesto_s']} s); se usa la "
                       "metaheurística")
+            if simetrica:
+                metodo = f"ACO + 2-opt ({len(SEMILLAS_ACO)} semillas)"
+            else:
+                metodo = f"ACO sin 2-opt ({len(SEMILLAS_ACO)} semillas)"
+                motivo += ("; la matriz de costos es asimétrica, por lo que "
+                           "el ACO corre sin búsqueda local 2-opt (que "
+                           "requiere simetría)")
             extra.update({
                 "costo_medio_aco": resumen["costo_medio"],
                 "costo_peor_aco": resumen["costo_peor"],

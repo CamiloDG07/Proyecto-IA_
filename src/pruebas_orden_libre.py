@@ -127,9 +127,22 @@ def prueba_aco():
     try:
         aco(matriz_aleatoria(6, 1, False), 0, "ciclo")
     except ValueError:
-        verificar(True, "matriz asimétrica: error explícito")
+        verificar(True, "matriz asimétrica con 2-opt: error explícito")
     else:
         raise AssertionError("Debía rechazar la matriz asimétrica")
+    asim = matriz_aleatoria(9, 41, False)
+    for modo, fin in (("ciclo", None), ("libre", None), ("fijo", 8)):
+        exacto, _ = held_karp(asim, 0, modo, fin)
+        r = aco(asim, 0, modo, fin, semilla=2, busqueda_local=False)
+        verificar(tour_valido(r["orden"], 9, 0, modo, fin)
+                  and abs(costo_de_orden(asim, r["orden"]) - r["costo"])
+                  < EPS and r["costo"] >= exacto - EPS,
+                  f"asimétrica sin 2-opt ({modo}): válido, costo "
+                  "recalculado y brecha no negativa")
+    sim = matriz_aleatoria(9, 42, True)
+    r = aco(sim, 0, "ciclo", semilla=2, busqueda_local=False)
+    verificar(tour_valido(r["orden"], 9, 0, "ciclo", None),
+              "simétrica sin 2-opt: tour válido")
 
 
 def main():

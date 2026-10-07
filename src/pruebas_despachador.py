@@ -3,6 +3,7 @@
 Las referencias de costo salen de nx.shortest_path_length; las búsquedas del
 proyecto no usan networkx para buscar.
 """
+import random
 from itertools import permutations
 
 import networkx as nx
@@ -181,6 +182,46 @@ def prueba_metaheuristica(grafo, coordenadas):
               "con umbral suficiente se usa el exacto")
 
 
+def prueba_asimetrica():
+    print("Simetría: matriz asimétrica, ACO sin 2-opt")
+    g = nx.DiGraph()
+    azar = random.Random(7)
+    for a in range(9):
+        for b in range(9):
+            if a != b:
+                g.add_edge(a, b, costo=azar.uniform(1, 10))
+    criterios = {"costo": "costo"}
+    paradas = tuple(range(1, 9))
+    solicitud = Solicitud("d", 0, paradas=paradas, criterio="costo")
+    forzado = Despachador(g, criterios=criterios, umbral_k=3)
+    r = forzado.resolver(solicitud)
+    verificar(r["metricas"]["matriz_simetrica"] is False,
+              "el despachador detecta la matriz asimétrica")
+    verificar("sin 2-opt" in r["metodo"], "método: ACO sin 2-opt")
+    verificar("asimétrica" in r["motivo"]
+              and "no viable" in r["motivo"],
+              "el motivo explica la ausencia de 2-opt y el uso del ACO")
+    verificar(sorted(r["orden_paradas"][1:-1]) == list(paradas)
+              and r["orden_paradas"][0] == r["orden_paradas"][-1] == 0,
+              "tour válido")
+    exacto = Despachador(g, criterios=criterios, umbral_k=20).resolver(
+        solicitud)
+    verificar(exacto["metodo"] == "Held-Karp",
+              "Held-Karp admite matrices asimétricas")
+    verificar(r["costo"] >= exacto["costo"] - EPS,
+              "la brecha del ACO sin 2-opt no es negativa")
+    # grafo no dirigido: matriz simétrica, ACO con 2-opt
+    sim = nx.Graph()
+    for a, b, w in [(0, 1, 2), (1, 2, 3), (2, 3, 1), (3, 4, 2), (4, 0, 4),
+                    (1, 3, 5)]:
+        sim.add_edge(a, b, costo=w)
+    r2 = Despachador(sim, criterios=criterios, umbral_k=2).resolver(
+        Solicitud("d", 0, paradas=(1, 2, 3, 4), criterio="costo"))
+    verificar(r2["metodo"].startswith("ACO + 2-opt")
+              and r2["metricas"]["matriz_simetrica"] is True,
+              "matriz simétrica: ACO con 2-opt")
+
+
 def main():
     grafo = cargar_grafo()
     coordenadas = cargar_coordenadas()
@@ -191,6 +232,7 @@ def main():
     prueba_generico()
     prueba_orden_libre(grafo, coordenadas)
     prueba_metaheuristica(grafo, coordenadas)
+    prueba_asimetrica()
     print("Todas las pruebas del despachador pasaron.")
 
 

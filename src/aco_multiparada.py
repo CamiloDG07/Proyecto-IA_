@@ -38,13 +38,19 @@ EPS_REL = 1e-3
 SEMILLAS = tuple(range(1, 11))
 
 
-def _validar(c, inicio, modo, fin):
+def es_simetrica(matriz):
+    c = np.asarray(matriz, dtype=float)
+    return bool(np.allclose(c, c.T))
+
+
+def _validar(c, inicio, modo, fin, busqueda_local):
     if modo not in ("ciclo", "libre", "fijo"):
         raise ValueError(f"Modo desconocido: {modo}")
     if modo == "fijo" and (fin is None or fin == inicio):
         raise ValueError("El modo fijo requiere un final distinto del inicio")
-    if not np.allclose(c, c.T):
-        raise ValueError("El ACO con 2-opt requiere una matriz simétrica")
+    if busqueda_local and not es_simetrica(c):
+        raise ValueError("El ACO con 2-opt requiere una matriz simétrica; "
+                         "con matriz asimétrica use busqueda_local=False")
 
 
 def costo_tour(c, tour, modo):
@@ -104,11 +110,18 @@ def dos_opt(c, tour, modo):
 
 
 def aco(matriz, inicio=0, modo="ciclo", fin=None, hormigas=None,
-        iteraciones=ITERACIONES, alfa=ALFA, beta=BETA, rho=RHO, semilla=1):
+        iteraciones=ITERACIONES, alfa=ALFA, beta=BETA, rho=RHO, semilla=1,
+        busqueda_local=True):
     """Una corrida del ACO. Devuelve un diccionario con el mejor orden, su
-    costo y la curva de convergencia (mejor costo global por iteración)."""
+    costo y la curva de convergencia (mejor costo global por iteración).
+
+    busqueda_local: aplica 2-opt al mejor tour de cada iteración (requiere
+    matriz simétrica). Con False es el ACO sin búsqueda local, el único modo
+    válido para una matriz asimétrica; entonces el depósito de feromona es
+    dirigido (solo en el sentido recorrido)."""
     c = np.asarray(matriz, dtype=float)
-    _validar(c, inicio, modo, fin)
+    _validar(c, inicio, modo, fin, busqueda_local)
+    simetrica = es_simetrica(c)
     n = len(c)
     m = hormigas or n
     azar = np.random.default_rng(semilla)
@@ -151,8 +164,12 @@ def aco(matriz, inicio=0, modo="ciclo", fin=None, hormigas=None,
         if modo == "ciclo":
             costos = costos + c[tours[:, -1], tours[:, 0]]
         mejor_iter = int(costos.argmin())
-        orden_iter, costo_iter = dos_opt(
-            c, [int(x) for x in tours[mejor_iter]], modo)
+        if busqueda_local:
+            orden_iter, costo_iter = dos_opt(
+                c, [int(x) for x in tours[mejor_iter]], modo)
+        else:
+            orden_iter = [int(x) for x in tours[mejor_iter]]
+            costo_iter = float(costos[mejor_iter])
         if costo_iter < mejor_costo:
             mejor_orden, mejor_costo = orden_iter, costo_iter
         curva.append(mejor_costo)
@@ -162,23 +179,29 @@ def aco(matriz, inicio=0, modo="ciclo", fin=None, hormigas=None,
         origen = tours[:, :-1].ravel()
         destino = tours[:, 1:].ravel()
         np.add.at(depositos, (origen, destino), pesos_dep)
-        np.add.at(depositos, (destino, origen), pesos_dep)
+        if simetrica:
+            np.add.at(depositos, (destino, origen), pesos_dep)
         if modo == "ciclo":
             np.add.at(depositos, (tours[:, -1], tours[:, 0]), 1.0 / costos)
-            np.add.at(depositos, (tours[:, 0], tours[:, -1]), 1.0 / costos)
+            if simetrica:
+                np.add.at(depositos, (tours[:, 0], tours[:, -1]),
+                          1.0 / costos)
         extra = 1.0 / costo_iter
         for a, b in zip(orden_iter, orden_iter[1:]):
             depositos[a, b] += extra
-            depositos[b, a] += extra
+            if simetrica:
+                depositos[b, a] += extra
         if modo == "ciclo":
             depositos[orden_iter[-1], orden_iter[0]] += extra
-            depositos[orden_iter[0], orden_iter[-1]] += extra
+            if simetrica:
+                depositos[orden_iter[0], orden_iter[-1]] += extra
         tau += depositos
     orden = list(mejor_orden)
     if modo == "ciclo":
         orden.append(inicio)
     return {"orden": orden, "costo": mejor_costo, "curva": curva,
-            "semilla": semilla, "tiempo_s": time.perf_counter() - inicio_t}
+            "semilla": semilla, "busqueda_local": busqueda_local,
+            "tiempo_s": time.perf_counter() - inicio_t}
 
 
 def aco_semillas(matriz, inicio=0, modo="ciclo", fin=None, semillas=SEMILLAS,
