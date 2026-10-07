@@ -1,11 +1,11 @@
-"""Coordenadas de los 33 nodos desde fuentes oficiales, con verificación.
+"""Coordenadas de los 32 nodos desde fuentes oficiales, con verificación.
 
 Fuente primaria (DANE, DIVIPOLA, corte 30 de diciembre de 2024, descargada
 de datos.gov.co el 7 de octubre de 2026):
   - gdxc-w37w: DIVIPOLA, códigos de municipios (cabecera municipal)
   - xaxy-8nri: DIVIPOLA, códigos de cabeceras y centros poblados
 
-La elección entre municipios homónimos (Barbosa, Granada, Mosquera) está
+La elección entre municipios homónimos (Barbosa y Granada) está
 escrita de forma explícita en MUNICIPIOS. Los nodos que no son municipio ni
 centro poblado con coordenada DANE verificable se estiman como el punto de
 unión de los dos tramos de INVÍAS (geometría multiline de red_vial.csv)
@@ -41,7 +41,7 @@ MUNICIPIOS = {
     "Tunja": "15001", "Duitama": "15238", "Barbosa": "68077",
     "Chiquinquirá": "15176", "Sáchica": "15638", "Cajicá": "25126",
     "Zipaquirá": "25899", "Ubaté": "25843", "Puente Nacional": "68572",
-    "Mosquera": "25473", "Madrid": "25430", "Guasca": "25322",
+    "Madrid": "25430", "Guasca": "25322",
     "Villavicencio": "50001", "Granada": "50313", "Puerto López": "50573",
     "Puerto Gaitán": "50568", "Villeta": "25875", "Honda": "73349",
     "Mariquita": "73443", "Fusagasugá": "25290", "Girardot": "25307",

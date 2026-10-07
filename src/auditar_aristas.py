@@ -1,4 +1,4 @@
-"""Auditoría geométrica de las 33 aristas contra la geometría de INVÍAS.
+"""Auditoría geométrica de las 32 aristas contra la geometría de INVÍAS.
 
 Para cada arista compara el sector usado en el cruce (distancia por
 carretera) con la distancia geodésica entre las coordenadas oficiales de sus

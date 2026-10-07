@@ -63,8 +63,8 @@ constituyen una limitación de vigencia.
 
 ## Prueba de reproducibilidad
 
-El script `construir_red.py` original (tarifas escritas a mano) se ejecutó sin
-cambios contra ambas versiones. Resultado idéntico en las dos: 33 nodos, 33
+El script `construir_red.py` original (tarifas escritas a mano, red de 33
+nodos, antes de excluir Mosquera) se ejecutó sin cambios contra ambas versiones. Resultado idéntico en las dos: 33 nodos, 33
 aristas, 1 ciclo independiente, 24 aristas con peaje, 12 con riesgo, mismos
 `aristas_red.json` y `nodos_red.json` byte a byte, Duitama a Puente Nacional
 en 414.8 y 668.1 km y San Gil a Bucaramanga en 109.14 km. La igualdad se
@@ -90,7 +90,22 @@ nodo está en `outputs/verificacion_coordenadas.csv`. Los nodos sin
 coordenada DANE verificable se estiman como la unión de los dos tramos
 INVÍAS que llegan a ellos.
 
-## Auditoría geométrica de las aristas (7 de octubre de 2026)
+## Exclusión de Mosquera (7 de octubre de 2026)
+
+La arista Bogotá a Mosquera usaba el sector `Puente Mosquera - Cruce Avenida
+del Ferrocarril` (ruta 29, Troncal del Eje Cafetero), ubicado en torno a
+lon -75.68 y lat 4.81, a unos 160 km de Mosquera (Cundinamarca) (razón
+carretera/geodésica 0.7307; extremo de la geometría a 159.93 km del nodo). La
+Red Vial no tiene un sector oficial de reemplazo: el sector `Madrid - Bogotá
+(Rio Bogotá)`, cuya geometría pasa a 0.67 km de Mosquera, ya se usa en la
+arista Madrid a Bogotá. Mosquera era una hoja (grado 1, solo conectaba con
+Bogotá), por lo que se excluyó el nodo con su arista, con el mismo criterio
+que la rama Villavicencio, Barranca de Upía y Yopal (sector de otra región, sin
+sector oficial de reemplazo). La red queda en 32 nodos, 32 aristas y un ciclo
+independiente (24 aristas con peaje y 11 con dato de riesgo). Como el máximo
+de riesgo era el de esa arista, $r_{\max}$ pasa de 4.771 a 3.423.
+
+## Auditoría geométrica de las 32 aristas (7 de octubre de 2026)
 
 Generada por `src/auditar_aristas.py` (salida completa en
 `outputs/auditoria_aristas.csv`). Compara, por arista, la distancia por
@@ -115,7 +130,6 @@ registros mucho mayores que su trazado, no como distancia.
 | Cajicá - Zipaquirá | 18.69 | 12.15 | 1.539 | 2.14 | 2.052 | registro mayor que el camino de la geometría |
 | Zipaquirá - Ubaté | 47.76 | 37.16 | 1.285 | 1.26 | 1.189 | - |
 | Ubaté - Puente Nacional | 94.48 | 65.26 | 1.448 | 0.84 | 1.050 | - |
-| Bogotá - Mosquera | 10.35 | 14.16 | 0.731 | 175.63 | 1.823 | carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría; registro mayor que el camino de la geometría |
 | Madrid - Bogotá | 19.46 | 19.91 | 0.978 | 8.96 | 2.297 | carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría; registro mayor que el camino de la geometría |
 | Bogotá - Guasca | 34.88 | 35.12 | 0.993 | 11.17 | 0.509 | carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría |
 | Bogotá - Villavicencio | 93.72 | 79.15 | 1.184 | 19.06 | 1.097 | extremo lejos del nodo; nodo lejos de la geometría |
@@ -140,14 +154,7 @@ registros mucho mayores que su trazado, no como distancia.
 
 ### Hallazgos
 
-1. **Bogotá a Mosquera usa un sector de otra región.** El sector `Puente
-   Mosquera - Cruce Avenida del Ferrocarril` (ruta 29, Troncal del Eje
-   Cafetero) está en torno a lon -75.68 y lat 4.81, a unos 160 km de Mosquera
-   (Cundinamarca). Ese sector no se usa en ninguna otra arista, pero Mosquera
-   queda sobre la geometría del sector `Madrid - Bogotá (Rio Bogotá)` (a 0.67
-   km), que ya se usa en la arista Madrid a Bogotá. Está pendiente de
-   decisión; no se modificó.
-2. **Chocontá a Tunja está truncada.** La geometría del sector cubre 17.69 km
+1. **Chocontá a Tunja está truncada.** La geometría del sector cubre 17.69 km
    (el tramo final hacia Tunja); Chocontá queda a 43.70 km de ella. Se buscó,
    en los 715 registros, un sector que complete el trazado (extremos
    coincidentes y vértices dentro del corredor entre ambos nodos): ninguno
@@ -155,22 +162,26 @@ registros mucho mayores que su trazado, no como distancia.
    es `Chocontá - Brisas`, de la ruta 56. La arista se deja con 17.69 km y
    queda como limitación: la distancia está subestimada, con razón medida
    carretera/geodésica de 0.3106.
+2. **Cota inferior de la ruta corta.** Como consecuencia, la ruta corta de
+   Duitama a Puente Nacional (414.84 km en el grafo) tiene una cota inferior
+   de 414.84 - 17.69 + 56.96 = 454.11 km (cota inferior: la geodésica no
+   excede la distancia por carretera). No es un valor estimado ni se usa como
+   distancia.
 3. **Entrada urbana a Bogotá.** Las geometrías de los sectores que salen de
    Bogotá empiezan en el límite urbano, no en la coordenada DANE del
    municipio: a 18.90 km (Tocancipá), 19.02 (Cajicá), 19.06 (Villavicencio),
    11.17 (Guasca), 10.39 (Fusagasugá) y 8.50 km (Villeta). Es una limitación
    de la fuente y no se corrige.
-4. **Registros mayores que su trazado.** En 10 aristas el registro supera en
+4. **Registros mayores que su trazado.** En 9 aristas el registro supera en
    más de 1.5 veces el camino de su geometría (Bogotá a Tocancipá, Tocancipá a
-   Chocontá, Tunja a Duitama, Bogotá a Cajicá, Cajicá a Zipaquirá, Bogotá a
-   Mosquera, Madrid a Bogotá, Bogotá a Villeta, Bogotá a Fusagasugá y
-   Fusagasugá a Girardot). La geometría de esos sectores contiene partes
-   paralelas, compatible con ambas calzadas digitalizadas, pero la columna
-   `calzada` no lo explica por sí sola. No se corrigió ningún valor.
-5. **Siete aristas con razón carretera/geodésica menor que 1** (Chocontá a
-   Tunja 0.3106, Bogotá a Mosquera 0.7307, Granada a Yé de Granada 0.7984,
-   Bogotá a Tocancipá 0.9316, El Espinal a Girardot 0.9479, Bogotá a Madrid
-   0.9776 y Bogotá a Guasca 0.9931).
+   Chocontá, Tunja a Duitama, Bogotá a Cajicá, Cajicá a Zipaquirá, Madrid a
+   Bogotá, Bogotá a Villeta, Bogotá a Fusagasugá y Fusagasugá a Girardot). La
+   geometría de esos sectores contiene partes paralelas, compatible con ambas
+   calzadas digitalizadas, pero la columna `calzada` no lo explica por sí
+   sola. No se corrigió ningún valor.
+5. **Seis aristas con razón carretera/geodésica menor que 1** (Chocontá a
+   Tunja 0.3106, Granada a Yé de Granada 0.7984, Bogotá a Tocancipá 0.9316, El
+   Espinal a Girardot 0.9479, Bogotá a Madrid 0.9776 y Bogotá a Guasca 0.9931).
 6. **Independencia de las coordenadas.** Para Cuestaboba, La Palmera y Yé de
    Granada no hay punto DANE; su coordenada se estima con la misma geometría
    de INVÍAS de la que sale la distancia por carretera de sus aristas, por lo

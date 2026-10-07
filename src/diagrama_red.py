@@ -46,7 +46,7 @@ def dibujar(grafo, ruta_png, ruta_pdf):
     ax.plot([], [], color=COLOR_CICLO, lw=2.6, label="Ciclo (vía Santander)")
     ax.plot([], [], color=COLOR_RED, lw=1.4, label="Resto de la red")
     ax.legend(loc="lower left", fontsize=8)
-    ax.set_title("Red de carga interurbana: 33 ciudades y 33 tramos "
+    ax.set_title("Red de carga interurbana: 32 ciudades y 32 tramos "
                  "(distancia en km)", fontsize=10)
     ax.axis("off")
     fig.tight_layout()

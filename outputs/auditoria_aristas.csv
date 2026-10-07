@@ -10,7 +10,6 @@ Bogotá,Cajicá,Bogotá - Cajicá,37.18,31.51,1.1798,19.02,2.31,19.02,2.31,11.23
 Cajicá,Zipaquirá,Cajicá - Zipaquirá,18.69,12.15,1.5388,2.14,1.53,2.14,1.53,9.11,2.052,registro mayor que el camino de la geometría
 Zipaquirá,Ubaté,Zipaquirá - Ubaté,47.76,37.16,1.2853,1.26,0.55,1.26,0.22,40.16,1.189,
 Ubaté,Puente Nacional,Ubaté - Puente Nacional,94.48,65.26,1.4477,0.55,0.84,0.55,0.73,89.96,1.050,
-Bogotá,Mosquera,Puente Mosquera - Cruce Avenida del Ferrocarril,10.35,14.16,0.7307,175.63,159.93,173.25,159.93,5.68,1.823,carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría; registro mayor que el camino de la geometría
 Madrid,Bogotá,Madrid - Bogotá (Rio Bogotá),19.46,19.91,0.9776,3.70,8.96,3.70,8.95,8.47,2.297,carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría; registro mayor que el camino de la geometría
 Bogotá,Guasca,Bogotá (Los Patios) - Guasca,34.88,35.12,0.9931,11.17,0.34,10.79,0.34,68.57,0.509,carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría
 Bogotá,Villavicencio,Bogotá (El Portal) - Villavicencio,93.72,79.15,1.1841,19.06,2.28,19.06,2.15,85.43,1.097,extremo lejos del nodo; nodo lejos de la geometría

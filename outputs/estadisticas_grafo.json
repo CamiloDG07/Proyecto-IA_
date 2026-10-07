@@ -1,15 +1,15 @@
 {
-  "nodos": 33,
-  "aristas": 33,
+  "nodos": 32,
+  "aristas": 32,
   "conexo": true,
   "ciclos_independientes": 1,
   "aristas_con_peaje": 24,
-  "aristas_con_riesgo": 12,
-  "distancia_total_km": 2214.35,
+  "aristas_con_riesgo": 11,
+  "distancia_total_km": 2204.0,
   "maximos": {
     "distancia": 167.67,
     "peaje": 41600,
-    "riesgo": 4.771
+    "riesgo": 3.423
   },
   "pesos": {
     "distancia": 0.3333333333333333,

@@ -110,16 +110,6 @@
     "riesgo_puntos_criticos": 0
   },
   {
-    "origen": "Bogotá",
-    "destino": "Mosquera",
-    "distancia_km": 10.35,
-    "peaje_nombre": null,
-    "peaje_cop_camion": 0,
-    "riesgo_gizscore_prom": 4.771,
-    "riesgo_fallecidos_hist": 38.0,
-    "riesgo_puntos_criticos": 2
-  },
-  {
     "origen": "Madrid",
     "destino": "Bogotá",
     "distancia_km": 19.46,

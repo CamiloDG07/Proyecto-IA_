@@ -80,7 +80,7 @@ colombianos (COP) y el riesgo de siniestralidad de la vía. El agente recibe
 una ciudad de origen, una de destino y un criterio, y devuelve la ruta de
 menor costo según ese criterio.
 
-La red modelada tiene 33 ciudades y 33 tramos (Tabla~\ref{tab:estadisticas}).
+La red modelada tiene 32 ciudades y 32 tramos (Tabla~\ref{tab:estadisticas}).
 Es un grafo no dirigido, conexo y con exactamente un ciclo independiente
 ($E-V+1=1$). Ese ciclo, que cierra por Santander, permite que algunos pares
 de ciudades tengan dos rutas reales distintas. El caso de referencia es
@@ -98,7 +98,7 @@ Duitama a Puente Nacional: 414.84 km por Bogotá o 668.14 km por Santander.
 \midrule
 Performance & Minimizar el costo compuesto (distancia, peaje, riesgo) y
 responder en tiempo útil \\
-Environment & Red vial interurbana de 33 nodos y 33 aristas, estática,
+Environment & Red vial interurbana de 32 nodos y 32 aristas, estática,
 determinista, discreta y totalmente observable \\
 Actuators & Elegir el siguiente tramo de carretera \\
 Sensors & Posición actual (ciudad) y estado de los tramos disponibles
@@ -168,6 +168,13 @@ limitación.
 \item \textbf{Exclusión de una rama.} Se excluyó la rama Villavicencio,
 Barranca de Upía y Yopal por no existir un tramo verificable que conecte
 Barranca de Upía con Yopal.
+\item \textbf{Exclusión de Mosquera.} La arista de Bogotá a Mosquera usaba el
+sector Puente Mosquera a Cruce Avenida del Ferrocarril, que pertenece a la
+Troncal del Eje Cafetero, a unos 160 km de Mosquera (Cundinamarca), y la Red
+Vial no tiene un sector oficial de reemplazo. Como Mosquera era una hoja (solo
+conectaba con Bogotá), se excluyó el nodo con su arista, con el mismo criterio
+que la rama anterior: sector de otra región y sin sector oficial de
+reemplazo. La red pasó de 33 a 32 nodos y de 33 a 32 aristas.
 \end{itemize}
 
 \subsection{Hallazgo del barrido de ciclos}
@@ -188,7 +195,7 @@ La Figura~\ref{fig:red} muestra la red. La disposición de los nodos es
 esquemática, no geográfica. El ciclo, en rojo, pasa por Cajicá, Bogotá,
 Tocancipá, Chocontá, Tunja, Duitama, La Palmera, Presidente, Pamplona,
 Cuestaboba, Bucaramanga, San Gil, Puente Nacional, Ubaté y Zipaquirá. El
-detalle de las 33 aristas está en el Anexo.
+detalle de las 32 aristas está en el Anexo.
 
 \begin{figure}[H]
     \centering
@@ -226,7 +233,7 @@ la distancia. La normalización por el máximo conserva esa proporcionalidad,
 condición necesaria para que una heurística basada en la distancia geodésica
 sea admisible en el Corte 2.
 
-\textbf{Riesgo faltante.} 21 de las 33 aristas no tienen dato de riesgo. No se
+\textbf{Riesgo faltante.} 21 de las 32 aristas no tienen dato de riesgo. No se
 imputa ningún valor: tratarlo como 0 sesga las rutas hacia corredores sin
 medición. Cada arista guarda el indicador booleano
 \texttt{riesgo\_disponible} y se calculan dos variantes:
@@ -254,7 +261,7 @@ criterios son \texttt{distancia}, \texttt{peaje}, \texttt{riesgo},
 \texttt{networkx.shortest\_path} (Dijkstra) sobre el atributo del criterio,
 y mide el tiempo con \texttt{time.perf\_counter()} y la memoria pico con
 \texttt{tracemalloc}.
-\item \texttt{pruebas\_agente.py}: pruebas sobre los 33 nodos.
+\item \texttt{pruebas\_agente.py}: pruebas sobre los 32 nodos.
 \end{itemize}
 
 El parámetro \texttt{tramos\_bloqueados} permite simular un tramo no
@@ -328,17 +335,22 @@ de la carretera no son independientes. Hallazgos:
 \item \textbf{Chocontá a Tunja truncada.} El sector cubre 17.69 km y
 Chocontá queda a 43.70 km de su geometría; la razón carretera/geodésica es
 0.3106. Ningún otro sector de la Red Vial completa el trazado, por lo que la
-arista conserva el valor oficial y su distancia está subestimada.
-\item \textbf{Bogotá a Mosquera con sector de otra región.} El sector
-asignado pertenece a la Troncal del Eje Cafetero, a unos 160 km de Mosquera.
+arista conserva el valor oficial y su distancia está subestimada. Como
+consecuencia, la ruta corta de Duitama a Puente Nacional (414.84 km) tiene
+una cota inferior de $414.84 - 17.69 + 56.96 = 454.11$ km (cota inferior: la
+geodésica no excede la distancia por carretera); no es un valor estimado.
+\item \textbf{Bogotá a Mosquera excluida.} El sector asignado pertenecía a
+la Troncal del Eje Cafetero, a unos 160 km de Mosquera; el nodo se excluyó
+(ver la sección de datos y metodología). La auditoría de esta sección ya no
+incluye esa arista.
 \item \textbf{Entrada urbana a Bogotá.} Las geometrías que salen de Bogotá
 empiezan en el límite urbano, a entre 8.50 y 19.06 km de la coordenada del
 municipio. Es una limitación de la fuente y no se corrige.
-\item \textbf{Siete aristas con la carretera más corta que la línea recta}
-(razón menor que 1): Chocontá a Tunja (0.311), Bogotá a Mosquera (0.731),
-Granada a Yé de Granada (0.798), Bogotá a Tocancipá (0.932), El Espinal a
-Girardot (0.948), Bogotá a Madrid (0.978) y Bogotá a Guasca (0.993).
-\item \textbf{Registros mayores que su trazado.} En 10 aristas el registro
+\item \textbf{Seis aristas con la carretera más corta que la línea recta}
+(razón menor que 1): Chocontá a Tunja (0.311), Granada a Yé de Granada
+(0.798), Bogotá a Tocancipá (0.932), El Espinal a Girardot (0.948), Bogotá a
+Madrid (0.978) y Bogotá a Guasca (0.993).
+\item \textbf{Registros mayores que su trazado.} En 9 aristas el registro
 supera en más de 1.5 veces el camino de su propia geometría, que contiene
 partes paralelas compatibles con ambas calzadas; la columna de calzada de la
 fuente no lo explica por sí sola.
@@ -362,6 +374,11 @@ Cambio de dominio de TransMilenio a carga interurbana & El profesor señaló
 que el tema anterior es básico y lo presentan muchos grupos \\
 Extender la red de 27 a 33 nodos & Un árbol da una sola ruta por par y deja
 sin sentido la comparación de algoritmos del Corte 2 \\
+Excluir Mosquera (33 a 32 nodos) & Su sector pertenece a otra región, no hay
+sector oficial de reemplazo y era una hoja \\
+Mantener Chocontá a Tunja con el valor oficial & Solo se corrigen errores
+demostrables de cruce; el sector está truncado en la fuente y se declara
+como limitación \\
 Cruce de distancia por \texttt{sector} exacto & Un mismo código de tramo
 agrupa subtramos de longitud distinta \\
 Normalización por el máximo & Conserva la proporcionalidad con la distancia
@@ -381,7 +398,7 @@ aparece exactamente una vez \\
 \section{Limitaciones}
 
 \begin{itemize}
-\item \textbf{Riesgo incompleto.} Solo 12 de las 33 aristas tienen dato. En
+\item \textbf{Riesgo incompleto.} Solo 11 de las 32 aristas tienen dato. En
 las otras 21 el riesgo no se midió, y la variante con riesgo igual a 0 sesga
 las rutas hacia ellas.
 \item \textbf{Riesgo por corredor.} El dato no distingue subtramos. Los
@@ -394,12 +411,12 @@ cada año; los costos corresponden a la descarga del 6 de octubre de 2026.
 fuente; la distancia real es del orden de 90 km.
 \item \textbf{Hallazgos de la auditoría geométrica.} Las distancias son las
 del dato oficial y no se corrigieron: la arista Chocontá a Tunja está
-truncada en la fuente (17.69 km frente a 56.96 km de línea recta), la de
-Bogotá a Mosquera usa un sector de otra región, las distancias desde Bogotá
-excluyen la entrada urbana y varios registros superan el trazado de su
-geometría. Ver la sección de auditoría geométrica.
+truncada en la fuente (17.69 km frente a 56.96 km de línea recta; la ruta
+corta de Duitama a Puente Nacional tiene una cota inferior de 454.11 km),
+las distancias desde Bogotá excluyen la entrada urbana y varios registros
+superan el trazado de su geometría. Ver la sección de auditoría geométrica.
 \item \textbf{Alcance.} La red excluye la rama Villavicencio, Barranca de
-Upía y Yopal, y tiene un solo ciclo. Los pares que no lo cruzan tienen una
+Upía y Yopal, y el nodo Mosquera, y tiene un solo ciclo. Los pares que no lo cruzan tienen una
 única ruta, por lo que en ellos solo se pueden comparar los costos de
 búsqueda.
 \item \textbf{Mediciones.} El tiempo y la memoria de la
@@ -410,7 +427,7 @@ Tabla~\ref{tab:criterios} provienen de una sola corrida.
 \section*{Anexo: aristas de la red}
 \addcontentsline{toc}{section}{Anexo: aristas de la red}
 
-La Tabla~\ref{tab:aristas} lista las 33 aristas. GiZ es el puntaje
+La Tabla~\ref{tab:aristas} lista las 32 aristas. GiZ es el puntaje
 GiZScore promedio del corredor, Fallec. los fallecidos históricos y Puntos
 el número de puntos críticos; el guion indica que no hay dato.
 

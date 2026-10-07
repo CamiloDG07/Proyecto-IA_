@@ -11,7 +11,6 @@
 | Cajicá - Zipaquirá | 18.69 | 12.15 | 1.539 | 2.14 | 2.052 | registro mayor que el camino de la geometría |
 | Zipaquirá - Ubaté | 47.76 | 37.16 | 1.285 | 1.26 | 1.189 | - |
 | Ubaté - Puente Nacional | 94.48 | 65.26 | 1.448 | 0.84 | 1.050 | - |
-| Bogotá - Mosquera | 10.35 | 14.16 | 0.731 | 175.63 | 1.823 | carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría; registro mayor que el camino de la geometría |
 | Madrid - Bogotá | 19.46 | 19.91 | 0.978 | 8.96 | 2.297 | carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría; registro mayor que el camino de la geometría |
 | Bogotá - Guasca | 34.88 | 35.12 | 0.993 | 11.17 | 0.509 | carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría |
 | Bogotá - Villavicencio | 93.72 | 79.15 | 1.184 | 19.06 | 1.097 | extremo lejos del nodo; nodo lejos de la geometría |

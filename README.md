@@ -4,11 +4,11 @@ Universidad Sergio Arboleda, Inteligencia Artificial (SIST5036).
 Autores: Juan David Andradé Gómez, Mario Jiménez López y Camilo Andrés Díaz
 García.
 
-Un camión de carga de categoría III (dos ejes) se desplaza entre 33 ciudades
+Un camión de carga de categoría III (dos ejes) se desplaza entre 32 ciudades
 de Colombia. Cada tramo tiene distancia (km), peaje (COP) y riesgo de
 siniestralidad (GiZScore). El agente elige la ruta de menor costo según un
 criterio: `distancia`, `peaje`, `riesgo`, `compuesto` o
-`compuesto_sin_riesgo`. El grafo tiene 33 nodos, 33 aristas y un único ciclo
+`compuesto_sin_riesgo`. El grafo tiene 32 nodos, 32 aristas y un único ciclo
 (desvío por Santander).
 
 ## Estructura

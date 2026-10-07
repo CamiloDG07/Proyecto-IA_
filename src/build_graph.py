@@ -11,7 +11,7 @@ Costo compuesto, normalizado por el máximo de cada criterio:
 con r_e el puntaje GiZScore promedio de la arista. La normalización por el
 máximo conserva la proporcionalidad con la distancia (la de mín-máx no).
 
-Riesgo faltante: 21 de 33 aristas no tienen dato. No se imputa. Se guardan
+Riesgo faltante: 21 de 32 aristas no tienen dato. No se imputa. Se guardan
 dos variantes y un indicador booleano riesgo_disponible:
   - peso_multicriterio: riesgo faltante tratado como 0 (variante limitada,
     sesga hacia corredores sin medición);

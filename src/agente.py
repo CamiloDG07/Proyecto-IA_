@@ -6,7 +6,7 @@ Modelo PEAS:
 |-------------|---------------------------------------------------------------|
 | Performance | Minimizar el costo compuesto (distancia, peaje, riesgo) y     |
 |             | responder en tiempo útil                                      |
-| Environment | Red vial interurbana de 33 nodos y 33 aristas, estática,      |
+| Environment | Red vial interurbana de 32 nodos y 32 aristas, estática,      |
 |             | determinista, discreta, totalmente observable                 |
 | Actuators   | Elegir el siguiente tramo de carretera                        |
 | Sensors     | Posición actual (ciudad) y estado de los tramos disponibles   |

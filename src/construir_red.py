@@ -84,8 +84,17 @@ corrige en este script y las distancias son las del dato oficial:
   - Chocontá - Tunja cubre solo 17.69 km de los cerca de 57 km de línea recta
     entre los nodos (sector truncado en la fuente; ningún otro sector lo
     completa).
-  - El sector de Bogotá - Mosquera pertenece a otra región (Eje Cafetero).
   - En varios sectores el registro es mayor que el trazado de su geometría.
+
+Exclusión de Mosquera (7 de octubre de 2026): la versión anterior unía Bogotá
+y Mosquera con el sector "Puente Mosquera - Cruce Avenida del Ferrocarril",
+que pertenece a la ruta 29 (Troncal del Eje Cafetero), a unos 160 km de
+Mosquera (Cundinamarca). La Red Vial no tiene un sector oficial de reemplazo
+(el sector Madrid - Bogotá, que pasa cerca de Mosquera, ya se usa en la
+arista Madrid - Bogotá). Mosquera era una hoja (solo conectaba con Bogotá),
+por lo que se excluyó el nodo y su arista, con el mismo criterio que la rama
+Villavicencio - Barranca de Upía - Yopal. La red queda en 32 nodos, 32
+aristas y un ciclo independiente.
 """
 import csv
 import json
@@ -141,8 +150,6 @@ TRAMOS = [
     ("Cajicá - Zipaquirá", "Cajicá", "Zipaquirá", None),
     ("Zipaquirá - Ubaté", "Zipaquirá", "Ubaté", "CASABLANCA"),
     ("Ubaté - Puente Nacional", "Ubaté", "Puente Nacional", "SABOYÁ"),
-    ("Puente Mosquera - Cruce Avenida del Ferrocarril",
-     "Bogotá", "Mosquera", None),
     ("Madrid - Bogotá (Rio Bogotá)", "Madrid", "Bogotá", "RÍO BOGOTÁ"),
     ("Bogotá (Los Patios) - Guasca", "Bogotá", "Guasca", "LOS PATIOS"),
     ("Bogotá (El Portal) - Villavicencio",
@@ -194,7 +201,6 @@ CORREDOR_A_ARISTAS = {
     "Villeta-Honda": [("Villeta", "Honda")],
     "Girardot - Bogotá": [("Bogotá", "Fusagasugá"),
                           ("Fusagasugá", "Girardot")],
-    "Bogotá - Mosquera": [("Bogotá", "Mosquera")],
 }
 
 

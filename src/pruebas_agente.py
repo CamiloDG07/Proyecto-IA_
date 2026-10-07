@@ -1,6 +1,6 @@
 """Pruebas del agente de rutas sobre la red de carga.
 
-Casos reales sobre los 33 nodos: pares que cruzan el ciclo (dos rutas
+Casos reales sobre los 32 nodos: pares que cruzan el ciclo (dos rutas
 posibles), pares que no lo cruzan (ruta única, verificada enumerando todos
 los caminos simples) y entradas inválidas. Guarda outputs/pruebas_agente.json.
 """
@@ -87,8 +87,8 @@ def prueba_errores(agente):
 def main():
     agente = AgenteRutas()
     g = agente.grafo
-    verificar(g.number_of_nodes() == 33 and g.number_of_edges() == 33,
-              "grafo de 33 nodos y 33 aristas")
+    verificar(g.number_of_nodes() == 32 and g.number_of_edges() == 32,
+              "grafo de 32 nodos y 32 aristas")
     verificar(nx.is_connected(g), "grafo conexo")
     resultados = {}
     prueba_ciclo(agente, resultados)
