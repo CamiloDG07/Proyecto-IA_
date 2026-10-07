@@ -379,14 +379,94 @@ def lecturas_corte2():
     # tablas_corte2.py (texto_cambio_sin_riesgo)
 
 
+def tex(texto):
+    """Escapa los caracteres especiales de LaTeX de un texto."""
+    return (str(texto).replace("%", "\\%").replace("_", "\\_")
+            .replace("&", "\\&"))
+
+
+def flecha(ruta):
+    return " $\\to$ ".join(tex(c) for c in ruta)
+
+
+def columna_ejemplo(r, solicitud):
+    """Celdas de una columna de la tabla de ejemplos del agente."""
+    m = r["recomendada"]
+    grupos = {}
+    for x in r["metodos"]:
+        etiqueta = x["metodo"].split(" por")[0]
+        grupos.setdefault(etiqueta, []).append(
+            x["criterio"].replace("_", " "))
+    metodo = "; ".join(f"{e} ({', '.join(c)})" if len(r["metodos"]) > 1
+                       else e for e, c in grupos.items())
+    if "k" in m.get("metricas", {}):
+        metodo += (f", $k = {m['metricas']['k']} \\le K_{{\\mathrm{{exacto}}}}"
+                   f" = {m['metricas']['umbral_k']}$")
+    metodo += (f"; $\\alpha = {r['alfa']:.6f}$; "
+               f"{r['nodos_expandidos']} nodos expandidos")
+    if r["alternativas"]:
+        alt = r["alternativas"][0]
+        via = ("desvío por Santander" if "Bucaramanga" in alt["ruta"]
+               else "otra ruta")
+        alternativas = (f"{via}: {alt['km']:.2f} km, "
+                        f"{miles(alt['peaje_cop'])} COP; margen "
+                        f"{alt['margen']:.3f} ({alt['margen_pct']:.1f}"
+                        "\\,\\%)")
+    elif r["tipo"] == "origen_destino":
+        alternativas = "ninguna (un solo camino)"
+    else:
+        alternativas = "no aplica (orden exacto de las paradas)"
+    lim = r["limitaciones"]
+    avisos = []
+    if lim["truncada"]:
+        avisos.append("Chocontá a Tunja truncada")
+    if lim["marcadas"]:
+        avisos.append(f"{lim['marcadas']} aristas marcadas por la auditoría")
+    if lim["sin_dato"]:
+        avisos.append(f"{lim['sin_dato']} de {lim['tramos']} tramos sin "
+                      "dato de riesgo")
+    if any("otra ruta" in x for x in r["avisos"]):
+        avisos.append("riesgo y compuesto prefieren otra ruta")
+    ruta = m.get("orden_paradas", m["ruta"])
+    tipos = {"origen_destino": "origen a destino",
+             "orden_libre_regreso": "orden libre con regreso",
+             "orden_libre_sin_regreso": "orden libre sin regreso"}
+    return [tex(solicitud), tipos[r["tipo"]], flecha(ruta),
+            f"{m['km']:.2f}", miles(m["peaje_cop"]),
+            f"{m['riesgo']:.2f} (dato en el {m['cobertura_riesgo_pct']:.0f}"
+            "\\,\\%)", metodo, alternativas,
+            "; ".join(avisos) if avisos else "ninguna"]
+
+
 def ejemplo_agente():
-    """Salida real del agente autónomo y su bloque «Cómo leerla»."""
-    r = recomendar("Duitama", ["Puente Nacional"])
-    with open(SALIDA / "ejemplo_agente_rutas.txt", "w",
+    """Tabla de ejemplos del agente autónomo, su texto y su bloque."""
+    casos = [("Duitama a Puente Nacional (ciclo)",
+              recomendar("Duitama", ["Puente Nacional"])),
+             ("Bogotá a Granada (ruta única)",
+              recomendar("Bogotá", ["Granada"])),
+             ("Duitama; paradas Tunja, Bogotá y Villeta; con regreso",
+              recomendar("Duitama", ["Tunja", "Bogotá", "Villeta"], True))]
+    columnas = [columna_ejemplo(r, t) for t, r in casos]
+    filas = ["Solicitud", "Tipo decidido", "Ruta u orden", "Distancia (km)",
+             "Peaje (COP)", "Riesgo", "Método y heurística",
+             "Alternativas y margen", "Advertencias"]
+    lineas = ["\\begin{tabular}{>{\\raggedright\\arraybackslash}p{2.2cm}"
+              + ">{\\raggedright\\arraybackslash}p{3.9cm}" * 3 + "}",
+              "\\toprule",
+              "\\textbf{Fila} & \\textbf{(a)} & \\textbf{(b)} & "
+              "\\textbf{(c)} \\\\",
+              "\\midrule"]
+    for i, fila in enumerate(filas):
+        lineas.append(" & ".join([f"\\textbf{{{fila}}}"]
+                                 + [c[i] for c in columnas]) + " \\\\")
+        lineas.append("\\addlinespace[2pt]")
+    lineas += ["\\bottomrule", "\\end{tabular}"]
+    with open(SALIDA / "tabla_agente_ejemplos.tex", "w",
               encoding="utf-8") as f:
-        f.write(formatear(r) + "\n")
-    m, alt = r["recomendada"], r["alternativas"][0]
-    otros = [k for ruta, k in r["prefiere"].items()
+        f.write("\n".join(lineas) + "\n")
+    ra, rb, rc = (c[1] for c in casos)
+    m, alt = ra["recomendada"], ra["alternativas"][0]
+    otros = [k for ruta, k in ra["prefiere"].items()
              if ruta == " > ".join(alt["ruta"])][0]
     # umbral de la participación de la distancia, del barrido de pesos, y
     # comprobación contra el propio agente a ambos lados del umbral
@@ -406,22 +486,31 @@ def ejemplo_agente():
         assert "Bogotá" in igual
         umbrales.append(u)
     u0, u1 = umbrales
+    costo = m["costos"]["compuesto_sin_riesgo"]
+    with open(SALIDA / "texto_ejemplo_agente.tex", "w",
+              encoding="utf-8") as f:
+        f.write(
+            "En (a), la recomendación se apoya en la distancia y el peaje "
+            f"(costo compuesto sin riesgo {costo:.3f}); "
+            f"{', '.join(otros[:-1])} y {otros[-1]} prefieren el "
+            "desvío por Santander; el riesgo tiene dato en el "
+            f"{m['cobertura_riesgo_pct']:.0f}\\,\\% de los tramos de la "
+            f"recomendada y en el {alt['cobertura_riesgo_pct']:.0f}\\,\\% "
+            "de los del desvío; y la recomendación se mantiene mientras el "
+            f"peso de la distancia, $w_d/(w_d+w_p)$, sea mayor que {u0:.4f} "
+            f"({u1:.4f} con la cota inferior de Chocontá a Tunja).\n")
+    mc = rc["recomendada"]["metricas"]
     bloque(
-        "c2_ejemplo",
-        "bloques de la salida: ruta recomendada y sus medidas, regla, método "
-        "y heurística por criterio, alternativas con su margen, criterio que "
-        "prefiere cada candidata y advertencias.",
-        f"recomienda {m['km']:.2f} km y {miles(m['peaje_cop'])} COP "
-        f"(costo {m['costos']['compuesto_sin_riesgo']:.3f}); la alternativa "
-        f"queda a {alt['margen']:.3f} ({alt['margen_pct']:.1f}\\,\\%) y la "
-        f"prefieren {', '.join(otros)}. Cambia al desvío si "
-        f"$w_d/(w_d+w_p)$ baja de {u0:.4f} (red base) o de {u1:.4f} (cota "
-        "inferior de Chocontá a Tunja); con pesos iguales (0.5) se mantiene "
-        "en ambos.",
-        f"Medido: el riesgo tiene dato en el "
-        f"{m['cobertura_riesgo_pct']:.0f}\\,\\% de los tramos de la ruta "
-        f"recomendada y en el {alt['cobertura_riesgo_pct']:.0f}\\,\\% de los "
-        "de la alternativa.")
+        "c2_ejemplos",
+        "columnas, una solicitud cada una; filas, lo que el agente decide y "
+        "devuelve (tipo, ruta, medidas, método, alternativas y advertencias).",
+        f"(a) recomienda {m['km']:.2f} km con una alternativa a "
+        f"{alt['margen']:.3f}; (b) no tiene alternativas; (c) ordena las "
+        f"paradas con {rc['recomendada']['metodo']}.",
+        f"Medido: (a) tiene {1 + len(ra['alternativas'])} candidatas no "
+        f"dominadas y (b) {1 + len(rb['alternativas'])}; en (c) "
+        f"$k = {mc['k']}$ no supera $K_{{\\mathrm{{exacto}}}} = "
+        f"{mc['umbral_k']}$, por eso el orden es exacto.")
 
 
 def main():

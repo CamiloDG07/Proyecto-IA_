@@ -492,17 +492,21 @@ kilómetro para calibrarlos; la recomendación se recalcula con otros pesos
 \texttt{compuesto} prefiere otra candidata, el agente lo avisa con la
 cobertura de datos de riesgo de ambas. También advierte si la ruta usa aristas
 con limitación conocida: Chocontá a Tunja (truncada), las marcadas por la
-auditoría y los tramos sin dato de riesgo. La Figura~\ref{fig:ejemplo-agente}
-es la salida real para un par que cruza el ciclo.
+auditoría y los tramos sin dato de riesgo. La Tabla~\ref{tab:ejemplos-agente}
+muestra la salida real del agente en tres solicitudes; la ruta de (a) está en
+la Figura~\ref{fig:rutas}.
 
-\begin{figure}[H]
-\scriptsize
-\verbatiminput{outputs/ejemplo_agente_rutas.txt}
-\caption{Salida del agente para Duitama a Puente Nacional (cruza el ciclo).
-Fuente: elaboración propia}
-\label{fig:ejemplo-agente}
-\input{outputs/lectura_c2_ejemplo.tex}
-\end{figure}
+\begin{table}[H]
+\centering
+\caption{Salida del agente autónomo en tres solicitudes: (a) un par que cruza
+el ciclo, (b) un par de ruta única y (c) varios destinos con regreso}
+\label{tab:ejemplos-agente}
+\scriptsize\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_agente_ejemplos.tex}
+\input{outputs/lectura_c2_ejemplos.tex}
+\end{table}
+
+\input{outputs/texto_ejemplo_agente.tex}
 
 \subsection{Despachador y criterio de selección}
 
@@ -539,21 +543,22 @@ y se tomó el más restrictivo de dos límites: el de tiempo, el mayor $k$ cuyo
 tiempo mediano no supera 5 s, y el de memoria, el mayor $k$ medido cuya
 memoria pico no supera el 25\,\% de la RAM instalada (4064 MiB). El
 presupuesto de 5 s y el 25\,\% son decisiones de diseño; los umbrales son
-mediciones. Resultado: el límite de tiempo es $k = 20$ (mediana 2.475 s; con
-$k = 21$, 13.597 s); la memoria no limita hasta $k = 22$, el mayor medido
-(1009.8 MiB). Por tanto $K_{\mathrm{exacto}} = 20$, fijado por el tiempo. Una
-medición anterior con el mismo protocolo en la misma máquina había dado
-2.735 s con $k = 19$ y 5.986 s con $k = 20$ (y por tanto
-$K_{\mathrm{exacto}} = 19$): los tiempos de una sesión a otra difieren hasta
-2.4 veces, de modo que el umbral depende del estado de la máquina. La
-respuesta del despachador incluye la ruta, el costo, el método
-usado, el motivo de la elección y las métricas.
+mediciones. Para que el umbral no dependa de una sesión, se repitió la
+medición y se toma el mayor $k$ cuyo tiempo mediano cabe en el presupuesto en
+todas las sesiones. Resultado con las dos sesiones de la
+Tabla~\ref{tab:umbral}: $k = 19$ cabe en ambas (2.735 s y 1.227 s) y $k = 20$
+no (5.986 s en la sesión 1 y 2.475 s en la 2); la memoria no limita hasta
+$k = 22$, el mayor medido (1009.8 MiB). Por tanto
+$K_{\mathrm{exacto}} = 19$, fijado por el tiempo. Los tiempos de una sesión a
+otra difieren hasta 2.75 veces ($k = 17$) con $k$ entre 16 y 20 y casi nada
+con $k \ge 21$; la causa no se midió (Hipótesis: estado de la máquina). Las
+sesiones 1 y 2 no registraron plan de energía ni conexión a corriente.
 
 \textbf{Simetría.} Antes de usar la metaheurística, el despachador comprueba
 si la matriz de costos entre paradas es simétrica. Si lo es, el ACO usa
 búsqueda local 2-opt; si no, corre sin 2-opt (que exige simetría) y el motivo
-de la elección lo dice. Held-Karp no requiere simetría. Se probó con una matriz
-asimétrica sintética.
+de la elección lo dice. Held-Karp no requiere simetría (probado con una matriz
+asimétrica sintética).
 
 \begin{table}[H]
 \centering
@@ -633,14 +638,16 @@ coincide con el óptimo exacto del taller en las 5 semillas. El ACO con 2-opt
 alcanza el óptimo con su mejor corrida en las 5; la brecha media es 0.040\,\%
 (48 de 50 semillas lo alcanzan; la semilla 1 con 8 de 10). Sin 2-opt, con
 inicio aleatorio, la brecha media sube a 0.357\,\% y 32 de 50 semillas lo
-alcanzan: el 2-opt mejora el resultado.
+alcanzan; el aporte medido del 2-opt en el taller es pasar de 0.357\,\% a
+0.040\,\% de brecha media y de 32 a 48 semillas.
 \item \textbf{Efecto del inicio de las hormigas.} Con la ciudad de salida
-fija, el ACO sin 2-opt alcanzaba una brecha media de 2.212\,\% en el taller
-(1 de 50 semillas), de 2.608\,\% con $n = 15$ (20 de 30) y de 2.836\,\% con
-$n = 20$ (13 de 30) en la red; con inicio aleatorio esas brechas son 0.357\,\%
-y 0 en la red (Tabla~\ref{tab:val-ampliada}). Por eso las afirmaciones sobre el
-aporte del 2-opt se refieren al ACO con inicio aleatorio, y la comparación con
-inicio fijo se conserva como medición.
+fija (contraste, «inicio fijo»), el ACO sin 2-opt tenía una brecha media de
+2.212\,\% en el taller (1 de 50 semillas), de 2.608\,\% con $n = 15$ (20 de 30)
+y de 2.836\,\% con $n = 20$ (13 de 30) en la red. Esa brecha se debía al inicio
+fijo de las hormigas y no a la ausencia de 2-opt: con el inicio aleatorio, sin
+cambiar nada más, es 0.357\,\% en el taller y 0 en la red
+(Tabla~\ref{tab:val-ampliada}). El aporte del 2-opt se reporta con inicio
+aleatorio.
 \item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 2.78 s y
 3.05 s y 111.8 MiB; el ACO, entre 0.19 s y 0.23 s. Con pocas paradas el exacto
 es más rápido (milisegundos hasta $n = 10$). La regla fija elige el exacto
@@ -687,11 +694,11 @@ fijo. Igualan: semillas que alcanzan la referencia}
 \subsection{Limitaciones del agente}
 
 \begin{itemize}
-\item $K_{\mathrm{exacto}} = 20$ depende de la máquina, de su estado y del
+\item $K_{\mathrm{exacto}} = 19$ depende de la máquina, de su estado y del
 presupuesto de 5 s; la memoria no limita hasta $k = 22$, el mayor medido. Los
-tiempos de Held-Karp con $k = 19$ fueron 1.227 s en la medición del umbral y
-entre 2.78 y 3.05 s en la validación posterior; Hipótesis: variación del
-estado de la máquina, no se midió.
+tiempos de Held-Karp con $k = 19$ fueron 2.735 s, 1.227 s y, en la
+validación posterior, entre 2.78 y 3.05 s; Hipótesis: variación del estado de
+la máquina, no se midió.
 \item Los parámetros $\alpha$, $\beta$, $\rho$, el número de hormigas y las
 iteraciones se tomaron del taller y no se reajustaron. El ACO sin búsqueda
 local, con inicio aleatorio, no alcanza el óptimo en parte de las instancias

@@ -97,6 +97,18 @@ def _avisos(grafo, ruta, auditadas):
     return avisos
 
 
+def _limitaciones(grafo, ruta, auditadas):
+    """Conteos de las limitaciones de la ruta (los mismos de _avisos)."""
+    tramos = _aristas(ruta)
+    usadas = {frozenset(t) for t in tramos}
+    return {"truncada": ARISTA_TRUNCADA in usadas,
+            "marcadas": len([p for p in usadas
+                             if p in auditadas and p != ARISTA_TRUNCADA]),
+            "sin_dato": sum(1 for u, v in tramos
+                            if not grafo[u][v]["riesgo_disponible"]),
+            "tramos": len(tramos)}
+
+
 def _leer_auditadas():
     with open(SALIDA / "auditoria_aristas.csv", encoding="utf-8") as f:
         return {frozenset((r["origen"], r["destino"]))
@@ -220,7 +232,9 @@ def recomendar(origen, destinos, regreso=False, pesos=None, grafo=None):
         r = _varios(grafo, despachador, origen, destinos, regreso, pesos,
                     auditadas)
     r.update({"origen": origen, "destinos": destinos, "regreso": regreso,
-              "pesos": dict(pesos), "alfa": despachador.alfa})
+              "pesos": dict(pesos), "alfa": despachador.alfa,
+              "limitaciones": _limitaciones(
+                  grafo, r["recomendada"]["ruta"], auditadas)})
     return r
 
 
