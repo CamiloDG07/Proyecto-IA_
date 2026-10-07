@@ -76,6 +76,7 @@ python src/demostracion.py Duitama "Puente Nacional" distancia
 python src/pruebas_despachador.py  # agente multifuncional
 python src/pruebas_orden_libre.py  # Held-Karp, 2-opt y ACO
 python src/medir_umbral.py         # umbral de Held-Karp (varios minutos)
+python src/verificar_estructura.py  # formula unicíclica contra Held-Karp
 python src/validacion_agente.py    # validacion del agente (varios minutos)
 python src/tablas_agente.py        # tablas y figura del agente
 
