@@ -1,0 +1,3718 @@
+{
+ "nodos": 32,
+ "aristas": 32,
+ "ciclos_independientes": 1,
+ "pares": 496,
+ "pares_por_numero_de_caminos": {
+  "2": 385,
+  "1": 111
+ },
+ "pares_por_clase": {
+  "paso_obligatorio": 374,
+  "camino_unico": 17,
+  "atajo": 105
+ },
+ "paso_obligatorio_con_dos_caminos": 280,
+ "puntos_de_articulacion": [
+  "Bogotá",
+  "Fusagasugá",
+  "Girardot",
+  "Honda",
+  "Puerto López",
+  "Sáchica",
+  "Tunja",
+  "Villavicencio",
+  "Villeta",
+  "Ye de Granada"
+ ],
+ "definiciones": {
+  "paso_obligatorio": "algún nodo intermedio está en todos los caminos simples del par",
+  "atajo": "hay dos caminos simples sin nodos intermedios en común",
+  "camino_unico": "un solo camino simple, sin nodos intermedios"
+ },
+ "detalle": {
+  "Barbosa|Bogotá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Bucaramanga": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Cajicá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Cambao": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Chiquinquirá": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Chocontá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Cuestaboba": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Duitama": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|El Espinal": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Fusagasugá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Girardot": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Barbosa|Guasca": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Honda": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja",
+    "Villeta"
+   ]
+  },
+  "Barbosa|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Madrid": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Mariquita": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Tunja",
+    "Villeta"
+   ]
+  },
+  "Barbosa|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Barbosa|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Barbosa|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Sáchica": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Tunja": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Barbosa|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Barbosa|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Barbosa|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Barbosa|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Bogotá|Bucaramanga": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Cajicá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Cambao": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Bogotá|Chiquinquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Bogotá|Chocontá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Cuestaboba": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Duitama": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|El Espinal": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Bogotá|Fusagasugá": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Bogotá|Girardot": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Fusagasugá"
+   ]
+  },
+  "Bogotá|Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Bogotá|Guasca": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Bogotá|Honda": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Villeta"
+   ]
+  },
+  "Bogotá|La Palmera": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Madrid": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Bogotá|Mariquita": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Bogotá|Pamplona": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Presidente": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Bogotá|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Villavicencio"
+   ]
+  },
+  "Bogotá|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Bogotá|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bogotá|Villavicencio": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Bogotá|Villeta": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Bogotá|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Villavicencio"
+   ]
+  },
+  "Bogotá|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Cajicá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Cambao": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Bucaramanga|Chiquinquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Bucaramanga|Chocontá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Cuestaboba": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Duitama": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|El Espinal": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Bucaramanga|Fusagasugá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Bucaramanga|Girardot": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Bucaramanga|Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Bucaramanga|Guasca": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Bucaramanga|Honda": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Bucaramanga|La Palmera": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Madrid": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Bucaramanga|Mariquita": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Bucaramanga|Pamplona": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Presidente": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Bucaramanga|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Bucaramanga|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Bucaramanga|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Bucaramanga|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Bucaramanga|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Bucaramanga|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Bucaramanga|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Cambao": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cajicá|Chiquinquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Cajicá|Chocontá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Cuestaboba": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Duitama": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|El Espinal": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cajicá|Fusagasugá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cajicá|Girardot": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Cajicá|Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Cajicá|Guasca": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cajicá|Honda": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Cajicá|La Palmera": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Madrid": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cajicá|Mariquita": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Cajicá|Pamplona": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Presidente": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Cajicá|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Cajicá|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Cajicá|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cajicá|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cajicá|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cajicá|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Cajicá|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cambao|Chiquinquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Cambao|Chocontá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Cuestaboba": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Duitama": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|El Espinal": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Girardot"
+   ]
+  },
+  "Cambao|Fusagasugá": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Girardot"
+   ]
+  },
+  "Cambao|Girardot": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Cambao|Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Cambao|Guasca": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Honda": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Villeta"
+   ]
+  },
+  "Cambao|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Madrid": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Mariquita": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Cambao|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Cambao|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Villavicencio"
+   ]
+  },
+  "Cambao|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Tunja"
+   ]
+  },
+  "Cambao|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cambao|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Villavicencio"
+   ]
+  },
+  "Cambao|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Chiquinquirá|Chocontá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Cuestaboba": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Duitama": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|El Espinal": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Fusagasugá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Girardot": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Chiquinquirá|Guasca": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Honda": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja",
+    "Villeta"
+   ]
+  },
+  "Chiquinquirá|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Madrid": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Mariquita": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Sáchica",
+    "Tunja",
+    "Villeta"
+   ]
+  },
+  "Chiquinquirá|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Sáchica",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Chiquinquirá|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Chiquinquirá|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Sáchica": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Chiquinquirá|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Tunja": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica"
+   ]
+  },
+  "Chiquinquirá|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chiquinquirá|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Sáchica",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Chiquinquirá|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Sáchica",
+    "Tunja"
+   ]
+  },
+  "Chocontá|Cuestaboba": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Duitama": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|El Espinal": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Chocontá|Fusagasugá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Chocontá|Girardot": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Chocontá|Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Chocontá|Guasca": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Chocontá|Honda": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Chocontá|La Palmera": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Madrid": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Chocontá|Mariquita": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Chocontá|Pamplona": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Presidente": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Chocontá|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Chocontá|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Chocontá|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Chocontá|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Chocontá|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Chocontá|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Chocontá|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Duitama": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|El Espinal": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Cuestaboba|Fusagasugá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cuestaboba|Girardot": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Cuestaboba|Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Cuestaboba|Guasca": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cuestaboba|Honda": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Cuestaboba|La Palmera": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Madrid": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cuestaboba|Mariquita": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Cuestaboba|Pamplona": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Presidente": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Cuestaboba|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Cuestaboba|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Cuestaboba|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Cuestaboba|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cuestaboba|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Cuestaboba|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Cuestaboba|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|El Espinal": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Duitama|Fusagasugá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Duitama|Girardot": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Duitama|Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Duitama|Guasca": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Duitama|Honda": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Duitama|La Palmera": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|Madrid": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Duitama|Mariquita": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Duitama|Pamplona": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|Presidente": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Duitama|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Duitama|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Duitama|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Duitama|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Duitama|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Duitama|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Duitama|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "El Espinal|Fusagasugá": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Girardot"
+   ]
+  },
+  "El Espinal|Girardot": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "El Espinal|Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "El Espinal|Guasca": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Honda": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Villeta"
+   ]
+  },
+  "El Espinal|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Madrid": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Mariquita": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "El Espinal|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "El Espinal|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Villavicencio"
+   ]
+  },
+  "El Espinal|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Tunja"
+   ]
+  },
+  "El Espinal|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "El Espinal|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot",
+    "Villavicencio"
+   ]
+  },
+  "El Espinal|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Girardot"
+   ]
+  },
+  "Fusagasugá|Girardot": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Fusagasugá|Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Fusagasugá|Guasca": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Honda": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Fusagasugá|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Madrid": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Mariquita": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Fusagasugá|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Fusagasugá|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Fusagasugá|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Fusagasugá|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Fusagasugá|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Fusagasugá|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Girardot|Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Girardot|Guasca": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Honda": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Villeta"
+   ]
+  },
+  "Girardot|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Madrid": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Mariquita": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Girardot|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Girardot|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Villavicencio"
+   ]
+  },
+  "Girardot|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Tunja"
+   ]
+  },
+  "Girardot|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Girardot|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá",
+    "Villavicencio"
+   ]
+  },
+  "Girardot|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Fusagasugá"
+   ]
+  },
+  "Granada|Guasca": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Honda": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Villeta",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Madrid": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Mariquita": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villavicencio",
+    "Villeta",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Puerto López",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Granada|Ye de Granada": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Granada|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Ye de Granada"
+   ]
+  },
+  "Guasca|Honda": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Guasca|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Madrid": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Mariquita": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Guasca|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Guasca|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Guasca|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Guasca|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Guasca|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Guasca|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Honda|La Palmera": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Madrid": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Mariquita": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Honda|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio",
+    "Villeta"
+   ]
+  },
+  "Honda|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Villeta"
+   ]
+  },
+  "Honda|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja",
+    "Villeta"
+   ]
+  },
+  "Honda|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "Honda|Villeta": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Honda|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio",
+    "Villeta"
+   ]
+  },
+  "Honda|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villeta"
+   ]
+  },
+  "La Palmera|Madrid": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "La Palmera|Mariquita": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "La Palmera|Pamplona": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "La Palmera|Presidente": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "La Palmera|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "La Palmera|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "La Palmera|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "La Palmera|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "La Palmera|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "La Palmera|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "La Palmera|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "La Palmera|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "La Palmera|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "La Palmera|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "La Palmera|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "La Palmera|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Madrid|Mariquita": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Madrid|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Madrid|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Madrid|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Madrid|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Madrid|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Madrid|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Mariquita|Pamplona": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Presidente": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Puente Nacional": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Puerto Gaitán": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Puerto López",
+    "Villavicencio",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Puerto López": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villavicencio",
+    "Villeta"
+   ]
+  },
+  "Mariquita|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Tunja",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Honda"
+   ]
+  },
+  "Mariquita|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villavicencio",
+    "Villeta"
+   ]
+  },
+  "Mariquita|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Honda",
+    "Villeta"
+   ]
+  },
+  "Pamplona|Presidente": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Pamplona|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Pamplona|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Pamplona|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Pamplona|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Pamplona|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Pamplona|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Pamplona|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Pamplona|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Pamplona|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Pamplona|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Pamplona|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Pamplona|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Presidente|Puente Nacional": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Presidente|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Presidente|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Presidente|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Presidente|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Presidente|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Presidente|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Presidente|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Presidente|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Presidente|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Presidente|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Presidente|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Puente Nacional|Puerto Gaitán": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Puente Nacional|Puerto López": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Puente Nacional|San Gil": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Puente Nacional|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Puente Nacional|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Puente Nacional|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Puente Nacional|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Puente Nacional|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Puente Nacional|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Puente Nacional|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Puente Nacional|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Puerto Gaitán|Puerto López": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Puerto Gaitán|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Puerto Gaitán|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Puerto Gaitán|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Puerto Gaitán|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Puerto Gaitán|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Puerto Gaitán|Villavicencio": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Puerto López"
+   ]
+  },
+  "Puerto Gaitán|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Puerto Gaitán|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Puerto Gaitán|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Puerto López",
+    "Villavicencio"
+   ]
+  },
+  "Puerto López|San Gil": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Puerto López|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Puerto López|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Puerto López|Tunja": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Puerto López|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Puerto López|Villavicencio": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Puerto López|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Puerto López|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Villavicencio"
+   ]
+  },
+  "Puerto López|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "San Gil|Sáchica": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "San Gil|Tocancipá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "San Gil|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "San Gil|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "San Gil|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "San Gil|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "San Gil|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "San Gil|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Sáchica|Tocancipá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Sáchica|Tunja": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Sáchica|Ubaté": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Sáchica|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Sáchica|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja"
+   ]
+  },
+  "Sáchica|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Tunja",
+    "Villavicencio"
+   ]
+  },
+  "Sáchica|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Tunja"
+   ]
+  },
+  "Tocancipá|Tunja": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Tocancipá|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Tocancipá|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Tocancipá|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Tocancipá|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Tocancipá|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Tunja|Ubaté": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Tunja|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Tunja|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Tunja|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Tunja|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Ubaté|Villavicencio": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Ubaté|Villeta": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Ubaté|Ye de Granada": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Ubaté|Zipaquirá": {
+   "caminos": 2,
+   "clase": "atajo",
+   "obligatorios": []
+  },
+  "Villavicencio|Villeta": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Villavicencio|Ye de Granada": {
+   "caminos": 1,
+   "clase": "camino_unico",
+   "obligatorios": []
+  },
+  "Villavicencio|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Villeta|Ye de Granada": {
+   "caminos": 1,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  },
+  "Villeta|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá"
+   ]
+  },
+  "Ye de Granada|Zipaquirá": {
+   "caminos": 2,
+   "clase": "paso_obligatorio",
+   "obligatorios": [
+    "Bogotá",
+    "Villavicencio"
+   ]
+  }
+ }
+}
