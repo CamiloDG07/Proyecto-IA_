@@ -14,6 +14,12 @@ Regla de decisión:
     de sus aristas. Se evalúa cada candidata en km, peaje (COP) y riesgo; se
     descartan las dominadas en km y peaje; se recomienda la de menor costo
     compuesto sin riesgo con los pesos dados (iguales por defecto).
+    Las alternativas se generan bloqueando una arista a la vez de cada ruta
+    óptima: en esta red, de un solo ciclo, encuentra el otro camino; en un
+    grafo con más ciclos no garantiza las k mejores rutas. Los pesos iguales
+    son un supuesto de modelado (no hay datos de costo operativo por
+    kilómetro para calibrarlos); la recomendación se recalcula con otros
+    pesos mediante el parámetro `pesos` de recomendar.
   - Varios destinos, o un destino con regreso: orden libre de las paradas,
     resuelto por el despachador (Held-Karp si k <= K_exacto, ACO si no) con
     el criterio compuesto sin riesgo.

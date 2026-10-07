@@ -388,15 +388,36 @@ def ejemplo_agente():
     m, alt = r["recomendada"], r["alternativas"][0]
     otros = [k for ruta, k in r["prefiere"].items()
              if ruta == " > ".join(alt["ruta"])][0]
+    # umbral de la participación de la distancia, del barrido de pesos, y
+    # comprobación contra el propio agente a ambos lados del umbral
+    barrido = leer("barrido_pesos.json")
+    cota = construir_grafo(reemplazos={("Chocontá", "Tunja"): 56.96})
+    umbrales = []
+    for b, grafo in ((barrido[0], None), (barrido[1], cota)):
+        u = b["w1_umbral_sobre_w3_cero"]
+        for delta, via in ((0.005, "Bogotá"), (-0.005, "Bucaramanga")):
+            ruta = recomendar("Duitama", ["Puente Nacional"], grafo=grafo,
+                              pesos={"distancia": u + delta,
+                                     "peaje": 1 - u - delta}
+                              )["recomendada"]["ruta"]
+            assert via in ruta, (b["variante"], delta)
+        igual = recomendar("Duitama", ["Puente Nacional"],
+                           grafo=grafo)["recomendada"]["ruta"]
+        assert "Bogotá" in igual
+        umbrales.append(u)
+    u0, u1 = umbrales
     bloque(
         "c2_ejemplo",
         "bloques de la salida: ruta recomendada y sus medidas, regla, método "
         "y heurística por criterio, alternativas con su margen, criterio que "
         "prefiere cada candidata y advertencias.",
-        f"el agente recomienda {m['km']:.2f} km y {miles(m['peaje_cop'])} COP "
+        f"recomienda {m['km']:.2f} km y {miles(m['peaje_cop'])} COP "
         f"(costo {m['costos']['compuesto_sin_riesgo']:.3f}); la alternativa "
-        f"queda a {alt['margen']:.3f} ({alt['margen_pct']:.1f}\\,\\%) y es la "
-        f"preferida por {', '.join(otros)}.",
+        f"queda a {alt['margen']:.3f} ({alt['margen_pct']:.1f}\\,\\%) y la "
+        f"prefieren {', '.join(otros)}. Cambia al desvío si "
+        f"$w_d/(w_d+w_p)$ baja de {u0:.4f} (red base) o de {u1:.4f} (cota "
+        "inferior de Chocontá a Tunja); con pesos iguales (0.5) se mantiene "
+        "en ambos.",
         f"Medido: el riesgo tiene dato en el "
         f"{m['cobertura_riesgo_pct']:.0f}\\,\\% de los tramos de la ruta "
         f"recomendada y en el {alt['cobertura_riesgo_pct']:.0f}\\,\\% de los "

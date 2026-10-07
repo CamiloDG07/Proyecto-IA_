@@ -477,15 +477,18 @@ $k \le K_{\mathrm{exacto}}$, ACO si no, y el criterio compuesto sin riesgo.
 óptima por distancia, peaje y compuesto sin riesgo (A* con heurística
 admisible en el primero y el tercero; UCS en peaje). Para cada una añade las
 alternativas que quedan al bloquear, una por vez, cada arista de la ruta
-óptima. Cada candidata se evalúa en km, peaje (COP) y riesgo (suma del
-GiZScore de las aristas con dato y porcentaje de aristas con dato), y se
-descartan las dominadas en km y peaje.
+óptima; en esta red de un solo ciclo eso encuentra el otro camino, pero en un
+grafo con más ciclos no garantiza las $k$ mejores rutas. Cada candidata se
+evalúa en km, peaje (COP) y riesgo (suma del GiZScore de las aristas con dato y
+porcentaje de aristas con dato), y se descartan las dominadas en km y peaje.
 
 \textbf{Regla de recomendación.} Se recomienda la candidata de menor costo
 compuesto sin riesgo, suma por tramo de
 $(w_d\, \mathrm{km}/\mathrm{km}_{\max} + w_p\, \mathrm{peaje}/
-\mathrm{peaje}_{\max})/(w_d + w_p)$, con $w_d = w_p = 1$ por defecto (es un
-parámetro de \texttt{recomendar}). Si el criterio \texttt{riesgo} o
+\mathrm{peaje}_{\max})/(w_d + w_p)$, con $w_d = w_p = 1$ por defecto. Los pesos
+iguales son un supuesto de modelado, sin datos de costo operativo por
+kilómetro para calibrarlos; la recomendación se recalcula con otros pesos
+(parámetro de \texttt{recomendar}). Si el criterio \texttt{riesgo} o
 \texttt{compuesto} prefiere otra candidata, el agente lo avisa con la
 cobertura de datos de riesgo de ambas. También advierte si la ruta usa aristas
 con limitación conocida: Chocontá a Tunja (truncada), las marcadas por la
