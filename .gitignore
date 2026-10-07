@@ -9,3 +9,9 @@ desktop.ini
 
 # snapshot oficial de INVIAS (238 MB), ver data/carga/VERIFICACION.md
 data/carga/red_vial.csv
+
+# auxiliares de LaTeX
+*.aux
+*.log
+*.toc
+*.out
