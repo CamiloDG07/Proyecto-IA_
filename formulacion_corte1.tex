@@ -313,6 +313,40 @@ pero por poco (3.197 contra 3.290).
 \input{outputs/tabla_rutas.tex}
 \end{table}
 
+\section{Auditoría geométrica de las aristas}
+
+Para comprobar el cruce de datos, cada arista se contrastó con la geometría
+del sector de INVÍAS y con la distancia geodésica entre las coordenadas de sus
+nodos (Tabla~\ref{tab:auditoria} en el Anexo). Las coordenadas son de la
+DIVIPOLA del DANE (corte al 30 de diciembre de 2024, descarga del 7 de
+octubre de 2026). Para Cuestaboba, La Palmera y Yé de Granada no hay punto
+DANE: la coordenada se estimó como la unión de los dos tramos de INVÍAS que
+llegan al nodo, de modo que en esos tres nodos la coordenada y la geometría
+de la carretera no son independientes. Hallazgos:
+
+\begin{itemize}
+\item \textbf{Chocontá a Tunja truncada.} El sector cubre 17.69 km y
+Chocontá queda a 43.70 km de su geometría; la razón carretera/geodésica es
+0.3106. Ningún otro sector de la Red Vial completa el trazado, por lo que la
+arista conserva el valor oficial y su distancia está subestimada.
+\item \textbf{Bogotá a Mosquera con sector de otra región.} El sector
+asignado pertenece a la Troncal del Eje Cafetero, a unos 160 km de Mosquera.
+\item \textbf{Entrada urbana a Bogotá.} Las geometrías que salen de Bogotá
+empiezan en el límite urbano, a entre 8.50 y 19.06 km de la coordenada del
+municipio. Es una limitación de la fuente y no se corrige.
+\item \textbf{Siete aristas con la carretera más corta que la línea recta}
+(razón menor que 1): Chocontá a Tunja (0.311), Bogotá a Mosquera (0.731),
+Granada a Yé de Granada (0.798), Bogotá a Tocancipá (0.932), El Espinal a
+Girardot (0.948), Bogotá a Madrid (0.978) y Bogotá a Guasca (0.993).
+\item \textbf{Registros mayores que su trazado.} En 10 aristas el registro
+supera en más de 1.5 veces el camino de su propia geometría, que contiene
+partes paralelas compatibles con ambas calzadas; la columna de calzada de la
+fuente no lo explica por sí sola.
+\end{itemize}
+
+Ninguna distancia se ajustó para obtener un resultado: el principio es
+corregir solo errores demostrables de cruce, con datos oficiales.
+
 \section{Registro de decisiones de diseño}
 
 \begin{table}[H]
@@ -358,6 +392,12 @@ promedia el puntaje y se suman fallecidos y puntos.
 cada año; los costos corresponden a la descarga del 6 de octubre de 2026.
 \item \textbf{Valor atípico.} Bogotá a Villeta reporta 167.67 km en la
 fuente; la distancia real es del orden de 90 km.
+\item \textbf{Hallazgos de la auditoría geométrica.} Las distancias son las
+del dato oficial y no se corrigieron: la arista Chocontá a Tunja está
+truncada en la fuente (17.69 km frente a 56.96 km de línea recta), la de
+Bogotá a Mosquera usa un sector de otra región, las distancias desde Bogotá
+excluyen la entrada urbana y varios registros superan el trazado de su
+geometría. Ver la sección de auditoría geométrica.
 \item \textbf{Alcance.} La red excluye la rama Villavicencio, Barranca de
 Upía y Yopal, y tiene un solo ciclo. Los pares que no lo cruzan tienen una
 única ruta, por lo que en ellos solo se pueden comparar los costos de
@@ -376,6 +416,20 @@ el número de puntos críticos; el guion indica que no hay dato.
 
 {\small\setlength{\tabcolsep}{3pt}
 \input{outputs/tabla_aristas.tex}}
+
+\newpage
+\section*{Anexo: auditoría geométrica}
+\addcontentsline{toc}{section}{Anexo: auditoría geométrica}
+
+La Tabla~\ref{tab:auditoria} muestra, por arista, la distancia por carretera
+del grafo, la geodésica, su razón y la mayor separación entre un extremo de
+la geometría del sector y su nodo (Ext.), todas en km. Marcas: A, carretera
+menor que la geodésica; B, extremo a más de 5 km del nodo; C, nodo a más de
+5 km de la geometría; D, registro mayor que 1.5 veces el camino de su
+geometría. El detalle completo está en \texttt{outputs/auditoria\_aristas.csv}.
+
+{\small\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_auditoria.tex}}
 
 \section*{Referencias}
 \addcontentsline{toc}{section}{Referencias}

@@ -4,6 +4,7 @@ Lee el grafo persistido y outputs/pruebas_agente.json; escribe en outputs/
 las tablas que incluye formulacion_corte1.tex, para que ninguna cifra se
 transcriba a mano.
 """
+import csv
 import json
 
 from agente import CRITERIOS, AgenteRutas
@@ -125,12 +126,47 @@ def tabla_criterios():
     escribir("tabla_criterios.tex", lineas)
 
 
+CODIGOS_AUDITORIA = {
+    "carretera menor que geodésica": "A",
+    "extremo lejos del nodo": "B",
+    "nodo lejos de la geometría": "C",
+    "registro mayor que el camino de la geometría": "D",
+    "geometría sin camino entre extremos": "E",
+}
+
+
+def tabla_auditoria():
+    with open(SALIDA / "auditoria_aristas.csv", encoding="utf-8") as f:
+        filas = list(csv.DictReader(f))
+    lineas = [
+        "\\begin{longtable}{lrrrrl}",
+        "\\caption{Auditoría geométrica de las aristas}"
+        "\\label{tab:auditoria}\\\\",
+        "\\toprule",
+        "\\textbf{Arista} & \\textbf{Carr.} & \\textbf{Geod.} & "
+        "\\textbf{Razón} & \\textbf{Ext.} & \\textbf{Marcas} \\\\",
+        "\\midrule", "\\endhead",
+    ]
+    for r in filas:
+        marcas = ",".join(sorted(
+            CODIGOS_AUDITORIA[m] for m in r["anomalia"].split("; ") if m))
+        ext = max(float(r["extremo_a_origen_km"]),
+                  float(r["extremo_a_destino_km"]))
+        lineas.append(
+            f"{r['origen']} -- {r['destino']} & "
+            f"{r['distancia_carretera_km']} & {r['geodesica_km']} & "
+            f"{float(r['razon']):.3f} & {ext:.2f} & {marcas or '---'} \\\\")
+    lineas += ["\\bottomrule", "\\end{longtable}"]
+    escribir("tabla_auditoria.tex", lineas)
+
+
 def main():
     grafo = cargar_grafo()
     tabla_estadisticas(grafo)
     tabla_aristas(grafo)
     tabla_rutas(grafo)
     tabla_criterios()
+    tabla_auditoria()
     print("Tablas LaTeX escritas en", SALIDA)
 
 
