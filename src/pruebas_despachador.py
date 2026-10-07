@@ -3,6 +3,8 @@
 Las referencias de costo salen de nx.shortest_path_length; las búsquedas del
 proyecto no usan networkx para buscar.
 """
+from itertools import permutations
+
 import networkx as nx
 
 from agente import CRITERIOS
@@ -106,13 +108,89 @@ def prueba_generico():
               "sin coordenadas se usa UCS y el costo es el óptimo (6)")
 
 
+def brute(grafo, origen, paradas, criterio, modo, fin=None,
+          bloqueados=()):
+    """Mejor orden por fuerza bruta con costos exactos de networkx."""
+    mejor = float("inf")
+    for perm in permutations(paradas):
+        orden = [origen, *perm]
+        if modo == "ciclo":
+            orden.append(origen)
+        elif modo == "fijo":
+            orden.append(fin)
+        mejor = min(mejor, suma_nx(grafo, orden, criterio, bloqueados))
+    return mejor
+
+
+def prueba_orden_libre(grafo, coordenadas):
+    print("Orden libre: tipos d, e y c con varias obligatorias")
+    d = Despachador(grafo, coordenadas)
+    paradas = ("Bogotá", "Villavicencio", "Honda", "Tunja", "Girardot")
+    for criterio in ("distancia", "peaje", "compuesto_sin_riesgo"):
+        r = d.resolver(Solicitud("d", "Duitama", paradas=paradas,
+                                 criterio=criterio))
+        esperado = brute(grafo, "Duitama", paradas, criterio, "ciclo")
+        verificar(abs(r["costo"] - esperado) < EPS
+                  and r["metodo"] == "Held-Karp",
+                  f"tipo d ({criterio}): Held-Karp = fuerza bruta")
+        verificar(r["ruta"][0] == "Duitama" and r["ruta"][-1] == "Duitama",
+                  "el ciclo regresa al origen")
+        verificar(sorted(r["orden_paradas"][1:-1]) == sorted(paradas),
+                  "visita todas las paradas una vez")
+        r = d.resolver(Solicitud("e", "Duitama", paradas=paradas,
+                                 criterio=criterio))
+        esperado = brute(grafo, "Duitama", paradas, criterio, "libre")
+        verificar(abs(r["costo"] - esperado) < EPS,
+                  f"tipo e ({criterio}): sin regreso = fuerza bruta")
+    obligatorias = ["Bucaramanga", "Bogotá", "Tunja"]
+    r = d.resolver(Solicitud(
+        "c", "Duitama", "Puente Nacional",
+        restricciones={"obligatorias": obligatorias}))
+    esperado = brute(grafo, "Duitama", obligatorias, "distancia", "fijo",
+                     "Puente Nacional")
+    verificar(abs(r["costo"] - esperado) < EPS,
+              "tipo c con 3 obligatorias en orden libre = fuerza bruta")
+    verificar(r["orden_paradas"][0] == "Duitama"
+              and r["orden_paradas"][-1] == "Puente Nacional",
+              "el destino queda al final")
+    r = d.resolver(Solicitud(
+        "d", "Duitama", paradas=("Bogotá", "Honda", "Tunja"),
+        restricciones={"bloqueados": BLOQUEO_CICLO}))
+    esperado = brute(grafo, "Duitama", ("Bogotá", "Honda", "Tunja"),
+                     "distancia", "ciclo", bloqueados=BLOQUEO_CICLO)
+    verificar(abs(r["costo"] - esperado) < EPS,
+              "orden libre con un tramo bloqueado = fuerza bruta")
+
+
+def prueba_metaheuristica(grafo, coordenadas):
+    print("Cuando el exacto no es viable se usa ACO (umbral forzado a 3)")
+    d = Despachador(grafo, coordenadas, umbral_k=3)
+    paradas = ("Bogotá", "Villavicencio", "Honda", "Tunja", "Girardot",
+               "Pamplona")
+    r = d.resolver(Solicitud("d", "Duitama", paradas=paradas))
+    exacto = brute(grafo, "Duitama", paradas, "distancia", "ciclo")
+    verificar(r["metodo"].startswith("ACO"), "método ACO + 2-opt")
+    verificar("no viable" in r["motivo"], "el motivo explica la elección")
+    verificar(r["costo"] >= exacto - EPS, "brecha no negativa")
+    verificar(sorted(r["orden_paradas"][1:-1]) == sorted(paradas),
+              "visita todas las paradas")
+    verificar("costo_medio_aco" in r["metricas"], "métricas del ACO")
+    d2 = Despachador(grafo, coordenadas, umbral_k=10)
+    r2 = d2.resolver(Solicitud("d", "Duitama", paradas=paradas))
+    verificar(r2["metodo"] == "Held-Karp" and abs(r2["costo"] - exacto) < EPS,
+              "con umbral suficiente se usa el exacto")
+
+
 def main():
     grafo = cargar_grafo()
-    d = Despachador(grafo, cargar_coordenadas())
+    coordenadas = cargar_coordenadas()
+    d = Despachador(grafo, coordenadas)
     prueba_tipo_a(d, grafo)
     prueba_tipo_b(d, grafo)
     prueba_tipo_c(d, grafo)
     prueba_generico()
+    prueba_orden_libre(grafo, coordenadas)
+    prueba_metaheuristica(grafo, coordenadas)
     print("Todas las pruebas del despachador pasaron.")
 
 

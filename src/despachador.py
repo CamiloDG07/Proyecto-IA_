@@ -40,8 +40,10 @@ import time
 import tracemalloc
 from dataclasses import dataclass, field
 
+from aco_multiparada import aco_semillas
 from agente import CRITERIOS
 from build_graph import SALIDA
+from held_karp import held_karp
 from heuristica import Heuristica, alfa_minimo
 from matriz_costos import MatrizCostos
 
@@ -57,14 +59,19 @@ ARCHIVO_UMBRAL = SALIDA / "umbral_held_karp.json"
 SEMILLAS_ACO = tuple(range(1, 11))
 
 
-def cargar_umbral():
-    """k máximo exacto medido en esta máquina (outputs/umbral_held_karp)."""
+def cargar_medicion_umbral():
+    """Medición de Held-Karp en esta máquina (outputs/umbral_held_karp)."""
     if not ARCHIVO_UMBRAL.exists():
         raise FileNotFoundError(
             "Falta outputs/umbral_held_karp.json: ejecute "
             "python src/medir_umbral.py")
     with open(ARCHIVO_UMBRAL, encoding="utf-8") as f:
-        return json.load(f)["k_exacto"]
+        return json.load(f)
+
+
+def cargar_umbral():
+    """k máximo exacto medido en esta máquina."""
+    return cargar_medicion_umbral()["k_exacto"]
 
 
 @dataclass
@@ -106,6 +113,10 @@ class Despachador:
             self.umbral_k = cargar_umbral()
         return self.umbral_k
 
+    def _presupuesto(self):
+        """Presupuesto de tiempo (s) con el que se midió el umbral."""
+        return cargar_medicion_umbral()["presupuesto_s"]
+
     def _heuristica(self, criterio):
         """Heurística admisible para el criterio, o None (se usa UCS)."""
         if (self.coordenadas is None
@@ -132,9 +143,10 @@ class Despachador:
             salida = self._tipo_b(solicitud)
         elif letra == "c":
             salida = self._tipo_c(solicitud)
+        elif letra == "d":
+            salida = self._orden_libre(solicitud, "ciclo")
         else:
-            raise NotImplementedError(
-                f"Tipo {letra}: orden libre, se implementa a continuación")
+            salida = self._orden_libre(solicitud, "libre")
         salida["tipo"] = TIPOS[letra]
         salida["criterio"] = solicitud.criterio
         salida["metricas"]["tiempo_s"] = time.perf_counter() - inicio
@@ -196,13 +208,11 @@ class Despachador:
         if s.destino is None:
             raise ValueError("El tipo c requiere destino")
         obligatorias = list(s.restricciones.get("obligatorias", ()))
-        if len(obligatorias) > 1:
-            raise NotImplementedError(
-                "Varias obligatorias: orden libre, se implementa a "
-                "continuación")
         orden = [s.origen, *obligatorias, s.destino]
         if len(set(orden)) != len(orden):
             raise ValueError("Origen, obligatorias y destino distintos")
+        if len(obligatorias) > 1:
+            return self._orden_libre(s, "fijo")
         matriz = self._matriz(s, orden)
         bloqueados = s.restricciones.get("bloqueados", ())
         partes = []
@@ -216,3 +226,47 @@ class Despachador:
             matriz, orden, self._metodo_tramos(matriz),
             "; ".join(partes) + "; " + self._motivo_tramos(matriz,
                                                            s.criterio))
+
+    def _orden_libre(self, s, modo):
+        """Orden libre de paradas: Held-Karp si k <= umbral; si no, ACO."""
+        if modo == "fijo":
+            obligatorias = list(s.restricciones.get("obligatorias", ()))
+            nodos = [s.origen, *obligatorias, s.destino]
+            fin = len(nodos) - 1
+        else:
+            nodos = [s.origen, *s.paradas]
+            fin = None
+        if len(set(nodos)) != len(nodos):
+            raise ValueError("Origen, paradas y destino deben ser distintos")
+        if len(nodos) < 2:
+            raise ValueError("Se requiere al menos una parada")
+        matriz = self._matriz(s, nodos)
+        k = len(nodos) - 1 - (1 if modo == "fijo" else 0)
+        umbral = self._umbral()
+        extra = {"k": k, "umbral_k": umbral, "modo": modo,
+                 "presupuesto_s": self._presupuesto()}
+        inicio = time.perf_counter()
+        if k <= umbral:
+            _, indices = held_karp(matriz.costo, 0, modo, fin)
+            metodo = "Held-Karp"
+            motivo = (f"exacto viable: k = {k} paradas libres <= {umbral} "
+                      "(umbral medido en esta máquina para un presupuesto "
+                      f"de {extra['presupuesto_s']} s)")
+        else:
+            resumen = aco_semillas(matriz.costo, 0, modo, fin,
+                                   semillas=SEMILLAS_ACO)
+            indices = resumen["mejor"]["orden"]
+            metodo = f"ACO + 2-opt ({len(SEMILLAS_ACO)} semillas)"
+            motivo = (f"exacto no viable: k = {k} paradas libres > {umbral} "
+                      "(umbral medido en esta máquina para un presupuesto "
+                      f"de {extra['presupuesto_s']} s); se usa la "
+                      "metaheurística")
+            extra.update({
+                "costo_medio_aco": resumen["costo_medio"],
+                "costo_peor_aco": resumen["costo_peor"],
+                "desviacion_aco": resumen["desviacion"],
+                "curva_media_aco": resumen["curva_media"],
+            })
+        extra["tiempo_orden_s"] = time.perf_counter() - inicio
+        orden = [nodos[i] for i in indices]
+        return self._armar(matriz, orden, metodo, motivo, extra)

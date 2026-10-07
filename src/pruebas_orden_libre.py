@@ -10,6 +10,7 @@ from itertools import permutations
 
 import numpy as np
 
+from aco_multiparada import aco, aco_semillas, costo_tour, dos_opt
 from held_karp import costo_de_orden, held_karp
 
 EPS = 1e-9
@@ -65,8 +66,76 @@ def prueba_held_karp():
     print(f"  {casos} casos")
 
 
+def tour_valido(orden, n, inicio, modo, fin):
+    nodos = orden[:-1] if modo == "ciclo" else orden
+    if modo == "ciclo" and orden[-1] != inicio:
+        return False
+    if modo == "fijo" and orden[-1] != fin:
+        return False
+    return (orden[0] == inicio and sorted(nodos) == list(range(n)))
+
+
+def prueba_dos_opt():
+    print("2-opt")
+    for semilla in range(5):
+        m = matriz_aleatoria(9, 300 + semilla, True)
+        azar = random.Random(semilla)
+        for modo, fin in (("ciclo", None), ("libre", None), ("fijo", 8)):
+            medio = [i for i in range(1, 9) if i != fin]
+            azar.shuffle(medio)
+            tour = [0, *medio] + ([fin] if modo == "fijo" else [])
+            antes = costo_tour(m, tour, modo)
+            nuevo, costo = dos_opt(m, tour, modo)
+            verificar(costo <= antes + EPS and abs(
+                costo_tour(m, nuevo, modo) - costo) < EPS and tour_valido(
+                    nuevo if modo != "ciclo" else nuevo + [0], 9, 0, modo,
+                    fin), f"semilla {semilla} {modo}: no empeora y es válido")
+            # óptimo local: ningún intercambio de segmento mejora
+            hasta = 8 if modo == "fijo" else 9
+            mejora = False
+            for i in range(1, hasta):
+                for j in range(i + 1, hasta):
+                    otro = nuevo[:i] + nuevo[i:j + 1][::-1] + nuevo[j + 1:]
+                    if costo_tour(m, otro, modo) < costo - 1e-9:
+                        mejora = True
+            verificar(not mejora, f"semilla {semilla} {modo}: óptimo local")
+
+
+def prueba_aco():
+    print("ACO multiparada")
+    for modo, fin in (("ciclo", None), ("libre", None), ("fijo", 9)):
+        m = matriz_aleatoria(10, 777, True)
+        exacto, _ = held_karp(m, 0, modo, fin)
+        r = aco(m, 0, modo, fin, semilla=3)
+        verificar(tour_valido(r["orden"], 10, 0, modo, fin),
+                  f"{modo}: tour válido")
+        verificar(abs(costo_de_orden(m, r["orden"]) - r["costo"]) < EPS,
+                  f"{modo}: el costo informado es el recalculado")
+        verificar(r["costo"] >= exacto - EPS,
+                  f"{modo}: brecha no negativa respecto de Held-Karp")
+        verificar(all(b <= a + EPS for a, b in zip(r["curva"],
+                                                   r["curva"][1:])),
+                  f"{modo}: curva de convergencia no creciente")
+        r2 = aco(m, 0, modo, fin, semilla=3)
+        verificar(r["costo"] == r2["costo"] and r["curva"] == r2["curva"],
+                  f"{modo}: reproducible con semilla fija")
+    resumen = aco_semillas(matriz_aleatoria(8, 5, True), 0, "ciclo")
+    verificar(len(resumen["corridas"]) >= 10, "al menos 10 semillas fijas")
+    verificar(resumen["costo_mejor"] <= resumen["costo_medio"] + EPS
+              and resumen["costo_medio"] <= resumen["costo_peor"] + EPS,
+              "mejor <= media <= peor")
+    try:
+        aco(matriz_aleatoria(6, 1, False), 0, "ciclo")
+    except ValueError:
+        verificar(True, "matriz asimétrica: error explícito")
+    else:
+        raise AssertionError("Debía rechazar la matriz asimétrica")
+
+
 def main():
     prueba_held_karp()
+    prueba_dos_opt()
+    prueba_aco()
     print("Todas las pruebas de orden libre pasaron.")
 
 
