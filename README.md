@@ -16,7 +16,8 @@ criterio: `distancia`, `peaje`, `riesgo`, `compuesto` o
 | Ruta | Contenido |
 |---|---|
 | `data/carga/` | Datos oficiales (INVÍAS y ANSV) y `VERIFICACION.md` |
-| `data/carga/_descarga_previa/` | Descarga anterior, conservada con su hash |
+| `data/carga/_descarga_previa/` | Descarga anterior (esquema reducido), conservada con su hash; **no es la fuente oficial vigente** |
+| `data/carga/mgn2020_departamentos_dane.json` | Límites departamentales del DANE (MGN 2020), fondo de los mapas |
 | `data/_archivo_transmilenio/`, `src/_archivo_transmilenio/`, `outputs/_archivo_transmilenio/` | Material del dominio anterior (TransMilenio) |
 | `src/` | Código fuente |
 | `outputs/` | JSON del grafo, grafo persistido, figuras y tablas |
@@ -45,6 +46,13 @@ y comprobar su SHA-256:
 
 Si la fuente cambió, el hash no coincidirá; en ese caso, ver las diferencias
 documentadas en `VERIFICACION.md`.
+
+`data/carga/_descarga_previa/` contiene la descarga anterior de los datos,
+con un esquema reducido (por ejemplo, su `red_vial.csv` pesa unos 91 KB y no
+trae la geometría ni las progresivas). Se conserva solo como evidencia, con
+sus hashes en la sección «Descarga previa» de `VERIFICACION.md`; **no es la
+fuente oficial vigente**. La fuente oficial vigente es la descarga del 6 de
+octubre de 2026 indicada arriba.
 
 No hace falta ese archivo para usar el grafo: `outputs/aristas_red.json`,
 `outputs/nodos_red.json` y `outputs/grafo_carga.gpickle` están versionados.
@@ -79,6 +87,16 @@ python src/medir_umbral.py         # umbral de Held-Karp (varios minutos)
 python src/verificar_estructura.py  # formula unicíclica contra Held-Karp
 python src/validacion_agente.py    # validacion del agente (varios minutos)
 python src/tablas_agente.py        # tablas y figura del agente
+
+python src/agente_rutas.py Bogotá Granada         # agente autónomo
+python src/agente_rutas.py Duitama "Puente Nacional" --regreso
+python src/agente_rutas.py Duitama "Puente Nacional" --regreso --bloquear-regreso "Tunja-Chocontá"
+python src/pruebas_agente_rutas.py   # pruebas del agente autónomo
+python src/perfil_topologico.py      # perfil topológico de los 496 pares
+python src/pruebas_perfil_topologico.py
+python src/mapa_geografico.py        # mapas (desde outputs/trazado_aristas.json)
+python src/pruebas_mapa.py
+python src/lecturas_informe.py       # bloques «Cómo leerla» y tabla de ejemplos
 
 pdflatex formulacion_corte1.tex  # dos pasadas
 pdflatex formulacion_corte1.tex
