@@ -111,7 +111,7 @@ python src/demostracion.py despachador c Duitama --destino "Puente Nacional" --o
 | Comando | Qué mostrar |
 |---|---|
 | Tipo a | A* por tramo; el motivo dice que hay heurística admisible para `distancia`; 309.10 km |
-| Tipo d con cinco paradas | Held-Karp, porque k = 5 es menor o igual que el umbral medido (K = 20); el motivo y las métricas salen en la respuesta |
+| Tipo d con cinco paradas | Held-Karp, porque k = 5 es menor o igual que el umbral medido (K = 19); el motivo y las métricas salen en la respuesta |
 | Tipo c con obligatoria y tramo bloqueado | El orden queda determinado (una obligatoria) y el tramo bloqueado se excluye de todas las búsquedas |
 
 Umbral: `outputs\umbral_held_karp.json` combina las sesiones guardadas

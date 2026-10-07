@@ -229,8 +229,8 @@ y desviación estándar; la memoria pico se mide en una corrida aparte con
 \texttt{tracemalloc}. Voraz y A* consultan una tabla de $h$ precalculada hacia
 el destino (mismos valores, mismas rutas y mismos nodos expandidos); el tiempo
 de construir la tabla se mide aparte y no está incluido en sus tiempos (media
-de 96.8 $\mu$s, entre 19.1 y 215.3 $\mu$s). Las desviaciones son grandes
-respecto de las medias (la mayor es 1.44 veces la media), por lo que las
+de 47.7 $\mu$s, entre 8.4 y 109.2 $\mu$s). Las desviaciones son grandes
+respecto de las medias (la mayor es 1.77 veces la media), por lo que las
 diferencias de tiempo entre algoritmos solo son indicativas.
 
 \section{Resultados}
@@ -307,10 +307,11 @@ ruta y el mismo costo.
 DFS 142, UCS 144, voraz 50 y A* 120. A* expande menos nodos que UCS en cada
 escenario o igual, y la búsqueda voraz es la que menos expande y devuelve la
 ruta óptima en los diez escenarios, aunque no lo garantiza.
-\item Expandir menos nodos no se traduce siempre en menos tiempo: en el caso
-central A* tarda $156 \pm 45$ $\mu$s contra $147 \pm 31$ $\mu$s de UCS, aunque
-expande 20 nodos contra 25. Esos tiempos excluyen la construcción de la tabla
-de $h$, que se mide aparte.
+\item En el caso central A* tarda $115 \pm 40$ $\mu$s contra $167 \pm 74$
+$\mu$s de UCS, con 20 nodos contra 25. En dos escenarios (Girardot a Cambao y
+Chiquinquirá a Tunja) A* tarda más que UCS con el mismo número de nodos; con
+estas desviaciones las diferencias de tiempo son indicativas. Esos tiempos
+excluyen la construcción de la tabla de $h$, que se mide aparte.
 \end{itemize}
 
 \subsection{Criterio compuesto sin riesgo}
@@ -545,14 +546,17 @@ memoria pico no supera el 25\,\% de la RAM instalada (4064 MiB). El
 presupuesto de 5 s y el 25\,\% son decisiones de diseño; los umbrales son
 mediciones. Para que el umbral no dependa de una sesión, se repitió la
 medición y se toma el mayor $k$ cuyo tiempo mediano cabe en el presupuesto en
-todas las sesiones. Resultado con las dos sesiones de la
-Tabla~\ref{tab:umbral}: $k = 19$ cabe en ambas (2.735 s y 1.227 s) y $k = 20$
-no (5.986 s en la sesión 1 y 2.475 s en la 2); la memoria no limita hasta
-$k = 22$, el mayor medido (1009.8 MiB). Por tanto
+todas las sesiones. Resultado con las tres sesiones de la
+Tabla~\ref{tab:umbral}: $k = 19$ cabe en las tres (2.735, 1.227 y 1.694 s) y
+$k = 20$ no (5.986 s en la sesión 1; 2.475 y 3.676 s en la 2 y la 3); la
+memoria no limita hasta $k = 22$, el mayor medido (1009.8 MiB). Por tanto
 $K_{\mathrm{exacto}} = 19$, fijado por el tiempo. Los tiempos de una sesión a
-otra difieren hasta 2.75 veces ($k = 17$) con $k$ entre 16 y 20 y casi nada
-con $k \ge 21$; la causa no se midió (Hipótesis: estado de la máquina). Las
-sesiones 1 y 2 no registraron plan de energía ni conexión a corriente.
+otra difieren hasta 2.75 veces ($k = 17$) con $k$ entre 16 y 20 y hasta 1.70
+veces con $k \ge 21$; la causa no se midió (Hipótesis: estado de la máquina).
+Las sesiones 1 y 2 no registraron plan de energía ni conexión a corriente; la
+sesión 3, la de la medición final de este informe (7 de octubre de 2026,
+15:55 a 16:05), se hizo conectada a corriente y con el plan de energía
+Equilibrado.
 
 \textbf{Simetría.} Antes de usar la metaheurística, el despachador comprueba
 si la matriz de costos entre paradas es simétrica. Si lo es, el ACO usa
@@ -563,11 +567,12 @@ asimétrica sintética).
 \begin{table}[H]
 \centering
 \caption{Medición de Held-Karp en esta máquina: $k$ paradas libres, modo
-ciclo, con 3 repeticiones desde $k = 17$ (5 hasta $k = 16$). Tiempo y memoria
-dentro del presupuesto de 5 s y del límite de 4064 MiB; se muestran los
-$k \ge 16$}
+ciclo, con 3 repeticiones desde $k = 17$ (5 hasta $k = 16$). S1 a S3: mediana
+de cada una de las tres sesiones. La columna Tiempo indica si las tres
+medianas caben en el presupuesto de 5 s, y Memoria si la mayor memoria pico
+cabe en el límite de 4064 MiB; se muestran los $k \ge 16$}
 \label{tab:umbral}
-\small\setlength{\tabcolsep}{3pt}
+\footnotesize\setlength{\tabcolsep}{2pt}
 \input{outputs/tabla_ag_umbral.tex}
 \end{table}
 
@@ -648,11 +653,12 @@ fijo de las hormigas y no a la ausencia de 2-opt: con el inicio aleatorio, sin
 cambiar nada más, es 0.357\,\% en el taller y 0 en la red
 (Tabla~\ref{tab:val-ampliada}). El aporte del 2-opt se reporta con inicio
 aleatorio.
-\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 2.78 s y
-3.05 s y 111.8 MiB; el ACO, entre 0.19 s y 0.23 s. Con pocas paradas el exacto
+\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 1.26 s y
+1.97 s y 111.8 MiB; el ACO, entre 0.07 s y 0.14 s. Con pocas paradas el exacto
 es más rápido (milisegundos hasta $n = 10$). La regla fija elige el exacto
 siempre que es viable, aunque el ACO resulte más rápido. Con $n = 100$ y 200
-el ACO tarda $3.51 \pm 0.17$ s y $10.78 \pm 0.16$ s.
+el ACO con 2-opt tarda $2.06 \pm 0.08$ s y $10.62 \pm 0.49$ s, y sin 2-opt
+$1.53 \pm 0.06$ s y $8.85 \pm 0.68$ s.
 \end{itemize}
 
 \subsection{Referencia por estructura}
@@ -677,7 +683,11 @@ inicios aleatorios), que no es un óptimo. Con $n = 100$ el ACO con 2-opt
 obtiene $-0.315$\,\% en la mejor corrida y $-0.171$\,\% en la media respecto de
 esa referencia; con $n = 200$, $-1.937$\,\% y $-1.400$\,\%, sin que ninguna
 semilla la iguale. Las brechas negativas solo indican que el ACO supera a esa
-búsqueda local desde inicios múltiples: no se conoce la distancia al óptimo. La
+búsqueda local desde inicios múltiples: no se conoce la distancia al óptimo.
+Sin 2-opt, con inicio aleatorio, la brecha media respecto de la misma
+referencia es $5.599$\,\% con $n = 100$ y $6.209$\,\% con $n = 200$, y
+ninguna semilla la iguala; en estas instancias el 2-opt sí aporta. No se
+corrió el ACO sin 2-opt con inicio fijo en ellas. La
 convergencia de estas dos instancias está en
 \texttt{outputs/convergencia\_aco\_mayores.png}.
 
@@ -695,10 +705,8 @@ fijo. Igualan: semillas que alcanzan la referencia}
 
 \begin{itemize}
 \item $K_{\mathrm{exacto}} = 19$ depende de la máquina, de su estado y del
-presupuesto de 5 s; la memoria no limita hasta $k = 22$, el mayor medido. Los
-tiempos de Held-Karp con $k = 19$ fueron 2.735 s, 1.227 s y, en la
-validación posterior, entre 2.78 y 3.05 s; Hipótesis: variación del estado de
-la máquina, no se midió.
+presupuesto de 5 s; los tiempos con $k = 19$ variaron entre 1.227 y 2.735 s
+entre sesiones (Hipótesis: estado de la máquina, no se midió).
 \item Los parámetros $\alpha$, $\beta$, $\rho$, el número de hormigas y las
 iteraciones se tomaron del taller y no se reajustaron. El ACO sin búsqueda
 local, con inicio aleatorio, no alcanza el óptimo en parte de las instancias
