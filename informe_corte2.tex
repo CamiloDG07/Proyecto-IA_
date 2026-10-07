@@ -460,7 +460,9 @@ que es viable. Está en \texttt{src/despachador.py} y reutiliza las búsquedas
 del proyecto: la matriz de costos entre paradas se calcula con UCS o con A*
 (tablas de $h$ precalculadas), guardando la ruta expandida de cada tramo; no
 se reimplementó ninguna búsqueda. Es genérico: funciona con cualquier grafo
-de \texttt{networkx} con costos no negativos por arista. En todo el informe,
+de \texttt{networkx} con costos no negativos por arista. La interfaz es de
+línea de comandos (\texttt{src/demostracion.py despachador}). En todo el
+informe,
 $n$ es el número de ciudades de una instancia (origen incluido) y $k$ el de
 paradas libres por ordenar ($k = n - 1$ en orden libre con regreso).
 

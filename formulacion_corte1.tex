@@ -216,7 +216,8 @@ archivo \texttt{outputs/aristas\_red.json}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{diagrama_red.png}
-    \caption{Diagrama de la red de carga. Fuente: elaboración propia}
+    \caption{Diagrama de la red de carga. Fuente: elaboración propia con los
+    datos de INVÍAS y ANSV (versión del 6 de octubre de 2026)}
     \label{fig:red}
     \input{outputs/lectura_c1_diagrama.tex}
 \end{figure}
@@ -324,10 +325,11 @@ igual a 0 elige el desvío por Santander, y la Tabla~\ref{tab:rutas} explica
 por qué:
 
 \begin{itemize}
-\item El desvío es más largo, pero tiene menos peaje (Tabla~\ref{tab:rutas}).
-\item El criterio de riesgo lo prefiere porque los tramos del desvío no tienen
-dato de riesgo y valen 0, no porque se haya medido que es más seguro. Es el
-sesgo descrito en la sección del costo compuesto.
+\item El desvío es 345.15 km más largo, pero tiene 70\,600 COP menos de
+peaje.
+\item El criterio de riesgo lo prefiere porque los siete tramos del desvío no
+tienen dato de riesgo y valen 0, no porque se haya medido que es más seguro.
+Es el sesgo descrito en la sección del costo compuesto.
 \item \input{outputs/texto_c1_cambio_sin_riesgo.tex} La corrección de
 distancias cambia esa decisión.
 \end{itemize}
