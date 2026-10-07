@@ -19,10 +19,10 @@ import csv
 import json
 import re
 import sys
-from math import asin, cos, radians, sin, sqrt
 
 from build_graph import RAIZ, SALIDA
 from construir_red import TRAMO_EXTRA_LONGITUD, TRAMOS
+from heuristica import haversine_km
 
 DATOS = RAIZ / "data" / "carga"
 MUNICIPIOS_CSV = DATOS / "divipola_municipios_gdxc-w37w.csv"
@@ -57,14 +57,6 @@ OBSERVACION_NOMBRE = {
     "Mariquita": "Municipio San Sebastián de Mariquita",
     "El Espinal": "Municipio Espinal",
 }
-
-
-def haversine_km(lat1, lon1, lat2, lon2):
-    """Distancia geodésica en km (esfera de radio 6371.0088 km)."""
-    f1, f2 = radians(lat1), radians(lat2)
-    a = (sin((f2 - f1) / 2) ** 2
-         + cos(f1) * cos(f2) * sin(radians(lon2 - lon1) / 2) ** 2)
-    return 2 * 6371.0088 * asin(sqrt(a))
 
 
 def decimal(texto):
