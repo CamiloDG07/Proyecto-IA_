@@ -21,6 +21,19 @@
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
 \graphicspath{{data/}{outputs/}}
 
+% bloque "Cómo leerla" de figuras y tablas de resultados
+\newcommand{\comoleerla}[3]{%
+  \begin{center}\footnotesize
+  \begin{minipage}{0.94\linewidth}
+  \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\topsep}{2pt}%
+    \setlength{\parsep}{0pt}
+  \item \textbf{Estructura:} #1
+  \item \textbf{Qué se ve:} #2
+  \item \textbf{Por qué:} #3
+  \end{itemize}
+  \end{minipage}
+  \end{center}}
+
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\small Formulación Corte 1: red de carga interurbana}
@@ -197,14 +210,15 @@ La Figura~\ref{fig:red} muestra la red. La disposición de los nodos es
 esquemática, no geográfica. El ciclo, en rojo, pasa por Cajicá, Bogotá,
 Tocancipá, Chocontá, Tunja, Duitama, La Palmera, Presidente, Pamplona,
 Cuestaboba, Bucaramanga, San Gil, Puente Nacional, Ubaté y Zipaquirá. El
-detalle de las 32 aristas está en el Anexo.
+detalle de las 32 aristas (distancia, peaje y riesgo de cada una) está en el
+archivo \texttt{outputs/aristas\_red.json}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{diagrama_red.png}
-    \caption{Diagrama de la red de carga. Fuente: elaboración propia con los
-    datos de INVÍAS y ANSV (versión del 6 de octubre de 2026)}
+    \caption{Diagrama de la red de carga. Fuente: elaboración propia}
     \label{fig:red}
+    \input{outputs/lectura_c1_diagrama.tex}
 \end{figure}
 
 \begin{table}[H]
@@ -301,6 +315,7 @@ memoria son de esa corrida única y se registran solo como referencia.
 \label{tab:criterios}
 \small\setlength{\tabcolsep}{4pt}
 \input{outputs/tabla_criterios.tex}
+\input{outputs/lectura_c1_criterios.tex}
 \end{table}
 
 Con la distancia y con el costo compuesto sin riesgo el agente elige la ruta
@@ -309,14 +324,12 @@ igual a 0 elige el desvío por Santander, y la Tabla~\ref{tab:rutas} explica
 por qué:
 
 \begin{itemize}
-\item El desvío es 345.15 km más largo, pero tiene 70\,600 COP menos de
-peaje.
-\item El criterio de riesgo lo prefiere porque los siete tramos del desvío no
-tienen dato de riesgo y valen 0, no porque se haya medido que es más seguro.
-Es el sesgo descrito en la sección del costo compuesto.
-\item Sin el término de riesgo, gana la ruta por Bogotá (3.149 contra
-3.524). Con las distancias sin corregir ganaba el desvío (3.197 contra
-3.290): la corrección de distancias cambia esa decisión.
+\item El desvío es más largo, pero tiene menos peaje (Tabla~\ref{tab:rutas}).
+\item El criterio de riesgo lo prefiere porque los tramos del desvío no tienen
+dato de riesgo y valen 0, no porque se haya medido que es más seguro. Es el
+sesgo descrito en la sección del costo compuesto.
+\item \input{outputs/texto_c1_cambio_sin_riesgo.tex} La corrección de
+distancias cambia esa decisión.
 \end{itemize}
 
 \begin{table}[H]
@@ -325,13 +338,14 @@ Es el sesgo descrito en la sección del costo compuesto.
 \label{tab:rutas}
 \small
 \input{outputs/tabla_rutas.tex}
+\input{outputs/lectura_c1_rutas.tex}
 \end{table}
 
 \section{Auditoría geométrica de las aristas}
 
 Para comprobar el cruce de datos, cada arista se contrastó con la geometría
 del sector de INVÍAS y con la distancia geodésica entre las coordenadas de sus
-nodos (Tabla~\ref{tab:auditoria} en el Anexo). Las coordenadas son de la
+nodos (Tabla~\ref{tab:auditoria}). Las coordenadas son de la
 DIVIPOLA del DANE (corte al 30 de diciembre de 2024, descarga del 7 de
 octubre de 2026). Para Cuestaboba, La Palmera y Yé de Granada no hay punto
 DANE: la coordenada se estimó como la unión de los dos tramos de INVÍAS que
@@ -383,6 +397,25 @@ Tunja (1.49), El Espinal a Girardot (1.21) y el registro del Río Ocoa
 La regla se fijó de antemano y no se ajustó ninguna distancia para obtener un
 resultado determinado: el principio es corregir solo errores demostrables, con
 datos oficiales.
+
+\subsection{Aristas marcadas por la auditoría}
+
+Las 32 aristas auditadas están en \texttt{outputs/auditoria\_aristas.csv}; la
+Tabla~\ref{tab:auditoria} lista las que tienen alguna marca, con la distancia
+por carretera del grafo, la geodésica, su razón y la mayor separación entre un
+extremo de la geometría del sector y su nodo (Ext.), todas en km. Marcas: A,
+carretera menor que la geodésica; B, extremo a más de 5 km del nodo; C, nodo a
+más de 5 km de la geometría; D, registro mayor que 1.5 veces el camino de su
+geometría; E, geometría sin camino entre extremos.
+
+\begin{table}[H]
+\centering
+\caption{Aristas marcadas por la auditoría geométrica}
+\label{tab:auditoria}
+\small\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_auditoria.tex}
+\input{outputs/lectura_c1_auditoria.tex}
+\end{table}
 
 \section{Registro de decisiones de diseño}
 
@@ -450,31 +483,6 @@ cruzan tienen una única ruta posible.
 \item \textbf{Mediciones.} El tiempo y la memoria de la
 Tabla~\ref{tab:criterios} provienen de una sola corrida.
 \end{itemize}
-
-\newpage
-\section*{Anexo: aristas de la red}
-\addcontentsline{toc}{section}{Anexo: aristas de la red}
-
-La Tabla~\ref{tab:aristas} lista las 32 aristas. GiZ es el puntaje
-GiZScore promedio del corredor, Fallec. los fallecidos históricos y Puntos
-el número de puntos críticos; el guion indica que no hay dato.
-
-{\small\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_aristas.tex}}
-
-\newpage
-\section*{Anexo: auditoría geométrica}
-\addcontentsline{toc}{section}{Anexo: auditoría geométrica}
-
-La Tabla~\ref{tab:auditoria} muestra, por arista, la distancia por carretera
-del grafo, la geodésica, su razón y la mayor separación entre un extremo de
-la geometría del sector y su nodo (Ext.), todas en km. Marcas: A, carretera
-menor que la geodésica; B, extremo a más de 5 km del nodo; C, nodo a más de
-5 km de la geometría; D, registro mayor que 1.5 veces el camino de su
-geometría. El detalle completo está en \texttt{outputs/auditoria\_aristas.csv}.
-
-{\small\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_auditoria.tex}}
 
 \section*{Referencias}
 \addcontentsline{toc}{section}{Referencias}
