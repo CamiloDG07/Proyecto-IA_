@@ -233,5 +233,6 @@
   "sistema": "Windows-11-10.0.26300-SP0",
   "plan_energia": "GUID de plan de energ¡a: 381b4222-f694-41f0-9685-ff5bb260df2e  (Equilibrado)",
   "conectado_a_corriente": "sí"
- }
+ },
+ "notas": "Plan activo según powercfg: Equilibrado; equipo conectado a corriente. El modo de energía de Windows estaba en máximo rendimiento (configurado por el usuario, no registrado por comando)."
 }
