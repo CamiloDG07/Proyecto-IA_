@@ -21,6 +21,7 @@ criterio: `distancia`, `peaje`, `riesgo`, `compuesto` o
 | `src/` | Código fuente |
 | `outputs/` | JSON del grafo, grafo persistido, figuras y tablas |
 | `formulacion_corte1.tex` | Informe del Corte 1 |
+| `informe_corte2.tex`, `guion_demostracion.md` | Informe del Corte 2 y guion de la demostración |
 
 ## Datos
 
@@ -68,8 +69,15 @@ python src/auditar_aristas.py    # auditoría geométrica (requiere red_vial.csv
 python src/auditar_distancias.py # distancias por registro (requiere red_vial.csv)
 python src/exportar_latex.py     # tablas del informe
 
+python src/experimentos_corte2.py  # escenarios, barrido y sensibilidad
+python src/tablas_corte2.py       # tablas del informe del Corte 2
+python src/visualizar_rutas.py    # figuras de rutas y barrido
+python src/demostracion.py Duitama "Puente Nacional" distancia
+
 pdflatex formulacion_corte1.tex  # dos pasadas
 pdflatex formulacion_corte1.tex
+pdflatex informe_corte2.tex      # dos pasadas
+pdflatex informe_corte2.tex
 ```
 
 Estilo del código: `pycodestyle src/*.py` (PEP 8, máximo 79 caracteres).
