@@ -556,9 +556,27 @@ def ejemplo_agente():
         f"{mc['umbral_k']}$, por eso el orden es exacto.")
 
 
+def texto_corte1_caso_referencia():
+    """Frase del caso de referencia del Corte 1, leída de outputs/."""
+    r = leer("sensibilidad_corte2.json")
+    r = r["rutas_optimas_duitama_puente_nacional"]
+    bogota = r["base"]["distancia"]["distancia_km"]
+    santander = r["base"]["peaje"]["distancia_km"]
+    bogota_c = r["crudas"]["distancia"]["distancia_km"]
+    santander_c = r["crudas"]["peaje"]["distancia_km"]
+    with open(SALIDA / "texto_c1_caso_referencia.tex", "w",
+              encoding="utf-8") as f:
+        f.write(
+            "El caso de referencia es Duitama a Puente Nacional: "
+            f"{bogota:.2f} km por Bogotá o {santander:.2f} km por Santander "
+            f"(con las distancias sin corregir, {bogota_c:.2f} y "
+            f"{santander_c:.2f} km).\n")
+
+
 def main():
     lecturas_corte1()
     texto_corte1_cambio_sin_riesgo()
+    texto_corte1_caso_referencia()
     lecturas_corte2()
     lectura_mapa_caso_central()
     ejemplo_agente()
