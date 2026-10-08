@@ -95,14 +95,27 @@ Chocontá - Tunja, El Espinal - Girardot y el registro del Río Ocoa) se marcan
 valor de 167.67 km de Bogotá - Villeta es un artefacto de esta doble calzada
 digitalizada y queda en 81.00 km.
 
+Regla de progresivas continuas (8 de octubre de 2026), fijada de antemano: si
+el sector está truncado en la fuente, pero las progresivas oficiales de la
+Red Vial son continuas en la misma ruta y el mismo tramo, la distancia es la
+diferencia entre el PR final del sector y el PR final del sector anterior del
+tramo, siempre que no sea menor que la distancia geodésica entre los nodos;
+si alguna condición falla, se conserva el valor registrado. Se aplica solo a
+Chocontá - Tunja: el sector cubre 17.69 km (PR 108.096 a 120.0), pero
+Tocancipá - Chocontá termina en el PR 59.0 y Chocontá - Tunja en el PR 120.0
+(ruta 55, tramo 5501), de modo que la distancia es 61.0 km frente a 56.96 km
+de línea recta. La longitud registrada queda en distancia_registrada_km y en
+distancia_cruda_km. Los postes de referencia de INVÍAS (ufg7-is7r) corroboran
+la numeración continua del tramo (data/carga/FUENTES_NUEVAS.md).
+
 Limitaciones de la fuente detectadas en la auditoría geométrica (ver
 data/carga/VERIFICACION.md y outputs/auditoria_aristas.csv):
   - Las geometrías de INVÍAS de los sectores que salen de Bogotá empiezan en
     el límite urbano (entre 8 y 19 km de la coordenada DANE de Bogotá): la
-    distancia por carretera excluye la entrada urbana. No se corrige.
-  - Chocontá - Tunja cubre solo 17.69 km de los cerca de 57 km de línea recta
-    entre los nodos (sector truncado en la fuente; ningún otro sector lo
-    completa). No se corrige.
+    distancia por carretera excluye la entrada urbana. No se corrige: no hay
+    una fuente oficial que dé el tramo urbano.
+  - La geometría del sector Chocontá - Tunja cubre solo 17.69 km de la
+    arista; su distancia sale de las progresivas (regla anterior).
 
 Exclusión de Mosquera (7 de octubre de 2026): la versión anterior unía Bogotá
 y Mosquera con el sector "Puente Mosquera - Cruce Avenida del Ferrocarril",
@@ -119,6 +132,8 @@ import json
 import sys
 from pathlib import Path
 
+from heuristica import cargar_coordenadas, haversine_km
+
 csv.field_size_limit(sys.maxsize)
 
 # banda de A / B_tot que identifica la doble calzada digitalizada (fijada de
@@ -128,6 +143,12 @@ REGLA_BANDA = (1.7, 2.3)
 RAIZ = Path(__file__).resolve().parent.parent
 DATOS = RAIZ / "data" / "carga"
 SALIDA = RAIZ / "outputs"
+
+# sector truncado en la fuente -> sector anterior del mismo tramo (regla de
+# progresivas continuas, ver docstring)
+SECTORES_POR_PROGRESIVAS = {
+    ("Chocontá - Tunja", "Chocontá", "Tunja"): "Tocancipá - Chocontá",
+}
 
 # peaje del grafo -> (nombre_peaje exacto, c_digo_peaje) en peajes.csv oficial
 # del 6/10/2026; cada pareja aparece exactamente una vez en el CSV
@@ -272,6 +293,30 @@ def largo_corregido(row, largo_m):
     return largo_m
 
 
+def pr_final_km(red_vial, sector):
+    """PR final del sector en km (poste + distancia/1000), ruta y tramo.
+
+    Todos los registros del sector deben coincidir; si no, falla.
+    """
+    valores = {(float(r["poste_de_referencia_final"] or 0)
+                + float(r.get("distancia_final") or 0) / 1000,
+                r["ruta"], r["codigo_tramo"])
+               for r in red_vial if normaliza(r["sector"]) == sector}
+    if len(valores) != 1:
+        raise ValueError(f"Sector {sector}: {len(valores)} PR finales "
+                         "distintos; se esperaba 1")
+    return valores.pop()
+
+
+def distancia_por_progresivas(red_vial, sector, previo):
+    """Diferencia de PR finales (km) si ambos sectores son del mismo tramo."""
+    pr, ruta, tramo = pr_final_km(red_vial, sector)
+    pr_previo, ruta_previo, tramo_previo = pr_final_km(red_vial, previo)
+    if (ruta, tramo) != (ruta_previo, tramo_previo):
+        raise ValueError(f"{sector} y {previo} no son del mismo tramo")
+    return round(pr - pr_previo, 3)
+
+
 def main():
     red_vial = carga_csv("red_vial.csv")
     peajes = carga_csv("peajes.csv")
@@ -307,6 +352,7 @@ def main():
             return sum(valores)
         return max(valores)
 
+    coordenadas = cargar_coordenadas()
     riesgo_por_corredor = {}
     for row in siniestros:
         corredor = normaliza(row.get("tramo", ""))
@@ -353,6 +399,18 @@ def main():
             crudo_m += largo_sector(extra_sector, crudos_por_sector) or 0
         dist_km = round(largo_m / 1000, 2)
         crudo_km = round(crudo_m / 1000, 2)
+        registrada_km = dist_km
+        fuente_distancia = "registro"
+        previo = SECTORES_POR_PROGRESIVAS.get((sector, origen, destino))
+        if previo:
+            por_pr = distancia_por_progresivas(red_vial, sector, previo)
+            geodesica = haversine_km(*coordenadas[origen],
+                                     *coordenadas[destino])
+            print(f"{sector}: progresivas {por_pr:.3f} km, geodésica "
+                  f"{geodesica:.2f} km, registrada {dist_km:.2f} km")
+            if por_pr >= geodesica:
+                dist_km = round(por_pr, 2)
+                fuente_distancia = "progresivas"
 
         if peaje:
             peaje_nombre, peaje_tarifa = peaje, tarifa_peaje(peajes, peaje)
@@ -372,6 +430,8 @@ def main():
             "destino": destino,
             "distancia_km": dist_km,
             "distancia_cruda_km": crudo_km,
+            "distancia_registrada_km": registrada_km,
+            "distancia_fuente": fuente_distancia,
             "peaje_nombre": peaje_nombre,
             "peaje_cop_camion": peaje_tarifa,
             "riesgo_gizscore_prom": round(giz_prom, 3),
@@ -400,6 +460,16 @@ def main():
               f'GiZ={a["riesgo_gizscore_prom"]:5.2f} | '
               f'fallecidos={a["riesgo_fallecidos_hist"]:.0f} | '
               f'pts_criticos={a["riesgo_puntos_criticos"]}')
+
+    # sectores críticos de mortalidad (ANSV 2022): solo sensibilidad
+    import cruce_mortalidad
+    import mapa_geografico
+    mortalidad = cruce_mortalidad.calcular(
+        aristas, mapa_geografico.cargar_trazado())
+    for a, m in zip(aristas, mortalidad):
+        a["sectores_mortalidad"] = m["sectores_mortalidad"]
+        a["mortalidad_por_100km"] = m["mortalidad_por_100km"]
+        a["mortalidad_disponible"] = m["mortalidad_disponible"]
 
     SALIDA.mkdir(exist_ok=True)
     with open(SALIDA / "aristas_red.json", "w", encoding="utf-8") as f:

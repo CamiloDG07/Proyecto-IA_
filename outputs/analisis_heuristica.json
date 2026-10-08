@@ -1,14 +1,7 @@
 {
-  "alfa": 0.31057,
-  "razon_minima_exacta": 0.3105704113225443,
+  "alfa": 0.458156,
+  "razon_minima_exacta": 0.4581564074448208,
   "aristas_que_determinan_alfa": [
-    {
-      "arista": [
-        "Chocontá",
-        "Tunja"
-      ],
-      "razon": 0.3105704113225443
-    },
     {
       "arista": [
         "Bogotá",
@@ -22,18 +15,16 @@
         "Tocancipá"
       ],
       "razon": 0.5370624810216452
+    },
+    {
+      "arista": [
+        "Cajicá",
+        "Zipaquirá"
+      ],
+      "razon": 0.7492123973806627
     }
   ],
   "aristas_con_razon_menor_que_1": [
-    {
-      "arista": [
-        "Chocontá",
-        "Tunja"
-      ],
-      "carretera_km": 17.69,
-      "geodesica_km": 56.95970818555529,
-      "razon": 0.3105704113225443
-    },
     {
       "arista": [
         "Bogotá",
@@ -104,21 +95,21 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 2.3428812092163298e-05,
+        "margen_minimo": 8.11054195715144e-06,
         "par_margen_minimo": [
-          "Chocontá",
-          "Tunja"
+          "Bogotá",
+          "Madrid"
         ],
-        "margen_maximo": 655.0673290760725
+        "margen_maximo": 605.9435920410119
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 2.3428812092163298e-05,
+        "margen_minimo": 8.11054195715144e-06,
         "caso_margen_minimo": [
-          "Chocontá",
-          "Tunja",
-          "Tunja"
+          "Bogotá",
+          "Madrid",
+          "Madrid"
         ]
       }
     },
@@ -127,17 +118,17 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 0.005264797953817058,
+        "margen_minimo": 0.0036720779790744814,
         "par_margen_minimo": [
           "Granada",
           "Ye de Granada"
         ],
-        "margen_maximo": 4.754305122661257
+        "margen_maximo": 4.595790211957269
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 0.005264797953817058,
+        "margen_minimo": 0.0036720779790744814,
         "caso_margen_minimo": [
           "Granada",
           "Ye de Granada",
@@ -150,21 +141,113 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 0.012594353424879511,
+        "margen_minimo": 0.008356846390302534,
         "par_margen_minimo": [
           "Cajicá",
           "Zipaquirá"
         ],
-        "margen_maximo": 4.091008615908759
+        "margen_maximo": 4.011209560473429
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 0.012594353424879511,
+        "margen_minimo": 0.008356846390302534,
         "caso_margen_minimo": [
           "Cajicá",
           "Zipaquirá",
           "Zipaquirá"
+        ]
+      }
+    },
+    "costo_operativo": {
+      "limitada": false,
+      "admisibilidad": {
+        "pares": 992,
+        "violaciones": 0,
+        "margen_minimo": 1198.1848671791845,
+        "par_margen_minimo": [
+          "Granada",
+          "Ye de Granada"
+        ],
+        "margen_maximo": 916274.5855518149
+      },
+      "consistencia": {
+        "casos": 2048,
+        "violaciones": 0,
+        "margen_minimo": 1198.1848671791845,
+        "caso_margen_minimo": [
+          "Granada",
+          "Ye de Granada",
+          "Ye de Granada"
+        ]
+      }
+    },
+    "compuesto_total_sin_riesgo": {
+      "limitada": false,
+      "admisibilidad": {
+        "pares": 992,
+        "violaciones": 0,
+        "margen_minimo": 0.004896103972099308,
+        "par_margen_minimo": [
+          "Granada",
+          "Ye de Granada"
+        ],
+        "margen_maximo": 4.538190534416784
+      },
+      "consistencia": {
+        "casos": 2048,
+        "violaciones": 0,
+        "margen_minimo": 0.004896103972099308,
+        "caso_margen_minimo": [
+          "Granada",
+          "Ye de Granada",
+          "Ye de Granada"
+        ]
+      }
+    },
+    "compuesto_total": {
+      "limitada": true,
+      "admisibilidad": {
+        "pares": 992,
+        "violaciones": 0,
+        "margen_minimo": 0.012535269585453805,
+        "par_margen_minimo": [
+          "Cajicá",
+          "Zipaquirá"
+        ],
+        "margen_maximo": 3.973396261329726
+      },
+      "consistencia": {
+        "casos": 2048,
+        "violaciones": 0,
+        "margen_minimo": 0.012535269585453805,
+        "caso_margen_minimo": [
+          "Cajicá",
+          "Zipaquirá",
+          "Zipaquirá"
+        ]
+      }
+    },
+    "compuesto_mortalidad": {
+      "limitada": true,
+      "admisibilidad": {
+        "pares": 992,
+        "violaciones": 0,
+        "margen_minimo": 0.002448051986049654,
+        "par_margen_minimo": [
+          "Granada",
+          "Ye de Granada"
+        ],
+        "margen_maximo": 3.745243060354906
+      },
+      "consistencia": {
+        "casos": 2048,
+        "violaciones": 0,
+        "margen_minimo": 0.002448051986049654,
+        "caso_margen_minimo": [
+          "Granada",
+          "Ye de Granada",
+          "Ye de Granada"
         ]
       }
     }
@@ -173,22 +256,22 @@
     "alfa": 1.0,
     "admisibilidad": {
       "pares": 992,
-      "violaciones": 66,
-      "margen_minimo": -56.51137948181665,
+      "violaciones": 34,
+      "margen_minimo": -19.067014140182504,
       "par_margen_minimo": [
         "Bogotá",
-        "Tunja"
+        "Tocancipá"
       ],
       "margen_maximo": 425.59178245185467
     },
     "consistencia": {
       "casos": 2048,
-      "violaciones": 141,
-      "margen_minimo": -39.26970818555529,
+      "violaciones": 111,
+      "margen_minimo": -19.067014140182504,
       "caso_margen_minimo": [
-        "Chocontá",
-        "Tunja",
-        "Tunja"
+        "Bogotá",
+        "Tocancipá",
+        "Tocancipá"
       ]
     }
   }
