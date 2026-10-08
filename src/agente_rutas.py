@@ -478,6 +478,15 @@ def _lineas_modelo_costos(r):
     return lineas
 
 
+def _texto_margen(margen, criterio):
+    """Margen con la unidad del criterio con que se escogió la ruta."""
+    if criterio in ("peaje", "costo_operativo"):
+        return f"{margen:,.0f} COP"
+    if criterio == "distancia":
+        return f"{margen:.2f} km"
+    return f"{margen:.3f}"
+
+
 def _lineas_umbral(r):
     u = r.get("umbral_costo")
     if not u:
@@ -588,7 +597,8 @@ def formatear(r):
                           else f" ({a['margen_pct']:.1f} %)")
             lineas.append(
                 f"  {' > '.join(a['ruta'])}: {a['km']:.2f} km, "
-                f"{a['peaje_cop']:,.0f} COP, margen {a['margen']:.3f}"
+                f"{a['peaje_cop']:,.0f} COP, margen "
+                f"{_texto_margen(a['margen'], r['criterio_efectivo'])}"
                 f"{porcentaje} sobre la recomendada".replace(",", " "))
     if r["descartadas"]:
         lineas.append("Descartadas por dominadas en km y peaje:")
