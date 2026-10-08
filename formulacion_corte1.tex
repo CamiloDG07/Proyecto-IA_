@@ -160,18 +160,20 @@ verificación contra la fuente (filas, columnas y hash) está en
 Para los datos que esos tres conjuntos no traen se evaluaron fuentes
 adicionales (el detalle, con la decisión sobre cada una, está en
 \nolinkurl{data/carga/FUENTES\_NUEVAS.md}). Cuatro se aceptaron y entran al
-modelo (Tabla~\ref{tab:fuentes-comp}).
+modelo, dos de ellas como parte de la base y dos solo como sensibilidad
+(Tabla~\ref{tab:fuentes-comp}). Las licencias, las URL y las fechas de consulta
+de todas las fuentes están en las Referencias.
 
 \begin{table}[H]
 \centering
-\caption{Fuentes complementarias aceptadas (consulta del 8 de octubre de 2026)}
+\caption{Fuentes complementarias evaluadas y usadas (consulta del 8 de octubre de 2026)}
 \label{tab:fuentes-comp}
 \renewcommand{\arraystretch}{1.2}
 \begin{tabular}{|>{\raggedright\arraybackslash}p{4.6cm}|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{5.6cm}|}
 \hline
 \rowcolor{gray!20} \textbf{Fuente} & \textbf{Entidad} & \textbf{Uso en el modelo} \\
 \hline
-\textbf{Red Vial, progresivas del sector} (\texttt{ie7y-asdn}) y \textbf{Postes de Referencia} (\texttt{ufg7-is7r}, 17\,816 filas) & INVÍAS & Distancia de Chocontá a Tunja (61.0 km) \\
+\textbf{Red Vial, progresivas del sector} (\texttt{ie7y-asdn}) y \textbf{Postes de Referencia} (\texttt{ufg7-is7r}, 17\,816 filas) & INVÍAS & Sensibilidad de Chocontá a Tunja (61.0 km); la regla de adopción no la acepta como base \\
 \hline
 \textbf{Precios de combustibles líquidos} & CREG & Precio del galón de ACPM: 11\,320 COP \\
 \hline
@@ -201,11 +203,14 @@ distinta. Con el código se asignaba la misma longitud a subtramos diferentes
 \item En los registros de doble calzada digitalizada se usa el tramo entre
 progresivas en lugar de la longitud registrada (ver la sección de auditoría
 geométrica).
-\item Para Chocontá a Tunja el sector registrado está truncado (17.69 km);
-se usa la diferencia de progresivas oficiales entre los dos sectores de la
-misma ruta y el mismo tramo (61.0 km), con la condición de que no sea menor
-que la distancia geodésica entre los nodos (56.96 km). La longitud registrada
-se conserva como variante de sensibilidad.
+\item Una distancia por diferencia de progresivas solo se adopta como base si
+se cumplen todas estas condiciones: (a) mismo corredor y tramo; (b)
+progresivas continuas, sin hueco ni solape, hasta el nodo; (c) cada extremo de
+la progresiva a menos de 2 km del nodo, medido con los postes de referencia;
+(d) razón entre la longitud de la geometría del sector y su tramo entre
+progresivas de 0.85 a 1.15, o en la banda de doble calzada verificada (1.7 a
+2.3); y (e) distancia no menor que la geodésica. La regla está probada con un
+caso que la cumple y otro que no.
 \end{itemize}
 \item \textbf{Peaje.} Para cada arista se identificó a mano el peaje de
 INVÍAS ubicado sobre ese subtramo. La tarifa de categoría III se lee de
@@ -236,9 +241,13 @@ fuente reporta 167.67 km para ese sector, cerca del doble de su tramo entre
 progresivas (81.00 km), porque su geometría contiene ambas calzadas. La
 corrección aplicada deja 81.00 km.
 \item \textbf{Chocontá a Tunja: sector truncado.} El sector de la Red Vial
-registra 17.69 km, pero Chocontá queda a 43.70 km de su geometría. Las
-progresivas oficiales del corredor (Chocontá en PR 59.0 y Tunja en PR 120.0,
-ruta 55, tramo 5501) dan 61.0 km, y esa es la distancia de la arista.
+registra 17.69 km, pero Chocontá queda a 43.70 km de su geometría. La
+diferencia de progresivas del corredor (Chocontá en PR 59.0 y Tunja en PR
+120.0, ruta 55, tramo 5501) daría 61.0 km, pero la regla de adopción no se
+cumple: no hay ningún sector entre el PR 59.0 y el PR 108.096 (hueco de 49.1
+km), el PR 120 queda a unos 11 km de Tunja y la razón entre la geometría del
+sector y su tramo entre progresivas es 1.486. La base conserva el valor oficial
+registrado, 17.69 km, marcado como truncado.
 \item \textbf{Exclusión de una rama.} Se excluyó la rama Villavicencio,
 Barranca de Upía y Yopal por no existir un tramo verificable que conecte
 Barranca de Upía con Yopal.
@@ -411,8 +420,11 @@ ANSV.
 \textbf{Umbral de decisión.} Entre la ruta por Bogotá y el desvío por
 Santander la decisión por costo en pesos cambia cuando el costo variable por
 km alcanza el cociente entre el ahorro de peaje y los kilómetros adicionales:
-$70\,600 / 301.84 = 233.9$ COP por km. El valor central (1\,157.0 COP por km)
-es unas cinco veces ese umbral, de modo que gana la ruta por Bogotá.
+$70\,600 / 345.15 = 204.5$ COP por km con la base de Chocontá a Tunja
+(17.69 km). Con la cota inferior (56.96 km, la línea recta entre los nodos) es
+230.8 COP por km y con las progresivas (61.0 km) 233.9 COP por km. El valor
+central (1\,157.0 COP por km) supera los tres umbrales entre 4.9 y 5.7 veces,
+de modo que en los tres casos la ruta por Bogotá es la más barata en dinero.
 
 \section{Implementación del agente}
 
@@ -449,7 +461,7 @@ todas pasan:
 
 \begin{itemize}
 \item \textbf{Pares que cruzan el ciclo.} Duitama a Puente Nacional da
-352.41 km por Bogotá. Con el tramo Bogotá a Tocancipá bloqueado, da 654.25 km
+309.10 km por Bogotá. Con el tramo Bogotá a Tocancipá bloqueado, da 654.25 km
 por Santander. Ambas distancias se comprueban sumando las aristas del JSON.
 Con las distancias sin corregir (variante de sensibilidad) las cifras son
 414.8 y 668.1 km.
@@ -464,7 +476,7 @@ desconocido y destino aislado por un bloqueo producen un error explícito.
 
 Las pruebas del costo monetario (\texttt{src/pruebas\_costos.py}) comprueban
 que el costo variable de cada ruta es la suma de sus aristas, que el umbral de
-233.9 COP por km separa exactamente las dos rutas (por encima gana Bogotá y
+204.5 COP por km separa exactamente las dos rutas (por encima gana Bogotá y
 por debajo el desvío) y que las opciones de consola con valores inválidos
 producen un error explícito.
 
@@ -488,9 +500,9 @@ con riesgo faltante igual a 0 y el compuesto total elige el desvío por
 Santander, y la Tabla~\ref{tab:rutas} explica por qué:
 
 \begin{itemize}
-\item El desvío es 301.84 km más largo, pero tiene 70\,600 COP menos de
-peaje. En pesos, la ruta por Bogotá cuesta 578\,537 COP (170\,800 de peaje y
-407\,737 de combustible) y el desvío 857\,165 COP (100\,200 y 756\,965).
+\item El desvío es 345.15 km más largo, pero tiene 70\,600 COP menos de
+peaje. En pesos, la ruta por Bogotá cuesta 528\,428 COP (170\,800 de peaje y
+357\,628 de combustible) y el desvío 857\,165 COP (100\,200 y 756\,965).
 \item El criterio de riesgo lo prefiere porque los siete tramos del desvío no
 tienen dato de riesgo y valen 0, no porque se haya medido que es más seguro.
 Es el sesgo descrito en la sección del costo compuesto.
@@ -534,20 +546,23 @@ carretera no son independientes.
 \textbf{Hallazgos:}
 
 \begin{itemize}
-\item \textbf{Chocontá a Tunja truncada en la fuente, corregida con las
-progresivas.}
+\item \textbf{Chocontá a Tunja truncada.}
 \begin{itemize}
-\item El sector registra 17.69 km y Chocontá queda a 43.70 km de su geometría;
-con ese valor la razón carretera/geodésica era 0.3106.
-\item Ambos sectores pertenecen a la ruta 55 y al mismo tramo (5501), y sus
+\item El sector cubre 17.69 km y Chocontá queda a 43.70 km de su geometría; la
+razón carretera/geodésica es 0.3106.
+\item Ningún otro sector de la Red Vial completa el trazado, por lo que la
+arista conserva el valor oficial y su distancia está subestimada.
+\item Como consecuencia, la ruta corta de Duitama a Puente Nacional (309.10 km
+en la red corregida) tiene una cota inferior de $309.10 - 17.69 + 56.96 =
+348.37$ km (cota inferior: la geodésica no excede la distancia por carretera);
+no es un valor estimado.
+\item Ambos sectores pertenecen a la ruta 55 y al mismo tramo (5501), pero sus
 progresivas (Chocontá en PR 59.0 y Tunja en PR 120.0) dejan un intervalo de
-49.1 km sin registro; la diferencia de progresivas es 61.0 km, que es la
-distancia vigente de la arista (razón 1.071). La longitud registrada de 17.69
-km se conserva como variante de sensibilidad.
-\item La regla exige que la distancia por progresivas no sea menor que la
-geodésica (56.96 km); se cumple.
-\item Con esta corrección la ruta corta de Duitama a Puente Nacional mide
-352.41 km y ya no es un valor acotado inferiormente.
+49.1 km sin registro. Por progresivas Chocontá a Tunja mediría 61.0 km, pero
+el PR 120 queda a unos 11 km de Tunja y la razón entre la geometría del sector
+y su tramo entre progresivas es 1.486, de modo que la regla de adopción no se
+cumple (condiciones b, c y d); 56.96 km (la geodésica) y 61.0 km se usan solo
+como sensibilidad.
 \end{itemize}
 \item \textbf{Bogotá a Mosquera excluida.} El sector asignado pertenecía a
 la Troncal del Eje Cafetero, a unos 160 km de Mosquera; el nodo se excluyó
@@ -556,11 +571,12 @@ incluye esa arista.
 \item \textbf{Entrada urbana a Bogotá.} Las geometrías que salen de Bogotá
 empiezan en el límite urbano, a entre 8.50 y 19.06 km de la coordenada del
 municipio. Es una limitación de la fuente y no se corrige.
-\item \textbf{Siete aristas con la carretera más corta que la línea recta}
-(razón menor que 1, ya con la corrección de doble calzada): Madrid a Bogotá
-(0.458), Bogotá a Tocancipá (0.537), Cajicá a Zipaquirá (0.749), Granada a Yé
-de Granada (0.798), El Espinal a Girardot (0.948), Bogotá a Guasca (0.993) y
-Tunja a Duitama (0.999). Varias se deben a la entrada urbana a Bogotá.
+\item \textbf{Ocho aristas con la carretera más corta que la línea recta}
+(razón menor que 1, ya con la corrección de doble calzada): Chocontá a Tunja
+(0.311), Madrid a Bogotá (0.458), Bogotá a Tocancipá (0.537), Cajicá a
+Zipaquirá (0.749), Granada a Yé de Granada (0.798), El Espinal a Girardot
+(0.948), Bogotá a Guasca (0.993) y Tunja a Duitama (0.999). Varias se deben
+a la entrada urbana a Bogotá.
 \item \textbf{Doble calzada digitalizada, corregida.}
 \begin{itemize}
 \item En 9 registros la longitud registrada es entre 1.7 y 2.3 veces el tramo
@@ -575,9 +591,9 @@ tramo entre progresivas y el camino a lo largo de la geometría es a lo sumo
 0.123 (límite 0.15).
 \end{itemize}
 \item \textbf{Registros con patrón no estándar.} Quedan fuera de la banda y
-conservan la longitud registrada: Bogotá a Cajicá (razón 3.18), El Espinal a
-Girardot (1.21) y el registro del Río Ocoa (9.77). Chocontá a Tunja (1.49) se
-resuelve aparte, con las progresivas del corredor.
+conservan la longitud registrada: Bogotá a Cajicá (razón 3.18), Chocontá a
+Tunja (1.49), El Espinal a Girardot (1.21) y el registro del Río Ocoa
+(9.77).
 \end{itemize}
 
 La regla se fijó de antemano y no se ajustó ninguna distancia para obtener un
@@ -635,7 +651,7 @@ extremo de la geometría del sector y su nodo (Ext.), todas en km. Marcas:
 \hline
 \textbf{Excluir Mosquera (33 a 32 nodos)} & Su sector pertenece a otra región, no hay sector oficial de reemplazo y era una hoja \\
 \hline
-\textbf{Chocontá a Tunja por progresivas (61.0 km)} & El sector registrado (17.69 km) está truncado; las progresivas oficiales del mismo corredor y tramo dan 61.0 km, no menos que la geodésica (56.96 km). La longitud registrada queda como sensibilidad \\
+\textbf{Chocontá a Tunja con el valor oficial (17.69 km), marcada truncada} & La diferencia de progresivas (61.0 km) no cumple la regla de adopción (hueco de 49.1 km, extremo a unos 11 km de Tunja, razón 1.486); 56.96 y 61.0 km se usan solo como sensibilidad \\
 \hline
 \textbf{Regla de doble calzada digitalizada} & En 9 registros la longitud es entre 1.7 y 2.3 veces el tramo entre progresivas; la regla se fijó de antemano y se verificó con la geometría \\
 \hline
@@ -680,10 +696,12 @@ cada año; los costos corresponden a la descarga del 6 de octubre de 2026.
 167.67 km por la doble calzada digitalizada; la corrección deja 81.00 km. Los
 registros con patrón no estándar conservan la longitud registrada.
 \item \textbf{Hallazgos de la auditoría geométrica.} Las distancias son las
-del dato oficial, salvo la doble calzada y Chocontá a Tunja, que se
-corrigieron con datos oficiales. Las distancias desde Bogotá excluyen la
-entrada urbana, para la cual no se halló una fuente aceptable. Ver la sección
-de auditoría geométrica.
+del dato oficial, salvo la doble calzada, que se corrigió con datos
+oficiales: la arista Chocontá a Tunja está truncada en la fuente (17.69 km
+frente a 56.96 km de línea recta; la ruta corta de Duitama a Puente Nacional
+tiene una cota inferior de 348.37 km en la red corregida) y las distancias
+desde Bogotá excluyen la entrada urbana, para la cual no se halló una fuente
+aceptable. Ver la sección de auditoría geométrica.
 \item \textbf{Alcance.} La red excluye la rama Villavicencio, Barranca de
 Upía y Yopal, y el nodo Mosquera, y tiene un solo ciclo. Los pares que no lo
 cruzan tienen una única ruta posible.
@@ -697,26 +715,66 @@ fuente: la geometría de INVÍAS queda a más de 5 km de uno de sus nodos.
 \renewcommand{\refname}{Referencias}
 \addcontentsline{toc}{section}{Referencias}
 
+\noindent\textbf{Atribución y licencias.} Los datos de INVÍAS, de la
+Agencia Nacional de Seguridad Vial (ANSV) y del DANE provienen del portal
+datos.gov.co y se usan bajo la licencia Creative Commons
+Atribución-CompartirIgual 4.0 Internacional (CC BY-SA 4.0). Los datos
+derivados que acompañan este informe (aristas, nodos, trazado, auditorías y
+tablas) fueron cruzados, corregidos y transformados por el equipo y se
+comparten bajo la misma licencia, con atribución a esas entidades. Los
+documentos de la CREG y de la UPME no declaran licencia de redistribución: no
+se incluyen, solo sus valores con la cita. Entidad, URL, fecha de consulta y
+licencia de cada fuente están en las Referencias y en
+\nolinkurl{data/carga/FUENTES_NUEVAS.md}.
+
 \begin{thebibliography}{9}
 
 \bibitem{redvial}
-INVÍAS. (2026). \textit{Red Vial}. Datos Abiertos Colombia.
+INVÍAS. (2026). \textit{Red Vial}. Datos Abiertos Colombia (consulta del 6 de octubre de 2026). Licencia CC BY-SA 4.0.
 \url{https://www.datos.gov.co/Transporte/Red-Vial/ie7y-asdn}
 
 \bibitem{peajes}
-INVÍAS. (2026). \textit{Peajes}. Datos Abiertos Colombia.
+INVÍAS. (2026). \textit{Peajes}. Datos Abiertos Colombia (consulta del 6 de octubre de 2026). Licencia CC BY-SA 4.0.
 \url{https://www.datos.gov.co/Transporte/Peajes/68qj-5xux}
 
 \bibitem{siniestralidad}
 Agencia Nacional de Seguridad Vial. (2026). \textit{Sectores críticos de
-siniestralidad vial}. Datos Abiertos Colombia.
+siniestralidad vial}. Datos Abiertos Colombia (consulta del 6 de octubre de 2026). Licencia CC BY-SA 4.0.
 \url{https://www.datos.gov.co/Transporte/SECTORES-CRITICOS-DE-SINIESTRALIDAD-VIAL/rs3u-8r4q}
 
 \bibitem{mgn}
 Departamento Administrativo Nacional de Estadística. (2020).
 \textit{Nivel de información Departamento del Marco Geoestadístico Nacional
 (MGN), versión 2020}. Datos Abiertos Colombia (descargado el 7 de octubre de
-2026). \url{https://www.datos.gov.co/d/jjim-6r88}
+2026; el portal no declara licencia). \url{https://www.datos.gov.co/d/jjim-6r88}
+
+\bibitem{ansvmort}
+Agencia Nacional de Seguridad Vial. (2022). \textit{Sectores críticos
+mortalidad 2022}. Datos Abiertos Colombia (consulta del 8 de octubre de 2026).
+Licencia CC BY-SA 4.0. \url{https://www.datos.gov.co/resource/ybqk-8s42}
+
+\bibitem{postes}
+INVÍAS. (2026). \textit{Postes de Referencia}. Datos Abiertos Colombia
+(consulta del 8 de octubre de 2026). Licencia CC BY-SA 4.0.
+\url{https://www.datos.gov.co/resource/ufg7-is7r}
+
+\bibitem{creg}
+Comisión de Regulación de Energía y Gas. (2026). \textit{Precios de
+combustibles líquidos} (precios vigentes desde el 2 de octubre de 2026;
+consulta del 8 de octubre de 2026). Sin licencia explícita.
+\url{https://creg.gov.co/publicaciones/15565/precios-de-combustibles-liquidos/}
+
+\bibitem{upme}
+Unidad de Planeación Minero Energética. (2025). \textit{Línea base de consumo
+de combustible de vehículos de carga en Colombia}, Tabla 2.7 (consulta del 8
+de octubre de 2026). Sin licencia explícita.
+\url{https://docs.upme.gov.co/DemandayEficiencia/Documents/1_Reporte_linea_base_EE_carga.pdf}
+
+\bibitem{sicetac}
+Ministerio de Transporte. (2024). \textit{SICE-TAC, protocolo de costos
+eficientes}. \url{https://www.mintransporte.gov.co} Resolución
+20243040057465 de 2024 (consulta del 8 de octubre de 2026; no se usa ningún
+dato).
 
 \end{thebibliography}
 

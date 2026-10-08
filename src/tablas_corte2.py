@@ -98,17 +98,17 @@ def tabla_barrido(barridos):
     """Base (17.69 km), cota inferior (56.96) y progresivas (61.0)."""
     vs = (barridos[0], barridos[1], barridos[3])
     filas = [
-        ("Puntos de la malla con ruta por Bogotá (compuesto)",
+        ("Bogotá gana (compuesto)",
          [f"{v['ganan_bogota_compuesto']} de {len(v['puntos'])}"
           for v in vs]),
-        ("Puntos con ruta por Bogotá (sin riesgo)",
+        ("Bogotá gana (sin riesgo)",
          [f"{v['ganan_bogota_sin_riesgo']} de "
           f"{v['puntos_sin_riesgo_definidos']}" for v in vs]),
         ("$w_1$ de cambio sobre $w_3=0$",
          [f"{v['w1_umbral_sobre_w3_cero']:.4f}" for v in vs]),
     ]
     for i, nombre in enumerate(["$\\Delta D$", "$\\Delta P$", "$\\Delta R$"]):
-        filas.append((f"{nombre} (corta menos desvío)",
+        filas.append((f"{nombre} (Bogotá menos desvío)",
                       [f"{v['delta_corta_menos_desvio'][i]:.4f}"
                        for v in vs]))
     escribir("tabla_c2_barrido.tex",
@@ -160,7 +160,7 @@ def tabla_sensibilidad_cruda(sens, barridos):
               "\\textbf{Cota} & \\textbf{Progres.} & "
               "\\textbf{Crudas} \\\\", "\\midrule"]
     for criterio, nombre in nombres.items():
-        celdas = [f"{v[criterio]['via']} ({v[criterio]['distancia_km']:.2f})"
+        celdas = [f"{v[criterio]['via'][0]} {v[criterio]['distancia_km']:.2f}"
                   for v in vs]
         lineas.append(f"{nombre} & " + " & ".join(celdas) + " \\\\")
     bs = (barridos[0], barridos[1], barridos[3], barridos[2])

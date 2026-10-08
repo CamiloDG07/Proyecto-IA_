@@ -106,6 +106,7 @@ python src/agente_rutas.py Duitama "Puente Nacional" --criterio costo_operativo
 python src/agente_rutas.py Duitama "Puente Nacional" --precio-galon 14000 --rendimiento 8 --costo-otros-km 500
 python src/pruebas_agente_rutas.py   # pruebas del agente autónomo
 python src/pruebas_costos.py         # costo monetario, umbral y heurísticas nuevas
+python src/pruebas_progresivas.py    # regla de adopción de distancias por progresivas
 python src/cruce_mortalidad.py       # cruce de la mortalidad ANSV (lo llama construir_red.py)
 python src/verificar_cifras.py       # contrasta las cifras de los informes y del guion con los datos
 python src/pruebas_criterio.py       # pruebas de --criterio
