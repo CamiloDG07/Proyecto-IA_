@@ -52,9 +52,10 @@ def prueba_cifras_rotuladas(figura, grafo):
     with open(SALIDA / "tabla_rutas.tex", encoding="utf-8") as f:
         tabla = f.read()
     km_t = [float(x) for x in re.search(
-        r"Distancia \(km\) & ([\d.]+) & ([\d.]+)", tabla).groups()]
+        r"Distancia \(km\)\}? & ([\d.]+) & ([\d.]+)", tabla).groups()]
     pe_t = [int(x.replace("\\,", "")) for x in re.search(
-        r"Peaje total \(COP\) & ([\d\\,]+) & ([\d\\,]+)", tabla).groups()]
+        r"Peaje total \(COP\)\}? & ([\d\\,]+) & ([\d\\,]+)",
+        tabla).groups()]
     textos = [t.get_text() for t in figura.axes[0].get_legend().get_texts()]
     rotulos = [t for t in textos if "km, peaje" in t]
     ok(len(rotulos) == 2, "la leyenda rotula las dos rutas con km y peaje")

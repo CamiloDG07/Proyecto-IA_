@@ -101,6 +101,8 @@ python src/pruebas_mapa.py
 python src/lecturas_informe.py       # bloques «Cómo leerla» y tabla de ejemplos
 python src/figuras_informe.py      # figuras de los informes (PNG y PDF en outputs/)
 python src/pruebas_figuras.py
+python src/formato_latex.py outputs/tabla_*.tex  # estilo único de tablas (cuadrícula, encabezado gris)
+python src/pruebas_formato.py
 
 pdflatex formulacion_corte1.tex  # dos pasadas
 pdflatex formulacion_corte1.tex

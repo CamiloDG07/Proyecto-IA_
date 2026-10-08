@@ -11,9 +11,12 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{longtable}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{mathptmx}
 \usepackage{amsmath}
+\usepackage{enumitem}
+\setlist{itemsep=1pt,topsep=3pt,parsep=0pt}
+\setlength{\belowcaptionskip}{4pt}
 \usepackage{setspace}
 \usepackage{xurl}
 
@@ -105,18 +108,19 @@ Duitama a Puente Nacional: 414.84 km por Bogotá o 668.14 km por Santander.
 \centering
 \caption{Modelo PEAS del agente de rutas}
 \label{tab:peas}
-\begin{tabular}{l>{\raggedright\arraybackslash}p{10cm}}
-\toprule
-\textbf{Componente} & \textbf{Definición} \\
-\midrule
-Performance & Minimizar el costo compuesto (distancia, peaje, riesgo) y
-responder en tiempo útil \\
-Environment & Red vial interurbana de 32 nodos y 32 aristas, estática,
-determinista, discreta y totalmente observable \\
-Actuators & Elegir el siguiente tramo de carretera \\
-Sensors & Posición actual (ciudad) y estado de los tramos disponibles
-(grafo persistido) \\
-\bottomrule
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|>{\raggedright\arraybackslash}p{10cm}|}
+\hline
+\rowcolor{gray!20} \textbf{Componente} & \textbf{Definición} \\
+\hline
+\textbf{Performance} & Minimizar el costo compuesto (distancia, peaje, riesgo) y responder en tiempo útil \\
+\hline
+\textbf{Environment} & Red vial interurbana de 32 nodos y 32 aristas, estática, determinista, discreta y totalmente observable \\
+\hline
+\textbf{Actuators} & Elegir el siguiente tramo de carretera \\
+\hline
+\textbf{Sensors} & Posición actual (ciudad) y estado de los tramos disponibles (grafo persistido) \\
+\hline
 \end{tabular}
 \end{table}
 
@@ -136,29 +140,34 @@ verificación contra la fuente (filas, columnas y hash) está en
 \centering
 \caption{Fuentes de datos (versión del 6 de octubre de 2026)}
 \label{tab:fuentes}
-\begin{tabular}{llcr}
-\toprule
-\textbf{Conjunto} & \textbf{Entidad} & \textbf{Identificador} &
-\textbf{Filas} \\
-\midrule
-Red Vial & INVÍAS & \texttt{ie7y-asdn} & 715 \\
-Peajes & INVÍAS & \texttt{68qj-5xux} & 179 \\
-Sectores críticos de siniestralidad vial & ANSV & \texttt{rs3u-8r4q} & 316 \\
-\bottomrule
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|c|r|}
+\hline
+\rowcolor{gray!20} \textbf{Conjunto} & \textbf{Entidad} & \textbf{Identificador} & \textbf{Filas} \\
+\hline
+\textbf{Red Vial} & INVÍAS & \texttt{ie7y-asdn} & 715 \\
+\hline
+\textbf{Peajes} & INVÍAS & \texttt{68qj-5xux} & 179 \\
+\hline
+\textbf{Sectores críticos de siniestralidad vial} & ANSV & \texttt{rs3u-8r4q} & 316 \\
+\hline
 \end{tabular}
 \end{table}
 
 Cada atributo de arista se obtiene así:
 
 \begin{itemize}
-\item \textbf{Distancia.} Se cruza por el texto exacto del campo
-\texttt{sector} de la Red Vial, no por \texttt{codigo\_tramo}, porque un mismo
-código agrupa subtramos de longitud distinta. Con el código se asignaba la
-misma longitud a subtramos diferentes (error real detectado y corregido).
-Cuando un sector tiene registros duplicados se toma la longitud máxima.
-En los registros de doble calzada digitalizada se usa el tramo entre
-progresivas en lugar de la longitud registrada (ver la sección de
-auditoría geométrica).
+\item \textbf{Distancia.}
+\begin{itemize}
+\item Se cruza por el texto exacto del campo \texttt{sector} de la Red Vial, no
+por \texttt{codigo\_tramo}, porque un mismo código agrupa subtramos de longitud
+distinta. Con el código se asignaba la misma longitud a subtramos diferentes
+(error real detectado y corregido).
+\item Cuando un sector tiene registros duplicados se toma la longitud máxima.
+\item En los registros de doble calzada digitalizada se usa el tramo entre
+progresivas en lugar de la longitud registrada (ver la sección de auditoría
+geométrica).
+\end{itemize}
 \item \textbf{Peaje.} Para cada arista se identificó a mano el peaje de
 INVÍAS ubicado sobre ese subtramo. La tarifa de categoría III se lee de
 \texttt{peajes.csv}, mediante una tabla explícita entre el peaje del grafo y
@@ -184,36 +193,48 @@ corrección aplicada deja 81.00 km.
 \item \textbf{Exclusión de una rama.} Se excluyó la rama Villavicencio,
 Barranca de Upía y Yopal por no existir un tramo verificable que conecte
 Barranca de Upía con Yopal.
-\item \textbf{Exclusión de Mosquera.} La arista de Bogotá a Mosquera usaba el
-sector Puente Mosquera a Cruce Avenida del Ferrocarril, que pertenece a la
-Troncal del Eje Cafetero, a unos 160 km de Mosquera (Cundinamarca), y la Red
-Vial no tiene un sector oficial de reemplazo. Como Mosquera era una hoja (solo
-conectaba con Bogotá), se excluyó el nodo con su arista, con el mismo criterio
-que la rama anterior: sector de otra región y sin sector oficial de
-reemplazo. La red pasó de 33 a 32 nodos y de 33 a 32 aristas.
+\item \textbf{Exclusión de Mosquera.}
+\begin{itemize}
+\item La arista de Bogotá a Mosquera usaba el sector Puente Mosquera a Cruce
+Avenida del Ferrocarril, que pertenece a la Troncal del Eje Cafetero, a unos
+160 km de Mosquera (Cundinamarca), y la Red Vial no tiene un sector oficial de
+reemplazo.
+\item Como Mosquera era una hoja (solo conectaba con Bogotá), se excluyó el
+nodo con su arista, con el mismo criterio que la rama anterior: sector de otra
+región y sin sector oficial de reemplazo.
+\item La red pasó de 33 a 32 nodos y de 33 a 32 aristas.
+\end{itemize}
 \end{itemize}
 
 \subsection{Hallazgo del barrido de ciclos}
 
-La primera versión de la red tenía 27 nodos y 26 aristas, es decir, un árbol:
-entre dos ciudades cualesquiera existe una única ruta posible. Se revisaron los 714 segmentos de la Red Vial vigentes
-al inicio del trabajo, normalizando los nombres de los sitios. En el alcance
+\textbf{Punto de partida.} La primera versión de la red tenía 27 nodos y 26
+aristas, es decir, un árbol: entre dos ciudades cualesquiera existe una única
+ruta posible.
+
+\textbf{Revisión.} Se revisaron los 714 segmentos de la Red Vial vigentes al
+inicio del trabajo, normalizando los nombres de los sitios. En el alcance
 regional original (Cundinamarca, Boyacá, Meta y Tolima), la red troncal
-resultó ser un árbol. El único ciclo real que toca los nodos del proyecto
-cierra por Santander; se incorporó con seis nodos nuevos (San Gil,
-Bucaramanga, Cuestaboba, Pamplona, Presidente y La Palmera) y siete aristas,
-todas verificables en el mismo conjunto de datos.
+resultó ser un árbol.
+
+\textbf{Resultado.} El único ciclo real que toca los nodos del proyecto cierra
+por Santander; se incorporó con seis nodos nuevos (San Gil, Bucaramanga,
+Cuestaboba, Pamplona, Presidente y La Palmera) y siete aristas, todas
+verificables en el mismo conjunto de datos.
 
 \section{Red y estadísticas}
 
-La Figura~\ref{fig:red} muestra la red sobre coordenadas geográficas, con el
-trazado de INVÍAS de cada tramo; donde la geometría no llega al nodo, una
-línea punteada recta lo une con el extremo del trazado. El ciclo, en azul,
-pasa por Cajicá, Bogotá,
-Tocancipá, Chocontá, Tunja, Duitama, La Palmera, Presidente, Pamplona,
-Cuestaboba, Bucaramanga, San Gil, Puente Nacional, Ubaté y Zipaquirá. El
-detalle de las 32 aristas (distancia, peaje y riesgo de cada una) está en el
-archivo \texttt{outputs/aristas\_red.json}.
+\textbf{Mapa.} La Figura~\ref{fig:red} muestra la red sobre coordenadas
+geográficas, con el trazado de INVÍAS de cada tramo; donde la geometría no
+llega al nodo, una línea punteada recta lo une con el extremo del trazado.
+
+\textbf{Ciclo.} El ciclo, en azul, pasa por Cajicá, Bogotá, Tocancipá,
+Chocontá, Tunja, Duitama, La Palmera, Presidente, Pamplona, Cuestaboba,
+Bucaramanga, San Gil, Puente Nacional, Ubaté y Zipaquirá.
+
+\textbf{Detalle de las aristas.} El detalle de las 32 aristas (distancia,
+peaje y riesgo de cada una) está en el archivo
+\texttt{outputs/aristas\_red.json}.
 
 \begin{figure}[H]
     \centering
@@ -257,13 +278,16 @@ puntaje GiZScore promedio de la arista. No hay un criterio objetivo para
 ponderar los tres términos, por lo que se usan pesos iguales
 ($w_1=w_2=w_3=1/3$); son parámetros ajustables.
 
-\textbf{Normalización por el máximo y no por mín-máx.} La normalización
-mín-máx resta el mínimo en cada arista, y el costo deja de ser proporcional a
-la distancia. La normalización por el máximo conserva esa proporcionalidad:
-el término de distancia del costo de una arista sigue siendo proporcional a
-su longitud, lo que permite contrastarla con la línea recta entre los nodos
-como verificación de coherencia de los datos (la carretera no debería ser más
-corta que la línea recta; ver la sección de auditoría geométrica).
+\textbf{Normalización por el máximo y no por mín-máx.}
+\begin{itemize}
+\item La normalización mín-máx resta el mínimo en cada arista, y el costo deja
+de ser proporcional a la distancia.
+\item La normalización por el máximo conserva esa proporcionalidad: el término
+de distancia del costo de una arista sigue siendo proporcional a su longitud.
+\item Eso permite contrastarla con la línea recta entre los nodos como
+verificación de coherencia de los datos (la carretera no debería ser más corta
+que la línea recta; ver la sección de auditoría geométrica).
+\end{itemize}
 
 \textbf{Riesgo faltante.} 21 de las 32 aristas no tienen dato de riesgo. No se
 imputa ningún valor: tratarlo como 0 sesga las rutas hacia corredores sin
@@ -370,26 +394,34 @@ La Figura~\ref{fig:casos} compara las dos rutas reales del caso anterior con las
 
 Para comprobar el cruce de datos, cada arista se contrastó con la geometría
 del sector de INVÍAS y con la distancia geodésica entre las coordenadas de sus
-nodos (Tabla~\ref{tab:auditoria}). Las coordenadas son de la
-DIVIPOLA del DANE (corte al 30 de diciembre de 2024, descarga del 7 de
-octubre de 2026). Para Cuestaboba, La Palmera y Yé de Granada no hay punto
-DANE: la coordenada se estimó como la unión de los dos tramos de INVÍAS que
-llegan al nodo, de modo que en esos tres nodos la coordenada y la geometría
-de la carretera no son independientes. Hallazgos:
+nodos (Tabla~\ref{tab:auditoria}).
+\begin{itemize}
+\item Las coordenadas son de la DIVIPOLA del DANE (corte al 30 de diciembre de
+2024, descarga del 7 de octubre de 2026).
+\item Para Cuestaboba, La Palmera y Yé de Granada no hay punto DANE: la
+coordenada se estimó como la unión de los dos tramos de INVÍAS que llegan al
+nodo, de modo que en esos tres nodos la coordenada y la geometría de la
+carretera no son independientes.
+\end{itemize}
+
+\textbf{Hallazgos:}
 
 \begin{itemize}
-\item \textbf{Chocontá a Tunja truncada.} El sector cubre 17.69 km y
-Chocontá queda a 43.70 km de su geometría; la razón carretera/geodésica es
-0.3106. Ningún otro sector de la Red Vial completa el trazado, por lo que la
-arista conserva el valor oficial y su distancia está subestimada. Como
-consecuencia, la ruta corta de Duitama a Puente Nacional (309.10 km en la red
-corregida) tiene una cota inferior de $309.10 - 17.69 + 56.96 = 348.37$ km
-(cota inferior: la geodésica no excede la distancia por carretera); no es un
-valor estimado. Ambos sectores pertenecen a la ruta 55 y al mismo tramo
-(5501), y sus progresivas (Chocontá en PR 59.0 y Tunja en PR 120.0) dejan un
-intervalo de 49.1 km sin registro; por progresivas, Chocontá a Tunja mediría
-61.0 km, que se cita solo como evidencia de que la cota de 56.96 km es
-ajustada y no se aplica.
+\item \textbf{Chocontá a Tunja truncada.}
+\begin{itemize}
+\item El sector cubre 17.69 km y Chocontá queda a 43.70 km de su geometría; la
+razón carretera/geodésica es 0.3106.
+\item Ningún otro sector de la Red Vial completa el trazado, por lo que la
+arista conserva el valor oficial y su distancia está subestimada.
+\item Como consecuencia, la ruta corta de Duitama a Puente Nacional (309.10 km
+en la red corregida) tiene una cota inferior de $309.10 - 17.69 + 56.96 =
+348.37$ km (cota inferior: la geodésica no excede la distancia por carretera);
+no es un valor estimado.
+\item Ambos sectores pertenecen a la ruta 55 y al mismo tramo (5501), y sus
+progresivas (Chocontá en PR 59.0 y Tunja en PR 120.0) dejan un intervalo de
+49.1 km sin registro; por progresivas, Chocontá a Tunja mediría 61.0 km, que se
+cita solo como evidencia de que la cota de 56.96 km es ajustada y no se aplica.
+\end{itemize}
 \item \textbf{Bogotá a Mosquera excluida.} El sector asignado pertenecía a
 la Troncal del Eje Cafetero, a unos 160 km de Mosquera; el nodo se excluyó
 (ver la sección de datos y metodología). La auditoría de esta sección ya no
@@ -403,16 +435,19 @@ municipio. Es una limitación de la fuente y no se corrige.
 Zipaquirá (0.749), Granada a Yé de Granada (0.798), El Espinal a Girardot
 (0.948), Bogotá a Guasca (0.993) y Tunja a Duitama (0.999). Varias se deben
 a la entrada urbana a Bogotá.
-\item \textbf{Doble calzada digitalizada, corregida.} En 9 registros la
-longitud registrada es entre 1.7 y 2.3 veces el tramo entre progresivas,
-porque la geometría contiene ambas calzadas (Tunja a Duitama, Tocancipá a
-Chocontá, Cajicá a Zipaquirá, Bogotá a Villeta, Madrid a Bogotá, Bogotá a
-Fusagasugá, Fusagasugá a Girardot, Bogotá a Tocancipá y un registro de San Gil
-a Bucaramanga). La regla se fijó de antemano (si la razón está entre 1.7 y
-2.3 se usa el tramo entre progresivas; si no, la longitud registrada) y se
-verificó con una segunda medida oficial: en los 9 registros la diferencia
-relativa entre el tramo entre progresivas y el camino a lo largo de la
-geometría es a lo sumo 0.123 (límite 0.15).
+\item \textbf{Doble calzada digitalizada, corregida.}
+\begin{itemize}
+\item En 9 registros la longitud registrada es entre 1.7 y 2.3 veces el tramo
+entre progresivas, porque la geometría contiene ambas calzadas (Tunja a
+Duitama, Tocancipá a Chocontá, Cajicá a Zipaquirá, Bogotá a Villeta, Madrid a
+Bogotá, Bogotá a Fusagasugá, Fusagasugá a Girardot, Bogotá a Tocancipá y un
+registro de San Gil a Bucaramanga).
+\item La regla se fijó de antemano (si la razón está entre 1.7 y 2.3 se usa el
+tramo entre progresivas; si no, la longitud registrada) y se verificó con una
+segunda medida oficial: en los 9 registros la diferencia relativa entre el
+tramo entre progresivas y el camino a lo largo de la geometría es a lo sumo
+0.123 (límite 0.15).
+\end{itemize}
 \item \textbf{Registros con patrón no estándar.} Quedan fuera de la banda y
 conservan la longitud registrada: Bogotá a Cajicá (razón 3.18), Chocontá a
 Tunja (1.49), El Espinal a Girardot (1.21) y el registro del Río Ocoa
@@ -438,10 +473,14 @@ La Figura~\ref{fig:coherencia} contrasta, arista por arista, la distancia por ca
 Las 32 aristas auditadas están en \texttt{outputs/auditoria\_aristas.csv}; la
 Tabla~\ref{tab:auditoria} lista las que tienen alguna marca, con la distancia
 por carretera del grafo, la geodésica, su razón y la mayor separación entre un
-extremo de la geometría del sector y su nodo (Ext.), todas en km. Marcas: A,
-carretera menor que la geodésica; B, extremo a más de 5 km del nodo; C, nodo a
-más de 5 km de la geometría; D, registro mayor que 1.5 veces el camino de su
-geometría; E, geometría sin camino entre extremos.
+extremo de la geometría del sector y su nodo (Ext.), todas en km. Marcas:
+\begin{itemize}
+\item[A] Carretera menor que la geodésica.
+\item[B] Extremo a más de 5 km del nodo.
+\item[C] Nodo a más de 5 km de la geometría.
+\item[D] Registro mayor que 1.5 veces el camino de su geometría.
+\item[E] Geometría sin camino entre extremos.
+\end{itemize}
 
 \begin{table}[H]
 \centering
@@ -459,35 +498,33 @@ geometría; E, geometría sin camino entre extremos.
 \caption{Decisiones de diseño y su motivo}
 \label{tab:decisiones}
 \small
-\begin{tabular}{>{\raggedright\arraybackslash}p{4.4cm}>{\raggedright\arraybackslash}p{9cm}}
-\toprule
-\textbf{Decisión} & \textbf{Motivo} \\
-\midrule
-Cambio de dominio de TransMilenio a carga interurbana & El profesor señaló
-que el tema anterior es básico y lo presentan muchos grupos \\
-Extender la red de 27 a 33 nodos & Un árbol tiene una única ruta posible
-entre cada par de ciudades \\
-Excluir Mosquera (33 a 32 nodos) & Su sector pertenece a otra región, no hay
-sector oficial de reemplazo y era una hoja \\
-Mantener Chocontá a Tunja con el valor oficial & Solo se corrigen errores
-demostrables; el sector está truncado en la fuente y se declara como
-limitación \\
-Regla de doble calzada digitalizada & En 9 registros la longitud es entre 1.7
-y 2.3 veces el tramo entre progresivas; la regla se fijó de antemano y se
-verificó con la geometría \\
-Cruce de distancia por \texttt{sector} exacto & Un mismo código de tramo
-agrupa subtramos de longitud distinta \\
-Normalización por el máximo & Conserva la proporcionalidad con la distancia
-\\
-Pesos iguales & No hay criterio objetivo para ponderar los tres términos \\
-Riesgo faltante sin imputar & Imputar 0 sesga hacia corredores sin
-medición; se guardan dos variantes \\
-Tarifas de peaje de la descarga del 6 de octubre de 2026 & Son las de la
-fuente oficial vigente; 10 de las 24 tarifas cambiaron respecto de una
-descarga anterior \\
-Tabla explícita de peajes & Evita emparejar por texto y falla si el peaje no
-aparece exactamente una vez \\
-\bottomrule
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4.4cm}|>{\raggedright\arraybackslash}p{9cm}|}
+\hline
+\rowcolor{gray!20} \textbf{Decisión} & \textbf{Motivo} \\
+\hline
+\textbf{Cambio de dominio de TransMilenio a carga interurbana} & El profesor señaló que el tema anterior es básico y lo presentan muchos grupos \\
+\hline
+\textbf{Extender la red de 27 a 33 nodos} & Un árbol tiene una única ruta posible entre cada par de ciudades \\
+\hline
+\textbf{Excluir Mosquera (33 a 32 nodos)} & Su sector pertenece a otra región, no hay sector oficial de reemplazo y era una hoja \\
+\hline
+\textbf{Mantener Chocontá a Tunja con el valor oficial} & Solo se corrigen errores demostrables; el sector está truncado en la fuente y se declara como limitación \\
+\hline
+\textbf{Regla de doble calzada digitalizada} & En 9 registros la longitud es entre 1.7 y 2.3 veces el tramo entre progresivas; la regla se fijó de antemano y se verificó con la geometría \\
+\hline
+\textbf{Cruce de distancia por \texttt{sector} exacto} & Un mismo código de tramo agrupa subtramos de longitud distinta \\
+\hline
+\textbf{Normalización por el máximo} & Conserva la proporcionalidad con la distancia \\
+\hline
+\textbf{Pesos iguales} & No hay criterio objetivo para ponderar los tres términos \\
+\hline
+\textbf{Riesgo faltante sin imputar} & Imputar 0 sesga hacia corredores sin medición; se guardan dos variantes \\
+\hline
+\textbf{Tarifas de peaje de la descarga del 6 de octubre de 2026} & Son las de la fuente oficial vigente; 10 de las 24 tarifas cambiaron respecto de una descarga anterior \\
+\hline
+\textbf{Tabla explícita de peajes} & Evita emparejar por texto y falla si el peaje no aparece exactamente una vez \\
+\hline
 \end{tabular}
 \end{table}
 

@@ -1,26 +1,46 @@
-\begin{tabular}{lrrrr}
-\toprule
-\textbf{Instancia} & \textbf{ACO t (s)} & \textbf{ACO mem. (KiB)} & \textbf{Exacto t (s)} & \textbf{Exacto mem. (MiB)} \\
-\midrule
-Red, $n=5$ (\#1) & 0.068 $\pm$ 0.031 & 14 & 0.000 & 0.0 \\
-Red, $n=5$ (\#2) & 0.027 $\pm$ 0.005 & 13 & 0.000 & 0.0 \\
-Red, $n=5$ (\#3) & 0.026 $\pm$ 0.005 & 13 & 0.000 & 0.0 \\
-Red, $n=10$ (\#1) & 0.038 $\pm$ 0.006 & 22 & 0.001 & 0.1 \\
-Red, $n=10$ (\#2) & 0.039 $\pm$ 0.005 & 21 & 0.002 & 0.1 \\
-Red, $n=10$ (\#3) & 0.041 $\pm$ 0.001 & 22 & 0.002 & 0.1 \\
-Red, $n=15$ (\#1) & 0.066 $\pm$ 0.012 & 39 & 0.018 & 2.8 \\
-Red, $n=15$ (\#2) & 0.058 $\pm$ 0.004 & 40 & 0.017 & 2.8 \\
-Red, $n=15$ (\#3) & 0.059 $\pm$ 0.005 & 40 & 0.019 & 2.8 \\
-Red, $n=20$ (\#1) & 0.073 $\pm$ 0.005 & 64 & 1.265 & 111.8 \\
-Red, $n=20$ (\#2) & 0.072 $\pm$ 0.004 & 59 & 1.258 & 111.8 \\
-Red, $n=20$ (\#3) & 0.114 $\pm$ 0.021 & 64 & 1.754 & 111.8 \\
-Red, $n=32$ (\#1) & 0.208 $\pm$ 0.041 & 151 & --- & --- \\
-Taller $n=20$, semilla 1 & 0.109 $\pm$ 0.026 & 65 & 1.717 & 111.8 \\
-Taller $n=20$, semilla 2 & 0.108 $\pm$ 0.027 & 65 & 1.730 & 111.8 \\
-Taller $n=20$, semilla 3 & 0.116 $\pm$ 0.027 & 64 & 1.779 & 111.8 \\
-Taller $n=20$, semilla 4 & 0.138 $\pm$ 0.042 & 64 & 1.761 & 111.8 \\
-Taller $n=20$, semilla 5 & 0.138 $\pm$ 0.047 & 64 & 1.968 & 111.8 \\
-Euclidiana $n=100$ & 2.064 $\pm$ 0.080 & 1402 & --- & --- \\
-Euclidiana $n=200$ & 10.623 $\pm$ 0.490 & 5391 & --- & --- \\
-\bottomrule
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|r|r|r|r|}
+\hline
+\rowcolor{gray!20} \textbf{Instancia} & \textbf{ACO t (s)} & \textbf{ACO mem. (KiB)} & \textbf{Exacto t (s)} & \textbf{Exacto mem. (MiB)} \\
+\hline
+\textbf{Red, $n=5$ (\#1)} & 0.068 $\pm$ 0.031 & 14 & 0.000 & 0.0 \\
+\hline
+\textbf{Red, $n=5$ (\#2)} & 0.027 $\pm$ 0.005 & 13 & 0.000 & 0.0 \\
+\hline
+\textbf{Red, $n=5$ (\#3)} & 0.026 $\pm$ 0.005 & 13 & 0.000 & 0.0 \\
+\hline
+\textbf{Red, $n=10$ (\#1)} & 0.038 $\pm$ 0.006 & 22 & 0.001 & 0.1 \\
+\hline
+\textbf{Red, $n=10$ (\#2)} & 0.039 $\pm$ 0.005 & 21 & 0.002 & 0.1 \\
+\hline
+\textbf{Red, $n=10$ (\#3)} & 0.041 $\pm$ 0.001 & 22 & 0.002 & 0.1 \\
+\hline
+\textbf{Red, $n=15$ (\#1)} & 0.066 $\pm$ 0.012 & 39 & 0.018 & 2.8 \\
+\hline
+\textbf{Red, $n=15$ (\#2)} & 0.058 $\pm$ 0.004 & 40 & 0.017 & 2.8 \\
+\hline
+\textbf{Red, $n=15$ (\#3)} & 0.059 $\pm$ 0.005 & 40 & 0.019 & 2.8 \\
+\hline
+\textbf{Red, $n=20$ (\#1)} & 0.073 $\pm$ 0.005 & 64 & 1.265 & 111.8 \\
+\hline
+\textbf{Red, $n=20$ (\#2)} & 0.072 $\pm$ 0.004 & 59 & 1.258 & 111.8 \\
+\hline
+\textbf{Red, $n=20$ (\#3)} & 0.114 $\pm$ 0.021 & 64 & 1.754 & 111.8 \\
+\hline
+\textbf{Red, $n=32$ (\#1)} & 0.208 $\pm$ 0.041 & 151 & --- & --- \\
+\hline
+\textbf{Taller $n=20$, semilla 1} & 0.109 $\pm$ 0.026 & 65 & 1.717 & 111.8 \\
+\hline
+\textbf{Taller $n=20$, semilla 2} & 0.108 $\pm$ 0.027 & 65 & 1.730 & 111.8 \\
+\hline
+\textbf{Taller $n=20$, semilla 3} & 0.116 $\pm$ 0.027 & 64 & 1.779 & 111.8 \\
+\hline
+\textbf{Taller $n=20$, semilla 4} & 0.138 $\pm$ 0.042 & 64 & 1.761 & 111.8 \\
+\hline
+\textbf{Taller $n=20$, semilla 5} & 0.138 $\pm$ 0.047 & 64 & 1.968 & 111.8 \\
+\hline
+\textbf{Euclidiana $n=100$} & 2.064 $\pm$ 0.080 & 1402 & --- & --- \\
+\hline
+\textbf{Euclidiana $n=200$} & 10.623 $\pm$ 0.490 & 5391 & --- & --- \\
+\hline
 \end{tabular}

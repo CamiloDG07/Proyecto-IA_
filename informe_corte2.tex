@@ -11,9 +11,12 @@
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{longtable}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{mathptmx}
 \usepackage{amsmath}
+\usepackage{enumitem}
+\setlist{itemsep=0pt,topsep=2pt,parsep=0pt}
+\setlength{\belowcaptionskip}{4pt}
 \usepackage{setspace}
 \usepackage{xurl}
 \usepackage{verbatim}
@@ -91,17 +94,26 @@ La formulación del problema, los datos y su construcción están en el informe
 del Corte 1~\cite{formulacion}. La red corregida a la que se refiere este
 informe tiene 32 nodos, porque se excluyó Mosquera, y 9 registros con la
 distancia corregida por doble calzada digitalizada; ambos cambios se
-documentan en ese informe. Como problema
-de búsqueda, el estado es la ciudad actual; las acciones son los tramos que
-salen de ella; el costo de una acción es el atributo de la arista según el
+documentan en ese informe.
+
+\textbf{Problema de búsqueda.}
+\begin{itemize}
+\item \textbf{Estado:} la ciudad actual.
+\item \textbf{Acciones:} los tramos que salen de ella.
+\item \textbf{Costo de una acción:} el atributo de la arista según el
 criterio (\texttt{distancia}, \texttt{compuesto\_sin\_riesgo},
-\texttt{compuesto} o \texttt{riesgo}); y la meta es la ciudad de destino. En el
-caso central, Duitama a Puente Nacional, las dos rutas miden 309.10 km por
-Bogotá y 654.25 km por Santander. El sector de Chocontá a Tunja está truncado
-en la fuente (17.69 km frente a 56.96 km de línea recta), por lo que la ruta
-por Bogotá tiene una cota inferior de $309.10 - 17.69 + 56.96 = 348.37$ km
-(cota inferior: la geodésica no excede la distancia por carretera; no es un
-valor estimado), y de esa arista depende el valor de $\alpha$ de la
+\texttt{compuesto} o \texttt{riesgo}).
+\item \textbf{Meta:} la ciudad de destino.
+\end{itemize}
+
+\textbf{Caso central.} En Duitama a Puente Nacional, las dos rutas miden
+309.10 km por Bogotá y 654.25 km por Santander.
+
+\textbf{Tramo truncado.} El sector de Chocontá a Tunja está truncado en la
+fuente (17.69 km frente a 56.96 km de línea recta). Por eso la ruta por Bogotá
+tiene una cota inferior de $309.10 - 17.69 + 56.96 = 348.37$ km (cota
+inferior: la geodésica no excede la distancia por carretera; no es un valor
+estimado). De esa arista depende el valor de $\alpha$ de la
 Sección~\ref{sec:heuristica}.
 
 \section{Implementación de los cinco algoritmos}
@@ -115,27 +127,36 @@ grafo solo aporta vecinos y costos, y no se usa ninguna búsqueda de
 \caption{Los cinco algoritmos}
 \label{tab:algoritmos}
 \small
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{6.3cm}}
-\toprule
-\textbf{Algoritmo} & \textbf{Frontera} & \textbf{Resultado garantizado} \\
-\midrule
-BFS & Cola FIFO & Mínimo número de saltos, no mínimo costo \\
-DFS & Pila LIFO & Primera ruta que encuentra; sin garantía \\
-UCS & Cola de prioridad por $g(n)$ & Óptimo para costos no negativos \\
-Voraz & Cola de prioridad por $h(n)$ & Sin garantía de optimalidad \\
-A* & Cola de prioridad por $g(n)+h(n)$ & Óptimo si $h$ es admisible \\
-\bottomrule
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{2.2cm}|>{\raggedright\arraybackslash}p{4.2cm}|>{\raggedright\arraybackslash}p{6.3cm}|}
+\hline
+\rowcolor{gray!20} \textbf{Algoritmo} & \textbf{Frontera} & \textbf{Resultado garantizado} \\
+\hline
+\textbf{BFS} & Cola FIFO & Mínimo número de saltos, no mínimo costo \\
+\hline
+\textbf{DFS} & Pila LIFO & Primera ruta que encuentra; sin garantía \\
+\hline
+\textbf{UCS} & Cola de prioridad por $g(n)$ & Óptimo para costos no negativos \\
+\hline
+\textbf{Voraz} & Cola de prioridad por $h(n)$ & Sin garantía de optimalidad \\
+\hline
+\textbf{A*} & Cola de prioridad por $g(n)+h(n)$ & Óptimo si $h$ es admisible \\
+\hline
 \end{tabular}
 \end{table}
 
-Convenciones comunes, para que los contadores sean comparables: la prueba de
-meta se hace al extraer el nodo de la frontera; \emph{nodos expandidos} son los
-extraídos cuyos sucesores se generan (la meta no se cuenta); \emph{nodos
-generados} son los insertados en la frontera; y los vecinos se recorren en
-orden alfabético, de modo que BFS y DFS son deterministas. UCS y A* admiten
-reexpansión de un nodo si su costo mejora; con una heurística consistente no
-ocurre. Todos devuelven la ruta, el costo, los nodos expandidos y generados y
-el tamaño máximo de la frontera.
+\textbf{Convenciones comunes}, para que los contadores sean comparables:
+\begin{itemize}
+\item La prueba de meta se hace al extraer el nodo de la frontera.
+\item \emph{Nodos expandidos} son los extraídos cuyos sucesores se generan (la
+meta no se cuenta); \emph{nodos generados} son los insertados en la frontera.
+\item Los vecinos se recorren en orden alfabético, de modo que BFS y DFS son
+deterministas.
+\item UCS y A* admiten reexpansión de un nodo si su costo mejora; con una
+heurística consistente no ocurre.
+\item Todos devuelven la ruta, el costo, los nodos expandidos y generados y el
+tamaño máximo de la frontera.
+\end{itemize}
 
 \textbf{Pruebas de corrección} (\texttt{src/pruebas\_busquedas.py}): un grafo
 de juguete con resultado conocido; 600 pares en 25 grafos geométricos
@@ -153,10 +174,16 @@ h(n) = \alpha\, d_{\mathrm{geo}}(n, \text{meta}), \qquad
 h(n) = \frac{w_1}{w_1 + w_2}\,\alpha\,\frac{d_{\mathrm{geo}}(n, \text{meta})}
 {d_{\max}}
 \end{equation}
-para \texttt{distancia} y \texttt{compuesto\_sin\_riesgo}, respectivamente, con
-$d_{\mathrm{geo}}$ la distancia de Haversine entre las coordenadas oficiales
-(DANE, DIVIPOLA) y $\alpha$ el mínimo de la razón carretera/geodésica entre las
-aristas, redondeado hacia abajo a 6 decimales. Con ese $\alpha$,
+para \texttt{distancia} y \texttt{compuesto\_sin\_riesgo}, respectivamente,
+con:
+\begin{itemize}
+\item $d_{\mathrm{geo}}$, la distancia de Haversine entre las coordenadas
+oficiales (DANE, DIVIPOLA).
+\item $\alpha$, el mínimo de la razón carretera/geodésica entre las aristas,
+redondeado hacia abajo a 6 decimales.
+\end{itemize}
+
+\textbf{Garantía.} Con ese $\alpha$,
 $\alpha\, d_{\mathrm{geo}}(u,v) \le c(u,v)$ en toda arista, lo que garantiza
 admisibilidad y consistencia por la desigualdad triangular. Los términos de
 peaje y de riesgo (no negativos) no se incluyen en $h$ y no la rompen.
@@ -166,14 +193,6 @@ peaje y de riesgo (no negativos) no se incluyen en $h$ y no la rompen.
 truncado en la fuente. Las demás aristas con razón menor que 1 se muestran
 en la Figura~\ref{fig:heuristica}; la tabla completa de razones está en
 \texttt{outputs/tabla\_c2\_razones.tex}.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{fig_heuristica.pdf}
-    \caption{Distancia por carretera contra distancia geodésica de las 32 aristas, con las rectas $y = x$ y $y = \alpha x$. Fuente: elaboración propia}
-    \label{fig:heuristica}
-    \input{outputs/lectura_c2_fig_heuristica.tex}
-\end{figure}
 
 
 \textbf{Verificación numérica} (Tabla~\ref{tab:heuristica}). La admisibilidad
@@ -190,24 +209,37 @@ de consistencia: el peor margen es $-56.51$ km.
 unidades del criterio)}
 \label{tab:heuristica}
 \small
-\setlength{\tabcolsep}{4pt}
+\setlength{\tabcolsep}{3pt}
 \input{outputs/tabla_c2_heuristica.tex}
 \input{outputs/lectura_c2_heuristica.tex}
 \end{table}
 
 \textbf{Aristas con carretera menor que la geodésica.} Se reportan todas
 (Figura~\ref{fig:heuristica}); no se ajustó ninguna distancia para que la
-heurística cumpla. Varias se explican por la entrada urbana a Bogotá, que la
-geometría de INVÍAS no cubre. Como $\alpha$ es la razón mínima, la
-heurística es poco informativa en los corredores donde la carretera es mucho
-más larga que la línea recta.
+heurística cumpla.
+\begin{itemize}
+\item Varias se explican por la entrada urbana a Bogotá, que la geometría de
+INVÍAS no cubre.
+\item Como $\alpha$ es la razón mínima, la heurística es poco informativa en
+los corredores donde la carretera es mucho más larga que la línea recta.
+\end{itemize}
 
-\textbf{Criterios con heurística limitada.} En \texttt{compuesto} (riesgo
-faltante igual a 0) se usa solo el término de distancia, $w_1 \alpha
-d_{\mathrm{geo}}/d_{\max}$, y los resultados se reportan aparte, rotulados
-como limitados. En \texttt{riesgo} y \texttt{peaje} no hay información
-geométrica: la heurística admisible es $h = 0$, y A* se reduce a costo
-uniforme.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig_heuristica.pdf}
+    \caption{Distancia por carretera contra distancia geodésica de las 32 aristas, con las rectas $y = x$ y $y = \alpha x$. Fuente: elaboración propia}
+    \label{fig:heuristica}
+    \input{outputs/lectura_c2_fig_heuristica.tex}
+\end{figure}
+
+\textbf{Criterios con heurística limitada.}
+\begin{itemize}
+\item En \texttt{compuesto} (riesgo faltante igual a 0) se usa solo el término
+de distancia, $w_1 \alpha d_{\mathrm{geo}}/d_{\max}$, y los resultados se
+reportan aparte, rotulados como limitados.
+\item En \texttt{riesgo} y \texttt{peaje} no hay información geométrica: la
+heurística admisible es $h = 0$, y A* se reduce a costo uniforme.
+\end{itemize}
 
 \section{Escenarios}
 
@@ -225,15 +257,20 @@ distintas; los seis restantes tienen ruta única y de 1 a 6 saltos. El número
 de rutas simples se comprueba en cada corrida. Cada escenario se ejecuta con
 los cinco algoritmos y con los cuatro criterios.
 
-\textbf{Mediciones.} Cada celda (escenario, criterio, algoritmo) se repite
-2000 veces; el tiempo se mide sin \texttt{tracemalloc} y se reporta como media
-y desviación estándar; la memoria pico se mide en una corrida aparte con
-\texttt{tracemalloc}. Voraz y A* consultan una tabla de $h$ precalculada hacia
-el destino (mismos valores, mismas rutas y mismos nodos expandidos); el tiempo
-de construir la tabla se mide aparte y no está incluido en sus tiempos (media
-de 47.7 $\mu$s, entre 8.4 y 109.2 $\mu$s). Las desviaciones son grandes
-respecto de las medias (la mayor es 1.77 veces la media), por lo que las
-diferencias de tiempo entre algoritmos solo son indicativas.
+\textbf{Mediciones.}
+\begin{itemize}
+\item Cada celda (escenario, criterio, algoritmo) se repite 2000 veces; el
+tiempo se mide sin \texttt{tracemalloc} y se reporta como media y desviación
+estándar.
+\item La memoria pico se mide en una corrida aparte con \texttt{tracemalloc}.
+\item Voraz y A* consultan una tabla de $h$ precalculada hacia el destino
+(mismos valores, mismas rutas y mismos nodos expandidos); el tiempo de
+construir la tabla se mide aparte y no está incluido en sus tiempos (media de
+47.7 $\mu$s, entre 8.4 y 109.2 $\mu$s).
+\item Las desviaciones son grandes respecto de las medias (la mayor es 1.77
+veces la media), por lo que las diferencias de tiempo entre algoritmos solo son
+indicativas.
+\end{itemize}
 
 \section{Resultados}
 
@@ -249,11 +286,15 @@ que cruzan el ciclo.
 La Figura~\ref{fig:comparacion} da los nodos expandidos, el tiempo medio
 (2000 repeticiones, con su desviación estándar) y la memoria pico de los cinco
 algoritmos en los diez escenarios, con el criterio \texttt{distancia}; el
-asterisco marca los pares que cruzan el ciclo. Las tablas completas de nodos
-expandidos, tiempo y memoria están en \texttt{outputs/tabla\_c2\_distancia\_*}. Las
-Tablas~\ref{tab:dist-costo} y~\ref{tab:dist-opt} conservan lo que la figura no
-puede dar: el costo y la optimalidad. La Figura~\ref{fig:expansion} muestra,
-en el caso central, qué nodos expandió y cuáles solo generó cada búsqueda.
+asterisco marca los pares que cruzan el ciclo.
+\begin{itemize}
+\item Las tablas completas de nodos expandidos, tiempo y memoria están en
+\nolinkurl{outputs/tabla_c2_distancia_*}.
+\item Las Tablas~\ref{tab:dist-costo} y~\ref{tab:dist-opt} conservan lo que la
+figura no puede dar: el costo y la optimalidad.
+\item La Figura~\ref{fig:expansion} muestra, en el caso central, qué nodos
+expandió y cuáles solo generó cada búsqueda.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
@@ -339,10 +380,14 @@ resultados del Corte 2 de la carpeta \texttt{outputs}.
 
 \subsection{Criterios con heurística limitada}
 
-En \texttt{compuesto} (riesgo faltante igual a 0) la heurística usa solo el
-término de distancia; en \texttt{riesgo} es $h = 0$ y A* se reduce a UCS (los
-nodos expandidos coinciden). Ambos resultados son limitados. La
-Tabla~\ref{tab:limitados} da, por criterio y algoritmo, los nodos expandidos
+\begin{itemize}
+\item En \texttt{compuesto} (riesgo faltante igual a 0) la heurística usa solo
+el término de distancia.
+\item En \texttt{riesgo} es $h = 0$ y A* se reduce a UCS (los nodos expandidos
+coinciden).
+\item Ambos resultados son limitados.
+\end{itemize}
+La Tabla~\ref{tab:limitados} da, por criterio y algoritmo, los nodos expandidos
 sumados en los diez escenarios y, tras la barra, el número de escenarios en
 que el algoritmo devuelve la ruta óptima.
 
@@ -361,13 +406,16 @@ El mapa de cobertura de riesgo y peaje, con las aristas marcadas por la auditor�
 
 \subsection{Rutas}
 
-La Figura~\ref{fig:rutas} muestra la ruta de cada algoritmo en el caso central
-con el criterio distancia, sobre las coordenadas oficiales y con el ciclo
-señalado; el algoritmo cambia el color y el trazo, no solo el color. La
-misma figura con el criterio compuesto sin riesgo está en
-\texttt{outputs/rutas\_central\_compuesto\_sin\_riesgo.png}. La
-Figura~\ref{fig:mapa-caso} sitúa las dos rutas sobre el mapa, con el trazado de
-INVÍAS, sus km y su peaje, y rotula qué algoritmos devuelve cada una.
+\begin{itemize}
+\item La Figura~\ref{fig:rutas} muestra la ruta de cada algoritmo en el caso
+central con el criterio distancia, sobre las coordenadas oficiales y con el
+ciclo señalado; el algoritmo cambia el color y el trazo, no solo el color.
+\item La misma figura con el criterio compuesto sin riesgo está en
+\nolinkurl{outputs/rutas_central_compuesto_sin_riesgo.png}.
+\item La Figura~\ref{fig:mapa-caso} sitúa las dos rutas sobre el mapa, con el
+trazado de INVÍAS, sus km y su peaje, y rotula qué algoritmos devuelve cada
+una.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
@@ -392,12 +440,16 @@ INVÍAS, sus km y su peaje, y rotula qué algoritmos devuelve cada una.
 
 Para Duitama a Puente Nacional se varió $(w_1, w_2, w_3)$ en una malla de paso
 0.1 con suma 1 (66 puntos) y se registró qué ruta gana con el costo compuesto
-(riesgo faltante igual a 0). Como solo hay dos rutas simples, el costo de cada
-una es lineal en los pesos, $w_1 D + w_2 P + w_3 R$, con $D$, $P$ y $R$ las
-sumas de los términos normalizados de la ruta; gana la ruta por Bogotá si
-$w_1 \Delta D + w_2 \Delta P + w_3 \Delta R < 0$, con $\Delta$ igual a la ruta
-por Bogotá menos la ruta por Santander. En la malla, el ganador de cada punto
-coincide con el signo de esta frontera.
+(riesgo faltante igual a 0).
+\begin{itemize}
+\item Como solo hay dos rutas simples, el costo de cada una es lineal en los
+pesos, $w_1 D + w_2 P + w_3 R$, con $D$, $P$ y $R$ las sumas de los términos
+normalizados de la ruta.
+\item Gana la ruta por Bogotá si $w_1 \Delta D + w_2 \Delta P + w_3 \Delta R
+< 0$, con $\Delta$ igual a la ruta por Bogotá menos la ruta por Santander.
+\item En la malla, el ganador de cada punto coincide con el signo de esta
+frontera.
+\end{itemize}
 
 \begin{table}[H]
 \centering
@@ -408,14 +460,23 @@ coincide con el signo de esta frontera.
 \input{outputs/lectura_c2_barrido_tabla.tex}
 \end{table}
 
-En la red corregida, la ruta por Bogotá gana en 19 de los 66 puntos y la
-frontera corta la recta $w_3 = 0$ en $w_1 = 0.4095$; sin el término de riesgo
-gana en 37 de los 65 puntos donde esa variante está definida (en
-$w_1 = w_2 = 0$ no lo está). La variante \emph{sensibilidad con cota inferior}
-reemplaza la distancia de Chocontá a Tunja por 56.96 km: la frontera se
-desplaza a $w_1 = 0.4389$, la ruta por Bogotá gana en 17 puntos, y el ganador
-cambia en dos puntos de la malla, $(0.5, 0.2, 0.3)$ y $(0.5, 0.3, 0.2)$, que
-pasan a Santander. Sin riesgo cambia en un punto, $(0.3, 0.4, 0.3)$.
+\textbf{Red corregida.}
+\begin{itemize}
+\item La ruta por Bogotá gana en 19 de los 66 puntos y la frontera corta la
+recta $w_3 = 0$ en $w_1 = 0.4095$.
+\item Sin el término de riesgo gana en 37 de los 65 puntos donde esa variante
+está definida (en $w_1 = w_2 = 0$ no lo está).
+\end{itemize}
+
+\textbf{Cota inferior.} La variante \emph{sensibilidad con cota inferior}
+reemplaza la distancia de Chocontá a Tunja por 56.96 km:
+\begin{itemize}
+\item La frontera se desplaza a $w_1 = 0.4389$ y la ruta por Bogotá gana en 17
+puntos.
+\item El ganador cambia en dos puntos de la malla, $(0.5, 0.2, 0.3)$ y
+$(0.5, 0.3, 0.2)$, que pasan a Santander.
+\item Sin riesgo cambia en un punto, $(0.3, 0.4, 0.3)$.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
@@ -462,60 +523,80 @@ criterio distancia}
 
 A* con $\alpha_{\mathrm{ref}}$ devuelve la ruta óptima en los diez escenarios y
 expande menos nodos que con $\alpha = 0.310570$ y que UCS (en el caso central
-17, 20 y 25). Sobre los 992 pares de nodos, devuelve la ruta óptima en 991 y
-falla en uno: de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de
-481.34 km (0.14\,\% más). Sumados los 992 pares, UCS expande 15\,872 nodos,
-A* con $\alpha$ 13\,377 y A* con $\alpha_{\mathrm{ref}}$ 12\,223.
+17, 20 y 25).
+\begin{itemize}
+\item Sobre los 992 pares de nodos, devuelve la ruta óptima en 991 y falla en
+uno: de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de 481.34 km
+(0.14\,\% más).
+\item Sumados los 992 pares, UCS expande 15\,872 nodos, A* con $\alpha$
+13\,377 y A* con $\alpha_{\mathrm{ref}}$ 12\,223.
+\end{itemize}
 
 \section{Agente autónomo de rutas}
 \label{sec:agente}
 
-\textbf{Entrada.} El usuario da solo el origen y el o los destinos
+\textbf{Entrada.}
+\begin{itemize}
+\item El usuario da solo el origen y el o los destinos
 (\texttt{agente\_rutas.py ORIGEN DESTINO ...} y, si se quiere volver, la
-opción \texttt{-{}-regreso}); no elige el tipo de problema ni el criterio. El agente decide
-el tipo, el criterio, el algoritmo y la heurística, y devuelve la mejor ruta
-con su explicación. La interfaz es de línea de comandos; el despachador
-conserva la suya como modo avanzado (\texttt{src/demostracion.py
-despachador}). Está en \texttt{src/agente\_rutas.py} y reutiliza el despachador,
-las búsquedas y la heurística del proyecto: no reimplementa ninguna búsqueda.
-En todo el informe, $n$ es el número de ciudades de una instancia (origen
+opción \texttt{-{}-regreso}); no elige el tipo de problema ni el criterio.
+\item El agente decide el tipo, el criterio, el algoritmo y la heurística, y
+devuelve la mejor ruta con su explicación.
+\item La interfaz es de línea de comandos; el despachador conserva la suya como
+modo avanzado (\texttt{src/demostracion.py despachador}).
+\item Está en \texttt{src/agente\_rutas.py} y reutiliza el despachador, las
+búsquedas y la heurística del proyecto: no reimplementa ninguna búsqueda.
+\item En todo el informe, $n$ es el número de ciudades de una instancia (origen
 incluido) y $k$ el de paradas libres por ordenar ($k = n - 1$ en orden libre
 con regreso).
+\end{itemize}
 
-\textbf{Decisión del tipo.} Un destino sin regreso es origen a destino; con
-regreso es ida y vuelta: la ida es la recomendación y, sin bloqueos, el
-regreso es la ida invertida (los costos son simétricos). Con
+\textbf{Decisión del tipo.}
+\begin{enumerate}
+\item Un destino sin regreso es origen a destino.
+\item Con regreso es ida y vuelta: la ida es la recomendación y, sin bloqueos,
+el regreso es la ida invertida (los costos son simétricos). Con
 \texttt{-{}-bloquear-regreso A-B;C-D} el regreso se resuelve como una segunda
 solicitud de origen a destino con esos tramos bloqueados solo en el regreso.
-Varios destinos es orden libre: el despachador usa Held-Karp si
+\item Varios destinos es orden libre: el despachador usa Held-Karp si
 $k \le K_{\mathrm{exacto}}$, ACO si no, y el criterio compuesto sin riesgo.
+\end{enumerate}
 
-\textbf{Candidatas y evaluación.} Con un destino, el agente calcula la ruta
-óptima por distancia, peaje y compuesto sin riesgo (A* con heurística
-admisible en el primero y el tercero; UCS en peaje). Para cada una añade las
-alternativas que quedan al bloquear, una por vez, cada arista de la ruta
-óptima; en esta red de un solo ciclo eso encuentra el otro camino, pero en un
-grafo con más ciclos no garantiza las $k$ mejores rutas. Cada candidata se
-evalúa en km, peaje (COP) y riesgo (suma del GiZScore de las aristas con dato y
-porcentaje de aristas con dato), y se descartan las dominadas en km y peaje.
+\textbf{Candidatas y evaluación.}
+\begin{itemize}
+\item Con un destino, el agente calcula la ruta óptima por distancia, peaje y
+compuesto sin riesgo (A* con heurística admisible en el primero y el tercero;
+UCS en peaje).
+\item Para cada una añade las alternativas que quedan al bloquear, una por vez,
+cada arista de la ruta óptima; en esta red de un solo ciclo eso encuentra el
+otro camino, pero en un grafo con más ciclos no garantiza las $k$ mejores
+rutas.
+\item Cada candidata se evalúa en km, peaje (COP) y riesgo (suma del GiZScore
+de las aristas con dato y porcentaje de aristas con dato), y se descartan las
+dominadas en km y peaje.
+\end{itemize}
 
-\textbf{Regla de recomendación.} Se recomienda la candidata de menor costo
-compuesto sin riesgo, suma por tramo de
+\textbf{Regla de recomendación.}
+\begin{enumerate}
+\item Se recomienda la candidata de menor costo compuesto sin riesgo, suma por
+tramo de
 $(w_d\, \mathrm{km}/\mathrm{km}_{\max} + w_p\, \mathrm{peaje}/
-\mathrm{peaje}_{\max})/(w_d + w_p)$, con $w_d = w_p = 1$ por defecto. Los pesos
-iguales son un supuesto de modelado, sin datos de costo operativo por
-kilómetro para calibrarlos; la recomendación se recalcula con otros pesos
-(parámetro de \texttt{recomendar}). Si el criterio \texttt{riesgo} o
-\texttt{compuesto} prefiere otra candidata, el agente lo avisa con la
-cobertura de datos de riesgo de ambas. También advierte si la ruta usa aristas
-con limitación conocida: Chocontá a Tunja (truncada), las marcadas por la
-auditoría y los tramos sin dato de riesgo. Con la opción opcional
-\texttt{-{}-criterio} (distancia, peaje, riesgo, compuesto o compuesto sin
-riesgo) el usuario elige el criterio: la recomendación es entonces la ruta de
-menor costo según ese criterio, la salida lo indica y las candidatas y las
-advertencias se muestran igual. La Tabla~\ref{tab:ejemplos-agente}
-muestra la salida real del agente en tres solicitudes; la ruta de (a) está en
-la Figura~\ref{fig:rutas}.
+\mathrm{peaje}_{\max})/(w_d + w_p)$, con $w_d = w_p = 1$ por defecto.
+\item Los pesos iguales son un supuesto de modelado, sin datos de costo
+operativo por kilómetro para calibrarlos; la recomendación se recalcula con
+otros pesos (parámetro de \texttt{recomendar}).
+\item Si el criterio \texttt{riesgo} o \texttt{compuesto} prefiere otra
+candidata, el agente lo avisa con la cobertura de datos de riesgo de ambas.
+\item También advierte si la ruta usa aristas con limitación conocida:
+Chocontá a Tunja (truncada), las marcadas por la auditoría y los tramos sin
+dato de riesgo.
+\item Con la opción opcional \texttt{-{}-criterio} (distancia, peaje, riesgo,
+compuesto o compuesto sin riesgo) el usuario elige el criterio: la
+recomendación es entonces la ruta de menor costo según ese criterio, la salida
+lo indica y las candidatas y las advertencias se muestran igual.
+\end{enumerate}
+La Tabla~\ref{tab:ejemplos-agente} muestra la salida real del agente en tres
+solicitudes; la ruta de (a) está en la Figura~\ref{fig:rutas}.
 
 \begin{table}[H]
 \centering
@@ -549,48 +630,86 @@ La matriz con la clase de cada par está en \texttt{outputs/fig\_perfil.png}.
 \caption{Tipos de solicitud y método elegido}
 \label{tab:despachador}
 \footnotesize
-\begin{tabular}{>{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{6.2cm}>{\raggedright\arraybackslash}p{3.7cm}}
-\toprule
-\textbf{Tipo de solicitud} & \textbf{Método si es viable (exacto)} &
-\textbf{Si el exacto no es viable} \\
-\midrule
-a. Origen a destino & A* si el criterio tiene heurística admisible
-(distancia, compuesto sin riesgo); UCS en los demás & No aplica \\
-b. Paradas en orden fijo & Un A* o UCS por tramo; el costo es la suma &
-No aplica \\
-c. Obligatoria(s) intermedia(s) o tramos bloqueados & Una obligatoria: orden
-determinado, A* o UCS por tramo. Varias: Held-Karp con final fijo; los
-bloqueos se excluyen de todas las búsquedas & ACO \\
-d. Orden libre con regreso & Held-Karp (ciclo) & ACO \\
-e. Orden libre sin regreso & Held-Karp (final libre) & ACO \\
-\bottomrule
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3.7cm}|>{\raggedright\arraybackslash}p{6.2cm}|>{\raggedright\arraybackslash}p{3.7cm}|}
+\hline
+\rowcolor{gray!20} \textbf{Tipo de solicitud} & \textbf{Método si es viable (exacto)} & \textbf{Si el exacto no es viable} \\
+\hline
+\textbf{a. Origen a destino} & A* si el criterio tiene heurística admisible (distancia, compuesto sin riesgo); UCS en los demás & No aplica \\
+\hline
+\textbf{b. Paradas en orden fijo} & Un A* o UCS por tramo; el costo es la suma & No aplica \\
+\hline
+\textbf{c. Obligatoria(s) intermedia(s) o tramos bloqueados} & Una obligatoria: orden determinado, A* o UCS por tramo. Varias: Held-Karp con final fijo; los bloqueos se excluyen de todas las búsquedas & ACO \\
+\hline
+\textbf{d. Orden libre con regreso} & Held-Karp (ciclo) & ACO \\
+\hline
+\textbf{e. Orden libre sin regreso} & Held-Karp (final libre) & ACO \\
+\hline
 \end{tabular}
 \end{table}
 
 \textbf{Regla fija.} Se usa un método exacto cuando es viable; la
 metaheurística solo cuando no lo es. En los tipos de orden libre, el exacto
 (Held-Karp, programación dinámica sobre subconjuntos de paradas) es viable si
-$k \le K_{\mathrm{exacto}}$. Ese umbral no se supuso: se midió Held-Karp en
-esta máquina (Figura~\ref{fig:umbral}; Intel Core i7-8750H a 2.20 GHz, 6
-núcleos y 12 hilos, 15.88 GiB de RAM, Windows 11, Python 3.14.3 y NumPy 2.5.2)
-y se tomó el más restrictivo de dos límites: el de tiempo, el mayor $k$ cuyo
-tiempo mediano no supera 5 s, y el de memoria, el mayor $k$ medido cuya
-memoria pico no supera el 25\,\% de la RAM instalada (4064 MiB). El
-presupuesto de 5 s y el 25\,\% son decisiones de diseño; los umbrales son
+$k \le K_{\mathrm{exacto}}$.
+
+\textbf{Umbral medido.} Ese umbral no se supuso: se midió Held-Karp en esta
+máquina (Figura~\ref{fig:umbral}; equipo en la Tabla~\ref{tab:equipo}) y se
+tomó el más restrictivo de dos límites:
+\begin{itemize}
+\item \textbf{Tiempo:} el mayor $k$ cuyo tiempo mediano no supera 5 s.
+\item \textbf{Memoria:} el mayor $k$ medido cuya memoria pico no supera el
+25\,\% de la RAM instalada (4064 MiB).
+\end{itemize}
+El presupuesto de 5 s y el 25\,\% son decisiones de diseño; los umbrales son
 mediciones. Para que el umbral no dependa de una sesión, se repitió la
 medición y se toma el mayor $k$ cuyo tiempo mediano cabe en el presupuesto en
-todas las sesiones. Resultado con las tres sesiones de la
-Figura~\ref{fig:umbral}: $k = 19$ cabe en las tres (2.735, 1.227 y 1.694 s) y
-$k = 20$ no (5.986 s en la sesión 1; 2.475 y 3.676 s en la 2 y la 3); la
-memoria no limita hasta $k = 22$, el mayor medido (1009.8 MiB). Por tanto
-$K_{\mathrm{exacto}} = 19$, fijado por el tiempo. Los tiempos de una sesión a
-otra difieren hasta 2.75 veces ($k = 17$) con $k$ entre 16 y 20 y hasta 1.70
-veces con $k \ge 21$; la causa no se midió (Hipótesis: estado de la máquina).
-Las sesiones 1 y 2 no registraron plan de energía ni conexión a corriente; la
-sesión 3, la de la medición final de este informe (7 de octubre de 2026,
-15:55 a 16:05), se hizo con el equipo conectado a corriente; el plan activo
-según powercfg fue Equilibrado y el modo de energía de Windows estaba en máximo
-rendimiento (configurado por el usuario, no registrado por comando).
+todas las sesiones.
+
+\begin{table}[H]
+\centering
+\caption{Equipo de medición de Held-Karp}
+\label{tab:equipo}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{gray!20} \textbf{Componente} & \textbf{Valor} \\
+\hline
+\textbf{Procesador} & Intel Core i7-8750H a 2.20 GHz, 6 núcleos y 12 hilos \\
+\hline
+\textbf{Memoria} & 15.88 GiB de RAM \\
+\hline
+\textbf{Sistema} & Windows 11 \\
+\hline
+\textbf{Software} & Python 3.14.3 y NumPy 2.5.2 \\
+\hline
+\end{tabular}
+\end{table}
+
+\textbf{Resultado por sesión} (las tres sesiones de la
+Figura~\ref{fig:umbral}):
+\begin{itemize}
+\item $k = 19$ cabe en las tres (2.735, 1.227 y 1.694 s).
+\item $k = 20$ no cabe (5.986 s en la sesión 1; 2.475 y 3.676 s en la 2 y la
+3).
+\item La memoria no limita hasta $k = 22$, el mayor medido (1009.8 MiB).
+\item Por tanto $K_{\mathrm{exacto}} = 19$, fijado por el tiempo.
+\end{itemize}
+
+\textbf{Variación entre sesiones.} Los tiempos de una sesión a otra difieren
+hasta 2.75 veces ($k = 17$) con $k$ entre 16 y 20 y hasta 1.70 veces con
+$k \ge 21$; la causa no se midió (Hipótesis: estado de la máquina).
+
+\textbf{Condiciones de las sesiones.}
+\begin{itemize}
+\item Las sesiones 1 y 2 no registraron plan de energía ni conexión a
+corriente.
+\item La sesión 3, la de la medición final de este informe (7 de octubre de
+2026, 15:55 a 16:05), se hizo con el equipo conectado a corriente; el plan
+activo según powercfg fue Equilibrado y el modo de energía de Windows estaba en
+máximo rendimiento (configurado por el usuario, no registrado por comando).
+\end{itemize}
 
 \textbf{Simetría.} Antes de usar la metaheurística, el despachador comprueba
 si la matriz de costos entre paradas es simétrica. Si lo es, el ACO usa
@@ -611,12 +730,17 @@ La tabla con la mediana de cada sesión está en \texttt{outputs/tabla\_ag\_umbr
 
 El camino de origen a destino se resuelve con A* o UCS, que son exactos; la
 metaheurística entra solo en el orden libre, cuando Held-Karp no es viable
-($k > K_{\mathrm{exacto}}$). Para esa tarea se eligió ACO porque, en las
-instancias aleatorias del taller del equipo, superó a PSO con claves
-aleatorias en permutaciones (Tabla~\ref{tab:aco-pso}; el gráfico está en
-\texttt{outputs/fig\_aco\_pso.png}). PSO se corrió con parámetros fijos
-($w = 0.7$; $c_1 = c_2 = 1.5$) y sin búsqueda local; el algoritmo genético y el
-temple simulado no se compararon en este problema.
+($k > K_{\mathrm{exacto}}$).
+\begin{itemize}
+\item Para esa tarea se eligió ACO porque, en las instancias aleatorias del
+taller del equipo, superó a PSO con claves aleatorias en permutaciones
+(Tabla~\ref{tab:aco-pso}; el gráfico está en
+\texttt{outputs/fig\_aco\_pso.png}).
+\item PSO se corrió con parámetros fijos ($w = 0.7$; $c_1 = c_2 = 1.5$) y sin
+búsqueda local.
+\item El algoritmo genético y el temple simulado no se compararon en este
+problema.
+\end{itemize}
 
 \begin{table}[H]
 \centering
@@ -633,31 +757,47 @@ $n = 200\,000$): longitud $L$ y tiempo medio. Fuente: repositorio del equipo
 
 \subsection{ACO con búsqueda local 2-opt}
 
-El ACO está en \texttt{src/aco\_multiparada.py}, programado desde cero. Cada
-hormiga elige el siguiente nodo con probabilidad proporcional a
+El ACO está en \texttt{src/aco\_multiparada.py}, programado desde cero.
+
+\textbf{Mecanismo.}
+\begin{itemize}
+\item Cada hormiga elige el siguiente nodo con probabilidad proporcional a
 $\tau_{ij}^{\alpha}\,\eta_{ij}^{\beta}$, con visibilidad $\eta_{ij} = 1/c_{ij}$
 (con un término $\varepsilon$ pequeño para costos nulos) y feromona por arista.
-Las hormigas depositan $1/L_k$ en su tour y el mejor tour de cada iteración,
-mejorado con 2-opt, deposita $1/L$ adicional. En el modo de ciclo cada hormiga
-sale de una ciudad elegida al azar y el tour resultante se rota hasta el
-origen; en los modos de orden libre sin regreso y de inicio fijo la salida es
-la indicada. Parámetros, iguales para todas las instancias: $\alpha = 1.5$,
-$\beta = 5$, $\rho = 0.1$, el número de hormigas (igual al de nodos) y las 100
-iteraciones son los del taller de ACO del curso~\cite{aco}; el depósito de
-feromona, la inicialización y el inicio de las hormigas son propios y difieren
-del taller. No se reajustaron en este trabajo. Cada instancia se corre con 10
-semillas fijas (1 a 10).
+\item Las hormigas depositan $1/L_k$ en su tour y el mejor tour de cada
+iteración, mejorado con 2-opt, deposita $1/L$ adicional.
+\item En el modo de ciclo cada hormiga sale de una ciudad elegida al azar y el
+tour resultante se rota hasta el origen; en los modos de orden libre sin
+regreso y de inicio fijo la salida es la indicada.
+\end{itemize}
+
+\textbf{Parámetros}, iguales para todas las instancias:
+\begin{itemize}
+\item $\alpha = 1.5$, $\beta = 5$, $\rho = 0.1$, el número de hormigas (igual
+al de nodos) y las 100 iteraciones son los del taller de ACO del
+curso~\cite{aco}.
+\item El depósito de feromona, la inicialización y el inicio de las hormigas
+son propios y difieren del taller. No se reajustaron en este trabajo.
+\end{itemize}
+
+\textbf{Semillas.} Cada instancia se corre con 10 semillas fijas (1 a 10).
 
 \subsection{Validación}
 
-\textbf{Instancias.} (a) La red de carga con $n = 5, 10, 15$ y 20 ciudades,
-con tres instancias por $n$ elegidas con semilla fija, y con las 32 ciudades;
-criterio distancia, orden libre con regreso. (b) Las cinco instancias
-euclidianas de $n = 20$ del taller de ACO (semillas 1 a 5, generadas con el
-mismo generador xorshift64), cuyo óptimo de Held-Karp ya estaba calculado. (c)
-Dos instancias euclidianas mayores ($n = 100$ y 200) sin óptimo exacto, con
-referencia \emph{mejor encontrada con 2-opt}
-(Figura~\ref{fig:aco}). Para las 32
+\textbf{Instancias.}
+\begin{itemize}
+\item[(a)] La red de carga con $n = 5, 10, 15$ y 20 ciudades, con tres
+instancias por $n$ elegidas con semilla fija, y con las 32 ciudades; criterio
+distancia, orden libre con regreso.
+\item[(b)] Las cinco instancias euclidianas de $n = 20$ del taller de ACO
+(semillas 1 a 5, generadas con el mismo generador xorshift64), cuyo óptimo de
+Held-Karp ya estaba calculado.
+\item[(c)] Dos instancias euclidianas mayores ($n = 100$ y 200) sin óptimo
+exacto, con referencia \emph{mejor encontrada con 2-opt}
+(Figura~\ref{fig:aco}).
+\end{itemize}
+
+\textbf{Referencia.} Para las 32
 ciudades no hay Held-Karp; la referencia es el óptimo por estructura de la red
 (un solo ciclo), $2(W - C) + \min(C, 2(C - w_{\max}))$, con $W$ la suma de las
 aristas, $C$ la longitud del ciclo y $w_{\max}$ su arista mayor. Es una
@@ -671,7 +811,7 @@ Referencia: Held-Karp ($n \le 20$) u óptimo por estructura ($n = 32$). Inst.:
 instancias del grupo; Br. mejor, máx.: mayor brecha de la mejor corrida;
 Igualan: semillas que alcanzan la referencia; tiempos medios}
 \label{tab:val-resumen}
-\footnotesize\setlength{\tabcolsep}{3pt}
+\scriptsize\setlength{\tabcolsep}{3pt}
 \input{outputs/tabla_ag_resumen.tex}
 \input{outputs/lectura_c2_validacion.tex}
 \end{table}
@@ -715,10 +855,14 @@ $1.53 \pm 0.06$ s y $8.85 \pm 0.68$ s.
 \label{sec:estructura}
 
 En un grafo conexo con un solo ciclo, el recorrido cerrado de menor costo que
-visita todos los nodos cuesta $2(W - C) + \min(C, 2(C - w_{\max}))$: todo
-puente se recorre dos veces y, por la paridad de los grados, el ciclo se
-recorre una vez completo o dos veces todo menos su arista mayor. Es una
-derivación propia. Se comprobó contra Held-Karp, sobre la matriz de caminos
+visita todos los nodos cuesta $2(W - C) + \min(C, 2(C - w_{\max}))$:
+\begin{itemize}
+\item Todo puente se recorre dos veces.
+\item Por la paridad de los grados, el ciclo se recorre una vez completo o dos
+veces todo menos su arista mayor.
+\end{itemize}
+
+\textbf{Comprobación.} Es una derivación propia. Se comprobó contra Held-Karp, sobre la matriz de caminos
 mínimos, en 300 grafos aleatorios de un solo ciclo con semilla fija (5 a 12
 nodos): 300 coincidencias y 0 discrepancias, con una diferencia absoluta máxima
 de $4.26 \times 10^{-14}$ (\texttt{outputs/tabla\_ag\_estructura.tex}).
@@ -729,19 +873,33 @@ La Figura~\ref{fig:aco} repite los mismos grupos con el ACO sin
 2-opt (inicio aleatorio y, para citar las cifras anteriores, inicio fijo) e
 incluye las dos instancias euclidianas mayores, cuya referencia es la mejor
 encontrada con 2-opt (2-opt desde el vecino más cercano y desde 300 y 150
-inicios aleatorios), que no es un óptimo. Con $n = 100$ el ACO con 2-opt
-obtiene $-0.315$\,\% en la mejor corrida y $-0.171$\,\% en la media respecto de
-esa referencia; con $n = 200$, $-1.937$\,\% y $-1.400$\,\%, sin que ninguna
-semilla la iguale. Las brechas negativas solo indican que el ACO supera a esa
-búsqueda local desde inicios múltiples: no se conoce la distancia al óptimo.
-Sin 2-opt, con inicio aleatorio, la brecha media respecto de la misma
-referencia es $5.599$\,\% con $n = 100$ y $6.209$\,\% con $n = 200$, y
-ninguna semilla la iguala: el aporte del 2-opt es grande (sin él la brecha es
-de 5--6\,\%; con él el ACO supera la referencia). No se
-corrió el ACO sin 2-opt con inicio fijo en ellas. La
-convergencia de estas dos instancias está en
-\texttt{outputs/convergencia\_aco\_mayores.png}. La tabla completa (brechas, semillas que igualan, tiempos y memoria) está en
-\nolinkurl{outputs/tabla_ag_ampliada.tex}.
+inicios aleatorios), que no es un óptimo.
+
+\textbf{Con búsqueda local.}
+\begin{itemize}
+\item Con $n = 100$ el ACO con 2-opt obtiene $-0.315$\,\% en la mejor corrida y
+$-0.171$\,\% en la media respecto de esa referencia; con $n = 200$,
+$-1.937$\,\% y $-1.400$\,\%, sin que ninguna semilla la iguale.
+\item Las brechas negativas solo indican que el ACO supera a esa búsqueda local
+desde inicios múltiples: no se conoce la distancia al óptimo.
+\end{itemize}
+
+\textbf{Sin 2-opt, con inicio aleatorio.}
+\begin{itemize}
+\item La brecha media respecto de la misma referencia es $5.599$\,\% con
+$n = 100$ y $6.209$\,\% con $n = 200$, y ninguna semilla la iguala: el aporte
+del 2-opt es grande (sin él la brecha es de 5--6\,\%; con él el ACO supera la
+referencia).
+\item No se corrió el ACO sin 2-opt con inicio fijo en ellas.
+\end{itemize}
+
+\textbf{Material de apoyo.}
+\begin{itemize}
+\item La convergencia de estas dos instancias está en
+\nolinkurl{outputs/convergencia_aco_mayores.png}.
+\item La tabla completa (brechas, semillas que igualan, tiempos y memoria) está
+en \nolinkurl{outputs/tabla_ag_ampliada.tex}.
+\end{itemize}
 
 \begin{figure}[H]
     \centering
