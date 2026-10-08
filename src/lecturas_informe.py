@@ -55,10 +55,10 @@ def celda(res, origen, criterio, algoritmo, destino=None):
 
 
 def grupos_validacion(val):
-    """Brechas medias por grupo (red por n y taller)."""
+    """Brechas medias por grupo (red por n y euclidianas n = 20)."""
     red = [r for r in val if r["familia"] == "red de carga"]
-    taller = [r for r in val if r["familia"].startswith("euclidiana n=20")]
-    return red, taller
+    eucl = [r for r in val if r["familia"].startswith("euclidiana n=20")]
+    return red, eucl
 
 
 def media(valores):
@@ -235,34 +235,34 @@ def lecturas_corte2():
         "discontinuo (Santander).",
         "; ".join(partes) + ".", porque)
     # --- figura de convergencia
-    red, taller = grupos_validacion(val)
+    red, eucl = grupos_validacion(val)
     peor_red = max(100 * abs(r["aco"]["curva_media"][0]
                              - r["referencia"]["costo"])
                    / r["referencia"]["costo"] for r in red)
     ini = media([100 * (r["aco"]["curva_media"][0] - r["referencia"]["costo"])
-                 / r["referencia"]["costo"] for r in taller])
+                 / r["referencia"]["costo"] for r in eucl])
     fin = media([100 * (r["aco"]["curva_media"][-1]
                         - r["referencia"]["costo"])
-                 / r["referencia"]["costo"] for r in taller])
+                 / r["referencia"]["costo"] for r in eucl])
     fin_red = max(100 * abs(r["aco"]["curva_media"][-1]
                             - r["referencia"]["costo"])
                   / r["referencia"]["costo"] for r in red)
     mayores = [r for r in val if "mayor" in r["familia"]]
     sin_red = media([r["aco_sin_2opt"]["brecha_media_pct"] for r in red])
-    sin_tal = media([r["aco_sin_2opt"]["brecha_media_pct"] for r in taller])
+    sin_tal = media([r["aco_sin_2opt"]["brecha_media_pct"] for r in eucl])
     bloque(
         "c2_convergencia",
         "izquierda, la red de carga (media de sus instancias); derecha, las "
-        "cinco instancias del taller con n = 20; eje x, la iteración; eje y, "
-        "la brecha de la media de 10 semillas del mejor global respecto de "
-        "la referencia.",
+        "cinco instancias euclidianas con n = 20 (semillas 1 a 5); eje x, la "
+        "iteración; eje y, la brecha de la media de 10 semillas del mejor "
+        "global respecto de la referencia.",
         f"en la red la brecha de la iteración 1 es a lo sumo "
         f"{pct(peor_red, 3)}\\,\\% y la final es {pct(fin_red, 3)}\\,\\%; "
-        f"en el taller la media de las instancias baja de "
+        f"en las euclidianas n = 20 la media de las instancias baja de "
         f"{ini:.2f}\\,\\% en la iteración 1 a {pct(fin, 3)}\\,\\% en la "
         "100.",
         f"Medido: sin 2-opt la brecha media final es {pct(sin_red)}\\,\\% en "
-        f"la red y {pct(sin_tal)}\\,\\% en el taller (con 2-opt, "
+        f"la red y {pct(sin_tal)}\\,\\% en las euclidianas n = 20 (con 2-opt, "
         f"{pct(fin, 3)}\\,\\%); en $n = 100$ y $200$ es "
         f"{pct(mayores[0]['aco_sin_2opt']['brecha_media_pct'])}\\,\\% y "
         f"{pct(mayores[1]['aco_sin_2opt']['brecha_media_pct'])}\\,\\% y con "
@@ -394,23 +394,24 @@ def lecturas_corte2():
         f"{len(unicos)} pares de ruta única los cinco algoritmos devuelven "
         f"la misma ruta ({'sí' if misma else 'no'}).")
     # --- tabla de validación principal
-    nz = [f"{'taller' if r in taller else 'red'}, n = {r['n']}, instancia "
-          f"{r['instancia']}" for r in red + taller
+    nz = [f"{'euclidianas' if r in eucl else 'red'}, n = {r['n']}, instancia "
+          f"{r['instancia']}" for r in red + eucl
           if r["aco"]["brecha_media_pct"] > 5e-4]
     iguales_red = sum(r["aco"]["semillas_que_igualan_referencia"]
                       for r in red)
     iguales_tal = sum(r["aco"]["semillas_que_igualan_referencia"]
-                      for r in taller)
-    brecha_taller = media([r["aco"]["brecha_media_pct"] for r in taller])
+                      for r in eucl)
+    brecha_eucl = media([r["aco"]["brecha_media_pct"] for r in eucl])
     bloque(
         "c2_validacion",
-        "filas: grupos de instancias (red de carga por n y taller); "
-        "columnas: instancias, brecha media, mayor brecha de la mejor "
-        "corrida, semillas que alcanzan la referencia y tiempos medios.",
+        "filas: grupos de instancias (red de carga por n y euclidianas "
+        "n = 20); columnas: instancias, brecha media, mayor brecha de la "
+        "mejor corrida, semillas que alcanzan la referencia y tiempos "
+        "medios.",
         f"en la red el ACO con 2-opt alcanza la referencia con "
-        f"{iguales_red} de {10 * len(red)} semillas; en el taller, la brecha "
-        f"media es {pct(brecha_taller)}"
-        f"\\,\\% y {iguales_tal} de {10 * len(taller)} semillas la alcanzan.",
+        f"{iguales_red} de {10 * len(red)} semillas; en las euclidianas "
+        f"n = 20, la brecha media es {pct(brecha_eucl)}"
+        f"\\,\\% y {iguales_tal} de {10 * len(eucl)} semillas la alcanzan.",
         "Medido: la brecha media es mayor que cero solo en " + "; ".join(nz)
         + ". Hipótesis: el ACO se estanca en un óptimo local; no se midió.")
     # --- sentencia del cambio de ruta (texto, no flotante) se genera en
@@ -573,8 +574,52 @@ def texto_corte1_caso_referencia():
             f"{santander_c:.2f} km).\n")
 
 
+def cifras_dinero():
+    """Ahorro de peaje y km extra del desvío, y umbrales de COP por km."""
+    grafo = cargar_grafo()
+    sin_enlace = grafo.copy()
+    sin_enlace.remove_edge("Bogotá", "Tocancipá")
+    rutas = [nx.shortest_path(h, "Duitama", "Puente Nacional",
+                              weight="distancia_km")
+             for h in (grafo, sin_enlace)]
+
+    def total(ruta, atributo):
+        return sum(grafo[u][v][atributo] or 0
+                   for u, v in zip(ruta, ruta[1:]))
+    km_b, km_s = (total(r, "distancia_km") for r in rutas)
+    peaje_b, peaje_s = (total(r, "peaje_cop_camion") for r in rutas)
+    sens = leer("sensibilidad_corte2.json")
+    sens = sens["rutas_optimas_duitama_puente_nacional"]
+    cota = sens["cota_inferior"]["distancia"]["distancia_km"]
+    ahorro = peaje_b - peaje_s
+    return {"km_bogota": km_b, "km_desvio": km_s, "ahorro_cop": ahorro,
+            "km_extra": km_s - km_b, "cota_bogota": cota,
+            "umbral_registrado": ahorro / (km_s - km_b),
+            "umbral_cota": ahorro / (km_s - cota)}
+
+
+def texto_c2_dinero():
+    """Frase del barrido de pesos sobre el costo en dinero (outputs/)."""
+    d = cifras_dinero()
+    with open(SALIDA / "texto_c2_dinero.tex", "w", encoding="utf-8") as f:
+        f.write(
+            f"Con las distancias registradas, el desvío por Santander ahorra "
+            f"{miles(d['ahorro_cop'])} COP de peaje y suma "
+            f"{d['km_extra']:.2f} km. Solo es más barato en dinero si el "
+            f"costo operativo por km es menor que el ahorro dividido entre "
+            f"los km extra, {d['umbral_registrado']:.1f} COP/km; como la "
+            f"ruta por Bogotá está subestimada (cota inferior "
+            f"{d['cota_bogota']:.2f} km), el umbral real es al menos el "
+            f"ahorro dividido entre ({d['km_desvio']:.2f} $-$ "
+            f"{d['cota_bogota']:.2f}) km, {d['umbral_cota']:.1f} COP/km. "
+            "No hay datos de costo operativo por kilómetro para decidir "
+            "cuál ruta es más barata, y esta comparación no incluye tiempo "
+            "ni riesgo.\n")
+
+
 def main():
     lecturas_corte1()
+    texto_c2_dinero()
     texto_corte1_cambio_sin_riesgo()
     texto_corte1_caso_referencia()
     lecturas_corte2()

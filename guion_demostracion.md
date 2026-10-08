@@ -339,8 +339,8 @@ tabla del informe muestra la mediana de cada sesión.
 
 ACO: tipos d y e con más de 20 paradas libres, o con matriz asimétrica (sin
 2-opt). Validación en `outputs\validacion_agente.json`: en la red de carga
-alcanza la referencia en las 130 semillas; en las instancias del taller con
-n = 20, brecha media de 0.040 % con 2-opt (48 de 50 semillas) y de 0.357 %
+alcanza la referencia en las 130 semillas; en las euclidianas con n = 20
+(semillas 1 a 5), brecha media de 0.040 % con 2-opt (48 de 50 semillas) y de 0.357 %
 sin 2-opt (32 de 50); con la ciudad de salida fija, sin 2-opt, 2.212 % (1 de
 50).
 

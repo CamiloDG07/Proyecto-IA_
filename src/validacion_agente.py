@@ -10,17 +10,17 @@ a. Red de carga, orden libre con regreso (tipo d), criterio distancia:
    suma de todas las aristas, C la longitud del ciclo y w_max su arista más
    larga (todo ramal se recorre dos veces; el ciclo, una vez o todo menos su
    arista mayor, dos veces).
-b. Instancias euclidianas de n = 20 del taller de ACO (semillas 1 a 5, mismo
-   generador xorshift64): se compara el Held-Karp de este proyecto con el
-   óptimo exacto que el taller calculó (outputs de ACO_IA) y se mide la
-   brecha del ACO.
+b. Cinco instancias euclidianas de n = 20 (semillas 1 a 5, generador
+   xorshift64): el Held-Karp de este proyecto es la referencia y se mide la
+   brecha del ACO. El script conserva además la comparación con un óptimo
+   calculado antes por el equipo; el informe no la usa.
 c. Instancias euclidianas mayores (n = 100 y 200) sin óptimo exacto; la
    referencia se rotula "mejor encontrada con 2-opt" (2-opt desde el vecino
    más cercano y desde inicios aleatorios), nunca óptimo.
 
 El ACO usa inicio aleatorio por hormiga en modo ciclo; para las instancias
-de la red y del taller se registra además el ACO sin 2-opt con inicio fijo
-(aco_sin_2opt_inicio_fijo), el comportamiento anterior.
+de la red y de las euclidianas n = 20 se registra además el ACO sin 2-opt
+con inicio fijo (aco_sin_2opt_inicio_fijo), el comportamiento anterior.
 
 Por instancia: costo medio y mejor del ACO, brecha, tiempo (sin tracemalloc),
 memoria pico (corrida aparte) y curva de convergencia. Escribe

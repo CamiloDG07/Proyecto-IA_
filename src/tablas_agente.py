@@ -2,8 +2,8 @@
 
 Lee outputs/validacion_agente.json, umbral_held_karp.json y
 verificacion_estructura.json y escribe tabla_ag_*.tex y las figuras
-convergencia_aco (red de carga y taller) y convergencia_aco_mayores en
-outputs/.
+convergencia_aco (red de carga y euclidianas n = 20) y
+convergencia_aco_mayores en outputs/.
 
 Nomenclatura: n = ciudades de la instancia; k = paradas libres (n - 1 con
 regreso al origen).
@@ -46,7 +46,7 @@ def etiqueta(r):
     if r["familia"] == "red de carga":
         return f"Red, $n={r['n']}$ (\\#{r['instancia']})"
     if r["familia"].startswith("euclidiana n=20"):
-        return f"Taller $n=20$, semilla {r['instancia']}"
+        return f"Euclidiana $n=20$, semilla {r['instancia']}"
     return f"Euclidiana $n={r['n']}$"
 
 
@@ -65,16 +65,16 @@ def costo(r, valor):
 
 
 def grupos(instancias):
-    """Grupos del cuerpo: red por n y taller (n = 20), con sus instancias."""
+    """Grupos del cuerpo: red por n y euclidianas n = 20, con instancias."""
     salida = []
     red = [r for r in instancias if r["familia"] == "red de carga"]
     for n in NS_RED:
         miembros = [r for r in red if r["n"] == n]
         nombre = (f"Red, $n={n}$" if n != 32 else "Red, $n=32$ (todas)")
         salida.append((nombre, miembros))
-    taller = [r for r in instancias
-              if r["familia"].startswith("euclidiana n=20")]
-    salida.append(("Taller, $n=20$", taller))
+    eucl = [r for r in instancias
+            if r["familia"].startswith("euclidiana n=20")]
+    salida.append(("Euclidianas $n=20$ (semillas 1 a 5)", eucl))
     return salida
 
 
@@ -308,9 +308,9 @@ def guardar(fig, nombre):
 def figura_convergencia(instancias):
     red = [r for r in instancias if r["familia"] == "red de carga"]
     peor_red = max(float(np.max(np.abs(brecha(r)))) for r in red)
-    taller = [r for r in instancias
-              if r["familia"].startswith("euclidiana n=20")]
-    series_taller = [(f"sem. {r['instancia']}", brecha(r)) for r in taller]
+    eucl = [r for r in instancias
+            if r["familia"].startswith("euclidiana n=20")]
+    series_eucl = [(f"sem. {r['instancia']}", brecha(r)) for r in eucl]
     fig, ejes = plt.subplots(1, 2, figsize=(9.5, 4.4), facecolor=SUPERFICIE)
     media_red = np.mean([brecha(r) for r in red], axis=0)
     panel(ejes[0], [(f"{len(red)} instancias", media_red)],
@@ -321,7 +321,7 @@ def figura_convergencia(instancias):
         50, 0.35, "brecha 0 desde la iteración 1\n"
         f"(máxima en las {len(red)} instancias: {peor_red:.1f} %)",
         ha="center", fontsize=8.5, color=TINTA_2)
-    panel(ejes[1], series_taller, "Euclidiana $n=20$ del taller (exacto)")
+    panel(ejes[1], series_eucl, "Euclidianas $n=20$, semillas 1 a 5 (exacto)")
     fig.suptitle("Convergencia del ACO + 2-opt: media de 10 semillas",
                  fontsize=11, color=TINTA)
     guardar(fig, "convergencia_aco")
