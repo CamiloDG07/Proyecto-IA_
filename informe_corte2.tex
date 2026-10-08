@@ -163,8 +163,9 @@ peaje y de riesgo (no negativos) no se incluyen en $h$ y no la rompen.
 
 \textbf{Valor de $\alpha$.} $\alpha = 0.310570$ (razón mínima exacta
 0.3105704113). La determina la arista de Chocontá a Tunja, cuyo sector está
-truncado en la fuente. Las demás aristas con razón menor que 1 se muestran en
-la Tabla~\ref{tab:razones}.
+truncado en la fuente. Las demás aristas con razón menor que 1 se muestran
+en la Tabla~\ref{tab:razones}; la dispersión carretera contra geodésica está en
+\texttt{outputs/fig\_heuristica.png}.
 
 \begin{table}[H]
 \centering
@@ -173,6 +174,7 @@ la Tabla~\ref{tab:razones}.
 \small
 \input{outputs/tabla_c2_razones.tex}
 \end{table}
+
 
 \textbf{Verificación numérica} (Tabla~\ref{tab:heuristica}). La admisibilidad
 compara $h(n)$ con el costo óptimo real $h^*(n)$ de Dijkstra para los 992
@@ -244,36 +246,30 @@ que cruzan el ciclo.
 
 \subsection{Criterio distancia}
 
-Las siguientes tablas se calcularon con \texttt{distancia} como criterio. El
-asterisco marca los pares que cruzan el ciclo.
+La Figura~\ref{fig:comparacion} da los nodos expandidos, el tiempo medio
+(2000 repeticiones, con su desviación estándar) y la memoria pico de los cinco
+algoritmos en los diez escenarios, con el criterio \texttt{distancia}; el
+asterisco marca los pares que cruzan el ciclo. Las tablas completas de nodos
+expandidos, tiempo y memoria están en \texttt{outputs/tabla\_c2\_distancia\_*}. Las
+Tablas~\ref{tab:dist-costo} y~\ref{tab:dist-opt} conservan lo que la figura no
+puede dar: el costo y la optimalidad. La Figura~\ref{fig:expansion} muestra,
+en el caso central, qué nodos expandió y cuáles solo generó cada búsqueda.
 
-\begin{table}[H]
-\centering
-\caption{Nodos expandidos, criterio distancia}
-\label{tab:dist-exp}
-\small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_distancia_expandidos.tex}
-\input{outputs/lectura_c2_t_expandidos.tex}
-\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig_comparacion.pdf}
+    \caption{Nodos expandidos, tiempo medio con su desviación y memoria pico de los cinco algoritmos en los diez escenarios, criterio distancia. Fuente: elaboración propia}
+    \label{fig:comparacion}
+    \input{outputs/lectura_c2_fig_comparacion.tex}
+\end{figure}
 
-\begin{table}[H]
-\centering
-\caption{Tiempo medio $\pm$ desviación estándar ($\mu$s), criterio distancia,
-2000 repeticiones}
-\label{tab:dist-t}
-\footnotesize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_c2_distancia_tiempo.tex}
-\input{outputs/lectura_c2_t_tiempo.tex}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Memoria pico (KiB), criterio distancia}
-\label{tab:dist-mem}
-\small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_distancia_memoria.tex}
-\input{outputs/lectura_c2_t_memoria.tex}
-\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig_expansion.pdf}
+    \caption{Nodos expandidos y generados por cada búsqueda en el caso central, criterio distancia. Fuente: elaboración propia}
+    \label{fig:expansion}
+    \input{outputs/lectura_c2_fig_expansion.tex}
+\end{figure}
 
 \begin{table}[H]
 \centering
@@ -358,6 +354,10 @@ diez escenarios / escenarios con ruta óptima}
 \small\setlength{\tabcolsep}{4pt}
 \input{outputs/tabla_c2_limitados.tex}
 \end{table}
+
+El mapa de cobertura de riesgo y peaje, con las aristas marcadas por la auditoría, está en
+\texttt{outputs/fig\_cobertura.png}.
+
 
 \subsection{Rutas}
 
@@ -509,7 +509,11 @@ kilómetro para calibrarlos; la recomendación se recalcula con otros pesos
 \texttt{compuesto} prefiere otra candidata, el agente lo avisa con la
 cobertura de datos de riesgo de ambas. También advierte si la ruta usa aristas
 con limitación conocida: Chocontá a Tunja (truncada), las marcadas por la
-auditoría y los tramos sin dato de riesgo. La Tabla~\ref{tab:ejemplos-agente}
+auditoría y los tramos sin dato de riesgo. Con la opción opcional
+\texttt{-{}-criterio} (distancia, peaje, riesgo, compuesto o compuesto sin
+riesgo) el usuario elige el criterio: la recomendación es entonces la ruta de
+menor costo según ese criterio, la salida lo indica y las candidatas y las
+advertencias se muestran igual. La Tabla~\ref{tab:ejemplos-agente}
 muestra la salida real del agente en tres solicitudes; la ruta de (a) está en
 la Figura~\ref{fig:rutas}.
 
@@ -523,9 +527,12 @@ el ciclo, (b) un par de ruta única y (c) varios destinos con regreso}
 \input{outputs/lectura_c2_ejemplos.tex}
 \end{table}
 
+
 \input{outputs/texto_ejemplo_agente.tex}
 
 \textbf{Perfil de la red.} \input{outputs/texto_perfil_topologico.tex}
+La matriz con la clase de cada par está en \texttt{outputs/fig\_perfil.png}.
+
 
 \subsection{Despachador y criterio de selección}
 
@@ -556,7 +563,7 @@ e. Orden libre sin regreso & Held-Karp (final libre) & ACO \\
 metaheurística solo cuando no lo es. En los tipos de orden libre, el exacto
 (Held-Karp, programación dinámica sobre subconjuntos de paradas) es viable si
 $k \le K_{\mathrm{exacto}}$. Ese umbral no se supuso: se midió Held-Karp en
-esta máquina (Tabla~\ref{tab:umbral}; Intel Core i7-8750H a 2.20 GHz, 6
+esta máquina (Figura~\ref{fig:umbral}; Intel Core i7-8750H a 2.20 GHz, 6
 núcleos y 12 hilos, 15.88 GiB de RAM, Windows 11, Python 3.14.3 y NumPy 2.5.2)
 y se tomó el más restrictivo de dos límites: el de tiempo, el mayor $k$ cuyo
 tiempo mediano no supera 5 s, y el de memoria, el mayor $k$ medido cuya
@@ -565,7 +572,7 @@ presupuesto de 5 s y el 25\,\% son decisiones de diseño; los umbrales son
 mediciones. Para que el umbral no dependa de una sesión, se repitió la
 medición y se toma el mayor $k$ cuyo tiempo mediano cabe en el presupuesto en
 todas las sesiones. Resultado con las tres sesiones de la
-Tabla~\ref{tab:umbral}: $k = 19$ cabe en las tres (2.735, 1.227 y 1.694 s) y
+Figura~\ref{fig:umbral}: $k = 19$ cabe en las tres (2.735, 1.227 y 1.694 s) y
 $k = 20$ no (5.986 s en la sesión 1; 2.475 y 3.676 s en la 2 y la 3); la
 memoria no limita hasta $k = 22$, el mayor medido (1009.8 MiB). Por tanto
 $K_{\mathrm{exacto}} = 19$, fijado por el tiempo. Los tiempos de una sesión a
@@ -583,17 +590,38 @@ búsqueda local 2-opt; si no, corre sin 2-opt (que exige simetría) y el motivo
 de la elección lo dice. Held-Karp no requiere simetría (probado con una matriz
 asimétrica sintética).
 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig_umbral.pdf}
+    \caption{Medición de Held-Karp en esta máquina: tiempo mediano por sesión y memoria pico contra $k$, con el presupuesto de 5 s, el límite de memoria y $K_{\mathrm{exacto}}$. Fuente: elaboración propia}
+    \label{fig:umbral}
+    \input{outputs/lectura_c2_fig_umbral.tex}
+\end{figure}
+La tabla con la mediana de cada sesión está en \texttt{outputs/tabla\_ag\_umbral.tex}.
+
+\subsection{Elección de la metaheurística}
+
+El camino de origen a destino se resuelve con A* o UCS, que son exactos; la
+metaheurística entra solo en el orden libre, cuando Held-Karp no es viable
+($k > K_{\mathrm{exacto}}$). Para esa tarea se eligió ACO porque, en las
+instancias aleatorias del taller del equipo, superó a PSO con claves
+aleatorias en permutaciones (Tabla~\ref{tab:aco-pso}; el gráfico está en
+\texttt{outputs/fig\_aco\_pso.png}). PSO se corrió con parámetros fijos
+($w = 0.7$; $c_1 = c_2 = 1.5$) y sin búsqueda local; el algoritmo genético y el
+temple simulado no se compararon en este problema.
+
 \begin{table}[H]
 \centering
-\caption{Medición de Held-Karp en esta máquina: $k$ paradas libres, modo
-ciclo, con 3 repeticiones desde $k = 17$ (5 hasta $k = 16$). S1 a S3: mediana
-de cada una de las tres sesiones. La columna Tiempo indica si las tres
-medianas caben en el presupuesto de 5 s, y Memoria si la mayor memoria pico
-cabe en el límite de 4064 MiB; se muestran los $k \ge 16$}
-\label{tab:umbral}
-\footnotesize\setlength{\tabcolsep}{2pt}
-\input{outputs/tabla_ag_umbral.tex}
+\caption{ACO y PSO con 2048 agentes y 100 iteraciones (108 con
+$n = 200\,000$): longitud $L$ y tiempo medio. Fuente: repositorio del equipo
+\texttt{Comparacion-ACO-vs-PSO-TSP-}, \texttt{resultados/barrido\_resumen.csv}
+(media de 3 semillas; una sola con $n = 200\,000$); ACO es el programa de
+\texttt{ACO\_IA}}
+\label{tab:aco-pso}
+\footnotesize\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_aco_pso.tex}
 \end{table}
+
 
 \subsection{ACO con búsqueda local 2-opt}
 
@@ -735,26 +763,6 @@ sin 2-opt, que no se validó en instancias de tamaño real.
 datos descritas arriba (Chocontá a Tunja truncada, entrada urbana a Bogotá).
 \end{itemize}
 
-\section{Discusión}
-
-\begin{itemize}
-\item Las rutas de los algoritmos solo difieren en los pares que cruzan el
-ciclo: BFS y DFS pueden devolver el desvío, y UCS, A* con $h$ admisible y, en
-estos escenarios, la búsqueda voraz devuelven la ruta de menor costo. Con un
-solo ciclo, la comparación en los demás pares se limita a nodos expandidos,
-tiempo y memoria.
-\item A* con heurística admisible expande menos nodos que UCS (120 contra 144
-en la suma de los diez escenarios con distancia), pero la ventaja es modesta
-porque $\alpha = 0.310570$ hace a $h$ poco informativa.
-\item El resultado de los criterios que incluyen el riesgo depende de la
-cobertura de los datos: 21 de las 32 aristas no tienen dato de riesgo y valen
-0, por lo que \texttt{riesgo} y \texttt{compuesto} prefieren el desvío porque
-sus tramos no se midieron, no porque sean más seguros.
-\item La corrección de distancias cambia la decisión del criterio compuesto
-sin riesgo en el caso central: con las distancias sin corregir elegía el
-desvío; con las corregidas elige la ruta por Bogotá (Tabla~\ref{tab:sens-cruda}).
-\end{itemize}
-
 \section{Limitaciones}
 
 \begin{itemize}
@@ -780,6 +788,38 @@ y no sirve para medir distancias. Los tramos punteados no tienen trazado en la
 fuente: la geometría de INVÍAS queda a más de 5 km de uno de sus nodos.
 \item \textbf{Alcance.} Un solo ciclo, 10 escenarios y 32 nodos.
 \end{itemize}
+
+\section{Conclusiones}
+
+\begin{enumerate}
+\item Las rutas de los algoritmos solo difieren en los pares que cruzan el
+ciclo: BFS y DFS pueden devolver el desvío, y UCS, A* y, en estos escenarios,
+la búsqueda voraz devuelven la de menor costo; en los demás pares solo cambian
+los nodos expandidos, el tiempo y la memoria.
+\item A* expande menos nodos que UCS (120 contra 144 en la suma de los diez
+escenarios con distancia), pero la ventaja es modesta porque
+$\alpha = 0.310570$ vuelve a $h$ poco informativa.
+\item El riesgo tiene dato en 11 de las 32 aristas: \texttt{riesgo} y
+\texttt{compuesto} prefieren el desvío por falta de datos y no porque sea más
+seguro.
+\item Corregir las distancias cambió la decisión del compuesto sin riesgo:
+con las distancias sin corregir ganaba el desvío (3.197 contra 3.290) y con
+las corregidas gana la ruta por Bogotá (3.149 contra 3.524)
+(Tabla~\ref{tab:sens-cruda}).
+\item El agente decide solo el tipo, el criterio y el método, cubre varias
+paradas y la ida y vuelta, y recomienda la ruta de menor costo compuesto sin
+riesgo; el despachador usa el método exacto hasta $K_{\mathrm{exacto}} = 19$
+y ACO después.
+\item El aporte del 2-opt crece con $n$ (nulo en la red, 0.357\,\% contra
+0.040\,\% con $n = 20$, y 5.599\,\% y 6.209\,\% sin 2-opt con $n = 100$ y
+200); la brecha de 2.212\,\% con inicio fijo se debía al inicio de las
+hormigas.
+\item En el taller del equipo, ACO superó a PSO con claves aleatorias en la
+longitud (1.05, 26.73 y 269.03 veces con $n = 20$, 2\,000 y 200\,000), aunque
+PSO tardó entre 0.39 y 0.63 veces el tiempo de ACO.
+\item Queda abierto lo que las limitaciones declaran: más datos de riesgo, el
+trazado de los tramos truncados y la comparación con otras metaheurísticas.
+\end{enumerate}
 
 \section*{Referencias}
 \addcontentsline{toc}{section}{Referencias}

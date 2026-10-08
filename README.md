@@ -91,12 +91,16 @@ python src/tablas_agente.py        # tablas y figura del agente
 python src/agente_rutas.py Bogotá Granada         # agente autónomo
 python src/agente_rutas.py Duitama "Puente Nacional" --regreso
 python src/agente_rutas.py Duitama "Puente Nacional" --regreso --bloquear-regreso "Tunja-Chocontá"
+python src/agente_rutas.py Duitama "Puente Nacional" --criterio peaje
 python src/pruebas_agente_rutas.py   # pruebas del agente autónomo
+python src/pruebas_criterio.py       # pruebas de --criterio
 python src/perfil_topologico.py      # perfil topológico de los 496 pares
 python src/pruebas_perfil_topologico.py
 python src/mapa_geografico.py        # mapas (desde outputs/trazado_aristas.json)
 python src/pruebas_mapa.py
 python src/lecturas_informe.py       # bloques «Cómo leerla» y tabla de ejemplos
+python src/figuras_informe.py      # figuras de los informes (PNG y PDF en outputs/)
+python src/pruebas_figuras.py
 
 pdflatex formulacion_corte1.tex  # dos pasadas
 pdflatex formulacion_corte1.tex
