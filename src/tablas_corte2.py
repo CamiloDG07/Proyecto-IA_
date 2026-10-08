@@ -17,6 +17,10 @@ NOMBRES_CRITERIO = {
     "compuesto_sin_riesgo": "compuesto sin riesgo",
     "compuesto": "compuesto (riesgo faltante $=0$, limitado)",
     "riesgo": "riesgo (limitado, $h=0$)",
+    "costo_operativo": "costo operativo",
+    "compuesto_total_sin_riesgo": "compuesto total sin riesgo",
+    "compuesto_total": "compuesto total (riesgo faltante $=0$, limitado)",
+    "compuesto_mortalidad": "compuesto con mortalidad (sensibilidad)",
 }
 METRICAS = ["expandidos", "tiempo", "memoria", "costo", "optimalidad"]
 TITULOS = {
@@ -51,6 +55,8 @@ def celda(c, metrica, criterio):
     if metrica == "memoria":
         return f"{c['memoria_pico_kib']:.1f}"
     if metrica == "costo":
+        if criterio == "costo_operativo":
+            return miles(c["costo"])
         return f"{c['costo']:.2f}" if criterio == "distancia" \
             else f"{c['costo']:.3f}"
     if c["optima"]:
@@ -89,28 +95,28 @@ def tablas_escenarios(resultados):
 
 
 def tabla_barrido(barridos):
-    base, cota = barridos[0], barridos[1]
+    base, reg = barridos[0], barridos[1]
     filas = [
         ("Puntos de la malla con ruta por Bogotá (compuesto)",
          f"{base['ganan_bogota_compuesto']} de {len(base['puntos'])}",
-         f"{cota['ganan_bogota_compuesto']} de {len(cota['puntos'])}"),
+         f"{reg['ganan_bogota_compuesto']} de {len(reg['puntos'])}"),
         ("Puntos con ruta por Bogotá (sin riesgo)",
          f"{base['ganan_bogota_sin_riesgo']} de "
          f"{base['puntos_sin_riesgo_definidos']}",
-         f"{cota['ganan_bogota_sin_riesgo']} de "
-         f"{cota['puntos_sin_riesgo_definidos']}"),
+         f"{reg['ganan_bogota_sin_riesgo']} de "
+         f"{reg['puntos_sin_riesgo_definidos']}"),
         ("$w_1$ de cambio sobre $w_3=0$",
          f"{base['w1_umbral_sobre_w3_cero']:.4f}",
-         f"{cota['w1_umbral_sobre_w3_cero']:.4f}"),
+         f"{reg['w1_umbral_sobre_w3_cero']:.4f}"),
     ]
     for i, nombre in enumerate(["$\\Delta D$", "$\\Delta P$", "$\\Delta R$"]):
         filas.append((f"{nombre} (corta menos desvío)",
                       f"{base['delta_corta_menos_desvio'][i]:.4f}",
-                      f"{cota['delta_corta_menos_desvio'][i]:.4f}"))
+                      f"{reg['delta_corta_menos_desvio'][i]:.4f}"))
     escribir("tabla_c2_barrido.tex",
              ["\\begin{tabular}{lrr}", "\\toprule",
               "\\textbf{Medida} & \\textbf{Base} & "
-              "\\textbf{Con cota inferior} \\\\", "\\midrule"]
+              "\\textbf{Con longitud registrada} \\\\", "\\midrule"]
              + [f"{a} & {b} & {c} \\\\" for a, b, c in filas]
              + ["\\bottomrule", "\\end{tabular}"])
 
@@ -119,7 +125,7 @@ def tabla_sensibilidad_alfa(sens):
     lineas = ["\\begin{tabular}{lrrrc}", "\\toprule",
               "\\textbf{Escenario} & \\textbf{UCS} & "
               "\\textbf{A* $\\alpha=%.6f$} & "
-              "\\textbf{A* $\\alpha_{\\mathrm{ref}}=%.6f$} & "
+              "\\textbf{A* $\\alpha_{\\mathrm{reg}}=%.6f$} & "
               "\\textbf{Óptima} \\\\" % (sens["alfa_base"],
                                          sens["alfa_ref"]),
               "\\midrule"]
@@ -139,38 +145,73 @@ def tabla_sensibilidad_alfa(sens):
 
 
 def tabla_sensibilidad_cruda(sens, barridos):
-    base = sens["rutas_optimas_duitama_puente_nacional"]["base"]
-    cruda = sens["rutas_optimas_duitama_puente_nacional"]["crudas"]
+    rutas = sens["rutas_optimas_duitama_puente_nacional"]
+    base, reg, cruda = rutas["base"], rutas["registrada"], rutas["crudas"]
     nombres = {"distancia": "distancia", "peaje": "peaje",
                "riesgo": "riesgo (limitado)",
                "compuesto": "compuesto (limitado)",
-               "compuesto_sin_riesgo": "compuesto sin riesgo"}
-    lineas = ["\\begin{tabular}{lrrrr}", "\\toprule",
+               "compuesto_sin_riesgo": "compuesto sin riesgo",
+               "costo_operativo": "costo operativo",
+               "compuesto_total": "compuesto total (limitado)",
+               "compuesto_total_sin_riesgo": "compuesto total sin riesgo",
+               "compuesto_mortalidad": "compuesto con mortalidad"}
+    lineas = ["\\begin{tabular}{lrrrrrr}", "\\toprule",
               "\\textbf{Criterio} & \\textbf{Base: vía} & "
-              "\\textbf{Base: km} & \\textbf{Crudas: vía} & "
+              "\\textbf{Base: km} & \\textbf{Registrada: vía} & "
+              "\\textbf{Registrada: km} & \\textbf{Crudas: vía} & "
               "\\textbf{Crudas: km} \\\\", "\\midrule"]
     for criterio, nombre in nombres.items():
-        b, c = base[criterio], cruda[criterio]
+        b, r, c = base[criterio], reg[criterio], cruda[criterio]
         lineas.append(f"{nombre} & {b['via']} & {b['distancia_km']:.2f} & "
+                      f"{r['via']} & {r['distancia_km']:.2f} & "
                       f"{c['via']} & {c['distancia_km']:.2f} \\\\")
-    bb, bc = barridos[0], barridos[2]
+    bb, br, bc = barridos[0], barridos[1], barridos[2]
+
+    def triple(clave, total=None, definidos=None):
+        celdas = []
+        for b in (bb, br, bc):
+            n = len(b["puntos"]) if definidos is None else b[definidos]
+            celdas.append("\\multicolumn{2}{r}{" + f"{b[clave]} de {n}}}")
+        return celdas
+
     lineas += [
         "\\midrule",
         "Barrido: ruta por Bogotá (compuesto) & "
-        f"\\multicolumn{{2}}{{r}}{{{bb['ganan_bogota_compuesto']} de "
-        f"{len(bb['puntos'])}}} & \\multicolumn{{2}}{{r}}"
-        f"{{{bc['ganan_bogota_compuesto']} de {len(bc['puntos'])}}} \\\\",
+        + " & ".join(triple("ganan_bogota_compuesto")) + " \\\\",
         "Barrido: ruta por Bogotá (sin riesgo) & "
-        f"\\multicolumn{{2}}{{r}}{{{bb['ganan_bogota_sin_riesgo']} de "
-        f"{bb['puntos_sin_riesgo_definidos']}}} & \\multicolumn{{2}}{{r}}"
-        f"{{{bc['ganan_bogota_sin_riesgo']} de "
-        f"{bc['puntos_sin_riesgo_definidos']}}} \\\\",
+        + " & ".join(triple("ganan_bogota_sin_riesgo", None,
+                            "puntos_sin_riesgo_definidos")) + " \\\\",
         "$w_1$ de cambio sobre $w_3=0$ & "
-        f"\\multicolumn{{2}}{{r}}{{{bb['w1_umbral_sobre_w3_cero']:.4f}}} & "
-        f"\\multicolumn{{2}}{{r}}{{{bc['w1_umbral_sobre_w3_cero']:.4f}}} "
-        "\\\\",
+        + " & ".join("\\multicolumn{2}{r}{"
+                     f"{b['w1_umbral_sobre_w3_cero']:.4f}}}"
+                     for b in (bb, br, bc)) + " \\\\",
         "\\bottomrule", "\\end{tabular}"]
     escribir("tabla_c2_sensibilidad_cruda.tex", lineas)
+
+
+def tabla_barrido_total(totales):
+    """Barrido de los cuatro pesos del compuesto total (base y registrada)."""
+    base, reg = totales
+    filas = [
+        ("Puntos de la malla con ruta por Bogotá (compuesto total)",
+         f"{base['ganan_bogota_total']} de {len(base['puntos'])}",
+         f"{reg['ganan_bogota_total']} de {len(reg['puntos'])}"),
+        ("Puntos con ruta por Bogotá (sin riesgo)",
+         f"{base['ganan_bogota_sin_riesgo']} de "
+         f"{base['puntos_sin_riesgo_definidos']}",
+         f"{reg['ganan_bogota_sin_riesgo']} de "
+         f"{reg['puntos_sin_riesgo_definidos']}")]
+    nombres = ["$\\Delta D$", "$\\Delta P$", "$\\Delta R$", "$\\Delta C$"]
+    for i, nombre in enumerate(nombres):
+        filas.append((f"{nombre} (por Bogotá menos por Santander)",
+                      f"{base['delta_corta_menos_desvio'][i]:.4f}",
+                      f"{reg['delta_corta_menos_desvio'][i]:.4f}"))
+    escribir("tabla_c2_barrido_total.tex",
+             ["\\begin{tabular}{lrr}", "\\toprule",
+              "\\textbf{Medida} & \\textbf{Base} & "
+              "\\textbf{Con longitud registrada} \\\\", "\\midrule"]
+             + [f"{a} & {b} & {c} \\\\" for a, b, c in filas]
+             + ["\\bottomrule", "\\end{tabular}"])
 
 
 def tabla_heuristica():
@@ -178,7 +219,11 @@ def tabla_heuristica():
     filas = []
     nombres = {"distancia": "distancia",
                "compuesto_sin_riesgo": "compuesto sin riesgo",
-               "compuesto": "compuesto (limitado)"}
+               "compuesto": "compuesto (limitado)",
+               "costo_operativo": "costo operativo",
+               "compuesto_total_sin_riesgo": "compuesto total sin riesgo",
+               "compuesto_total": "compuesto total (limitado)",
+               "compuesto_mortalidad": "compuesto con mortalidad (limitado)"}
     for criterio, datos in a["criterios"].items():
         adm, con = datos["admisibilidad"], datos["consistencia"]
         filas.append((nombres[criterio], f"{a['alfa']:.6f}",
@@ -237,7 +282,9 @@ def tabla_limitados(resultados):
                   f"\\textbf{{{a}}}" for a in ALGORITMOS) + " \\\\",
               "\\midrule"]
     nombres = {"compuesto": "compuesto (riesgo faltante $=0$)",
-               "riesgo": "riesgo ($h=0$)"}
+               "riesgo": "riesgo ($h=0$)",
+               "compuesto_total": "compuesto total (riesgo faltante $=0$)",
+               "compuesto_mortalidad": "compuesto con mortalidad"}
     for criterio, nombre in nombres.items():
         celdas = []
         for algoritmo in ALGORITMOS:
@@ -281,6 +328,7 @@ def main():
     sens = leer("sensibilidad_corte2.json")
     tablas_escenarios(resultados)
     tabla_barrido(barridos)
+    tabla_barrido_total(leer("barrido_total.json"))
     tabla_sensibilidad_alfa(sens)
     tabla_sensibilidad_cruda(sens, barridos)
     tabla_heuristica()
