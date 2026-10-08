@@ -25,11 +25,22 @@ from mapa_geografico import (DESTINO, ORIGEN, UMBRAL_KM,
                              costos_ruta, unir)
 
 ALGORITMOS = ["BFS", "DFS", "UCS", "Voraz", "A*"]
+CRITERIOS_TABLA = ["distancia", "peaje", "riesgo", "compuesto",
+                   "compuesto_sin_riesgo", "costo_operativo",
+                   "compuesto_total", "compuesto_total_sin_riesgo",
+                   "compuesto_mortalidad"]
 
 
 def leer(nombre):
     with open(SALIDA / nombre, encoding="utf-8") as f:
         return json.load(f)
+
+
+def enumerar(items):
+    """«a, b y c» para una lista de textos."""
+    if len(items) == 1:
+        return items[0]
+    return ", ".join(items[:-1]) + " y " + items[-1]
 
 
 def miles(valor):
@@ -92,24 +103,23 @@ def lecturas_corte1():
         "dibuja punteado.")
     pruebas = leer("pruebas_agente.json")["ciclo"]
     por_via = {}
-    for criterio in ("distancia", "peaje", "riesgo", "compuesto",
-                     "compuesto_sin_riesgo"):
+    for criterio in CRITERIOS_TABLA:
         r = pruebas[criterio]
         via = "Santander" if "Bucaramanga" in r["ruta"] else "Bogotá"
         por_via.setdefault(via, []).append(criterio.replace("_", " "))
     ref = {v: next(pruebas[c.replace(" ", "_")] for c in cs)
            for v, cs in por_via.items()}
-    partes = [f"{' y '.join(cs)} eligen {v} "
-              f"({ref[v]['distancia_total_km']:.2f} km, "
-              f"{miles(ref[v]['peaje_total_cop'])} COP de peaje)"
+    partes = [f"por {v} ({ref[v]['distancia_total_km']:.2f} km, peaje "
+              f"{miles(ref[v]['peaje_total_cop'])} COP) van "
+              f"{enumerar(cs)}"
               for v, cs in por_via.items()]
     dif_peaje = (ref["Bogotá"]["peaje_total_cop"]
                  - ref["Santander"]["peaje_total_cop"])
     bloque(
         "c1_criterios",
-        "filas: los cinco criterios; columnas: vía elegida, distancia, "
+        "filas: los nueve criterios; columnas: vía elegida, distancia, "
         "peaje, tiempo y memoria de una corrida del agente.",
-        "; ".join(partes) + ".",
+        "\\raggedright " + "; ".join(partes) + ".",
         f"Medido: la ruta por Santander cuesta {miles(dif_peaje)} COP menos "
         f"de peaje y sus {pruebas['riesgo']['tramos_sin_dato_riesgo']} "
         "tramos sin dato de riesgo valen 0.")
