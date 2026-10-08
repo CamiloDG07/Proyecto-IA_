@@ -99,8 +99,8 @@ menor costo según ese criterio.
 La red modelada tiene 32 ciudades y 32 tramos (Tabla~\ref{tab:estadisticas}).
 Es un grafo no dirigido, conexo y con exactamente un ciclo independiente
 ($E-V+1=1$). Ese ciclo, que cierra por Santander, permite que algunos pares
-de ciudades tengan dos rutas reales distintas. El caso de referencia es
-Duitama a Puente Nacional: 414.84 km por Bogotá o 668.14 km por Santander.
+de ciudades tengan dos rutas reales distintas.
+\input{outputs/texto_c1_caso_referencia.tex}
 
 \section{Modelo PEAS}
 
@@ -178,7 +178,7 @@ solo el corredor. Por eso el riesgo se asigna por corredor completo: puntaje
 GiZScore promedio, fallecidos históricos y número de puntos críticos.
 \end{itemize}
 
-Tres hechos de los datos condicionan el modelo:
+Cuatro hechos de los datos condicionan el modelo:
 
 \begin{itemize}
 \item \textbf{San Gil a Bucaramanga.} Figura en la Red Vial en dos registros
@@ -559,7 +559,7 @@ no sirve para medir distancias. Los tramos punteados no tienen trazado en la
 fuente: la geometría de INVÍAS queda a más de 5 km de uno de sus nodos.
 \end{itemize}
 
-\section*{Referencias}
+\renewcommand{\refname}{Referencias}
 \addcontentsline{toc}{section}{Referencias}
 
 \begin{thebibliography}{9}

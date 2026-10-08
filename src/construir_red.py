@@ -47,9 +47,11 @@ aristas en la red nacional completa). Resultado: dentro del alcance regional
 original (Cundinamarca, Boyacá, Meta, Tolima) la red vial troncal nacional es,
 en efecto, un árbol real -- no es un defecto de qué tramos se eligieron, es la
 topología real de las troncales colombianas a esa escala. El ÚNICO ciclo real
-que toca los nodos del proyecto cierra a través de un desvío real de ~585 km
-por Santander (Puente Nacional -> San Gil -> Bucaramanga -> Cuestaboba ->
-Pamplona -> Presidente -> La Palmera -> Duitama), verificado con los PR
+que toca los nodos del proyecto cierra a través de un desvío real
+(~585 km en la v1, antes de corregir las distancias; 654.25 km en la red
+corregida) por Santander (Puente Nacional -> San Gil -> Bucaramanga ->
+Cuestaboba -> Pamplona -> Presidente -> La Palmera -> Duitama), verificado
+con los PR
 (progresiva de kilómetro) de cada segmento en red_vial.csv.
 
 Se decidió, junto con el equipo, incorporar ese ciclo real (en vez de aceptar
