@@ -65,8 +65,9 @@ def revisar(fig, nombre):
        f"({len(c)} cajas)" + (f"; cruces: {choques[:3]}" if choques else ""))
     ok(getattr(fig, "solapes", 0) == 0, f"{nombre}: 0 rótulos montados")
     tam = [t.get_fontsize() for t in fig.findobj(Text) if t.get_text().strip()]
-    ok(min(tam) >= fi.FUENTE - 1e-9,
-       f"{nombre}: letra mínima {min(tam):.1f} pt (>= {fi.FUENTE:.0f})")
+    minimo = getattr(fig, "fuente_minima", fi.FUENTE)
+    ok(min(tam) >= minimo - 1e-9,
+       f"{nombre}: letra mínima {min(tam):.1f} pt (>= {minimo:.0f})")
     with tempfile.TemporaryDirectory() as tmp:
         ruta = Path(tmp) / "f.pdf"
         fig.savefig(ruta, facecolor=fi.SUPERFICIE)
@@ -99,10 +100,16 @@ def main():
     t = textos(figs["fig_expansion"])
     for a in fi.ALGORITMOS:
         c = fi.celda(res, fi.ORIGEN, fi.DESTINO, "distancia", a)
+        veredicto = "no óptima" if c["costo"] > fi.celda(
+            res, fi.ORIGEN, fi.DESTINO, "distancia", "UCS")["costo"] \
+            else "óptima"
         ok(f"{a}: {c['nodos_expandidos']} expandidos" in t
-           and f"{c['nodos_generados']} generados" in t,
-           f"expansión: {a} rotula {c['nodos_expandidos']} expandidos y "
-           f"{c['nodos_generados']} generados (los guardados)")
+           and f"{c['costo']:.2f} km, {veredicto}" in t,
+           f"expansión: {a} rotula {c['nodos_expandidos']} expandidos, "
+           f"{c['costo']:.2f} km y {veredicto} (los guardados)")
+        ok(figs["fig_expansion"].estados[a][0] == c["nodos_expandidos"],
+           f"expansión: {a} recalcula {c['nodos_expandidos']} nodos "
+           "expandidos (los guardados)")
     # comparación de algoritmos
     fig = figs["fig_comparacion"]
     for i, a in enumerate(fi.ALGORITMOS):
@@ -127,18 +134,21 @@ def main():
     # ACO
     fig = figs["fig_aco"]
     val = fi.leer("validacion_agente.json")["instancias"]
-    taller = [r for r in val if r["familia"].startswith("euclidiana n=20")]
-    esp = np.mean([r["aco_sin_2opt"]["brecha_media_pct"] for r in taller])
+    eucl = [r for r in val if r["familia"].startswith("euclidiana n=20")]
+    esp = np.mean([r["aco_sin_2opt"]["brecha_media_pct"] for r in eucl])
     ok(abs(fig.valores["aco_sin_2opt"][5] - esp) < 1e-9,
-       f"ACO: brecha del taller sin 2-opt {esp:.3f} % = validacion_agente")
+       f"ACO: brecha de las euclidianas n = 20 sin 2-opt {esp:.3f} % = "
+       "validacion_agente")
     # umbral
     u = fi.leer("umbral_held_karp.json")
-    ax = figs["fig_umbral"].axes[0]
-    xs = [ln.get_xdata()[0] for ln in ax.lines
-          if len(ln.get_xdata()) == 2 and ln.get_xdata()[0]
-          == ln.get_xdata()[1]]
-    ok(xs == [u["k_exacto"]] and f"K = {u['k_exacto']}" in textos(
-        figs["fig_umbral"]), f"umbral: K = {u['k_exacto']} marcado")
+    ok(f"K_exacto = {u['k_exacto']}" in textos(figs["fig_umbral"]),
+       f"umbral: K_exacto = {u['k_exacto']} anotado")
+    esperado = [max(m["medianas_s"]) for m in u["mediciones"]
+                if 16 <= m["k"] <= 22]
+    ok(figs["fig_umbral"].peores == esperado,
+       "umbral: las barras son el peor tiempo de las sesiones (outputs)")
+    ok(all(f"{v:.3f}" in textos(figs["fig_umbral"]) for v in esperado
+           if v < 10), "umbral: valor rotulado sobre cada barra")
     # perfil
     p = fi.leer("perfil_topologico.json")
     m = figs["fig_perfil"].matriz
@@ -147,12 +157,6 @@ def main():
            "paso_obligatorio"] and int((m == 1).sum()) // 2 == p[
            "pares_por_clase"]["camino_unico"],
        "perfil: las celdas de cada clase = pares de cada clase")
-    # ACO frente a PSO
-    t = textos(figs["fig_aco_pso"])
-    for f in figs["fig_aco_pso"].filas:
-        ok(f"×{float(f['razon_L']):.2f}" in t
-           and f"×{float(f['razon_t']):.2f}" in t,
-           f"ACO frente a PSO: razones de n = {f['n']} = comparacion_aco_pso")
     # casos del Corte 1
     pa = fi.leer("pruebas_agente.json")
     t = textos(figs["fig_c1_casos"])

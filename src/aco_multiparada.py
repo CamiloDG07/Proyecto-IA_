@@ -23,11 +23,9 @@ Algoritmo (Ant System con búsqueda local):
     iteración; el mejor global se guarda ya mejorado.
 
 Parámetros declarados (fijos para todas las instancias):
-  ALFA = 1.5, BETA = 5, RHO = 0.1: configuración adoptada en el taller de ACO
-  del curso (ACO_IA, docs/decisiones_diseno.md) tras su barrido de
-  parámetros sobre instancias euclidianas; no se reajustó aquí.
-  HORMIGAS = número de nodos del problema (m = n, como en el taller para
-  n = 20), ITERACIONES = 100 (las del taller para n = 20).
+  ALFA = 1.5, BETA = 5, RHO = 0.1: adoptados de un trabajo previo del
+  equipo (referencia [aco] del informe); no se reajustaron aquí.
+  HORMIGAS = número de nodos del problema (m = n), ITERACIONES = 100.
   SEMILLAS: al menos 10, fijas (aco_semillas).
 """
 import time

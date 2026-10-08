@@ -26,6 +26,8 @@ import matplotlib.pyplot as plt  # noqa: E402
 import networkx as nx  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
+from matplotlib.patches import Patch  # noqa: E402
+from matplotlib.ticker import NullLocator  # noqa: E402
 
 import busquedas  # noqa: E402
 import mapa_geografico as mg  # noqa: E402
@@ -79,7 +81,7 @@ def celda(res, origen, destino, criterio, algoritmo):
 
 
 # ---------------------------------------------------------------- rótulos
-def rotular(ax, fig, items, fijos=(), tam=FUENTE):
+def rotular(ax, fig, items, fijos=(), tam=FUENTE, preferidos=None):
     """Rótulos de puntos (x, y, texto, negrita) en coordenadas de datos, sin
     montarse entre sí ni con las cajas `fijos` (en píxeles). Devuelve
     (rótulos montados, cajas)."""
@@ -108,7 +110,7 @@ def rotular(ax, fig, items, fijos=(), tam=FUENTE):
     for i in orden:
         x, y, texto, neg = items[i]
         mejor, mejor_sol = None, None
-        for d in desp:
+        for d in list((preferidos or {}).get(texto, [])) + desp:
             t = ax.annotate(texto, xy=(x, y), xytext=d[:2],
                             textcoords="offset points", fontsize=tam,
                             ha=d[2], va=d[3],
@@ -236,9 +238,65 @@ def expansiones(grafo, origen, destino, criterio="distancia"):
     return salida
 
 
+FUENTE_8 = 8.0   # letra mínima de las figuras esquemáticas
+
+
+def disposicion(grafo):
+    """Posiciones esquemáticas: el ciclo como anillo y las ramas hacia
+    afuera, en abanico; deterministas y las mismas en todos los paneles."""
+    ciclo = nx.cycle_basis(grafo)[0]
+    i0 = ciclo.index("Bogotá")
+    ciclo = ciclo[i0:] + ciclo[:i0]
+    padre = {c: None for c in ciclo}
+    hijos = {}
+    frontera = list(ciclo)
+    while frontera:
+        nueva = []
+        for u in frontera:
+            for v in sorted(grafo[u]):
+                if v not in padre:
+                    padre[v] = u
+                    hijos.setdefault(u, []).append(v)
+                    nueva.append(v)
+        frontera = nueva
+    hojas = {}
+
+    def contar(u):
+        hs = hijos.get(u, [])
+        hojas[u] = sum(contar(h) for h in hs) if hs else 1
+        return hojas[u]
+
+    def colocar(u, a0, a1, prof, pos):
+        hs = hijos.get(u, [])
+        total = sum(hojas[h] for h in hs)
+        a = a0
+        for h in hs:
+            w = (a1 - a0) * hojas[h] / total
+            r = 1 + 0.36 * prof
+            pos[h] = (r * np.cos(a + w / 2), r * np.sin(a + w / 2))
+            colocar(h, a, a + w, prof + 1, pos)
+            a += w
+
+    for c in ciclo:
+        contar(c)
+    # cada nodo del anillo recibe un arco proporcional a sus ramas
+    pesos = [1 + 0.3 * (hojas[c] - 1) for c in ciclo]
+    unidad = 2 * np.pi / sum(pesos)
+    pos, acumulado = {}, 0.0
+    for c, p in zip(ciclo, pesos):
+        ang = np.pi / 2 - (acumulado + p / 2) * unidad
+        acumulado += p
+        pos[c] = (np.cos(ang), np.sin(ang))
+        if hijos.get(c):
+            ancho = p * unidad * 0.92
+            colocar(c, ang - ancho / 2, ang + ancho / 2, 1, pos)
+    return pos
+
+
 def fig_expansion(grafo, trazado):
     res = leer("resultados_corte2.json")["resultados"]
     exp = expansiones(grafo, ORIGEN, DESTINO)
+    central = {}
     for nombre in ALGORITMOS:
         guardado = celda(res, ORIGEN, DESTINO, "distancia", nombre)
         r = exp[nombre]["resultado"]
@@ -246,74 +304,125 @@ def fig_expansion(grafo, trazado):
             "nodos_expandidos"] == r["nodos_expandidos"], nombre
         assert r["nodos_generados"] == guardado["nodos_generados"], nombre
         assert r["ruta"] == guardado["ruta"], nombre
-    coord = cargar_coordenadas()
-    lon, lat = (-74.45, -72.35), (4.45, 7.55)
-    fig, axes = plt.subplots(2, 3, figsize=(ANCHO_IN, 6.0))
-    fig.subplots_adjust(left=0.01, right=0.99, top=0.93, bottom=0.01,
-                        wspace=0.04, hspace=0.16)
+        central[nombre] = guardado
+    optimo = central["UCS"]["costo"]
+    pos = disposicion(grafo)
+    claves = [(ORIGEN, "Duitama", True), (DESTINO, "P. Nacional", True),
+              ("Tunja", "Tunja", False), ("Chocontá", "Chocontá", False),
+              ("Bogotá", "Bogotá", False),
+              ("Bucaramanga", "Bucaramanga", False)]
+    preferidos = {}
+    for n, txt, _ in claves:
+        x, y = pos[n]
+        if np.hypot(x, y) > 1.05 or n == "Bogotá":
+            continue
+        ha = "left" if x > 0.3 else "right" if x < -0.3 else "center"
+        va = "bottom" if y > 0.3 else "top" if y < -0.3 else "center"
+        preferidos[txt] = [(11 * x, 11 * y, ha, va)]
+    preferidos["Bogotá"] = [(12, 0, "left", "center"),
+                            (-12, 0, "right", "center")]
+    xs = [p[0] for p in pos.values()]
+    ys = [p[1] for p in pos.values()]
+    lim = ((min(xs) - 0.2, max(xs) + 0.45), (min(ys) - 0.15, max(ys) + 0.15))
+    fig, axes = plt.subplots(2, 3, figsize=(ANCHO_IN, 6.6))
+    fig.subplots_adjust(left=0.01, right=0.99, top=0.93, bottom=0.17,
+                        wspace=0.05, hspace=0.2)
+    fig.fuente_minima = FUENTE_8
+    fig.estados = {}
+    fig.solapes, fig.cajas = 0, []
     for ax, nombre in zip(axes.flat, ALGORITMOS):
-        fondo(ax, lon, lat)
-        red_gris(ax, grafo, trazado)
-        info = exp[nombre]
-        ruta_negra(ax, trazado, info["resultado"]["ruta"])
-        expandidos = set(info["expandidos"])
-        solo = info["generados"] - expandidos
+        ax.set_xlim(*lim[0])
+        ax.set_ylim(*lim[1])
+        ax.set_aspect(1)
+        ax.axis("off")
+        for u, v in grafo.edges:
+            ax.plot([pos[u][0], pos[v][0]], [pos[u][1], pos[v][1]],
+                    color=GRIS_RED, lw=0.9, zorder=1, solid_capstyle="round")
+        ruta = exp[nombre]["resultado"]["ruta"]
+        for u, v in zip(ruta, ruta[1:]):
+            ax.plot([pos[u][0], pos[v][0]], [pos[u][1], pos[v][1]],
+                    color=TINTA, lw=2.8, zorder=3, solid_capstyle="round")
+        expandidos = set(exp[nombre]["expandidos"])
+        solo = exp[nombre]["generados"] - expandidos
         otros = [n for n in grafo if n not in expandidos | solo]
-        ax.scatter([coord[n][1] for n in otros], [coord[n][0] for n in otros],
-                   s=5, color=GRIS_VIA, zorder=3)
-        ax.scatter([coord[n][1] for n in solo], [coord[n][0] for n in solo],
-                   s=22, marker="s", facecolor=SUPERFICIE,
-                   edgecolor=NARANJA, lw=1.2, zorder=5)
-        ax.scatter([coord[n][1] for n in expandidos],
-                   [coord[n][0] for n in expandidos], s=22, marker="o",
-                   color=AZUL, edgecolor=TINTA, lw=0.5, zorder=6)
-        guardado = celda(res, ORIGEN, DESTINO, "distancia", nombre)
-        ax.set_title(f"{nombre}: {guardado['nodos_expandidos']} expandidos\n"
-                     f"{guardado['nodos_generados']} generados, "
-                     f"{guardado['costo']:.2f} km", fontsize=FUENTE,
-                     color=TINTA, pad=3)
-        s, c = rotular(ax, fig, [(coord[ORIGEN][1], coord[ORIGEN][0],
-                                  "Duitama", True),
-                                 (coord[DESTINO][1], coord[DESTINO][0],
-                                  "P. Nacional", True)])
+        fig.estados[nombre] = (len(expandidos), len(solo), len(otros))
+        ax.scatter([pos[n][0] for n in otros], [pos[n][1] for n in otros],
+                   s=9, color=GRIS_VIA, zorder=4)
+        ax.scatter([pos[n][0] for n in solo], [pos[n][1] for n in solo],
+                   s=34, marker="s", facecolor=SUPERFICIE, edgecolor=NARANJA,
+                   lw=1.4, zorder=5)
+        ax.scatter([pos[n][0] for n in expandidos],
+                   [pos[n][1] for n in expandidos], s=34, marker="o",
+                   color=AZUL, edgecolor=TINTA, lw=0.6, zorder=6)
+        g = central[nombre]
+        veredicto = "óptima" if abs(g["costo"] - optimo) < 1e-9 \
+            else "no óptima"
+        ax.set_title(f"{nombre}: {g['nodos_expandidos']} expandidos\n"
+                     f"{g['costo']:.2f} km, {veredicto}",
+                     fontsize=FUENTE_8, color=TINTA, pad=2)
+        fig.canvas.draw()
+        rotulados = {n for n, _, _ in claves}
+        px = [ax.transData.transform(p) for n, p in pos.items()
+              if n not in rotulados]
+        nodos = [(p[0] - 7, p[1] - 7, p[0] + 7, p[1] + 7) for p in px]
+        s, c = rotular(ax, fig, [(pos[n][0], pos[n][1], txt, neg)
+                                 for n, txt, neg in claves], fijos=nodos,
+                       tam=FUENTE_8, preferidos=preferidos)
         unir_cajas(fig, c, s)
     ax = axes.flat[5]
-    ax.axis("off")
+    x = np.arange(len(ALGORITMOS))
+    valores = [central[a]["nodos_expandidos"] for a in ALGORITMOS]
+    for i, v in enumerate(valores):
+        ax.bar(i, v, width=0.7, color=COLORES_ALG[i], edgecolor=TINTA,
+               lw=0.6, hatch=TRAMAS_ALG[i], zorder=3)
+        ax.text(i, v + 0.6, str(v), ha="center", va="bottom",
+                fontsize=FUENTE_8, color=TINTA)
+    ax.set_xticks(x)
+    ax.set_xticklabels(ALGORITMOS, fontsize=FUENTE_8)
+    ax.set_ylim(0, max(valores) * 1.18)
+    ax.tick_params(labelsize=FUENTE_8, colors=TINTA_2, length=2)
+    ax.grid(axis="y", color="#e6e5e1", lw=0.6, zorder=0)
+    for borde in ("top", "right"):
+        ax.spines[borde].set_visible(False)
+    ax.set_title("Nodos expandidos", fontsize=FUENTE_8, color=TINTA, pad=2)
     entradas = [
         Line2D([0], [0], marker="o", color="none", mfc=AZUL, mec=TINTA,
-               label="Nodo expandido"),
+               ms=6, label="Nodo expandido"),
         Line2D([0], [0], marker="s", color="none", mfc=SUPERFICIE,
-               mec=NARANJA, mew=1.2, label="Generado, sin expandir"),
+               mec=NARANJA, mew=1.4, ms=6, label="Generado, sin expandir"),
         Line2D([0], [0], marker="o", color="none", mfc=GRIS_VIA,
-               mec=GRIS_VIA, ms=3, label="Resto de la red"),
-        Line2D([0], [0], color=TINTA, lw=2.4, label="Ruta devuelta"),
-        Line2D([0], [0], color=GRIS_RED, lw=0.9, label="Tramo de la red"),
-        Line2D([0], [0], color=GRIS_VIA, lw=1.2, ls=(0, (1, 2)),
-               label="Tramo sin trazado\nen la fuente")]
-    ax.legend(handles=entradas, loc="center", fontsize=FUENTE, frameon=True,
-              facecolor=SUPERFICIE, edgecolor=GRIS_LIMITE,
-              title="Duitama a Puente Nacional,\ncriterio distancia",
-              title_fontsize=FUENTE, labelspacing=0.8)
-    fig.legend_caja = ax.get_legend()
-    # bloque Cómo leerla
+               mec=GRIS_VIA, ms=3, label="No visitado"),
+        Line2D([0], [0], color=TINTA, lw=2.8, label="Ruta devuelta"),
+        Line2D([0], [0], color=GRIS_RED, lw=0.9, label="Tramo de la red")]
+    leyenda = fig.legend(handles=entradas, loc="lower center", ncol=3,
+                         fontsize=FUENTE_8, frameon=True,
+                         facecolor=SUPERFICIE, edgecolor=GRIS_LIMITE,
+                         title=f"{ORIGEN} a Puente Nacional, criterio "
+                               "distancia", title_fontsize=FUENTE_8,
+                         columnspacing=1.2, borderpad=0.5, labelspacing=0.4,
+                         bbox_to_anchor=(0.5, 0.0))
+    fig.canvas.draw()
+    caja = leyenda.get_window_extent(fig.canvas.get_renderer())
+    unir_cajas(fig, [("leyenda", (caja.x0, caja.y0, caja.x1, caja.y1))], 0)
     por_via = {a: ("Santander" if "Bucaramanga" in exp[a]["resultado"]["ruta"]
                    else "Bogotá") for a in ALGORITMOS}
-    central = {a: celda(res, ORIGEN, DESTINO, "distancia", a)
-               for a in ALGORITMOS}
     cuentas = ", ".join(f"{a} {central[a]['nodos_expandidos']}"
                         for a in ALGORITMOS)
     santander = ", ".join(a for a in ALGORITMOS if por_via[a] == "Santander")
     bogota = ", ".join(a for a in ALGORITMOS if por_via[a] == "Bogotá")
     bloque(
         "c2_fig_expansion",
-        "un panel por algoritmo sobre el mapa; círculos azules, nodos "
-        "expandidos; cuadrados huecos naranja, nodos generados sin "
-        "expandir; línea negra, la ruta devuelta; punteada, tramo sin "
-        "trazado en la fuente.",
+        "esquema de la red, con el ciclo como anillo y las ramas hacia "
+        "afuera, igual en los cinco paneles (uno por algoritmo); círculo "
+        "relleno, nodo expandido; cuadrado hueco con borde naranja, "
+        "generado sin expandir; punto gris, no visitado; trazo negro "
+        "grueso, la ruta devuelta; abajo a la derecha, nodos expandidos "
+        "por algoritmo.",
         f"nodos expandidos: {cuentas}; devuelven la ruta por Santander "
         f"{santander} y por Bogotá {bogota}.",
         "Medido: los conjuntos se recalcularon con las mismas búsquedas y "
-        "su tamaño coincide con los nodos expandidos guardados.")
+        "su tamaño coincide con los nodos expandidos guardados; el esquema "
+        "no conserva distancias.")
     return fig
 
 
@@ -486,62 +595,83 @@ def fig_c1_coherencia(grafo, trazado):
 # ------------------------------------------------ B6: umbral de Held-Karp
 def fig_umbral(grafo, trazado):
     u = leer("umbral_held_karp.json")
-    ks = [m["k"] for m in u["mediciones"]]
+    meds = [m for m in u["mediciones"] if 16 <= m["k"] <= 22]
+    presupuesto, k_exacto = u["presupuesto_s"], u["k_exacto"]
     sesiones = len(u["sesiones"])
-    fig, axes = plt.subplots(1, 2, figsize=(ANCHO_IN, 3.1))
-    fig.subplots_adjust(left=0.1, right=0.985, top=0.97, bottom=0.2,
-                        wspace=0.3)
-    ax = axes[0]
-    for s in range(sesiones):
-        ax.plot(ks, [m["medianas_s"][s] for m in u["mediciones"]],
-                marker=MARCADORES_ALG[s], color=COLORES_ALG[s], lw=1.2,
-                ms=4, mec=TINTA, mew=0.4, label=f"Sesión {s + 1}")
-    ax.axhline(u["presupuesto_s"], color=TINTA, lw=1.0, ls="--")
-    ax.text(ks[0], u["presupuesto_s"] * 1.2,
-            f"presupuesto de {u['presupuesto_s']:g} s", fontsize=FUENTE,
-            color=TINTA, va="bottom", ha="left")
-    ax.axvline(u["k_exacto"], color=TINTA_2, lw=1.0, ls=":")
-    ax.text(u["k_exacto"] - 0.3, 0.0025, f"K = {u['k_exacto']}",
-            fontsize=FUENTE, color=TINTA, ha="right")
+    fig, ax = plt.subplots(figsize=(ANCHO_IN, 3.7))
+    fig.subplots_adjust(left=0.11, right=0.985, top=0.84, bottom=0.14)
+    fig.fuente_minima = FUENTE_8
+    fig.solapes, fig.cajas = 0, []
+    peores = []
+    for i, m in enumerate(meds):
+        peor, mejor = max(m["medianas_s"]), min(m["medianas_s"])
+        peores.append(peor)
+        cabe = peor <= presupuesto
+        ax.bar(i, peor, width=0.62, zorder=3, edgecolor=TINTA, lw=0.7,
+               color=AZUL if cabe else NARANJA, hatch="" if cabe else "xxx")
+        ax.plot([i, i], [mejor, peor], color=SUPERFICIE, lw=3.4, zorder=4,
+                solid_capstyle="butt")
+        ax.plot([i, i], [mejor, peor], color=TINTA, lw=1.4, zorder=5,
+                solid_capstyle="butt")
+        for y in (mejor, peor):
+            ax.plot([i - 0.14, i + 0.14], [y, y], color=TINTA, lw=1.4,
+                    zorder=5)
+        texto = f"{peor:.3f}" if peor < 10 else f"{peor:.2f}"
+        ax.text(i, peor * 1.08, texto, ha="center", va="bottom",
+                fontsize=FUENTE_8, color=TINTA, zorder=6)
+    ax.axhline(presupuesto, color=TINTA, lw=1.0, ls="--", zorder=2)
+    ax.text(-0.45, presupuesto * 1.12, f"presupuesto de {presupuesto:g} s",
+            fontsize=FUENTE_8, color=TINTA, va="bottom", ha="left")
     ax.set_yscale("log")
-    ax.set_xlabel("Paradas libres k", fontsize=FUENTE, color=TINTA_2)
-    ax.set_ylabel("Tiempo mediano (s)", fontsize=FUENTE, color=TINTA_2)
-    ax.legend(fontsize=FUENTE, loc="center left", bbox_to_anchor=(0.0, 0.62),
-              frameon=False)
-    ax.set_xticks(range(8, 23, 2))
-    ax = axes[1]
-    ax.plot(ks, [m["memoria_pico_mib"] for m in u["mediciones"]], marker="o",
-            color=AZUL, lw=1.2, ms=4, mec=TINTA, mew=0.4,
-            label="Memoria pico")
-    ax.axhline(u["limite_memoria_mib"], color=TINTA, lw=1.0, ls="--")
-    ax.text(ks[0], u["limite_memoria_mib"] * 0.8,
-            f"límite de {u['limite_memoria_mib']:.0f} MiB (25 % de la RAM)",
-            fontsize=FUENTE, color=TINTA, va="top")
-    ax.set_xticks(range(8, 23, 2))
-    ax.set_yscale("log")
-    ax.set_xlabel("Paradas libres k", fontsize=FUENTE, color=TINTA_2)
-    ax.set_ylabel("Memoria pico (MiB)", fontsize=FUENTE, color=TINTA_2)
-    for ax in axes:
-        ax.tick_params(labelsize=FUENTE, colors=TINTA_2)
-        ax.grid(color="#e6e5e1", lw=0.6, zorder=0)
-        for borde in ("top", "right"):
-            ax.spines[borde].set_visible(False)
+    ax.set_ylim(0.1, 50)
+    ax.set_yticks([0.1, 1, 5, 10, 30])
+    ax.set_yticklabels(["0.1", "1", "5", "10", "30"])
+    ax.yaxis.set_minor_locator(NullLocator())
+    ax.set_xlim(-0.55, len(meds) - 0.45)
+    ax.set_xticks(range(len(meds)))
+    ax.set_xticklabels([str(m["k"]) for m in meds])
+    ax.set_xlabel("Paradas libres k", fontsize=FUENTE_8, color=TINTA_2)
+    ax.set_ylabel("Peor tiempo mediano de las sesiones (s)",
+                  fontsize=FUENTE_8, color=TINTA_2)
+    i19 = [m["k"] for m in meds].index(k_exacto)
+    ax.axvline(i19 + 0.5, color=TINTA_2, lw=1.0, ls=":", zorder=2)
+    ax.text(i19 + 0.42, 38, f"K_exacto = {k_exacto}", fontsize=FUENTE_8,
+            color=TINTA, ha="right", va="top")
+    ax.tick_params(labelsize=FUENTE_8, colors=TINTA_2)
+    ax.grid(axis="y", color="#e6e5e1", lw=0.6, zorder=0)
+    for borde in ("top", "right"):
+        ax.spines[borde].set_visible(False)
+    entradas = [
+        Patch(facecolor=AZUL, edgecolor=TINTA, label="Cabe en las "
+              f"{sesiones} sesiones"),
+        Patch(facecolor=NARANJA, edgecolor=TINTA, hatch="xxx",
+              label="No cabe en alguna sesión"),
+        Line2D([0], [0], color=TINTA, lw=1.4, marker="_", ms=6,
+               label="Rango entre sesiones")]
+    ax.legend(handles=entradas, loc="lower center", ncol=3,
+              bbox_to_anchor=(0.5, 1.0), fontsize=FUENTE_8, frameon=False,
+              columnspacing=1.0, handlelength=1.6)
     fig.umbral = u
-    m19 = next(m for m in u["mediciones"] if m["k"] == u["k_exacto"])
-    m20 = next(m for m in u["mediciones"] if m["k"] == u["k_exacto"] + 1)
+    fig.peores = peores
+    m19 = next(m for m in meds if m["k"] == k_exacto)
+    m20 = next(m for m in meds if m["k"] == k_exacto + 1)
+    ultimo = u["mediciones"][-1]
     bloque(
         "c2_fig_umbral",
-        "izquierda, tiempo mediano de Held-Karp contra k en escala "
-        "logarítmica, una curva por sesión de medición, con el presupuesto "
-        "y K marcados; derecha, memoria pico contra k.",
-        f"con k = {u['k_exacto']} las {sesiones} sesiones caben en el "
+        "una barra por k (de 16 a 22) con el peor tiempo mediano de Held-Karp "
+        "entre las sesiones de medición, en escala logarítmica; la marca "
+        "vertical de cada barra va del mejor al peor tiempo entre sesiones; "
+        "la línea discontinua es el presupuesto; barra rellena, cabe en "
+        "todas las sesiones; barra con trama, no cabe en alguna.",
+        f"con k = {k_exacto} las {sesiones} sesiones caben en el "
         f"presupuesto (de {min(m19['medianas_s']):.3f} a "
-        f"{max(m19['medianas_s']):.3f} s); con k = {u['k_exacto'] + 1} la "
+        f"{max(m19['medianas_s']):.3f} s); con k = {k_exacto + 1} la "
         f"mayor llega a {max(m20['medianas_s']):.3f} s.",
-        f"Medido: la memoria pico con k = {ks[-1]} es "
-        f"{u['mediciones'][-1]['memoria_pico_mib']:.1f} MiB, bajo el límite; "
-        "el umbral lo fija el tiempo. Hipótesis: la variación entre "
-        "sesiones se debe al estado de la máquina; no se midió.")
+        f"Medido: la memoria pico máxima, con k = {ultimo['k']}, es "
+        f"{ultimo['memoria_pico_mib']:.1f} MiB, bajo el límite de "
+        f"{u['limite_memoria_mib']:.0f} MiB (25\\,\\% de la RAM); el umbral "
+        "lo fija el tiempo. Hipótesis: la variación entre sesiones se debe "
+        "al estado de la máquina; no se midió.")
     return fig
 
 
@@ -550,8 +680,8 @@ def fig_aco(grafo, trazado):
     filas = leer_csv("convergencia_aco.csv")
     val = leer("validacion_agente.json")["instancias"]
     grupos = {"Red de carga": lambda f: f["familia"] == "red de carga",
-              "Taller (n = 20)": lambda f: f["familia"].startswith(
-                  "euclidiana n=20")}
+              "Euclidianas n = 20 (semillas 1 a 5)":
+              lambda f: f["familia"].startswith("euclidiana n=20")}
     fig, axes = plt.subplots(2, 1, figsize=(ANCHO_IN, 6.2))
     fig.subplots_adjust(left=0.1, right=0.985, top=0.98, bottom=0.1,
                         hspace=0.32)
@@ -575,7 +705,7 @@ def fig_aco(grafo, trazado):
     ax.legend(fontsize=FUENTE, frameon=False)
     ax = axes[1]
     etiquetas = ["Red\nn=5", "Red\nn=10", "Red\nn=15", "Red\nn=20",
-                 "Red\nn=32", "Taller\nn=20", "Euclid.\nn=100",
+                 "Red\nn=32", "Euclid.\nn=20", "Euclid.\nn=100",
                  "Euclid.\nn=200"]
     filtros = [lambda r, n=n: r["familia"] == "red de carga" and r["n"] == n
                for n in (5, 10, 15, 20, 32)]
@@ -613,17 +743,18 @@ def fig_aco(grafo, trazado):
         for borde in ("top", "right"):
             a.spines[borde].set_visible(False)
     fig.valores = valores
-    taller = valores["aco"][5], valores["aco_sin_2opt"][5], valores[
+    eucl = valores["aco"][5], valores["aco_sin_2opt"][5], valores[
         "aco_sin_2opt_inicio_fijo"][5]
     bloque(
         "c2_fig_aco",
         "arriba, brecha de la media de 10 semillas del ACO con 2-opt en cada "
-        "iteración (red de carga y taller); abajo, brecha media por grupo "
-        "con 2-opt, sin 2-opt con inicio aleatorio y sin 2-opt con inicio "
-        "fijo.",
-        f"en el taller la brecha media es {taller[0]:.3f}\\,\\% con 2-opt, "
-        f"{taller[1]:.3f}\\,\\% sin 2-opt con inicio aleatorio y "
-        f"{taller[2]:.3f}\\,\\% con inicio fijo; en n = 100 y 200 sin 2-opt "
+        "iteración (red de carga y euclidianas n = 20); abajo, brecha "
+        "media por grupo con 2-opt, sin 2-opt con inicio aleatorio y sin "
+        "2-opt con inicio fijo.",
+        "en las euclidianas n = 20 la brecha media es "
+        f"{eucl[0]:.3f}\\,\\% con 2-opt, "
+        f"{eucl[1]:.3f}\\,\\% sin 2-opt con inicio aleatorio y "
+        f"{eucl[2]:.3f}\\,\\% con inicio fijo; en n = 100 y 200 sin 2-opt "
         f"es {valores['aco_sin_2opt'][6]:.3f}\\,\\% y "
         f"{valores['aco_sin_2opt'][7]:.3f}\\,\\%.",
         "Medido: la brecha con inicio fijo se debía al inicio de las "
@@ -879,107 +1010,6 @@ def fig_agente(grafo, trazado):
     return fig
 
 
-# ----------------------------------------------- B9: ACO frente a PSO
-EXTERNO = {"barrido": r"D:\camilo\Documentos\Comparacion-ACO-vs-PSO-TSP-"
-                      r"\resultados\barrido_resumen.csv"}
-FUENTE_ACO_PSO = ("Comparacion-ACO-vs-PSO-TSP-/resultados/"
-                  "barrido_resumen.csv")
-
-
-def extraer_aco_pso():
-    """Extrae del repositorio del equipo las cifras de ACO y PSO con 2048
-    agentes, 100 iteraciones (108 en n = 200 000)."""
-    with open(EXTERNO["barrido"], encoding="utf-8") as f:
-        filas = list(csv.DictReader(f))
-    salida = []
-    for n, it in (("20", "100"), ("2000", "100"), ("200000", "108")):
-        par = {x["algoritmo"]: x for x in filas if x["n"] == n
-               and x["agentes"] == "2048" and x["iteraciones"] == it}
-        a, p = par["ACO"], par["PSO"]
-        salida.append({
-            "n": n, "agentes": 2048, "iteraciones": it,
-            "L_ACO": a["L"], "t_ACO": a["t"], "L_PSO": p["L"], "t_PSO": p["t"],
-            "razon_L": float(p["L"]) / float(a["L"]),
-            "razon_t": float(p["t"]) / float(a["t"]),
-            "semillas_ACO": a["ns"], "semillas_PSO": p["ns"],
-            "fuente": FUENTE_ACO_PSO})
-    with open(SALIDA / "comparacion_aco_pso.csv", "w", encoding="utf-8",
-              newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(salida[0]))
-        w.writeheader()
-        w.writerows(salida)
-    return salida
-
-
-def tabla_aco_pso():
-    """Tabla compacta de ACO frente a PSO (outputs/tabla_aco_pso.tex)."""
-    filas = leer_csv("comparacion_aco_pso.csv")
-    lineas = ["\\begin{tabular}{rrrrrrr}", "\\toprule",
-              "\\textbf{$n$} & \\textbf{$L$ ACO} & \\textbf{$L$ PSO} & "
-              "\\textbf{$L_{\\mathrm{PSO}}/L_{\\mathrm{ACO}}$} & "
-              "\\textbf{$t$ ACO (s)} & \\textbf{$t$ PSO (s)} & "
-              "\\textbf{$t_{\\mathrm{PSO}}/t_{\\mathrm{ACO}}$} \\\\",
-              "\\midrule"]
-    for f in filas:
-        n = f"{int(f['n']):,}".replace(",", "\\,")
-        lineas.append(
-            f"{n} & {float(f['L_ACO']):.4f} & {float(f['L_PSO']):.4f} & "
-            f"{float(f['razon_L']):.2f} & {float(f['t_ACO']):.3f} & "
-            f"{float(f['t_PSO']):.3f} & {float(f['razon_t']):.2f} \\\\")
-    lineas += ["\\bottomrule", "\\end{tabular}"]
-    with open(SALIDA / "tabla_aco_pso.tex", "w", encoding="utf-8") as f:
-        f.write("\n".join(estilizar(lineas)) + "\n")
-
-
-def fig_aco_pso(grafo, trazado):
-    filas = leer_csv("comparacion_aco_pso.csv")
-    fig, axes = plt.subplots(1, 2, figsize=(ANCHO_IN, 2.9))
-    fig.subplots_adjust(left=0.1, right=0.985, top=0.97, bottom=0.2,
-                        wspace=0.3)
-    x = np.arange(len(filas))
-    ancho = 0.35
-    etiquetas = [f"n = {int(f['n']):,}".replace(",", " ") for f in filas]
-    for ax, (cl_a, cl_p, rz, etq) in zip(axes, [
-            ("L_ACO", "L_PSO", "razon_L", "Longitud del recorrido"),
-            ("t_ACO", "t_PSO", "razon_t", "Tiempo (s)")]):
-        va = [float(f[cl_a]) for f in filas]
-        vp = [float(f[cl_p]) for f in filas]
-        ax.bar(x - ancho / 2, va, ancho, color=COLORES_ALG[0],
-               edgecolor=TINTA, lw=0.5, label="ACO", zorder=3)
-        ax.bar(x + ancho / 2, vp, ancho, color=COLORES_ALG[1],
-               edgecolor=TINTA, lw=0.5, hatch="///", label="PSO", zorder=3)
-        for xi, a, p, f in zip(x, va, vp, filas):
-            ax.text(xi, max(a, p) * 1.25, f"×{float(f[rz]):.2f}",
-                    ha="center", fontsize=FUENTE, color=TINTA)
-        ax.set_yscale("log")
-        ax.set_ylim(top=max(max(va), max(vp)) * 8)
-        ax.set_xticks(x)
-        ax.set_xticklabels(etiquetas, fontsize=FUENTE)
-        ax.set_ylabel(etq + " (escala logarítmica)", fontsize=FUENTE,
-                      color=TINTA_2)
-        ax.tick_params(labelsize=FUENTE, colors=TINTA_2)
-        ax.grid(axis="y", color="#e6e5e1", lw=0.6, zorder=0)
-        for borde in ("top", "right"):
-            ax.spines[borde].set_visible(False)
-    axes[0].legend(fontsize=FUENTE, frameon=False, loc="upper left")
-    fig.filas = filas
-    f0, f2, f3 = filas
-    bloque(
-        "c2_fig_aco_pso",
-        "dos paneles en escala logarítmica por tamaño n: longitud del "
-        "recorrido y tiempo de ACO y de PSO; sobre cada par, la razón "
-        "PSO/ACO.",
-        f"la longitud de PSO es {float(f0['razon_L']):.2f}, "
-        f"{float(f2['razon_L']):.1f} y {float(f3['razon_L']):.1f} veces la "
-        "de ACO con n = 20, 2 000 y 200 000; PSO tarda "
-        f"{float(f0['razon_t']):.2f}, {float(f2['razon_t']):.2f} y "
-        f"{float(f3['razon_t']):.2f} veces el tiempo de ACO.",
-        "Medido: PSO con w = 0.7 y c1 = c2 = 1.5, sin búsqueda local; con "
-        "n = 200 000 hay una sola corrida. Hipótesis: con otros parámetros "
-        "o con búsqueda local el resultado podría cambiar; no se probó.")
-    return fig
-
-
 # ------------------------------------------- C2: rutas de los casos de prueba
 def fig_c1_casos(grafo, trazado):
     p = leer("pruebas_agente.json")
@@ -1054,7 +1084,6 @@ FIGURAS = [
     ("fig_comparacion", fig_comparacion),
     ("fig_umbral", fig_umbral),
     ("fig_perfil", fig_perfil),
-    ("fig_aco_pso", fig_aco_pso),
     ("fig_c1_coherencia", fig_c1_coherencia),
     ("fig_c1_casos", fig_c1_casos)]
 
@@ -1068,9 +1097,6 @@ def generar(nombre, funcion, grafo, trazado):
 def main(seleccion=None):
     grafo = cargar_grafo()
     trazado = mg.cargar_trazado()
-    if os.path.exists(EXTERNO["barrido"]):
-        extraer_aco_pso()
-    tabla_aco_pso()
     for nombre, funcion in FIGURAS:
         if seleccion and nombre not in seleccion:
             continue

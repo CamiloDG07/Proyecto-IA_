@@ -307,7 +307,7 @@ expandió y cuáles solo generó cada búsqueda.
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{fig_expansion.pdf}
-    \caption{Nodos expandidos y generados por cada búsqueda en el caso central, criterio distancia. Fuente: elaboración propia}
+    \caption{Nodos expandidos, generados sin expandir y no visitados de cada búsqueda en un esquema de la red (el ciclo como anillo), caso central, criterio distancia. Fuente: elaboración propia}
     \label{fig:expansion}
     \input{outputs/lectura_c2_fig_expansion.tex}
 \end{figure}
@@ -477,6 +477,8 @@ puntos.
 $(0.5, 0.3, 0.2)$, que pasan a Santander.
 \item Sin riesgo cambia en un punto, $(0.3, 0.4, 0.3)$.
 \end{itemize}
+
+\textbf{Costo en dinero.} \input{outputs/texto_c2_dinero.tex}
 
 \begin{figure}[H]
     \centering
@@ -720,44 +722,24 @@ asimétrica sintética).
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{fig_umbral.pdf}
-    \caption{Medición de Held-Karp en esta máquina: tiempo mediano por sesión y memoria pico contra $k$, con el presupuesto de 5 s, el límite de memoria y $K_{\mathrm{exacto}}$. Fuente: elaboración propia}
+    \caption{Medición de Held-Karp en esta máquina: peor tiempo mediano de las sesiones contra $k$, con el presupuesto de 5 s y $K_{\mathrm{exacto}}$. Fuente: elaboración propia}
     \label{fig:umbral}
     \input{outputs/lectura_c2_fig_umbral.tex}
 \end{figure}
 La tabla con la mediana de cada sesión está en \texttt{outputs/tabla\_ag\_umbral.tex}.
 
-\subsection{Elección de la metaheurística}
-
-El camino de origen a destino se resuelve con A* o UCS, que son exactos; la
-metaheurística entra solo en el orden libre, cuando Held-Karp no es viable
-($k > K_{\mathrm{exacto}}$).
-\begin{itemize}
-\item Para esa tarea se eligió ACO porque, en las instancias aleatorias del
-taller del equipo, superó a PSO con claves aleatorias en permutaciones
-(Tabla~\ref{tab:aco-pso}; el gráfico está en
-\texttt{outputs/fig\_aco\_pso.png}).
-\item PSO se corrió con parámetros fijos ($w = 0.7$; $c_1 = c_2 = 1.5$) y sin
-búsqueda local.
-\item El algoritmo genético y el temple simulado no se compararon en este
-problema.
-\end{itemize}
-
-\begin{table}[H]
-\centering
-\caption{ACO y PSO con 2048 agentes y 100 iteraciones (108 con
-$n = 200\,000$): longitud $L$ y tiempo medio. Fuente: repositorio del equipo
-\texttt{Comparacion-ACO-vs-PSO-TSP-}, \texttt{resultados/barrido\_resumen.csv}
-(media de 3 semillas; una sola con $n = 200\,000$); ACO es el programa de
-\texttt{ACO\_IA}}
-\label{tab:aco-pso}
-\footnotesize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_aco_pso.tex}
-\end{table}
-
-
 \subsection{ACO con búsqueda local 2-opt}
 
 El ACO está en \texttt{src/aco\_multiparada.py}, programado desde cero.
+
+\textbf{Por qué el ACO.}
+\begin{itemize}
+\item El método exacto (A* o UCS para origen a destino; Held-Karp para el orden
+libre) se usa siempre que es viable, hasta $K_{\mathrm{exacto}} = 19$.
+\item El ACO solo entra después, cuando $k > K_{\mathrm{exacto}}$.
+\item El ACO se validó contra Held-Karp y contra el óptimo por estructura de la
+red (Sección~\ref{sec:estructura}).
+\end{itemize}
 
 \textbf{Mecanismo.}
 \begin{itemize}
@@ -774,10 +756,9 @@ regreso y de inicio fijo la salida es la indicada.
 \textbf{Parámetros}, iguales para todas las instancias:
 \begin{itemize}
 \item $\alpha = 1.5$, $\beta = 5$, $\rho = 0.1$, el número de hormigas (igual
-al de nodos) y las 100 iteraciones son los del taller de ACO del
-curso~\cite{aco}.
-\item El depósito de feromona, la inicialización y el inicio de las hormigas
-son propios y difieren del taller. No se reajustaron en este trabajo.
+al de nodos) y las 100 iteraciones se adoptaron de un trabajo previo del
+equipo~\cite{aco}.
+\item No se reajustaron en este trabajo.
 \end{itemize}
 
 \textbf{Semillas.} Cada instancia se corre con 10 semillas fijas (1 a 10).
@@ -789,9 +770,8 @@ son propios y difieren del taller. No se reajustaron en este trabajo.
 \item[(a)] La red de carga con $n = 5, 10, 15$ y 20 ciudades, con tres
 instancias por $n$ elegidas con semilla fija, y con las 32 ciudades; criterio
 distancia, orden libre con regreso.
-\item[(b)] Las cinco instancias euclidianas de $n = 20$ del taller de ACO
-(semillas 1 a 5, generadas con el mismo generador xorshift64), cuyo óptimo de
-Held-Karp ya estaba calculado.
+\item[(b)] Cinco instancias euclidianas de $n = 20$ (semillas 1 a 5, generador
+xorshift64) con el óptimo de Held-Karp de este proyecto.
 \item[(c)] Dos instancias euclidianas mayores ($n = 100$ y 200) sin óptimo
 exacto, con referencia \emph{mejor encontrada con 2-opt}
 (Figura~\ref{fig:aco}).
@@ -826,20 +806,19 @@ las 12 instancias con exacto (120 de 120 semillas) y el óptimo por estructura
 en las 32 ciudades (2808.65 km, 10 de 10). En la red de carga, casi un árbol,
 el exacto y el ACO coinciden. Con inicio aleatorio de las hormigas el ACO sin
 2-opt también alcanza la referencia en las 130 semillas de la red.
-\item \textbf{Instancias del taller ($n=20$).} Held-Karp de este proyecto
-coincide con el óptimo exacto del taller en las 5 semillas. El ACO con 2-opt
+\item \textbf{Euclidianas $n = 20$ (semillas 1 a 5).} El ACO con 2-opt
 alcanza el óptimo con su mejor corrida en las 5; la brecha media es 0.040\,\%
 (48 de 50 semillas lo alcanzan; la semilla 1 con 8 de 10). Sin 2-opt, con
 inicio aleatorio, la brecha media sube a 0.357\,\% y 32 de 50 semillas lo
-alcanzan: el aporte del 2-opt es nulo en la red y pequeño en el taller
+alcanzan: el aporte del 2-opt es nulo en la red y pequeño en las euclidianas
 ($n = 20$), con una brecha media de 0.357\,\% sin 2-opt contra 0.040\,\% con
 él.
 \item \textbf{Efecto del inicio de las hormigas.} Con la ciudad de salida
 fija (contraste, «inicio fijo»), el ACO sin 2-opt tenía una brecha media de
-2.212\,\% en el taller (1 de 50 semillas), de 2.608\,\% con $n = 15$ (20 de 30)
+2.212\,\% en las euclidianas de $n = 20$ (1 de 50 semillas), de 2.608\,\% con $n = 15$ (20 de 30)
 y de 2.836\,\% con $n = 20$ (13 de 30) en la red. Esa brecha se debía al inicio
 fijo de las hormigas y no a la ausencia de 2-opt: con el inicio aleatorio, sin
-cambiar nada más, es 0.357\,\% en el taller y 0 en la red
+cambiar nada más, es 0.357\,\% en las euclidianas de $n = 20$ y 0 en la red
 (Figura~\ref{fig:aco}). El aporte del 2-opt se reporta con inicio
 aleatorio y crece con $n$: nulo en la red, pequeño con $n = 20$ y grande con
 $n = 100$ y 200.
@@ -916,14 +895,15 @@ en \nolinkurl{outputs/tabla_ag_ampliada.tex}.
 presupuesto de 5 s; los tiempos con $k = 19$ variaron entre 1.227 y 2.735 s
 entre sesiones (Hipótesis: estado de la máquina, no se midió).
 \item Los parámetros $\alpha$, $\beta$, $\rho$, el número de hormigas y las
-iteraciones se tomaron del taller y no se reajustaron. El ACO sin búsqueda
-local, con inicio aleatorio, alcanza la referencia en 32 de 50 semillas del
-taller y en toda la red de carga; el aporte del 2-opt crece con $n$ (nulo en
+iteraciones no se reajustaron. El ACO sin búsqueda local, con inicio
+aleatorio, alcanza la referencia en 32 de 50 semillas de las euclidianas
+de $n = 20$ y en toda la red de carga; el aporte del 2-opt crece con $n$ (nulo en
 la red, 0.357\,\% contra 0.040\,\% en $n = 20$, y de 5.599\,\% y 6.209\,\% en
 $n = 100$ y 200).
 \item El ACO con 2-opt requiere una matriz simétrica; con una asimétrica corre
 sin 2-opt, que no se validó en instancias de tamaño real.
 \item En las instancias mayores no hay referencia óptima.
+\item No se evaluaron otras metaheurísticas.
 \item Los costos de la red son los de la red corregida, con las limitaciones de
 datos descritas arriba (Chocontá a Tunja truncada, entrada urbana a Bogotá).
 \end{itemize}
@@ -979,11 +959,8 @@ y ACO después.
 0.040\,\% con $n = 20$, y 5.599\,\% y 6.209\,\% sin 2-opt con $n = 100$ y
 200); la brecha de 2.212\,\% con inicio fijo se debía al inicio de las
 hormigas.
-\item En el taller del equipo, ACO superó a PSO con claves aleatorias en la
-longitud (1.05, 26.73 y 269.03 veces con $n = 20$, 2\,000 y 200\,000), aunque
-PSO tardó entre 0.39 y 0.63 veces el tiempo de ACO.
 \item Queda abierto lo que las limitaciones declaran: más datos de riesgo, el
-trazado de los tramos truncados y la comparación con otras metaheurísticas.
+trazado de los tramos truncados y la evaluación de otras metaheurísticas.
 \end{enumerate}
 
 \renewcommand{\refname}{Referencias}
