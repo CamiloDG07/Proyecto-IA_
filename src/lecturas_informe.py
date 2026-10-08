@@ -554,7 +554,7 @@ def ejemplo_agente():
             "\\item Por costo operativo, la ruta por Bogotá es la más barata "
             f"si el costo variable supera {um['cop_por_km']:.1f} COP por km; "
             "el combustible solo, con los insumos verificados, cuesta "
-            f"{modelo['combustible_cop_km']:.1f} COP por km.\n"
+            f"{miles_1(modelo['combustible_cop_km'])} COP por km.\n"
             "\\end{itemize}\n")
     mc = rc["recomendada"]["metricas"]
     bloque(
@@ -585,6 +585,12 @@ def texto_corte1_caso_referencia():
             f"{bogota:.2f} km por Bogotá o {santander:.2f} km por Santander "
             f"(con las distancias sin corregir, {bogota_c:.2f} y "
             f"{santander_c:.2f} km).\n")
+
+
+def miles_1(valor):
+    """Número con un decimal y separador de miles para el texto del
+    informe."""
+    return f"{valor:,.1f}".replace(",", "\\,")
 
 
 def cifras_dinero():
@@ -620,9 +626,10 @@ def texto_c2_dinero():
             f"con la línea recta entre los nodos (56.96 km), "
             f"{g['cop_por_km']:.1f} COP/km. El combustible solo, con el "
             "precio del galón de la CREG y el consumo de la UPME "
-            f"(insumos verificados), cuesta {c['combustible_cop_km']:.1f} "
-            "COP/km, por encima de esos umbrales; los otros costos por km "
-            "(llantas, lubricantes, mantenimiento y conductor) no tienen "
+            f"(insumos verificados), cuesta "
+            f"{miles_1(c['combustible_cop_km'])} COP/km, por encima de "
+            "esos umbrales; los otros costos por km (llantas, lubricantes, "
+            "mantenimiento y conductor) no tienen "
             "fuente y se toman iguales a 0 (supuesto del equipo), de modo "
             "que el costo variable real no es menor que el calculado. No se "
             "incluyen tiempo ni riesgo.\n")

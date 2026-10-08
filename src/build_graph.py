@@ -180,7 +180,8 @@ def construir_grafo(pesos=None, distancia="corregida",
                         + wt["riesgo"] * r + wt["costo_variable"] * c),
             peso_total_sin_riesgo=((wt["distancia"] * d + wt["peaje"] * p
                                     + wt["costo_variable"] * c)
-                                   / suma_total_sin_riesgo),
+                                   / suma_total_sin_riesgo
+                                   if suma_total_sin_riesgo else 0.0),
         )
     grafo.graph["pesos"] = dict(pesos)
     grafo.graph["maximos"] = tope

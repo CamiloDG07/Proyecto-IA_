@@ -9,15 +9,15 @@
 \hline
 \textbf{Ruta u orden} & Duitama $\to$ Tunja $\to$ Chocontá $\to$ Tocancipá $\to$ Bogotá $\to$ Cajicá $\to$ Zipaquirá $\to$ Ubaté $\to$ Puente Nacional & Bogotá $\to$ Villavicencio $\to$ Ye de Granada $\to$ Granada & Duitama $\to$ Villeta $\to$ Bogotá $\to$ Tunja $\to$ Duitama \\
 \hline
-\textbf{Distancia (km)} & 309.10 & 168.78 & 403.16 \\
+\textbf{Distancia (km)} & 352.41 & 168.78 & 489.78 \\
 \hline
 \textbf{Peaje (COP)} & 170\,800 & 46\,700 & 208\,800 \\
 \hline
 \textbf{Riesgo} & 9.85 (dato en el 50\,\%) & 7.30 (dato en el 100\,\%) & 26.55 (dato en el 100\,\%) \\
 \hline
-\textbf{Método y heurística} & A* (distancia, compuesto sin riesgo); UCS (peaje); $\alpha = 0.310570$; 62 nodos expandidos & A* (distancia, compuesto sin riesgo); UCS (peaje); $\alpha = 0.310570$; 37 nodos expandidos & Held-Karp, $k = 3 \le K_{\mathrm{exacto}} = 19$; $\alpha = 0.310570$; 48 nodos expandidos \\
+\textbf{Método y heurística} & A* (distancia, compuesto sin riesgo, costo operativo); UCS (peaje); $\alpha = 0.458156$; 80 nodos expandidos & A* (distancia, compuesto sin riesgo, costo operativo); UCS (peaje); $\alpha = 0.458156$; 44 nodos expandidos & Held-Karp, $k = 3 \le K_{\mathrm{exacto}} = 19$; $\alpha = 0.458156$; 47 nodos expandidos \\
 \hline
-\textbf{Alternativas y margen} & desvío por Santander: 654.25 km, 100\,200 COP; margen 0.375 (11.9\,\%) & ninguna (un solo camino) & no aplica (orden exacto de las paradas) \\
+\textbf{Alternativas y margen} & desvío por Santander: 654.25 km, 100\,200 COP; margen 0.222 (6.7\,\%) & ninguna (un solo camino) & no aplica (orden exacto de las paradas) \\
 \hline
 \textbf{Advertencias} & Chocontá a Tunja truncada; 4 aristas marcadas por la auditoría; 4 de 8 tramos sin dato de riesgo; riesgo y compuesto prefieren otra ruta & 3 aristas marcadas por la auditoría & Chocontá a Tunja truncada; 3 aristas marcadas por la auditoría \\
 \hline

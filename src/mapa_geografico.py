@@ -347,12 +347,20 @@ def unir(nombres):
 
 
 def trazado_disponible(origen, destino):
-    """(km de carretera con trazado, km en línea recta) de una arista, desde
-    outputs/auditoria_aristas.csv."""
+    """(km registrados del sector con trazado, km en línea recta) de una
+    arista, desde outputs/aristas_red.json y auditoria_aristas.csv.
+
+    Los km registrados son la longitud del sector en la Red Vial
+    (distancia_registrada_km), que puede ser menor que la distancia de la
+    arista cuando esta sale de las progresivas (Chocontá a Tunja).
+    """
+    with open(SALIDA / "aristas_red.json", encoding="utf-8") as f:
+        registrada = {(a["origen"], a["destino"]): a[
+            "distancia_registrada_km"] for a in json.load(f)}
     with open(SALIDA / "auditoria_aristas.csv", encoding="utf-8") as f:
         for r in csv.DictReader(f):
             if (r["origen"], r["destino"]) == (origen, destino):
-                return (float(r["distancia_carretera_km"]),
+                return (registrada[(origen, destino)],
                         float(r["geodesica_km"]))
     raise KeyError((origen, destino))
 

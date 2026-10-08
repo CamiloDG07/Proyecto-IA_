@@ -21,7 +21,7 @@
       "destino": "Puente Nacional",
       "criterio": "distancia",
       "costo": 352.41,
-      "tiempo_s": 0.002418300005956553,
+      "tiempo_s": 0.00322250000317581,
       "memoria_pico_kb": 49.8330078125
     },
     "desvio": {
@@ -44,7 +44,7 @@
       "destino": "Puente Nacional",
       "criterio": "distancia",
       "costo": 654.25,
-      "tiempo_s": 0.0004557000065688044,
+      "tiempo_s": 0.0005225000058999285,
       "memoria_pico_kb": 4.421875
     },
     "distancia": {
@@ -68,7 +68,7 @@
       "destino": "Puente Nacional",
       "criterio": "distancia",
       "costo": 352.41,
-      "tiempo_s": 0.00031379998836200684,
+      "tiempo_s": 0.0003735000063898042,
       "memoria_pico_kb": 3.671875
     },
     "peaje": {
@@ -91,7 +91,7 @@
       "destino": "Puente Nacional",
       "criterio": "peaje",
       "costo": 100200,
-      "tiempo_s": 0.0002586999908089638,
+      "tiempo_s": 0.00028080001357011497,
       "memoria_pico_kb": 3.265625
     },
     "riesgo": {
@@ -114,7 +114,7 @@
       "destino": "Puente Nacional",
       "criterio": "riesgo",
       "costo": 0.0,
-      "tiempo_s": 0.00022000000171829015,
+      "tiempo_s": 0.0002384999970672652,
       "memoria_pico_kb": 2.859375
     },
     "compuesto": {
@@ -137,7 +137,7 @@
       "destino": "Puente Nacional",
       "criterio": "compuesto",
       "costo": 2.3494652361443724,
-      "tiempo_s": 0.00034020000020973384,
+      "tiempo_s": 0.0003749000024981797,
       "memoria_pico_kb": 3.671875
     },
     "compuesto_sin_riesgo": {
@@ -161,7 +161,7 @@
       "destino": "Puente Nacional",
       "criterio": "compuesto_sin_riesgo",
       "costo": 3.302476842886211,
-      "tiempo_s": 0.000381499994546175,
+      "tiempo_s": 0.00039180000021588057,
       "memoria_pico_kb": 4.046875
     },
     "costo_operativo": {
@@ -185,7 +185,7 @@
       "destino": "Puente Nacional",
       "criterio": "costo_operativo",
       "costo": 578537.119328416,
-      "tiempo_s": 0.00032309998641721904,
+      "tiempo_s": 0.0003350999904796481,
       "memoria_pico_kb": 3.671875
     },
     "compuesto_total": {
@@ -208,7 +208,7 @@
       "destino": "Puente Nacional",
       "criterio": "compuesto_total",
       "costo": 2.922034392678097,
-      "tiempo_s": 0.0003963000053772703,
+      "tiempo_s": 0.00040800000715535134,
       "memoria_pico_kb": 4.046875
     },
     "compuesto_total_sin_riesgo": {
@@ -232,7 +232,7 @@
       "destino": "Puente Nacional",
       "criterio": "compuesto_total_sin_riesgo",
       "costo": 3.0347127135918712,
-      "tiempo_s": 0.00034679999225772917,
+      "tiempo_s": 0.0003591999993659556,
       "memoria_pico_kb": 4.0390625
     },
     "compuesto_mortalidad": {
@@ -256,7 +256,7 @@
       "destino": "Puente Nacional",
       "criterio": "compuesto_mortalidad",
       "costo": 2.478380214758918,
-      "tiempo_s": 0.0003778000100282952,
+      "tiempo_s": 0.0003932999970857054,
       "memoria_pico_kb": 4.1171875
     }
   },
@@ -282,7 +282,7 @@
       "destino": "Puente Nacional",
       "criterio": "distancia",
       "costo": 414.84000000000003,
-      "tiempo_s": 0.00034520000917837024,
+      "tiempo_s": 0.00039459999243263155,
       "memoria_pico_kb": 3.7890625
     },
     "desvio": {
@@ -305,7 +305,7 @@
       "destino": "Puente Nacional",
       "criterio": "distancia",
       "costo": 668.14,
-      "tiempo_s": 0.00042719999328255653,
+      "tiempo_s": 0.00046209999709390104,
       "memoria_pico_kb": 4.203125
     }
   },
@@ -324,7 +324,7 @@
       "destino": "Villavicencio",
       "criterio": "distancia",
       "costo": 93.72,
-      "tiempo_s": 0.0001964999974006787,
+      "tiempo_s": 0.00020370000856928527,
       "memoria_pico_kb": 2.890625
     },
     {
@@ -343,7 +343,7 @@
       "destino": "Granada",
       "criterio": "distancia",
       "costo": 168.78,
-      "tiempo_s": 0.0001996000064536929,
+      "tiempo_s": 0.00021359999664127827,
       "memoria_pico_kb": 2.890625
     },
     {
@@ -362,7 +362,7 @@
       "destino": "Mariquita",
       "criterio": "distancia",
       "costo": 158.4,
-      "tiempo_s": 0.00016160000814124942,
+      "tiempo_s": 0.0001638999965507537,
       "memoria_pico_kb": 2.484375
     },
     {
@@ -379,7 +379,7 @@
       "destino": "Cambao",
       "criterio": "distancia",
       "costo": 88.71,
-      "tiempo_s": 8.030000026337802e-05,
+      "tiempo_s": 8.259998867288232e-05,
       "memoria_pico_kb": 2.046875
     },
     {
@@ -399,7 +399,7 @@
       "destino": "Puerto Gaitán",
       "criterio": "distancia",
       "costo": 289.01,
-      "tiempo_s": 0.00023820000933483243,
+      "tiempo_s": 0.0002440999960526824,
       "memoria_pico_kb": 3.4609375
     },
     {
@@ -417,7 +417,7 @@
       "destino": "Tunja",
       "criterio": "distancia",
       "costo": 72.61,
-      "tiempo_s": 8.519999391864985e-05,
+      "tiempo_s": 8.670000534038991e-05,
       "memoria_pico_kb": 2.015625
     }
   ]

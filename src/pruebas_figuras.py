@@ -167,8 +167,8 @@ def main():
            f"casos: {caso['origen']} a {caso['destino']} rotula "
            f"{caso['distancia_total_km']:.2f} km, peaje y tiempo de "
            "pruebas_agente.json")
-    ok(pa["ciclo"]["corta"]["distancia_total_km"] == 309.1,
-       "casos: la ruta corta del caso central mide 309.10 km")
+    ok(pa["ciclo"]["corta"]["distancia_total_km"] == 352.41,
+       "casos: la ruta corta del caso central mide 352.41 km")
     # agente
     a, b, c = figs["fig_agente"].agente
     t = textos(figs["fig_agente"])
