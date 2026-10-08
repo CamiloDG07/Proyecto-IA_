@@ -289,3 +289,8 @@ Evaluadas en `FUENTES_NUEVAS.md`.
 
 Los dos CSV se descargaron con `?$limit=50000` y el conteo de filas coincide con el de la API. La página de la CREG
 cambia con cada actualización de precios: el hash corresponde a la consulta del 8 de octubre de 2026.
+
+Los archivos de la CREG y de la UPME ya no están en el repositorio ni en el zip: ninguno declara una licencia de
+redistribución. Se conservan aquí la URL, la fecha y el SHA-256 de la copia consultada, y sus valores (11 320 COP por
+galón y 38.69 L por 100 km) están en `config_costos.json` con su cita. Ningún cálculo lee esos archivos. La guía del
+curso (`data/Proyecto_IA.pdf`) y el documento de avances (`data/docs/`) tampoco se redistribuyen.

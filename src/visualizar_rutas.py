@@ -117,9 +117,9 @@ def figura_rutas(grafo, coordenadas, alfa, criterio, nombre):
 def figura_barrido():
     with open(SALIDA / "barrido_pesos.json", encoding="utf-8") as f:
         barridos = json.load(f)
-    fig, ejes = plt.subplots(1, 2, figsize=(11.5, 5.4), facecolor=SUPERFICIE,
+    fig, ejes = plt.subplots(1, 3, figsize=(15, 5.4), facecolor=SUPERFICIE,
                              sharey=True)
-    for ax, b in zip(ejes, (barridos[0], barridos[1])):
+    for ax, b in zip(ejes, (barridos[0], barridos[1], barridos[3])):
         ax.set_facecolor(SUPERFICIE)
         for via, color, marca in (("Bogotá", AZUL, "o"),
                                   ("Santander", NARANJA, "^")):

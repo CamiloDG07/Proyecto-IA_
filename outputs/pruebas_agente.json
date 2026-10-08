@@ -13,15 +13,15 @@
         "Puente Nacional"
       ],
       "saltos": 8,
-      "distancia_total_km": 352.41,
+      "distancia_total_km": 309.1,
       "peaje_total_cop": 170800,
       "riesgo_total_gizscore": 9.854,
       "tramos_sin_dato_riesgo": 4,
       "origen": "Duitama",
       "destino": "Puente Nacional",
       "criterio": "distancia",
-      "costo": 352.41,
-      "tiempo_s": 0.00322250000317581,
+      "costo": 309.1,
+      "tiempo_s": 0.004369800008134916,
       "memoria_pico_kb": 49.8330078125
     },
     "desvio": {
@@ -44,7 +44,7 @@
       "destino": "Puente Nacional",
       "criterio": "distancia",
       "costo": 654.25,
-      "tiempo_s": 0.0005225000058999285,
+      "tiempo_s": 0.0012285999837331474,
       "memoria_pico_kb": 4.421875
     },
     "distancia": {
@@ -60,15 +60,15 @@
         "Puente Nacional"
       ],
       "saltos": 8,
-      "distancia_total_km": 352.41,
+      "distancia_total_km": 309.1,
       "peaje_total_cop": 170800,
       "riesgo_total_gizscore": 9.854,
       "tramos_sin_dato_riesgo": 4,
       "origen": "Duitama",
       "destino": "Puente Nacional",
       "criterio": "distancia",
-      "costo": 352.41,
-      "tiempo_s": 0.0003735000063898042,
+      "costo": 309.1,
+      "tiempo_s": 0.0007977000204846263,
       "memoria_pico_kb": 3.671875
     },
     "peaje": {
@@ -91,7 +91,7 @@
       "destino": "Puente Nacional",
       "criterio": "peaje",
       "costo": 100200,
-      "tiempo_s": 0.00028080001357011497,
+      "tiempo_s": 0.0007153000042308122,
       "memoria_pico_kb": 3.265625
     },
     "riesgo": {
@@ -114,7 +114,7 @@
       "destino": "Puente Nacional",
       "criterio": "riesgo",
       "costo": 0.0,
-      "tiempo_s": 0.0002384999970672652,
+      "tiempo_s": 0.0005890999746043235,
       "memoria_pico_kb": 2.859375
     },
     "compuesto": {
@@ -137,8 +137,8 @@
       "destino": "Puente Nacional",
       "criterio": "compuesto",
       "costo": 2.3494652361443724,
-      "tiempo_s": 0.0003749000024981797,
-      "memoria_pico_kb": 3.671875
+      "tiempo_s": 0.0009959999879356474,
+      "memoria_pico_kb": 4.046875
     },
     "compuesto_sin_riesgo": {
       "ruta": [
@@ -153,15 +153,15 @@
         "Puente Nacional"
       ],
       "saltos": 8,
-      "distancia_total_km": 352.41,
+      "distancia_total_km": 309.1,
       "peaje_total_cop": 170800,
       "riesgo_total_gizscore": 9.854,
       "tramos_sin_dato_riesgo": 4,
       "origen": "Duitama",
       "destino": "Puente Nacional",
       "criterio": "compuesto_sin_riesgo",
-      "costo": 3.302476842886211,
-      "tiempo_s": 0.00039180000021588057,
+      "costo": 3.1489061741393134,
+      "tiempo_s": 0.0010170000023208559,
       "memoria_pico_kb": 4.046875
     },
     "costo_operativo": {
@@ -177,38 +177,39 @@
         "Puente Nacional"
       ],
       "saltos": 8,
-      "distancia_total_km": 352.41,
+      "distancia_total_km": 309.1,
       "peaje_total_cop": 170800,
       "riesgo_total_gizscore": 9.854,
       "tramos_sin_dato_riesgo": 4,
       "origen": "Duitama",
       "destino": "Puente Nacional",
       "criterio": "costo_operativo",
-      "costo": 578537.119328416,
-      "tiempo_s": 0.0003350999904796481,
+      "costo": 528427.603031734,
+      "tiempo_s": 0.0008911000040825456,
       "memoria_pico_kb": 3.671875
     },
     "compuesto_total": {
       "ruta": [
         "Duitama",
-        "La Palmera",
-        "Presidente",
-        "Pamplona",
-        "Cuestaboba",
-        "Bucaramanga",
-        "San Gil",
+        "Tunja",
+        "Chocontá",
+        "Tocancipá",
+        "Bogotá",
+        "Cajicá",
+        "Zipaquirá",
+        "Ubaté",
         "Puente Nacional"
       ],
-      "saltos": 7,
-      "distancia_total_km": 654.25,
-      "peaje_total_cop": 100200,
-      "riesgo_total_gizscore": 0.0,
-      "tramos_sin_dato_riesgo": 7,
+      "saltos": 8,
+      "distancia_total_km": 309.1,
+      "peaje_total_cop": 170800,
+      "riesgo_total_gizscore": 9.854,
+      "tramos_sin_dato_riesgo": 4,
       "origen": "Duitama",
       "destino": "Puente Nacional",
       "criterio": "compuesto_total",
-      "costo": 2.922034392678097,
-      "tiempo_s": 0.00040800000715535134,
+      "costo": 2.842154196566784,
+      "tiempo_s": 0.001055299973813817,
       "memoria_pico_kb": 4.046875
     },
     "compuesto_total_sin_riesgo": {
@@ -224,15 +225,15 @@
         "Puente Nacional"
       ],
       "saltos": 8,
-      "distancia_total_km": 352.41,
+      "distancia_total_km": 309.1,
       "peaje_total_cop": 170800,
       "riesgo_total_gizscore": 9.854,
       "tramos_sin_dato_riesgo": 4,
       "origen": "Duitama",
       "destino": "Puente Nacional",
       "criterio": "compuesto_total_sin_riesgo",
-      "costo": 3.0347127135918712,
-      "tiempo_s": 0.0003591999993659556,
+      "costo": 2.8299518219293414,
+      "tiempo_s": 0.0009444000024814159,
       "memoria_pico_kb": 4.0390625
     },
     "compuesto_mortalidad": {
@@ -248,16 +249,16 @@
         "Puente Nacional"
       ],
       "saltos": 8,
-      "distancia_total_km": 352.41,
+      "distancia_total_km": 309.1,
       "peaje_total_cop": 170800,
       "riesgo_total_gizscore": 9.854,
       "tramos_sin_dato_riesgo": 4,
       "origen": "Duitama",
       "destino": "Puente Nacional",
       "criterio": "compuesto_mortalidad",
-      "costo": 2.478380214758918,
-      "tiempo_s": 0.0003932999970857054,
-      "memoria_pico_kb": 4.1171875
+      "costo": 2.375999768927653,
+      "tiempo_s": 0.0008462999830953777,
+      "memoria_pico_kb": 4.046875
     }
   },
   "ciclo_cruda": {
@@ -282,7 +283,7 @@
       "destino": "Puente Nacional",
       "criterio": "distancia",
       "costo": 414.84000000000003,
-      "tiempo_s": 0.00039459999243263155,
+      "tiempo_s": 0.0009389999904669821,
       "memoria_pico_kb": 3.7890625
     },
     "desvio": {
@@ -305,7 +306,7 @@
       "destino": "Puente Nacional",
       "criterio": "distancia",
       "costo": 668.14,
-      "tiempo_s": 0.00046209999709390104,
+      "tiempo_s": 0.001143599976785481,
       "memoria_pico_kb": 4.203125
     }
   },
@@ -324,7 +325,7 @@
       "destino": "Villavicencio",
       "criterio": "distancia",
       "costo": 93.72,
-      "tiempo_s": 0.00020370000856928527,
+      "tiempo_s": 0.0005227000219747424,
       "memoria_pico_kb": 2.890625
     },
     {
@@ -343,7 +344,7 @@
       "destino": "Granada",
       "criterio": "distancia",
       "costo": 168.78,
-      "tiempo_s": 0.00021359999664127827,
+      "tiempo_s": 0.0005423999973572791,
       "memoria_pico_kb": 2.890625
     },
     {
@@ -362,7 +363,7 @@
       "destino": "Mariquita",
       "criterio": "distancia",
       "costo": 158.4,
-      "tiempo_s": 0.0001638999965507537,
+      "tiempo_s": 0.00034169998252764344,
       "memoria_pico_kb": 2.484375
     },
     {
@@ -379,7 +380,7 @@
       "destino": "Cambao",
       "criterio": "distancia",
       "costo": 88.71,
-      "tiempo_s": 8.259998867288232e-05,
+      "tiempo_s": 0.0001711999939288944,
       "memoria_pico_kb": 2.046875
     },
     {
@@ -399,7 +400,7 @@
       "destino": "Puerto Gaitán",
       "criterio": "distancia",
       "costo": 289.01,
-      "tiempo_s": 0.0002440999960526824,
+      "tiempo_s": 0.00043539999751374125,
       "memoria_pico_kb": 3.4609375
     },
     {
@@ -417,8 +418,8 @@
       "destino": "Tunja",
       "criterio": "distancia",
       "costo": 72.61,
-      "tiempo_s": 8.670000534038991e-05,
-      "memoria_pico_kb": 2.015625
+      "tiempo_s": 0.00019249998149462044,
+      "memoria_pico_kb": 2.2421875
     }
   ]
 }
