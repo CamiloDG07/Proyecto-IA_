@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 
 from build_graph import SALIDA  # noqa: E402
+from formato_latex import estilizar  # noqa: E402
 
 SUPERFICIE = "#fcfcfb"
 TINTA = "#0b0b0b"
@@ -38,7 +39,7 @@ def leer(nombre):
 
 def escribir(nombre, lineas):
     with open(SALIDA / nombre, "w", encoding="utf-8") as f:
-        f.write("\n".join(lineas) + "\n")
+        f.write("\n".join(estilizar(lineas)) + "\n")
 
 
 def etiqueta(r):

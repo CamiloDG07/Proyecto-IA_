@@ -82,13 +82,17 @@ def frases(p):
     lista = ", ".join(articulacion[:-1]) + " y " + articulacion[-1]
     return (
         f"Sobre los {p['pares']} pares de ciudades, {c['2']} tienen dos "
-        f"caminos simples y {c['1']} tienen uno solo. Del total, "
-        f"{k['paso_obligatorio']} pares tienen paso obligatorio (un nodo "
-        f"intermedio presente en todos sus caminos), {k['atajo']} tienen "
-        f"atajo (dos caminos sin ningún nodo intermedio en común) y "
-        f"{k['camino_unico']} son de camino único, sin nodo intermedio. La "
-        f"red tiene {len(articulacion)} puntos de articulación, nodos cuya "
-        f"eliminación la desconecta: {lista}.\n")
+        f"caminos simples y {c['1']} tienen uno solo. Del total:\n"
+        "\\begin{itemize}\n"
+        f"\\item {k['paso_obligatorio']} pares tienen paso obligatorio (un "
+        "nodo intermedio presente en todos sus caminos).\n"
+        f"\\item {k['atajo']} tienen atajo (dos caminos sin ningún nodo "
+        "intermedio en común).\n"
+        f"\\item {k['camino_unico']} son de camino único, sin nodo "
+        "intermedio.\n"
+        "\\end{itemize}\n"
+        f"La red tiene {len(articulacion)} puntos de articulación, nodos "
+        f"cuya eliminación la desconecta: {lista}.\n")
 
 
 def main():

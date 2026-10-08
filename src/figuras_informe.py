@@ -34,6 +34,7 @@ from build_graph import SALIDA, cargar_grafo  # noqa: E402
 from busquedas import a_estrella, bfs, dfs, ucs, voraz  # noqa: E402
 from heuristica import (Heuristica, alfa_minimo,  # noqa: E402
                         cargar_coordenadas)
+from formato_latex import estilizar  # noqa: E402
 from lecturas_informe import bloque  # noqa: E402
 from lecturas_informe import miles as miles_tex  # noqa: E402
 
@@ -927,7 +928,7 @@ def tabla_aco_pso():
             f"{float(f['t_PSO']):.3f} & {float(f['razon_t']):.2f} \\\\")
     lineas += ["\\bottomrule", "\\end{tabular}"]
     with open(SALIDA / "tabla_aco_pso.tex", "w", encoding="utf-8") as f:
-        f.write("\n".join(lineas) + "\n")
+        f.write("\n".join(estilizar(lineas)) + "\n")
 
 
 def fig_aco_pso(grafo, trazado):

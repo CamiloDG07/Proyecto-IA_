@@ -10,6 +10,7 @@ import networkx as nx
 
 from build_graph import SALIDA, construir_grafo
 from experimentos_corte2 import ALGORITMOS
+from formato_latex import estilizar
 
 NOMBRES_CRITERIO = {
     "distancia": "distancia",
@@ -34,7 +35,7 @@ def leer(nombre):
 
 def escribir(nombre, lineas):
     with open(SALIDA / nombre, "w", encoding="utf-8") as f:
-        f.write("\n".join(lineas) + "\n")
+        f.write("\n".join(estilizar(lineas)) + "\n")
 
 
 def miles(valor):

@@ -16,6 +16,7 @@ import networkx as nx
 
 from build_graph import SALIDA, cargar_grafo, construir_grafo
 from exportar_latex import TRAMO_CICLO, costos
+from formato_latex import estilizar
 from agente import AgenteRutas
 from agente_rutas import formatear, recomendar
 from mapa_geografico import (DESTINO, ORIGEN, UMBRAL_KM,
@@ -500,7 +501,7 @@ def ejemplo_agente():
     lineas += ["\\bottomrule", "\\end{tabular}"]
     with open(SALIDA / "tabla_agente_ejemplos.tex", "w",
               encoding="utf-8") as f:
-        f.write("\n".join(lineas) + "\n")
+        f.write("\n".join(estilizar(lineas)) + "\n")
     ra, rb, rc = (c[1] for c in casos)
     m, alt = ra["recomendada"], ra["alternativas"][0]
     otros = [k for ruta, k in ra["prefiere"].items()
@@ -524,18 +525,23 @@ def ejemplo_agente():
         umbrales.append(u)
     u0, u1 = umbrales
     costo = m["costos"]["compuesto_sin_riesgo"]
+    preferencias = ", ".join(otros[:-1]) + " y " + otros[-1]
     with open(SALIDA / "texto_ejemplo_agente.tex", "w",
               encoding="utf-8") as f:
         f.write(
-            "En (a), la recomendación se apoya en la distancia y el peaje "
-            f"(costo compuesto sin riesgo {costo:.3f}); "
-            f"{', '.join(otros[:-1])} y {otros[-1]} prefieren el "
-            "desvío por Santander; el riesgo tiene dato en el "
+            "En (a):\n\\begin{itemize}\n"
+            "\\item La recomendación se apoya en la distancia y el peaje "
+            f"(costo compuesto sin riesgo {costo:.3f}).\n"
+            f"\\item {preferencias.capitalize()}"
+            " prefieren el desvío por Santander.\n"
+            "\\item El riesgo tiene dato en el "
             f"{m['cobertura_riesgo_pct']:.0f}\\,\\% de los tramos de la "
             f"recomendada y en el {alt['cobertura_riesgo_pct']:.0f}\\,\\% "
-            "de los del desvío; y la recomendación se mantiene mientras el "
+            "de los del desvío.\n"
+            "\\item La recomendación se mantiene mientras el "
             f"peso de la distancia, $w_d/(w_d+w_p)$, sea mayor que {u0:.4f} "
-            f"({u1:.4f} con la cota inferior de Chocontá a Tunja).\n")
+            f"({u1:.4f} con la cota inferior de Chocontá a Tunja).\n"
+            "\\end{itemize}\n")
     mc = rc["recomendada"]["metricas"]
     bloque(
         "c2_ejemplos",

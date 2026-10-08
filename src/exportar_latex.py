@@ -9,6 +9,7 @@ import json
 
 from agente import CRITERIOS, AgenteRutas
 from build_graph import SALIDA, cargar_grafo
+from formato_latex import estilizar
 
 TRAMO_CICLO = ("Bogotá", "Tocancipá")
 
@@ -19,7 +20,7 @@ def miles(valor):
 
 def escribir(nombre, lineas):
     with open(SALIDA / nombre, "w", encoding="utf-8") as f:
-        f.write("\n".join(lineas) + "\n")
+        f.write("\n".join(estilizar(lineas)) + "\n")
 
 
 def tabla_estadisticas(grafo):
