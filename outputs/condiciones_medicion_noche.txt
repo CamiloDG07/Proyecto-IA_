@@ -5,4 +5,4 @@ CPU: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz
 RAM GiB: 15.88
 SO: Microsoft Windows 11 Home 10.0.26300
 fin de la regeneración: 2026-10-08 02:39:37
-nota: la sesión incluye una primera corrida de experimentos_corte2.py que se interrumpió por un error de división por cero en el barrido de cuatro pesos (corregido) y se repitió completa; no se lanzaron cargas en paralelo durante las mediciones. El umbral de Held-Karp no se repitió.
+nota: la sesión incluye una primera corrida de experimentos_corte2.py que se interrumpió por un error de división por cero en el barrido de cuatro pesos (corregido) y se repitió completa; no se lanzaron cargas pesadas en paralelo, pero durante la regeneración se ejecutaron comprobaciones breves de pycodestyle sobre src/ que pudieron solaparse con algunas mediciones; por eso los tiempos se tratan como referencia. El umbral de Held-Karp no se repitió.
