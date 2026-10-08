@@ -225,6 +225,16 @@ archivo \texttt{outputs/aristas\_red.json}.
     \input{outputs/lectura_c1_mapa.tex}
 \end{figure}
 
+La Figura~\ref{fig:cobertura} muestra qué aristas tienen dato de riesgo, cuáles tienen peaje y cuáles marca la auditoría geométrica.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig_cobertura.pdf}
+    \caption{Cobertura de riesgo y peaje por arista y aristas marcadas por la auditoría. Fuente: elaboración propia}
+    \label{fig:cobertura}
+    \input{outputs/lectura_c1_fig_cobertura.tex}
+\end{figure}
+
 \begin{table}[H]
 \centering
 \caption{Estadísticas del grafo}
@@ -346,6 +356,16 @@ distancias cambia esa decisión.
 \input{outputs/lectura_c1_rutas.tex}
 \end{table}
 
+La Figura~\ref{fig:casos} compara las dos rutas reales del caso anterior con las cifras de la Tabla~\ref{tab:rutas}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig_c1_casos.pdf}
+    \caption{Rutas de Duitama a Puente Nacional por Bogotá y por Santander, con distancia, peaje y tiempo. Fuente: elaboración propia}
+    \label{fig:casos}
+    \input{outputs/lectura_c1_fig_casos.tex}
+\end{figure}
+
 \section{Auditoría geométrica de las aristas}
 
 Para comprobar el cruce de datos, cada arista se contrastó con la geometría
@@ -402,6 +422,16 @@ Tunja (1.49), El Espinal a Girardot (1.21) y el registro del Río Ocoa
 La regla se fijó de antemano y no se ajustó ninguna distancia para obtener un
 resultado determinado: el principio es corregir solo errores demostrables, con
 datos oficiales.
+
+La Figura~\ref{fig:coherencia} contrasta, arista por arista, la distancia por carretera con la geodésica.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{fig_c1_coherencia.pdf}
+    \caption{Distancia por carretera contra distancia geodésica de las 32 aristas. Fuente: elaboración propia}
+    \label{fig:coherencia}
+    \input{outputs/lectura_c1_fig_coherencia.tex}
+\end{figure}
 
 \subsection{Aristas marcadas por la auditoría}
 

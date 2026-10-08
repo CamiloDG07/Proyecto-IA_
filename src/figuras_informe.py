@@ -620,11 +620,11 @@ def fig_aco(grafo, trazado):
         "iteración (red de carga y taller); abajo, brecha media por grupo "
         "con 2-opt, sin 2-opt con inicio aleatorio y sin 2-opt con inicio "
         "fijo.",
-        f"en el taller la brecha media es {taller[0]:.3f} % con 2-opt, "
-        f"{taller[1]:.3f} % sin 2-opt con inicio aleatorio y "
-        f"{taller[2]:.3f} % con inicio fijo; en n = 100 y 200 sin 2-opt es "
-        f"{valores['aco_sin_2opt'][6]:.3f} % y "
-        f"{valores['aco_sin_2opt'][7]:.3f} %.",
+        f"en el taller la brecha media es {taller[0]:.3f}\\,\\% con 2-opt, "
+        f"{taller[1]:.3f}\\,\\% sin 2-opt con inicio aleatorio y "
+        f"{taller[2]:.3f}\\,\\% con inicio fijo; en n = 100 y 200 sin 2-opt "
+        f"es {valores['aco_sin_2opt'][6]:.3f}\\,\\% y "
+        f"{valores['aco_sin_2opt'][7]:.3f}\\,\\%.",
         "Medido: la brecha con inicio fijo se debía al inicio de las "
         "hormigas, no a la ausencia de 2-opt; el aporte del 2-opt crece con "
         "n. «n/d»: no se corrió esa variante.")

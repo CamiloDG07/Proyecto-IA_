@@ -83,7 +83,10 @@ despachador (Held-Karp si k es menor o igual que K_exacto; ACO si no).
 python src/agente_rutas.py Duitama "Puente Nacional"
 python src/agente_rutas.py Bogotá Granada
 python src/agente_rutas.py Duitama Tunja Bogotá Villeta --regreso
+python src/agente_rutas.py Duitama "Puente Nacional" --criterio peaje
 ```
+
+Con `--criterio {distancia,peaje,riesgo,compuesto,compuesto_sin_riesgo}` el usuario elige el criterio con que se escoge la ruta recomendada; sin la opción se usa el compuesto sin riesgo.
 
 | Caso | Qué mostrar |
 |---|---|
