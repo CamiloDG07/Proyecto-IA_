@@ -16,3 +16,9 @@
 | 03:17 | Guion y README actualizados; las salidas del guion se regeneran con los comandos reales | Cifras vigentes | guion_demostracion.md |
 | 03:19 | Verificador de cifras dentro del repo (src/verificar_cifras.py), con costo monetario, mortalidad, narrativa de ambos informes y comparación literal de las salidas del guion | Compuerta de verificación | 231 cifras, 0 discrepancias |
 | 03:19 | Decisión propia: el criterio por defecto no cambia a costo operativo | Un insumo (otros costos por km) es supuesto del equipo; la regla del encargo exige todos verificados | config_costos.json |
+| ≈09:05 | Chocontá a Tunja: verificación de solo lectura de los 61.0 km; hueco de PR de 49.1 km, razón de la geometría 1.486 y el PR 120 a unos 11 km de Tunja | Condiciones de parada del encargo | outputs/evaluacion_progresivas.json |
+| ≈09:15 | Decisión del usuario, opción (b): la base vuelve a 17.69 km (truncada); 56.96 y 61.0 km solo como sensibilidad; regla de adopción por progresivas con prueba | Encargo de remedición limpia | src/construir_red.py, src/pruebas_progresivas.py |
+| ≈09:40 | Licencias y atribución en FUENTES_NUEVAS.md, README y referencias; retiro del repositorio de los documentos de la CREG, la UPME, la guía del curso y el de avances | Sin licencia de redistribución explícita | FUENTES_NUEVAS.md |
+| 09:57 | Se detuvo un proceso python colgado y se verificó que el equipo estaba con batería; no se midió hasta que el usuario lo conectó | Condición de la medición | |
+| 10:01 a 10:11 | Remedición limpia en una sola sesión, con corriente comprobada antes y después de cada paso | Encargo | outputs/condiciones_medicion_noche.txt |
+| nota | Las horas con ≈ de esta tanda son aproximadas (reconstruidas de la secuencia de la sesión), no registradas al momento | Honestidad de la bitácora | |

@@ -21,10 +21,10 @@
    "paradas_libres": 4,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 885.4399999999999,
-   "despachador_tiempo_s": 0.003517999983159825,
+   "despachador_tiempo_s": 0.003351799998199567,
    "exacto": {
     "costo": 885.4399999999999,
-    "tiempo_s": 0.0004301000153645873,
+    "tiempo_s": 0.0004430999979376793,
     "memoria_pico_mib": 0.00568389892578125
    },
    "referencia": {
@@ -63,8 +63,8 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.04031779000069946,
-    "tiempo_desv_s": 0.006147774133439077,
+    "tiempo_medio_s": 0.03447101000056137,
+    "tiempo_desv_s": 0.00052767903001083,
     "memoria_pico_kib": 12.8984375,
     "curva_media": [
      885.4399999999999,
@@ -201,9 +201,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.030287770004360937,
-    "tiempo_desv_s": 0.004699764827241278,
-    "memoria_pico_kib": 12.87890625,
+    "tiempo_medio_s": 0.025030210003023967,
+    "tiempo_desv_s": 0.00018021529253276945,
+    "memoria_pico_kib": 12.822265625,
     "curva_media": [
      885.4399999999999,
      885.4399999999999,
@@ -339,9 +339,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.029597320000175387,
-    "tiempo_desv_s": 0.004746922202586645,
-    "memoria_pico_kib": 12.955078125,
+    "tiempo_medio_s": 0.022998840000946076,
+    "tiempo_desv_s": 0.0003270006465096599,
+    "memoria_pico_kib": 12.5068359375,
     "curva_media": [
      885.4399999999998,
      885.4399999999998,
@@ -454,10 +454,10 @@
    "paradas_libres": 4,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 1097.82,
-   "despachador_tiempo_s": 0.0062516000180039555,
+   "despachador_tiempo_s": 0.002685300016310066,
    "exacto": {
     "costo": 1097.82,
-    "tiempo_s": 0.0011294000141788274,
+    "tiempo_s": 0.0004189999890513718,
     "memoria_pico_mib": 0.00568389892578125
    },
    "referencia": {
@@ -496,8 +496,8 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.07318791000288911,
-    "tiempo_desv_s": 0.013228014991903316,
+    "tiempo_medio_s": 0.034103500001947396,
+    "tiempo_desv_s": 0.00039093099859229463,
     "memoria_pico_kib": 12.783203125,
     "curva_media": [
      1097.82,
@@ -634,8 +634,8 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.049775340006453915,
-    "tiempo_desv_s": 0.012216443465296777,
+    "tiempo_medio_s": 0.02613149000098929,
+    "tiempo_desv_s": 0.0009834115830285929,
     "memoria_pico_kib": 12.4443359375,
     "curva_media": [
      1097.82,
@@ -772,9 +772,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.046288400000776164,
-    "tiempo_desv_s": 0.013647205779910123,
-    "memoria_pico_kib": 12.494140625,
+    "tiempo_medio_s": 0.024681870001950303,
+    "tiempo_desv_s": 0.002676155542771111,
+    "memoria_pico_kib": 12.59375,
     "curva_media": [
      1108.8519999999999,
      1108.8519999999999,
@@ -887,10 +887,10 @@
    "paradas_libres": 4,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 1207.05,
-   "despachador_tiempo_s": 0.0036208000092301518,
+   "despachador_tiempo_s": 0.0030621999758295715,
    "exacto": {
     "costo": 1207.05,
-    "tiempo_s": 0.000614699994912371,
+    "tiempo_s": 0.00040749998879618943,
     "memoria_pico_mib": 0.00568389892578125
    },
    "referencia": {
@@ -929,9 +929,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": -1.883713810059501e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.04926736999768764,
-    "tiempo_desv_s": 0.009829847427166253,
-    "memoria_pico_kib": 12.7333984375,
+    "tiempo_medio_s": 0.03551385000464506,
+    "tiempo_desv_s": 0.0007456275120226463,
+    "memoria_pico_kib": 12.783203125,
     "curva_media": [
      1207.0499999999997,
      1207.0499999999997,
@@ -1067,8 +1067,8 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": -1.883713810059501e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.04971068000595551,
-    "tiempo_desv_s": 0.006896107430987127,
+    "tiempo_medio_s": 0.02610014999809209,
+    "tiempo_desv_s": 0.0010531591579475556,
     "memoria_pico_kib": 12.494140625,
     "curva_media": [
      1207.0499999999997,
@@ -1205,9 +1205,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": -1.883713810059501e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.03180739000381436,
-    "tiempo_desv_s": 0.0071154152017184535,
-    "memoria_pico_kib": 12.517578125,
+    "tiempo_medio_s": 0.023503410001285373,
+    "tiempo_desv_s": 0.0005577959445226096,
+    "memoria_pico_kib": 12.6171875,
     "curva_media": [
      1214.1259999999997,
      1214.1259999999997,
@@ -1320,10 +1320,10 @@
    "paradas_libres": 9,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 1504.8399999999997,
-   "despachador_tiempo_s": 0.007404399977531284,
+   "despachador_tiempo_s": 0.007316300005186349,
    "exacto": {
     "costo": 1504.8399999999997,
-    "tiempo_s": 0.003059899987420067,
+    "tiempo_s": 0.002320500003406778,
     "memoria_pico_mib": 0.06850433349609375
    },
    "referencia": {
@@ -1362,9 +1362,9 @@
     "brecha_mejor_pct": 1.5109491736213292e-14,
     "brecha_media_pct": 1.5109491736213292e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.09739947999769356,
-    "tiempo_desv_s": 0.021295692673751643,
-    "memoria_pico_kib": 22.39453125,
+    "tiempo_medio_s": 0.05781878000125289,
+    "tiempo_desv_s": 0.0019632454279998736,
+    "memoria_pico_kib": 22.4443359375,
     "curva_media": [
      1504.8400000000001,
      1504.84,
@@ -1500,9 +1500,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.09650494000525214,
-    "tiempo_desv_s": 0.019941639951961687,
-    "memoria_pico_kib": 19.1962890625,
+    "tiempo_medio_s": 0.048647289990913126,
+    "tiempo_desv_s": 0.0038675671078393713,
+    "memoria_pico_kib": 19.24609375,
     "curva_media": [
      1519.306,
      1504.84,
@@ -1638,8 +1638,8 @@
     "brecha_mejor_pct": 1.5109491736213292e-14,
     "brecha_media_pct": 3.0218983472426585e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.08857113999256398,
-    "tiempo_desv_s": 0.013623463394572105,
+    "tiempo_medio_s": 0.04383362999651581,
+    "tiempo_desv_s": 0.0007398983804816312,
     "memoria_pico_kib": 19.24609375,
     "curva_media": [
      1541.208,
@@ -1753,10 +1753,10 @@
    "paradas_libres": 9,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 2003.1399999999996,
-   "despachador_tiempo_s": 0.009023199992952868,
+   "despachador_tiempo_s": 0.008354199992027134,
    "exacto": {
     "costo": 2003.1399999999996,
-    "tiempo_s": 0.0023406999825965613,
+    "tiempo_s": 0.002360899990890175,
     "memoria_pico_mib": 0.06850433349609375
    },
    "referencia": {
@@ -1795,9 +1795,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 1.1350862917381316e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.1175011799990898,
-    "tiempo_desv_s": 0.020017818422924997,
-    "memoria_pico_kib": 21.7177734375,
+    "tiempo_medio_s": 0.0564421799936099,
+    "tiempo_desv_s": 0.0009975763719168684,
+    "memoria_pico_kib": 21.66796875,
     "curva_media": [
      2003.1399999999999,
      2003.1399999999999,
@@ -1933,9 +1933,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 1.1350862917381316e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.060437259994796474,
-    "tiempo_desv_s": 0.01511697331958104,
-    "memoria_pico_kib": 19.22265625,
+    "tiempo_medio_s": 0.04597989000321832,
+    "tiempo_desv_s": 0.0008171192894432374,
+    "memoria_pico_kib": 19.1728515625,
     "curva_media": [
      2012.3959999999995,
      2003.1399999999999,
@@ -2071,9 +2071,9 @@
     "brecha_mejor_pct": 1.1350862917381316e-14,
     "brecha_media_pct": 1.1350862917381316e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.08208497999585233,
-    "tiempo_desv_s": 0.021662722940037227,
-    "memoria_pico_kib": 19.22265625,
+    "tiempo_medio_s": 0.045705609998549335,
+    "tiempo_desv_s": 0.000988859785039589,
+    "memoria_pico_kib": 19.322265625,
     "curva_media": [
      2003.1399999999999,
      2003.1399999999999,
@@ -2186,10 +2186,10 @@
    "paradas_libres": 9,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 2131.5899999999997,
-   "despachador_tiempo_s": 0.010792300017783418,
+   "despachador_tiempo_s": 0.00849099998595193,
    "exacto": {
     "costo": 2131.5899999999997,
-    "tiempo_s": 0.002351200004341081,
+    "tiempo_s": 0.002313100005267188,
     "memoria_pico_mib": 0.06850433349609375
    },
    "referencia": {
@@ -2228,9 +2228,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.10977815999649465,
-    "tiempo_desv_s": 0.018035518934903568,
-    "memoria_pico_kib": 21.6376953125,
+    "tiempo_medio_s": 0.057564979998278434,
+    "tiempo_desv_s": 0.002304590053456485,
+    "memoria_pico_kib": 21.88671875,
     "curva_media": [
      2132.215,
      2131.59,
@@ -2366,9 +2366,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.07786273000820074,
-    "tiempo_desv_s": 0.015953578272353018,
-    "memoria_pico_kib": 19.09375,
+    "tiempo_medio_s": 0.04628076000371948,
+    "tiempo_desv_s": 0.0006030723899087522,
+    "memoria_pico_kib": 19.29296875,
     "curva_media": [
      2133.465,
      2132.2149999999997,
@@ -2504,9 +2504,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.08819577000103891,
-    "tiempo_desv_s": 0.013246884519183122,
-    "memoria_pico_kib": 19.24609375,
+    "tiempo_medio_s": 0.04431074000021908,
+    "tiempo_desv_s": 0.002359963989454557,
+    "memoria_pico_kib": 19.203125,
     "curva_media": [
      2131.59,
      2131.59,
@@ -2619,10 +2619,10 @@
    "paradas_libres": 14,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 2009.3299999999995,
-   "despachador_tiempo_s": 0.05456779999076389,
+   "despachador_tiempo_s": 0.03735539998160675,
    "exacto": {
     "costo": 2009.3299999999995,
-    "tiempo_s": 0.05031789999338798,
+    "tiempo_s": 0.02602119999937713,
     "memoria_pico_mib": 2.7510833740234375
    },
    "referencia": {
@@ -2661,9 +2661,9 @@
     "brecha_mejor_pct": 1.1315895121420182e-14,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.1749104799964698,
-    "tiempo_desv_s": 0.02428964156650581,
-    "memoria_pico_kib": 38.9267578125,
+    "tiempo_medio_s": 0.08181959999783431,
+    "tiempo_desv_s": 0.001130771536888288,
+    "memoria_pico_kib": 39.275390625,
     "curva_media": [
      2009.3300000000004,
      2009.3300000000004,
@@ -2799,9 +2799,9 @@
     "brecha_mejor_pct": 1.1315895121420182e-14,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.12879149000218604,
-    "tiempo_desv_s": 0.017907190845310287,
-    "memoria_pico_kib": 32.626953125,
+    "tiempo_medio_s": 0.07221277000498957,
+    "tiempo_desv_s": 0.004105243548748177,
+    "memoria_pico_kib": 33.125,
     "curva_media": [
      2095.6899999999996,
      2048.016,
@@ -2937,9 +2937,9 @@
     "brecha_mejor_pct": 1.1315895121420182e-14,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.14685333000088577,
-    "tiempo_desv_s": 0.06304999812890748,
-    "memoria_pico_kib": 32.580078125,
+    "tiempo_medio_s": 0.06728359999542591,
+    "tiempo_desv_s": 0.0011111993875487182,
+    "memoria_pico_kib": 32.9287109375,
     "curva_media": [
      2066.322,
      2028.422,
@@ -3052,10 +3052,10 @@
    "paradas_libres": 14,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 1732.7899999999997,
-   "despachador_tiempo_s": 0.051147099991794676,
+   "despachador_tiempo_s": 0.03770489999442361,
    "exacto": {
     "costo": 1732.7899999999997,
-    "tiempo_s": 0.026199499989161268,
+    "tiempo_s": 0.024946600024122745,
     "memoria_pico_mib": 2.7510833740234375
    },
    "referencia": {
@@ -3094,9 +3094,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.14509061000135262,
-    "tiempo_desv_s": 0.02645963744757844,
-    "memoria_pico_kib": 39.9482421875,
+    "tiempo_medio_s": 0.0818704500037711,
+    "tiempo_desv_s": 0.0009369575091201048,
+    "memoria_pico_kib": 40.09765625,
     "curva_media": [
      1732.7900000000002,
      1732.7900000000002,
@@ -3232,9 +3232,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.13777048000483774,
-    "tiempo_desv_s": 0.02536625418623891,
-    "memoria_pico_kib": 32.802734375,
+    "tiempo_medio_s": 0.0692241600016132,
+    "tiempo_desv_s": 0.0011471788854464965,
+    "memoria_pico_kib": 32.603515625,
     "curva_media": [
      1821.2540000000001,
      1788.1580000000001,
@@ -3370,9 +3370,9 @@
     "brecha_mejor_pct": 5.341674409478367,
     "brecha_media_pct": 7.825414504931392,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 0.12638173999730498,
-    "tiempo_desv_s": 0.028415993478778483,
-    "memoria_pico_kib": 33.201171875,
+    "tiempo_medio_s": 0.06998637999640778,
+    "tiempo_desv_s": 0.006817667233131661,
+    "memoria_pico_kib": 32.7529296875,
     "curva_media": [
      1916.3039999999996,
      1888.786,
@@ -3485,10 +3485,10 @@
    "paradas_libres": 14,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 2125.5899999999997,
-   "despachador_tiempo_s": 0.08905360000790097,
+   "despachador_tiempo_s": 0.037334299995563924,
    "exacto": {
     "costo": 2125.5899999999997,
-    "tiempo_s": 0.03572919999714941,
+    "tiempo_s": 0.026217500009806827,
     "memoria_pico_mib": 2.7510833740234375
    },
    "referencia": {
@@ -3527,9 +3527,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.17330439000215847,
-    "tiempo_desv_s": 0.03156533602199946,
-    "memoria_pico_kib": 40.09765625,
+    "tiempo_medio_s": 0.08484096999454778,
+    "tiempo_desv_s": 0.0007620510605216999,
+    "memoria_pico_kib": 39.8984375,
     "curva_media": [
      2125.59,
      2125.59,
@@ -3665,9 +3665,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 2.1393935372600746e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.14138740999915173,
-    "tiempo_desv_s": 0.045626521904435745,
-    "memoria_pico_kib": 32.802734375,
+    "tiempo_medio_s": 0.07066300999431405,
+    "tiempo_desv_s": 0.002945869795528336,
+    "memoria_pico_kib": 32.603515625,
     "curva_media": [
      2252.422,
      2188.922,
@@ -3803,9 +3803,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.11082265000150074,
-    "tiempo_desv_s": 0.03072492556282676,
-    "memoria_pico_kib": 32.826171875,
+    "tiempo_medio_s": 0.06638954000372906,
+    "tiempo_desv_s": 0.000728224162821674,
+    "memoria_pico_kib": 32.7763671875,
     "curva_media": [
      2346.2799999999997,
      2265.4539999999997,
@@ -3918,10 +3918,10 @@
    "paradas_libres": 19,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 2282.2499999999995,
-   "despachador_tiempo_s": 2.7404609999794047,
+   "despachador_tiempo_s": 1.7832783999911044,
    "exacto": {
     "costo": 2282.2499999999995,
-    "tiempo_s": 2.6971119999943767,
+    "tiempo_s": 1.7609518000099342,
     "memoria_pico_mib": 111.82664489746094
    },
    "referencia": {
@@ -3960,9 +3960,9 @@
     "brecha_mejor_pct": -1.9925396029640233e-14,
     "brecha_media_pct": -1.9925396029640233e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.18735900000028777,
-    "tiempo_desv_s": 0.04102538125622444,
-    "memoria_pico_kib": 64.0419921875,
+    "tiempo_medio_s": 0.10944056999869645,
+    "tiempo_desv_s": 0.0009515210451031684,
+    "memoria_pico_kib": 63.9423828125,
     "curva_media": [
      2282.25,
      2282.25,
@@ -4098,9 +4098,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.16517863999761176,
-    "tiempo_desv_s": 0.0249534236757593,
-    "memoria_pico_kib": 52.2177734375,
+    "tiempo_medio_s": 0.09588491999602411,
+    "tiempo_desv_s": 0.001040344169436322,
+    "memoria_pico_kib": 52.16796875,
     "curva_media": [
      2381.496,
      2329.898,
@@ -4236,9 +4236,9 @@
     "brecha_mejor_pct": 1.9925396029640233e-14,
     "brecha_media_pct": 3.491028590207052,
     "semillas_que_igualan_referencia": 2,
-    "tiempo_medio_s": 0.21473241000203416,
-    "tiempo_desv_s": 0.02981075494900683,
-    "memoria_pico_kib": 52.1943359375,
+    "tiempo_medio_s": 0.09578302000300028,
+    "tiempo_desv_s": 0.005576156264821082,
+    "memoria_pico_kib": 52.14453125,
     "curva_media": [
      2464.474,
      2459.004,
@@ -4351,10 +4351,10 @@
    "paradas_libres": 19,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 2213.5499999999993,
-   "despachador_tiempo_s": 3.625343600026099,
+   "despachador_tiempo_s": 1.7834052999969572,
    "exacto": {
     "costo": 2213.5499999999993,
-    "tiempo_s": 3.7815333000035025,
+    "tiempo_s": 1.77788470001542,
     "memoria_pico_mib": 111.82664489746094
    },
    "referencia": {
@@ -4393,9 +4393,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.28202858999720776,
-    "tiempo_desv_s": 0.03254385442606461,
-    "memoria_pico_kib": 59.02734375,
+    "tiempo_medio_s": 0.10644952999136877,
+    "tiempo_desv_s": 0.0009879334564973554,
+    "memoria_pico_kib": 59.1767578125,
     "curva_media": [
      2213.5499999999997,
      2213.5499999999997,
@@ -4531,9 +4531,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.23851591999991797,
-    "tiempo_desv_s": 0.04173475532265866,
-    "memoria_pico_kib": 52.068359375,
+    "tiempo_medio_s": 0.0968625899986364,
+    "tiempo_desv_s": 0.0026727243376432593,
+    "memoria_pico_kib": 52.4169921875,
     "curva_media": [
      2213.5499999999997,
      2213.5499999999997,
@@ -4669,9 +4669,9 @@
     "brecha_mejor_pct": 2.054380298102434e-14,
     "brecha_media_pct": 2.054380298102434e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.20152770999702624,
-    "tiempo_desv_s": 0.037865336427999094,
-    "memoria_pico_kib": 52.021484375,
+    "tiempo_medio_s": 0.09596710999612697,
+    "tiempo_desv_s": 0.005980225025958788,
+    "memoria_pico_kib": 52.220703125,
     "curva_media": [
      2213.5499999999997,
      2213.5499999999997,
@@ -4784,10 +4784,10 @@
    "paradas_libres": 19,
    "despachador_metodo": "Held-Karp",
    "despachador_costo": 2269.4499999999994,
-   "despachador_tiempo_s": 3.2390751999919303,
+   "despachador_tiempo_s": 1.7784362999955192,
    "exacto": {
     "costo": 2269.4499999999994,
-    "tiempo_s": 3.095610199990915,
+    "tiempo_s": 1.7926528999814764,
     "memoria_pico_mib": 111.82664489746094
    },
    "referencia": {
@@ -4826,9 +4826,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 2.0037777914757506e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.21470442999270745,
-    "tiempo_desv_s": 0.031026843461510203,
-    "memoria_pico_kib": 67.7978515625,
+    "tiempo_medio_s": 0.10756742999656126,
+    "tiempo_desv_s": 0.0009654878954181695,
+    "memoria_pico_kib": 64.4111328125,
     "curva_media": [
      2269.4500000000003,
      2269.4500000000003,
@@ -4964,9 +4964,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 2.0037777914757506e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.23208795999817083,
-    "tiempo_desv_s": 0.031175430966508037,
-    "memoria_pico_kib": 52.068359375,
+    "tiempo_medio_s": 0.09546392999764067,
+    "tiempo_desv_s": 0.0008569671551480801,
+    "memoria_pico_kib": 52.1181640625,
     "curva_media": [
      2313.6899999999996,
      2309.2659999999996,
@@ -5102,8 +5102,8 @@
     "brecha_mejor_pct": 2.0037777914757506e-14,
     "brecha_media_pct": 5.018396527793113,
     "semillas_que_igualan_referencia": 1,
-    "tiempo_medio_s": 0.2351775000046473,
-    "tiempo_desv_s": 0.043709899905243495,
+    "tiempo_medio_s": 0.0952044699981343,
+    "tiempo_desv_s": 0.005016233133139018,
     "memoria_pico_kib": 52.0712890625,
     "curva_media": [
      2415.15,
@@ -5217,7 +5217,7 @@
    "paradas_libres": 31,
    "despachador_metodo": "ACO + 2-opt (10 semillas)",
    "despachador_costo": 2808.65,
-   "despachador_tiempo_s": 4.812732999998843,
+   "despachador_tiempo_s": 1.9734338000125717,
    "referencia": {
     "tipo": "óptimo por estructura de la red unicíclica",
     "costo": 2808.65,
@@ -5255,9 +5255,9 @@
     "brecha_mejor_pct": -4.857287496339495e-14,
     "brecha_media_pct": -4.857287496339495e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.49276497999962887,
-    "tiempo_desv_s": 0.08274795994863517,
-    "memoria_pico_kib": 151.2080078125,
+    "tiempo_medio_s": 0.192888779999339,
+    "tiempo_desv_s": 0.0024832903555547093,
+    "memoria_pico_kib": 151.1083984375,
     "curva_media": [
      2808.6500000000005,
      2808.6500000000005,
@@ -5393,9 +5393,9 @@
     "brecha_mejor_pct": -4.857287496339495e-14,
     "brecha_media_pct": -4.857287496339495e-14,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.4271094300027471,
-    "tiempo_desv_s": 0.04617772139086082,
-    "memoria_pico_kib": 121.302734375,
+    "tiempo_medio_s": 0.1774249400041299,
+    "tiempo_desv_s": 0.0018313565542365457,
+    "memoria_pico_kib": 121.48828125,
     "curva_media": [
      2981.548,
      2875.87,
@@ -5531,8 +5531,8 @@
     "brecha_mejor_pct": -3.2381916642263304e-14,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.39316951999790034,
-    "tiempo_desv_s": 0.08059448089530583,
+    "tiempo_medio_s": 0.1734649399993941,
+    "tiempo_desv_s": 0.0018195825557533057,
     "memoria_pico_kib": 121.294921875,
     "curva_media": [
      2902.604,
@@ -5645,7 +5645,7 @@
    "paradas_libres": 19,
    "exacto": {
     "costo": 4.105937823093458,
-    "tiempo_s": 3.3959998000063933,
+    "tiempo_s": 1.7353900999878533,
     "memoria_pico_mib": 111.82664489746094
    },
    "optimo_del_taller": 4.10594,
@@ -5686,9 +5686,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.2004408170452313,
     "semillas_que_igualan_referencia": 8,
-    "tiempo_medio_s": 0.3127241700014565,
-    "tiempo_desv_s": 0.040300361405394815,
-    "memoria_pico_kib": 64.5595703125,
+    "tiempo_medio_s": 0.1130596400005743,
+    "tiempo_desv_s": 0.002674275567449153,
+    "memoria_pico_kib": 64.609375,
     "curva_media": [
      4.163158265782612,
      4.137760473504896,
@@ -5824,9 +5824,9 @@
     "brecha_mejor_pct": 1.1760235971843946,
     "brecha_media_pct": 1.1760235971843946,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 0.28893497999815737,
-    "tiempo_desv_s": 0.040670178120577376,
-    "memoria_pico_kib": 52.2412109375,
+    "tiempo_medio_s": 0.0957057000050554,
+    "tiempo_desv_s": 0.0008581813195589918,
+    "memoria_pico_kib": 52.19140625,
     "curva_media": [
      4.530921703380201,
      4.373951010585172,
@@ -5962,9 +5962,9 @@
     "brecha_mejor_pct": 1.1760235971843946,
     "brecha_media_pct": 1.1760235971843946,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 0.26478905000840314,
-    "tiempo_desv_s": 0.03721951552604729,
-    "memoria_pico_kib": 52.2646484375,
+    "tiempo_medio_s": 0.09519900000304915,
+    "tiempo_desv_s": 0.003419396680925187,
+    "memoria_pico_kib": 52.21484375,
     "curva_media": [
      4.471275930418798,
      4.405223280825046,
@@ -6076,7 +6076,7 @@
    "paradas_libres": 19,
    "exacto": {
     "costo": 4.2696377380064,
-    "tiempo_s": 3.300154600001406,
+    "tiempo_s": 1.725562900013756,
     "memoria_pico_mib": 111.82664489746094
    },
    "optimo_del_taller": 4.26964,
@@ -6117,8 +6117,8 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.3233136400027433,
-    "tiempo_desv_s": 0.0465301771727703,
+    "tiempo_medio_s": 0.11170832000498195,
+    "tiempo_desv_s": 0.00573254886535977,
     "memoria_pico_kib": 64.4365234375,
     "curva_media": [
      4.356360769677164,
@@ -6255,8 +6255,8 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.2433590400061803,
-    "tiempo_desv_s": 0.046627902562388364,
+    "tiempo_medio_s": 0.09587738999398425,
+    "tiempo_desv_s": 0.0007528034418713867,
     "memoria_pico_kib": 52.2353515625,
     "curva_media": [
      4.7211949081197035,
@@ -6393,9 +6393,9 @@
     "brecha_mejor_pct": 2.0802196209621234e-14,
     "brecha_media_pct": 0.6990581303200464,
     "semillas_que_igualan_referencia": 1,
-    "tiempo_medio_s": 0.2479371900029946,
-    "tiempo_desv_s": 0.02893706210654463,
-    "memoria_pico_kib": 52.2880859375,
+    "tiempo_medio_s": 0.0933572800073307,
+    "tiempo_desv_s": 0.0013636860542354668,
+    "memoria_pico_kib": 52.23828125,
     "curva_media": [
      4.821233104802795,
      4.663511479685495,
@@ -6507,7 +6507,7 @@
    "paradas_libres": 19,
    "exacto": {
     "costo": 3.5373602565478315,
-    "tiempo_s": 3.3221846999949776,
+    "tiempo_s": 1.762445900007151,
     "memoria_pico_mib": 111.82664489746094
    },
    "optimo_del_taller": 3.53736,
@@ -6548,9 +6548,9 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.34090834999806247,
-    "tiempo_desv_s": 0.039902467186484075,
-    "memoria_pico_kib": 64.509765625,
+    "tiempo_medio_s": 0.11497645999479573,
+    "tiempo_desv_s": 0.0014869704715790273,
+    "memoria_pico_kib": 64.4599609375,
     "curva_media": [
      3.540645248150787,
      3.538455253748817,
@@ -6686,9 +6686,9 @@
     "brecha_mejor_pct": 1.2554254518691761e-14,
     "brecha_media_pct": 0.01217674160443189,
     "semillas_que_igualan_referencia": 9,
-    "tiempo_medio_s": 0.2621298299985938,
-    "tiempo_desv_s": 0.03567735426378784,
-    "memoria_pico_kib": 52.21484375,
+    "tiempo_medio_s": 0.09691797999839764,
+    "tiempo_desv_s": 0.0014265999623271452,
+    "memoria_pico_kib": 52.1650390625,
     "curva_media": [
      3.9589133650485295,
      3.792586722417206,
@@ -6824,8 +6824,8 @@
     "brecha_mejor_pct": 1.9996361654247676,
     "brecha_media_pct": 5.338865272023479,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 0.24740942000062205,
-    "tiempo_desv_s": 0.04017524417242114,
+    "tiempo_medio_s": 0.09389848999853712,
+    "tiempo_desv_s": 0.0016336295801066879,
     "memoria_pico_kib": 52.19140625,
     "curva_media": [
      3.9491825334724657,
@@ -6938,7 +6938,7 @@
    "paradas_libres": 19,
    "exacto": {
     "costo": 4.074613971108988,
-    "tiempo_s": 3.3545571000140626,
+    "tiempo_s": 1.753225399996154,
     "memoria_pico_mib": 111.82664489746094
    },
    "optimo_del_taller": 4.07461,
@@ -6979,9 +6979,9 @@
     "brecha_mejor_pct": -2.1797854373389624e-14,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.29032295000215524,
-    "tiempo_desv_s": 0.04665256263187657,
-    "memoria_pico_kib": 64.4599609375,
+    "tiempo_medio_s": 0.11488728999975137,
+    "tiempo_desv_s": 0.0021123453309868415,
+    "memoria_pico_kib": 64.509765625,
     "curva_media": [
      4.107413763025116,
      4.091013867067052,
@@ -7117,8 +7117,8 @@
     "brecha_mejor_pct": 0.0,
     "brecha_media_pct": 0.26826320154331945,
     "semillas_que_igualan_referencia": 7,
-    "tiempo_medio_s": 0.20718660999846178,
-    "tiempo_desv_s": 0.038403946696440344,
+    "tiempo_medio_s": 0.09624280000280123,
+    "tiempo_desv_s": 0.0030140936995990413,
     "memoria_pico_kib": 52.1650390625,
     "curva_media": [
      4.349745198198442,
@@ -7255,8 +7255,8 @@
     "brecha_mejor_pct": 0.4231488153482639,
     "brecha_media_pct": 1.6355920376034159,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 0.24399454999656883,
-    "tiempo_desv_s": 0.02113243397188706,
+    "tiempo_medio_s": 0.0932384399959119,
+    "tiempo_desv_s": 0.0012147367110281102,
     "memoria_pico_kib": 52.19140625,
     "curva_media": [
      4.216964860417385,
@@ -7369,7 +7369,7 @@
    "paradas_libres": 19,
    "exacto": {
     "costo": 4.2658556038575,
-    "tiempo_s": 3.472304399998393,
+    "tiempo_s": 1.735449499974493,
     "memoria_pico_mib": 111.82664489746094
    },
    "optimo_del_taller": 4.26586,
@@ -7410,9 +7410,9 @@
     "brecha_mejor_pct": -2.0820639566350278e-14,
     "brecha_media_pct": 0.0,
     "semillas_que_igualan_referencia": 10,
-    "tiempo_medio_s": 0.3082042900059605,
-    "tiempo_desv_s": 0.03904750662916317,
-    "memoria_pico_kib": 64.4365234375,
+    "tiempo_medio_s": 0.1298836600035429,
+    "tiempo_desv_s": 0.018693018031597983,
+    "memoria_pico_kib": 64.486328125,
     "curva_media": [
      4.367661366083008,
      4.318092797085048,
@@ -7548,8 +7548,8 @@
     "brecha_mejor_pct": -2.0820639566350278e-14,
     "brecha_media_pct": 0.3291425537138044,
     "semillas_que_igualan_referencia": 6,
-    "tiempo_medio_s": 0.24829943000222557,
-    "tiempo_desv_s": 0.024955181467346366,
+    "tiempo_medio_s": 0.14153176999243441,
+    "tiempo_desv_s": 0.03294655880498637,
     "memoria_pico_kib": 52.1181640625,
     "curva_media": [
      4.759393805296168,
@@ -7686,9 +7686,9 @@
     "brecha_mejor_pct": 0.5355192843063367,
     "brecha_media_pct": 2.2094002680139497,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 0.24129310000280385,
-    "tiempo_desv_s": 0.037245116820340124,
-    "memoria_pico_kib": 52.2880859375,
+    "tiempo_medio_s": 0.12171231999818702,
+    "tiempo_desv_s": 0.021713726430353675,
+    "memoria_pico_kib": 52.1884765625,
     "curva_media": [
      4.859388721262967,
      4.7606325974700425,
@@ -7802,7 +7802,7 @@
     "tipo": "mejor encontrada con 2-opt",
     "inicios": 301,
     "costo": 7.768329951743992,
-    "tiempo_s": 16.383813699998427
+    "tiempo_s": 7.85429399998975
    },
    "aco": {
     "semillas": [
@@ -7836,8 +7836,8 @@
     "brecha_mejor_pct": -0.3149237644912328,
     "brecha_media_pct": -0.1712597168845786,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 4.3114008399978045,
-    "tiempo_desv_s": 0.20442765557407222,
+    "tiempo_medio_s": 1.742979009996634,
+    "tiempo_desv_s": 0.11209871881782334,
     "memoria_pico_kib": 1401.5771484375,
     "curva_media": [
      8.162127185618672,
@@ -7974,9 +7974,9 @@
     "brecha_mejor_pct": 4.674332670953187,
     "brecha_media_pct": 5.5987299670141475,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 3.3494015600008424,
-    "tiempo_desv_s": 0.17410022325557212,
-    "memoria_pico_kib": 1109.93359375,
+    "tiempo_medio_s": 1.094251080005779,
+    "tiempo_desv_s": 0.0735845659625608,
+    "memoria_pico_kib": 1109.9833984375,
     "curva_media": [
      10.123331160460333,
      9.837022565017431,
@@ -8090,7 +8090,7 @@
     "tipo": "mejor encontrada con 2-opt",
     "inicios": 151,
     "costo": 11.236598469085017,
-    "tiempo_s": 51.71621280000545
+    "tiempo_s": 21.43282220000401
    },
    "aco": {
     "semillas": [
@@ -8124,8 +8124,8 @@
     "brecha_mejor_pct": -1.9365020817247898,
     "brecha_media_pct": -1.4001841407286664,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 21.425460170002772,
-    "tiempo_desv_s": 0.5696156955512861,
+    "tiempo_medio_s": 8.933800299998257,
+    "tiempo_desv_s": 0.9501140068828043,
     "memoria_pico_kib": 5390.564453125,
     "curva_media": [
      11.566434330719058,
@@ -8262,9 +8262,9 @@
     "brecha_mejor_pct": 5.028681677398056,
     "brecha_media_pct": 6.208975776884265,
     "semillas_que_igualan_referencia": 0,
-    "tiempo_medio_s": 16.84803450999898,
-    "tiempo_desv_s": 0.36984989996293394,
-    "memoria_pico_kib": 4220.111328125,
+    "tiempo_medio_s": 5.063016599998809,
+    "tiempo_desv_s": 0.2358100724311241,
+    "memoria_pico_kib": 4220.1611328125,
     "curva_media": [
      14.899572858067774,
      14.486644741175217,

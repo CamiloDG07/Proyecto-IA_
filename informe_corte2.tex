@@ -286,8 +286,8 @@ estándar.
 \item Voraz y A* consultan una tabla de $h$ precalculada hacia el destino
 (mismos valores, mismas rutas y mismos nodos expandidos); el tiempo de
 construir la tabla se mide aparte y no está incluido en sus tiempos (media de
-35.3 $\mu$s, entre 6.5 y 51.5 $\mu$s).
-\item Las desviaciones son grandes respecto de las medias (la mayor es 2.76
+60.4 $\mu$s, entre 12.3 y 78.5 $\mu$s).
+\item Las desviaciones son grandes respecto de las medias (la mayor es 2.31
 veces la media), por lo que las diferencias de tiempo entre algoritmos solo son
 indicativas.
 \end{itemize}
@@ -364,7 +364,7 @@ ruta y el mismo costo.
 DFS 142, UCS 144, voraz 50 y A* 120. A* expande menos nodos que UCS en cada
 escenario o igual, y la búsqueda voraz es la que menos expande y devuelve la
 ruta óptima en los diez escenarios, aunque no lo garantiza.
-\item En el caso central A* tarda $68 \pm 21$ $\mu$s contra $81 \pm 18$
+\item En el caso central A* tarda $137 \pm 20$ $\mu$s contra $143 \pm 36$
 $\mu$s de UCS, con 20 nodos contra 25. En tres escenarios (Bucaramanga a
 Bogotá, Barbosa a Zipaquirá y Madrid a Puerto Gaitán) A* tarda más que UCS, en
 el de Barbosa a Zipaquirá con el mismo número de nodos; con estas
@@ -805,10 +805,17 @@ $k \ge 21$; la causa no se midió (Hipótesis: estado de la máquina).
 \begin{itemize}
 \item Las sesiones 1 y 2 no registraron plan de energía ni conexión a
 corriente.
-\item La sesión 3, la de la medición final de este informe (7 de octubre de
-2026, 15:55 a 16:05), se hizo con el equipo conectado a corriente; el plan
-activo según powercfg fue Equilibrado y el modo de energía de Windows estaba en
-máximo rendimiento (configurado por el usuario, no registrado por comando).
+\item La sesión 3, la del umbral de Held-Karp (7 de octubre de 2026, 15:55 a
+16:05), se hizo con el equipo conectado a corriente; el plan activo según
+powercfg fue Equilibrado y el modo de energía de Windows estaba en máximo
+rendimiento (configurado por el usuario, no registrado por comando).
+\item Los tiempos y la memoria de los escenarios, del precálculo de $h$ y de
+la validación del agente y del ACO se midieron en una sola sesión el 8 de
+octubre de 2026, de 10:01 a 10:11, con el equipo conectado a corriente
+(\texttt{PowerLineStatus} en línea, comprobado antes y después de cada paso),
+plan de energía Equilibrado según powercfg, sin ningún otro proceso del
+proyecto en paralelo (ni pruebas de estilo ni compilaciones) y con el mismo
+equipo de la Tabla~\ref{tab:equipo}. El umbral de Held-Karp no se repitió.
 \end{itemize}
 
 \textbf{Simetría.} Antes de usar la metaheurística, el despachador comprueba
@@ -920,14 +927,13 @@ cambiar nada más, es 0.357\,\% en las euclidianas de $n = 20$ y 0 en la red
 (Figura~\ref{fig:aco}). El aporte del 2-opt se reporta con inicio
 aleatorio y crece con $n$: nulo en la red, pequeño con $n = 20$ y grande con
 $n = 100$ y 200.
-\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 1.05 s y
-1.12 s y 111.8 MiB; el ACO, 0.06 s. Con pocas paradas el exacto es más rápido
+\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 1.73 s y
+1.79 s y 111.8 MiB; el ACO, entre 0.11 s y 0.13 s. Con pocas paradas el exacto es más rápido
 (milisegundos hasta $n = 10$). La regla fija elige el exacto siempre que es
 viable, aunque el ACO resulte más rápido. Con $n = 100$ y 200 el ACO con 2-opt
-tarda $1.00 \pm 0.01$ s y $5.92 \pm 0.23$ s, y sin 2-opt $0.85 \pm 0.02$ s y
-$4.67 \pm 0.18$ s. En la sesión de medición anterior estos tiempos eran casi
-el doble (por ejemplo, 2.06 s con 2-opt y $n = 100$); la causa no se midió
-(Hipótesis: estado de la máquina).
+tarda $1.74 \pm 0.11$ s y $8.93 \pm 0.95$ s, y sin 2-opt $1.09 \pm 0.07$ s y
+$5.06 \pm 0.24$ s. Los tiempos de una sesión a otra cambian con el estado de la máquina (Hipótesis), por lo que
+se leen como orden de magnitud.
 \end{itemize}
 
 \subsection{Referencia por estructura}

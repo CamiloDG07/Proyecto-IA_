@@ -117,38 +117,47 @@ def figura_rutas(grafo, coordenadas, alfa, criterio, nombre):
 def figura_barrido():
     with open(SALIDA / "barrido_pesos.json", encoding="utf-8") as f:
         barridos = json.load(f)
-    fig, ejes = plt.subplots(1, 3, figsize=(15, 5.4), facecolor=SUPERFICIE,
+    paneles = ((barridos[0], "Base: Chocontá a Tunja 17.69 km"),
+               (barridos[1], "Cota inferior: 56.96 km"),
+               (barridos[3], "Progresivas: 61.0 km"))
+    fig, ejes = plt.subplots(1, 3, figsize=(9.0, 3.7), facecolor=SUPERFICIE,
                              sharey=True)
-    for ax, b in zip(ejes, (barridos[0], barridos[1], barridos[3])):
+    for ax, (b, titulo) in zip(ejes, paneles):
         ax.set_facecolor(SUPERFICIE)
+        cuentas = {}
         for via, color, marca in (("Bogotá", AZUL, "o"),
                                   ("Santander", NARANJA, "^")):
             pts = [p for p in b["puntos"] if p["compuesto"] == via]
+            cuentas[via] = len(pts)
             ax.scatter([p["w1"] for p in pts], [p["w2"] for p in pts],
-                       s=46, color=color, marker=marca,
-                       edgecolors=SUPERFICIE, linewidths=1.0, zorder=3,
-                       label=f"Gana la ruta por {via} ({len(pts)})")
+                       s=24, color=color, marker=marca,
+                       edgecolors=SUPERFICIE, linewidths=0.6, zorder=3,
+                       label=f"Gana la ruta por {via}")
         dd, dp, dr = b["delta_corta_menos_desvio"]
         w1 = [i / 100 for i in range(101)]
         frontera = [(-(x * (dd - dr) + dr) / (dp - dr)) for x in w1]
         pares = [(x, y) for x, y in zip(w1, frontera) if 0 <= y <= 1 - x]
         ax.plot([p[0] for p in pares], [p[1] for p in pares], color=TINTA_2,
-                lw=1.2, zorder=2, label="Frontera exacta")
+                lw=1.4, zorder=2, label="Frontera exacta")
         ax.plot([0, 1], [1, 0], color=GRIS_RED, lw=0.8, zorder=1)
-        ax.set_xlabel("$w_1$ (distancia)", color=TINTA)
-        ax.set_title(b["variante"], fontsize=10, color=TINTA)
+        ax.set_xlabel("$w_1$ (distancia)", color=TINTA, fontsize=10)
+        ax.set_title(f"{titulo}\nBogotá {cuentas['Bogotá']}, Santander "
+                     f"{cuentas['Santander']}", fontsize=10, color=TINTA)
         ax.set_xlim(-0.04, 1.04)
         ax.set_ylim(-0.04, 1.04)
+        ax.tick_params(labelsize=9)
         ax.grid(color="#e6e5e1", lw=0.6)
         ax.set_axisbelow(True)
-        ax.legend(fontsize=8, loc="upper right", frameon=False)
         for lado in ("top", "right"):
             ax.spines[lado].set_visible(False)
     ejes[0].set_ylabel("$w_2$ (peaje); $w_3 = 1 - w_1 - w_2$ (riesgo)",
-                       color=TINTA)
+                       color=TINTA, fontsize=10)
+    manijas, rotulos = ejes[0].get_legend_handles_labels()
+    fig.legend(manijas, rotulos, loc="lower center", ncol=3, fontsize=10,
+               frameon=False)
     fig.suptitle("Duitama a Puente Nacional: ruta de menor costo compuesto "
                  "en la malla de pesos (paso 0.1)", fontsize=11, color=TINTA)
-    fig.tight_layout()
+    fig.tight_layout(rect=(0, 0.07, 1, 1))
     for ext in ("png", "pdf"):
         fig.savefig(SALIDA / f"barrido_pesos.{ext}", dpi=200,
                     facecolor=SUPERFICIE)
