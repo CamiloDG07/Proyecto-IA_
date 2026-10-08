@@ -1,0 +1,13 @@
+{
+ "aristas_con_gizscore": 11,
+ "de_ellas_con_sector_de_mortalidad": 7,
+ "spearman_mortalidad_vs_gizscore": -0.033,
+ "spearman_mortalidad_vs_fallecidos": 0.193,
+ "aristas_sin_gizscore_con_sector_de_mortalidad": 9,
+ "aristas_sin_gizscore": 21,
+ "cobertura_antes": 11,
+ "cobertura_despues_union": 20,
+ "cobertura_solo_mortalidad": 16,
+ "umbral_km": 0.3,
+ "fuente": "ANSV, Sectores críticos mortalidad 2022 (ybqk-8s42)"
+}
