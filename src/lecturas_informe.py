@@ -283,31 +283,35 @@ def lecturas_corte2():
     d0, d1 = b0["delta_corta_menos_desvio"], b1["delta_corta_menos_desvio"]
     bloque(
         "c2_barrido_figura",
-        "dos paneles (red corregida y con la longitud registrada de "
-        "Chocontá a Tunja); cada punto es un "
+        "tres paneles (Chocontá a Tunja en 17.69 km, en la cota inferior "
+        "de 56.96 km y en las progresivas de 61.0 km); cada punto es un "
         "$(w_1, w_2)$ de la malla con $w_3 = 1 - w_1 - w_2$; círculo azul, "
         "gana Bogotá; triángulo naranja, gana Santander; la línea es la "
         "frontera exacta.",
         f"Bogotá gana en {b0['ganan_bogota_compuesto']} de "
         f"{len(b0['puntos'])} puntos en la red corregida y en "
-        f"{b1['ganan_bogota_compuesto']} con la longitud registrada; la "
+        f"{b1['ganan_bogota_compuesto']} con la cota inferior y en "
+        f"{bar[3]['ganan_bogota_compuesto']} con las progresivas; la "
         "frontera "
-        f"corta $w_3=0$ en $w_1 = {b0['w1_umbral_sobre_w3_cero']:.4f}$ y "
-        f"${b1['w1_umbral_sobre_w3_cero']:.4f}$.",
+        f"corta $w_3=0$ en $w_1 = {b0['w1_umbral_sobre_w3_cero']:.4f}$, "
+        f"${b1['w1_umbral_sobre_w3_cero']:.4f}$ y "
+        f"${bar[3]['w1_umbral_sobre_w3_cero']:.4f}$.",
         f"Medido: Bogotá es más corta ($\\Delta D = {d0[0]:.4f}$) pero más "
         f"cara en peaje ($\\Delta P = {d0[1]:.4f}$) y en riesgo "
         f"($\\Delta R = {d0[2]:.4f}$); la frontera es el lugar donde esos "
         "tres términos se compensan.")
     bloque(
         "c2_barrido_tabla",
-        "filas: medidas del barrido; columnas: la red corregida y la "
-        "variante con la longitud registrada de Chocontá a Tunja "
-        "(17.69 km).",
-        f"con la longitud registrada Bogotá gana en "
+        "filas: medidas del barrido; columnas: la red corregida (Chocontá a "
+        "Tunja en 17.69 km), la cota inferior (56.96 km) y las progresivas "
+        "(61.0 km).",
+        f"con la cota inferior Bogotá gana en "
         f"{b1['ganan_bogota_compuesto']} "
         f"puntos en lugar de {b0['ganan_bogota_compuesto']} y el umbral "
         f"pasa de {b0['w1_umbral_sobre_w3_cero']:.4f} a "
-        f"{b1['w1_umbral_sobre_w3_cero']:.4f}.",
+        f"{b1['w1_umbral_sobre_w3_cero']:.4f} (con las progresivas, "
+        f"{bar[3]['ganan_bogota_compuesto']} puntos y "
+        f"{bar[3]['w1_umbral_sobre_w3_cero']:.4f}).",
         f"Medido: $\\Delta D$ cambia de {d0[0]:.4f} a {d1[0]:.4f} mientras "
         f"$\\Delta P$ ({d1[1]:.4f}) y $\\Delta R$ ({d1[2]:.4f}) no cambian; "
         "la única arista distinta es Chocontá a Tunja.")
@@ -526,9 +530,9 @@ def ejemplo_agente():
     # umbral de la participación de la distancia, del barrido de pesos, y
     # comprobación contra el propio agente a ambos lados del umbral
     barrido = leer("barrido_pesos.json")
-    registrada = construir_grafo(reemplazos={("Chocontá", "Tunja"): 17.69})
+    cota = construir_grafo(reemplazos={("Chocontá", "Tunja"): 56.96})
     umbrales = []
-    for b, grafo in ((barrido[0], None), (barrido[1], registrada)):
+    for b, grafo in ((barrido[0], None), (barrido[1], cota)):
         u = b["w1_umbral_sobre_w3_cero"]
         for delta, via in ((0.005, "Bogotá"), (-0.005, "Bucaramanga")):
             ruta = recomendar("Duitama", ["Puente Nacional"], grafo=grafo,
@@ -559,7 +563,7 @@ def ejemplo_agente():
             "de los del desvío.\n"
             "\\item La recomendación se mantiene mientras el "
             f"peso de la distancia, $w_d/(w_d+w_p)$, sea mayor que {u0:.4f} "
-            f"({u1:.4f} con la longitud registrada de Chocontá a "
+            f"({u1:.4f} con la cota inferior de Chocontá a "
             "Tunja).\n"
             "\\item Por costo operativo, la ruta por Bogotá es la más barata "
             f"si el costo variable supera {um['cop_por_km']:.1f} COP por km; "
@@ -604,11 +608,11 @@ def miles_1(valor):
 
 
 def cifras_dinero():
-    """Umbral exacto del costo variable por km en el caso central, con la
-    distancia vigente de Chocontá a Tunja y con las dos variantes."""
-    variantes = {"vigente": None,
-                 "registrada": {("Chocontá", "Tunja"): 17.69},
-                 "geodesica": {("Chocontá", "Tunja"): 56.96}}
+    """Umbral exacto del costo variable por km en el caso central para los
+    tres valores de Chocontá a Tunja (base, cota inferior y progresivas)."""
+    variantes = {"base": None,
+                 "geodesica": {("Chocontá", "Tunja"): 56.96},
+                 "progresivas": {("Chocontá", "Tunja"): 61.0}}
     salida = {}
     for nombre, reemplazos in variantes.items():
         grafo = (cargar_grafo() if reemplazos is None
@@ -621,28 +625,36 @@ def cifras_dinero():
 def texto_c2_dinero():
     """Umbral exacto del costo variable por km (outputs/), caso central."""
     d = cifras_dinero()
-    u, r, g = (d["umbrales"][k] for k in ("vigente", "registrada",
-                                          "geodesica"))
+    b, g, p = (d["umbrales"][k] for k in ("base", "geodesica",
+                                          "progresivas"))
     c = d["modelo"]
+    comb = c["combustible_cop_km"]
+    evaluacion = leer("evaluacion_progresivas.json")["Chocontá - Tunja"][
+        "mediciones"]
+    veces = ", ".join(f"{comb / x['cop_por_km']:.1f}" for x in (b, g, p))
     with open(SALIDA / "texto_c2_dinero.tex", "w", encoding="utf-8") as f:
         f.write(
-            "Con las distancias vigentes, el desvío por Santander ahorra "
-            f"{miles(u['ahorro_peaje_cop'])} COP de peaje y suma "
-            f"{u['km_extra']:.2f} km. La ruta por Bogotá es más barata en "
-            "dinero si el costo variable por km supera el ahorro dividido "
-            f"entre los km extra, {u['cop_por_km']:.1f} COP/km; con un costo "
-            "menor gana el desvío. Con la longitud registrada de Chocontá a "
-            f"Tunja (17.69 km) el umbral es {r['cop_por_km']:.1f} COP/km y "
-            f"con la línea recta entre los nodos (56.96 km), "
-            f"{g['cop_por_km']:.1f} COP/km. El combustible solo, con el "
-            "precio del galón de la CREG y el consumo de la UPME "
-            f"(insumos verificados), cuesta "
-            f"{miles_1(c['combustible_cop_km'])} COP/km, por encima de "
-            "esos umbrales; los otros costos por km (llantas, lubricantes, "
-            "mantenimiento y conductor) no tienen "
-            "fuente y se toman iguales a 0 (supuesto del equipo), de modo "
-            "que el costo variable real no es menor que el calculado. No se "
-            "incluyen tiempo ni riesgo.\n")
+            "Con la distancia base de Chocontá a Tunja (17.69 km, valor "
+            "oficial registrado de un sector truncado), el desvío por "
+            f"Santander ahorra {miles(b['ahorro_peaje_cop'])} COP de peaje "
+            f"y suma {b['km_extra']:.2f} km. La ruta por Bogotá es más "
+            "barata en dinero si el costo variable por km supera el ahorro "
+            f"dividido entre los km extra, {b['cop_por_km']:.1f} COP/km. "
+            "Con la cota inferior (56.96 km, la línea recta entre los "
+            f"nodos) el umbral es {g['cop_por_km']:.1f} COP/km y con las "
+            f"progresivas ({evaluacion['por_progresivas_km']:.1f} km, con "
+            f"un hueco de {evaluacion['hueco_km']:.1f} km sin sector "
+            "registrado y el "
+            f"extremo a {evaluacion['extremo_destino_km']:.0f} km de "
+            f"Tunja), {p['cop_por_km']:.1f} COP/km. Con el costo variable "
+            f"vigente, {miles_1(comb)} COP/km (combustible con el precio "
+            "de la CREG y el consumo de la UPME, insumos verificados), la "
+            "ruta por Bogotá es la más barata en dinero en los tres casos, "
+            f"y lo supera {veces} veces, respectivamente. Los otros costos "
+            "por km (llantas, lubricantes, mantenimiento y conductor) no "
+            "tienen fuente y se toman iguales a 0 (supuesto del equipo), de "
+            "modo que el costo variable real no es menor que el calculado. "
+            "No se incluyen tiempo ni riesgo.\n")
 
 
 def main():

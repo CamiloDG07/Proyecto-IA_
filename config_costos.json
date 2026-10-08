@@ -8,7 +8,8 @@
       "fuente": "CREG, Precios de combustibles líquidos (promedio del precio de venta al público de las 13 ciudades principales, ACPM)",
       "url": "https://creg.gov.co/publicaciones/15565/precios-de-combustibles-liquidos/",
       "fecha": "vigente desde el 2 de octubre de 2026 (consulta del 8 de octubre de 2026)",
-      "archivo": "data/carga/nuevas/creg_precios_combustibles_liquidos_15565.html",
+      "archivo": null,
+      "nota_archivo": "la página no declara licencia de redistribución: el archivo no se incluye en el repositorio; se conserva la URL, la fecha y el SHA-256 de la copia consultada",
       "sha256": "42c6c9baeeb1d6a608a3b2bc5a5e0b310f187ef436b65e9b4912aa2895ed70b6",
       "estado": "verificada"
     },
@@ -18,7 +19,8 @@
       "fuente": "UPME, Línea base de consumo de combustible de vehículos de carga en Colombia (mayo de 2025), Tabla 2.7: camión rígido de dos ejes grande (C2G), diésel, modelo reciente, ciclo de conducción de vehículos de carga en pista (38.69 ± 2.99)",
       "url": "https://docs.upme.gov.co/DemandayEficiencia/Documents/1_Reporte_linea_base_EE_carga.pdf",
       "fecha": "mayo de 2025",
-      "archivo": "data/carga/nuevas/upme_linea_base_consumo_carga.pdf",
+      "archivo": null,
+      "nota_archivo": "el documento no declara licencia de redistribución: el archivo no se incluye en el repositorio; se conserva la URL, la fecha y el SHA-256 de la copia consultada",
       "sha256": "a12f8622f00bc7d37b89a650995b08930c59871929ceb0435821ef8d28261593",
       "estado": "verificada"
     },

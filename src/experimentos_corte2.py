@@ -14,8 +14,10 @@ compuesto, compuesto_total y compuesto_mortalidad (riesgo faltante igual a 0)
 y riesgo se reportan aparte como limitados; en riesgo la heurística admisible
 es h = 0 (A* se reduce a UCS). compuesto_mortalidad es solo sensibilidad.
 
-Sensibilidades rotuladas: distancias sin corregir (cruda) y la longitud
-registrada de Chocontá a Tunja (17.69 km, en lugar de las progresivas).
+Sensibilidades rotuladas: distancias sin corregir (cruda) y tres valores
+para Chocontá a Tunja: 17.69 km (base, longitud registrada de un sector
+truncado), 56.96 km (cota inferior, la geodésica) y 61.0 km (progresivas con
+un hueco de 49.1 km; la regla de adopción no los acepta como base).
 Barrido de pesos: el compuesto de tres pesos (distancia, peaje y riesgo) y el
 compuesto total de cuatro pesos (con el costo variable), ambos en malla de
 paso 0.1.
@@ -40,7 +42,8 @@ from heuristica import Heuristica, alfa_minimo, cargar_coordenadas
 REPETICIONES = 2000
 PASO_MALLA = 0.1
 CHOCONTA_TUNJA = ("Chocontá", "Tunja")
-REGISTRADA_KM = 17.69   # longitud registrada del sector truncado
+COTA_KM = 56.96         # cota inferior: la geodésica entre los nodos
+PROGRESIVAS_KM = 61.0   # PR 120.0 menos PR 59.0, con hueco de 49.1 km
 CRITERIOS_EXPERIMENTO = [
     ("distancia", False),
     ("compuesto_sin_riesgo", False),
@@ -126,16 +129,15 @@ def correr_escenarios(grafo, coordenadas, alfa):
 
 
 def sensibilidad_alfa(grafo, coordenadas, alfa):
-    """A* con el alfa de la longitud registrada de Chocontá a Tunja.
+    """A* con alfa_ref (mínimo de razón sin Chocontá a Tunja), rotulado.
 
-    alfa_ref es el mínimo de la razón carretera/geodésica si esa arista
-    tuviera su longitud registrada (17.69 km): 0.310570, menor que el alfa
-    vigente (0.458156), de modo que h sigue siendo admisible pero informa
-    menos. Se compara con el alfa vigente y con UCS en los escenarios y en
-    todos los pares de nodos (criterio distancia).
+    alfa_ref es el mínimo de la razón carretera/geodésica de las demás
+    aristas (0.458156). Es el alfa que daría Chocontá a Tunja con 56.96 o con
+    61.0 km. Con la distancia registrada de esa arista (17.69 km) esta h no
+    es admisible: se compara con el alfa vigente y con UCS en los escenarios
+    y en todos los pares de nodos (criterio distancia).
     """
-    registrada = construir_grafo(reemplazos={CHOCONTA_TUNJA: REGISTRADA_KM})
-    alfa_ref = alfa_minimo(registrada, coordenadas)
+    alfa_ref = alfa_minimo(grafo, coordenadas, excluir=[CHOCONTA_TUNJA])
     atributo = CRITERIOS["distancia"]
     h_ref = Heuristica(grafo, coordenadas, "distancia", alfa_ref)
     h_base = Heuristica(grafo, coordenadas, "distancia", alfa)
@@ -168,8 +170,8 @@ def sensibilidad_alfa(grafo, coordenadas, alfa):
                                "costo": a1["costo"],
                                "costo_optimo": u["costo"]})
     return {
-        "rotulo": "sensibilidad: h con el alfa de la longitud registrada de "
-                  "Chocontá a Tunja (17.69 km)",
+        "rotulo": "sensibilidad: h con alfa_ref, no admisible con la "
+                  "distancia registrada de Chocontá a Tunja",
         "alfa_base": alfa, "alfa_ref": alfa_ref,
         "por_escenario": por_escenario,
         "todos_los_pares": {
@@ -359,26 +361,32 @@ def main():
     print("Sensibilidad de A* con alfa_ref")
     sens = sensibilidad_alfa(grafo, coordenadas, alfa)
     print("Barrido de pesos")
-    registrada = {CHOCONTA_TUNJA: REGISTRADA_KM}
+    cota = {CHOCONTA_TUNJA: COTA_KM}
+    progresivas = {CHOCONTA_TUNJA: PROGRESIVAS_KM}
     barridos = [
-        barrido("base (red corregida)"),
-        barrido("sensibilidad con la longitud registrada de Chocontá a "
-                "Tunja", reemplazos=registrada),
+        barrido("base (red corregida, Chocontá a Tunja 17.69 km)"),
+        barrido("sensibilidad con cota inferior (56.96 km)",
+                reemplazos=cota),
         barrido("sensibilidad con distancias crudas", distancia="cruda"),
+        barrido("sensibilidad con progresivas (61.0 km)",
+                reemplazos=progresivas),
     ]
     with open(SALIDA / "barrido_pesos.json", "w", encoding="utf-8") as f:
         json.dump(barridos, f, ensure_ascii=False, indent=1)
     print("Barrido del compuesto total (cuatro pesos)")
     totales = [
-        barrido_total("base (red corregida)"),
-        barrido_total("sensibilidad con la longitud registrada de "
-                      "Chocontá a Tunja", reemplazos=registrada),
+        barrido_total("base (red corregida, Chocontá a Tunja 17.69 km)"),
+        barrido_total("sensibilidad con cota inferior (56.96 km)",
+                      reemplazos=cota),
+        barrido_total("sensibilidad con progresivas (61.0 km)",
+                      reemplazos=progresivas),
     ]
     with open(SALIDA / "barrido_total.json", "w", encoding="utf-8") as f:
         json.dump(totales, f, ensure_ascii=False, indent=1)
     sens["rutas_optimas_duitama_puente_nacional"] = {
         "base": rutas_optimas_por_criterio("corregida"),
-        "registrada": rutas_optimas_por_criterio("corregida", registrada),
+        "cota_inferior": rutas_optimas_por_criterio("corregida", cota),
+        "progresivas": rutas_optimas_por_criterio("corregida", progresivas),
         "crudas": rutas_optimas_por_criterio("cruda"),
     }
     with open(SALIDA / "sensibilidad_corte2.json", "w",

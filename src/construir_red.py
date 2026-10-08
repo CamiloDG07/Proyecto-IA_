@@ -95,18 +95,26 @@ Chocontá - Tunja, El Espinal - Girardot y el registro del Río Ocoa) se marcan
 valor de 167.67 km de Bogotá - Villeta es un artefacto de esta doble calzada
 digitalizada y queda en 81.00 km.
 
-Regla de progresivas continuas (8 de octubre de 2026), fijada de antemano: si
-el sector está truncado en la fuente, pero las progresivas oficiales de la
-Red Vial son continuas en la misma ruta y el mismo tramo, la distancia es la
-diferencia entre el PR final del sector y el PR final del sector anterior del
-tramo, siempre que no sea menor que la distancia geodésica entre los nodos;
-si alguna condición falla, se conserva el valor registrado. Se aplica solo a
-Chocontá - Tunja: el sector cubre 17.69 km (PR 108.096 a 120.0), pero
-Tocancipá - Chocontá termina en el PR 59.0 y Chocontá - Tunja en el PR 120.0
-(ruta 55, tramo 5501), de modo que la distancia es 61.0 km frente a 56.96 km
-de línea recta. La longitud registrada queda en distancia_registrada_km y en
-distancia_cruda_km. Los postes de referencia de INVÍAS (ufg7-is7r) corroboran
-la numeración continua del tramo (data/carga/FUENTES_NUEVAS.md).
+Regla de adopción de una distancia por progresivas (fijada de antemano y
+probada en src/pruebas_progresivas.py): la diferencia de progresivas de la Red
+Vial solo reemplaza al valor registrado como base si se cumplen TODAS estas
+condiciones: (a) el sector y el sector anterior son del mismo corredor y
+tramo; (b) las progresivas son continuas, sin hueco ni solape (a lo sumo 0.1
+km), hasta el nodo; (c) cada extremo de la progresiva queda a menos de 2 km
+del nodo, medido con los postes de referencia de INVÍAS (ufg7-is7r); (d) la
+razón entre la longitud de la geometría del sector y su propio tramo entre
+progresivas está entre 0.85 y 1.15, o en la banda de doble calzada (1.7 a
+2.3) verificada; (e) la distancia por progresivas no es menor que la
+geodésica entre los nodos. Cada medición queda en
+outputs/evaluacion_progresivas.json.
+
+Solo Chocontá - Tunja es candidata (el sector registra 17.69 km, PR 108.096 a
+120.0; Tocancipá - Chocontá termina en el PR 59.0, ruta 55, tramo 5501) y
+incumple (b), (c) y (d): hay un hueco de 49.1 km sin sector entre los PR 59.0
+y 108.096, el PR 120.0 queda a unos 11 km de Tunja y la razón de su geometría
+es 1.486. Su base se conserva en el valor oficial registrado, 17.69 km, y se
+marca truncada; los 61.0 km (PR 120.0 menos PR 59.0) solo se usan como
+sensibilidad, junto con 56.96 km (la geodésica).
 
 Limitaciones de la fuente detectadas en la auditoría geométrica (ver
 data/carga/VERIFICACION.md y outputs/auditoria_aristas.csv):
@@ -115,7 +123,7 @@ data/carga/VERIFICACION.md y outputs/auditoria_aristas.csv):
     distancia por carretera excluye la entrada urbana. No se corrige: no hay
     una fuente oficial que dé el tramo urbano.
   - La geometría del sector Chocontá - Tunja cubre solo 17.69 km de la
-    arista; su distancia sale de las progresivas (regla anterior).
+    arista; se conserva el valor registrado y se marca truncada.
 
 Exclusión de Mosquera (7 de octubre de 2026): la versión anterior unía Bogotá
 y Mosquera con el sector "Puente Mosquera - Cruce Avenida del Ferrocarril",
@@ -144,11 +152,14 @@ RAIZ = Path(__file__).resolve().parent.parent
 DATOS = RAIZ / "data" / "carga"
 SALIDA = RAIZ / "outputs"
 
-# sector truncado en la fuente -> sector anterior del mismo tramo (regla de
-# progresivas continuas, ver docstring)
+# sector truncado en la fuente -> sector anterior del mismo tramo (candidato a
+# la regla de adopción por progresivas, ver docstring)
 SECTORES_POR_PROGRESIVAS = {
     ("Chocontá - Tunja", "Chocontá", "Tunja"): "Tocancipá - Chocontá",
 }
+TOLERANCIA_PR_KM = 0.1      # hueco o solape máximo entre progresivas
+TOPE_EXTREMO_KM = 2.0       # distancia máxima del poste al nodo
+BANDA_UNO = (0.85, 1.15)    # razón geometría / tramo entre progresivas
 
 # peaje del grafo -> (nombre_peaje exacto, c_digo_peaje) en peajes.csv oficial
 # del 6/10/2026; cada pareja aparece exactamente una vez en el CSV
@@ -308,6 +319,97 @@ def pr_final_km(red_vial, sector):
     return valores.pop()
 
 
+def pr_inicial_km(red_vial, sector):
+    """PR inicial del sector en km (el menor de sus registros)."""
+    return min(float(r["poste_de_referencia_inicial"] or 0)
+               + float(r.get("distancia_inicial") or 0) / 1000
+               for r in red_vial if normaliza(r["sector"]) == sector)
+
+
+def cargar_postes(tramo):
+    """{PR entero: [(lat, lon)]} de los postes de INVÍAS de un tramo."""
+    postes = {}
+    with open(DATOS / "nuevas" / "postes_referencia_ufg7-is7r.csv",
+              encoding="utf-8", newline="") as f:
+        for r in csv.DictReader(f):
+            if (r["codigotramo"] == tramo and r["latitud"]
+                    and r["postereferencia"]):
+                postes.setdefault(int(r["postereferencia"]), []).append(
+                    (float(r["latitud"]), float(r["longitud"])))
+    return postes
+
+
+def distancia_poste_nodo(postes, pr_km, nodo):
+    """Km entre el poste del PR (redondeado) y el nodo; None si no hay."""
+    candidatos = postes.get(round(pr_km))
+    if not candidatos:
+        return None
+    return min(haversine_km(lat, lon, *nodo) for lat, lon in candidatos)
+
+
+def medir_progresivas(red_vial, sector, previo, origen, destino,
+                      coordenadas, postes):
+    """Mediciones de las condiciones (a) a (e) para un sector truncado."""
+    pr, ruta, tramo = pr_final_km(red_vial, sector)
+    pr_previo, ruta_previo, tramo_previo = pr_final_km(red_vial, previo)
+    pr_ini = pr_inicial_km(red_vial, sector)
+    largo_km = max(float(r["shape__length"]) for r in red_vial
+                   if normaliza(r["sector"]) == sector) / 1000
+    return {
+        "sector": sector, "sector_anterior": previo,
+        "ruta": ruta, "tramo": tramo,
+        "ruta_anterior": ruta_previo, "tramo_anterior": tramo_previo,
+        "mismo_corredor_y_tramo": (ruta, tramo) == (ruta_previo,
+                                                    tramo_previo),
+        "pr_final_anterior_km": pr_previo, "pr_inicial_km": pr_ini,
+        "pr_final_km": pr,
+        "hueco_km": round(pr_ini - pr_previo, 3),
+        "extremo_origen_km": distancia_poste_nodo(
+            postes, pr_previo, coordenadas[origen]),
+        "extremo_destino_km": distancia_poste_nodo(
+            postes, pr, coordenadas[destino]),
+        "geometria_km": largo_km,
+        "tramo_entre_progresivas_km": round(pr - pr_ini, 3),
+        "razon_geometria": largo_km / (pr - pr_ini),
+        "doble_calzada_verificada": False,
+        "por_progresivas_km": round(pr - pr_previo, 3),
+        "geodesica_km": haversine_km(*coordenadas[origen],
+                                     *coordenadas[destino]),
+    }
+
+
+def evaluar_progresivas(m):
+    """Aplica la regla de adopción a las mediciones `m`.
+
+    Devuelve {"a": ..., "e": ..., "adoptar": bool}; cada condición lleva su
+    valor medido y si se cumple. Un extremo sin poste no se cumple.
+    """
+    razon = m["razon_geometria"]
+    en_banda = (BANDA_UNO[0] <= razon <= BANDA_UNO[1]
+                or (REGLA_BANDA[0] <= razon <= REGLA_BANDA[1]
+                    and m["doble_calzada_verificada"]))
+    extremos = (m["extremo_origen_km"], m["extremo_destino_km"])
+    condiciones = {
+        "a": {"nombre": "mismo corredor y tramo",
+              "valor": m["mismo_corredor_y_tramo"],
+              "cumple": bool(m["mismo_corredor_y_tramo"])},
+        "b": {"nombre": "progresivas continuas hasta el nodo",
+              "valor": m["hueco_km"],
+              "cumple": abs(m["hueco_km"]) <= TOLERANCIA_PR_KM},
+        "c": {"nombre": "extremos a menos de 2 km del nodo",
+              "valor": list(extremos),
+              "cumple": all(x is not None and x < TOPE_EXTREMO_KM
+                            for x in extremos)},
+        "d": {"nombre": "razón geometría / tramo entre progresivas",
+              "valor": razon, "cumple": bool(en_banda)},
+        "e": {"nombre": "no menor que la geodésica",
+              "valor": [m["por_progresivas_km"], m["geodesica_km"]],
+              "cumple": m["por_progresivas_km"] >= m["geodesica_km"]},
+    }
+    condiciones["adoptar"] = all(c["cumple"] for k, c in condiciones.items())
+    return condiciones
+
+
 def distancia_por_progresivas(red_vial, sector, previo):
     """Diferencia de PR finales (km) si ambos sectores son del mismo tramo."""
     pr, ruta, tramo = pr_final_km(red_vial, sector)
@@ -385,6 +487,7 @@ def main():
     nodos = set()
     aristas = []
     sin_longitud = []
+    evaluaciones = {}
     for sector, origen, destino, peaje in TRAMOS:
         nodos.add(origen)
         nodos.add(destino)
@@ -401,15 +504,24 @@ def main():
         crudo_km = round(crudo_m / 1000, 2)
         registrada_km = dist_km
         fuente_distancia = "registro"
+        por_pr_km = None
         previo = SECTORES_POR_PROGRESIVAS.get((sector, origen, destino))
         if previo:
-            por_pr = distancia_por_progresivas(red_vial, sector, previo)
-            geodesica = haversine_km(*coordenadas[origen],
-                                     *coordenadas[destino])
-            print(f"{sector}: progresivas {por_pr:.3f} km, geodésica "
-                  f"{geodesica:.2f} km, registrada {dist_km:.2f} km")
-            if por_pr >= geodesica:
-                dist_km = round(por_pr, 2)
+            medidas = medir_progresivas(
+                red_vial, sector, previo, origen, destino, coordenadas,
+                cargar_postes(
+                    pr_final_km(red_vial, sector)[2]))
+            evaluacion = evaluar_progresivas(medidas)
+            evaluaciones[sector] = {"mediciones": medidas,
+                                    "reglas": evaluacion}
+            por_pr_km = round(medidas["por_progresivas_km"], 2)
+            fallan = [k for k in "abcde" if not evaluacion[k]["cumple"]]
+            print(f"{sector}: progresivas {por_pr_km:.2f} km, geodésica "
+                  f"{medidas['geodesica_km']:.2f} km, registrada "
+                  f"{dist_km:.2f} km; condiciones que fallan: "
+                  f"{', '.join(fallan) or 'ninguna'}")
+            if evaluacion["adoptar"]:
+                dist_km = por_pr_km
                 fuente_distancia = "progresivas"
 
         if peaje:
@@ -432,6 +544,9 @@ def main():
             "distancia_cruda_km": crudo_km,
             "distancia_registrada_km": registrada_km,
             "distancia_fuente": fuente_distancia,
+            "distancia_progresivas_km": por_pr_km,
+            "distancia_truncada": bool(previo and fuente_distancia
+                                       == "registro"),
             "peaje_nombre": peaje_nombre,
             "peaje_cop_camion": peaje_tarifa,
             "riesgo_gizscore_prom": round(giz_prom, 3),
@@ -476,6 +591,9 @@ def main():
         json.dump(aristas, f, ensure_ascii=False, indent=2)
     with open(SALIDA / "nodos_red.json", "w", encoding="utf-8") as f:
         json.dump(sorted(nodos), f, ensure_ascii=False, indent=2)
+    with open(SALIDA / "evaluacion_progresivas.json", "w",
+              encoding="utf-8") as f:
+        json.dump(evaluaciones, f, ensure_ascii=False, indent=2)
 
 
 if __name__ == "__main__":

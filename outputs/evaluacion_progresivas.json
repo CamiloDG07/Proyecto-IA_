@@ -1,0 +1,59 @@
+{
+  "Chocontá - Tunja": {
+    "mediciones": {
+      "sector": "Chocontá - Tunja",
+      "sector_anterior": "Tocancipá - Chocontá",
+      "ruta": "55",
+      "tramo": "5501",
+      "ruta_anterior": "55",
+      "tramo_anterior": "5501",
+      "mismo_corredor_y_tramo": true,
+      "pr_final_anterior_km": 59.0,
+      "pr_inicial_km": 108.096,
+      "pr_final_km": 120.0,
+      "hueco_km": 49.096,
+      "extremo_origen_km": 1.274880945105487,
+      "extremo_destino_km": 11.118439792173849,
+      "geometria_km": 17.68858664068245,
+      "tramo_entre_progresivas_km": 11.904,
+      "razon_geometria": 1.485936377745502,
+      "doble_calzada_verificada": false,
+      "por_progresivas_km": 61.0,
+      "geodesica_km": 56.95970818555529
+    },
+    "reglas": {
+      "a": {
+        "nombre": "mismo corredor y tramo",
+        "valor": true,
+        "cumple": true
+      },
+      "b": {
+        "nombre": "progresivas continuas hasta el nodo",
+        "valor": 49.096,
+        "cumple": false
+      },
+      "c": {
+        "nombre": "extremos a menos de 2 km del nodo",
+        "valor": [
+          1.274880945105487,
+          11.118439792173849
+        ],
+        "cumple": false
+      },
+      "d": {
+        "nombre": "razón geometría / tramo entre progresivas",
+        "valor": 1.485936377745502,
+        "cumple": false
+      },
+      "e": {
+        "nombre": "no menor que la geodésica",
+        "valor": [
+          61.0,
+          56.95970818555529
+        ],
+        "cumple": true
+      },
+      "adoptar": false
+    }
+  }
+}

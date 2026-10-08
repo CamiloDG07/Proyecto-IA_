@@ -95,29 +95,28 @@ def tablas_escenarios(resultados):
 
 
 def tabla_barrido(barridos):
-    base, reg = barridos[0], barridos[1]
+    """Base (17.69 km), cota inferior (56.96) y progresivas (61.0)."""
+    vs = (barridos[0], barridos[1], barridos[3])
     filas = [
-        ("Puntos de la malla con ruta por Bogotá (compuesto)",
-         f"{base['ganan_bogota_compuesto']} de {len(base['puntos'])}",
-         f"{reg['ganan_bogota_compuesto']} de {len(reg['puntos'])}"),
-        ("Puntos con ruta por Bogotá (sin riesgo)",
-         f"{base['ganan_bogota_sin_riesgo']} de "
-         f"{base['puntos_sin_riesgo_definidos']}",
-         f"{reg['ganan_bogota_sin_riesgo']} de "
-         f"{reg['puntos_sin_riesgo_definidos']}"),
+        ("Bogotá gana (compuesto)",
+         [f"{v['ganan_bogota_compuesto']} de {len(v['puntos'])}"
+          for v in vs]),
+        ("Bogotá gana (sin riesgo)",
+         [f"{v['ganan_bogota_sin_riesgo']} de "
+          f"{v['puntos_sin_riesgo_definidos']}" for v in vs]),
         ("$w_1$ de cambio sobre $w_3=0$",
-         f"{base['w1_umbral_sobre_w3_cero']:.4f}",
-         f"{reg['w1_umbral_sobre_w3_cero']:.4f}"),
+         [f"{v['w1_umbral_sobre_w3_cero']:.4f}" for v in vs]),
     ]
     for i, nombre in enumerate(["$\\Delta D$", "$\\Delta P$", "$\\Delta R$"]):
-        filas.append((f"{nombre} (corta menos desvío)",
-                      f"{base['delta_corta_menos_desvio'][i]:.4f}",
-                      f"{reg['delta_corta_menos_desvio'][i]:.4f}"))
+        filas.append((f"{nombre} (Bogotá menos desvío)",
+                      [f"{v['delta_corta_menos_desvio'][i]:.4f}"
+                       for v in vs]))
     escribir("tabla_c2_barrido.tex",
-             ["\\begin{tabular}{lrr}", "\\toprule",
-              "\\textbf{Medida} & \\textbf{Base} & "
-              "\\textbf{Registrada} \\\\", "\\midrule"]
-             + [f"{a} & {b} & {c} \\\\" for a, b, c in filas]
+             ["\\begin{tabular}{lrrr}", "\\toprule",
+              "\\textbf{Medida} & \\textbf{Base 17.69} & "
+              "\\textbf{Cota 56.96} & \\textbf{Progres. 61.0} \\\\",
+              "\\midrule"]
+             + [f"{t} & " + " & ".join(c) + " \\\\" for t, c in filas]
              + ["\\bottomrule", "\\end{tabular}"])
 
 
@@ -125,7 +124,7 @@ def tabla_sensibilidad_alfa(sens):
     lineas = ["\\begin{tabular}{lrrrc}", "\\toprule",
               "\\textbf{Escenario} & \\textbf{UCS} & "
               "\\textbf{A* $\\alpha=%.6f$} & "
-              "\\textbf{A* $\\alpha_{\\mathrm{reg}}=%.6f$} & "
+              "\\textbf{A* $\\alpha_{\\mathrm{ref}}=%.6f$} & "
               "\\textbf{Óptima} \\\\" % (sens["alfa_base"],
                                          sens["alfa_ref"]),
               "\\midrule"]
@@ -146,7 +145,8 @@ def tabla_sensibilidad_alfa(sens):
 
 def tabla_sensibilidad_cruda(sens, barridos):
     rutas = sens["rutas_optimas_duitama_puente_nacional"]
-    base, reg, cruda = rutas["base"], rutas["registrada"], rutas["crudas"]
+    vs = (rutas["base"], rutas["cota_inferior"], rutas["progresivas"],
+          rutas["crudas"])
     nombres = {"distancia": "distancia", "peaje": "peaje",
                "riesgo": "riesgo (limitado)",
                "compuesto": "compuesto (limitado)",
@@ -155,19 +155,19 @@ def tabla_sensibilidad_cruda(sens, barridos):
                "compuesto_total": "total (limitado)",
                "compuesto_total_sin_riesgo": "total sin riesgo",
                "compuesto_mortalidad": "mortalidad"}
-    lineas = ["\\begin{tabular}{lrrr}", "\\toprule",
+    lineas = ["\\begin{tabular}{lrrrr}", "\\toprule",
               "\\textbf{Criterio} & \\textbf{Base} & "
-              "\\textbf{Registrada} & \\textbf{Crudas} \\\\",
-              "\\midrule"]
+              "\\textbf{Cota} & \\textbf{Progres.} & "
+              "\\textbf{Crudas} \\\\", "\\midrule"]
     for criterio, nombre in nombres.items():
-        celdas = [f"{v[criterio]['via']} ({v[criterio]['distancia_km']:.2f})"
-                  for v in (base, reg, cruda)]
+        celdas = [f"{v[criterio]['via'][0]} {v[criterio]['distancia_km']:.2f}"
+                  for v in vs]
         lineas.append(f"{nombre} & " + " & ".join(celdas) + " \\\\")
-    bb, br, bc = barridos[0], barridos[1], barridos[2]
+    bs = (barridos[0], barridos[1], barridos[3], barridos[2])
 
     def fila(titulo, clave, definidos=None):
         celdas = []
-        for b in (bb, br, bc):
+        for b in bs:
             n = len(b["puntos"]) if definidos is None else b[definidos]
             celdas.append(f"{b[clave]} de {n}")
         return f"{titulo} & " + " & ".join(celdas) + " \\\\"
@@ -179,33 +179,31 @@ def tabla_sensibilidad_cruda(sens, barridos):
              "puntos_sin_riesgo_definidos"),
         "$w_1$ de cambio sobre $w_3=0$ & "
         + " & ".join(f"{b['w1_umbral_sobre_w3_cero']:.4f}"
-                     for b in (bb, br, bc)) + " \\\\",
+                     for b in bs) + " \\\\",
         "\\bottomrule", "\\end{tabular}"]
     escribir("tabla_c2_sensibilidad_cruda.tex", lineas)
 
 
 def tabla_barrido_total(totales):
-    """Barrido de los cuatro pesos del compuesto total (base y registrada)."""
-    base, reg = totales
+    """Barrido de los cuatro pesos: base, cota inferior y progresivas."""
+    vs = totales
     filas = [
         ("Puntos con ruta por Bogotá (compuesto total)",
-         f"{base['ganan_bogota_total']} de {len(base['puntos'])}",
-         f"{reg['ganan_bogota_total']} de {len(reg['puntos'])}"),
+         [f"{v['ganan_bogota_total']} de {len(v['puntos'])}" for v in vs]),
         ("Puntos con ruta por Bogotá (sin riesgo)",
-         f"{base['ganan_bogota_sin_riesgo']} de "
-         f"{base['puntos_sin_riesgo_definidos']}",
-         f"{reg['ganan_bogota_sin_riesgo']} de "
-         f"{reg['puntos_sin_riesgo_definidos']}")]
+         [f"{v['ganan_bogota_sin_riesgo']} de "
+          f"{v['puntos_sin_riesgo_definidos']}" for v in vs])]
     nombres = ["$\\Delta D$", "$\\Delta P$", "$\\Delta R$", "$\\Delta C$"]
     for i, nombre in enumerate(nombres):
         filas.append((f"{nombre} (Bogotá menos Santander)",
-                      f"{base['delta_corta_menos_desvio'][i]:.4f}",
-                      f"{reg['delta_corta_menos_desvio'][i]:.4f}"))
+                      [f"{v['delta_corta_menos_desvio'][i]:.4f}"
+                       for v in vs]))
     escribir("tabla_c2_barrido_total.tex",
-             ["\\begin{tabular}{lrr}", "\\toprule",
-              "\\textbf{Medida} & \\textbf{Base} & "
-              "\\textbf{Registrada} \\\\", "\\midrule"]
-             + [f"{a} & {b} & {c} \\\\" for a, b, c in filas]
+             ["\\begin{tabular}{lrrr}", "\\toprule",
+              "\\textbf{Medida} & \\textbf{Base 17.69} & "
+              "\\textbf{Cota 56.96} & \\textbf{Progres. 61.0} \\\\",
+              "\\midrule"]
+             + [f"{t} & " + " & ".join(c) + " \\\\" for t, c in filas]
              + ["\\bottomrule", "\\end{tabular}"])
 
 

@@ -24,7 +24,7 @@ sys.path.insert(0, str(RAIZ / "src"))
 sys.stdout.reconfigure(encoding="utf-8")
 
 from agente_rutas import recomendar  # noqa: E402
-from build_graph import cargar_grafo  # noqa: E402
+from build_graph import cargar_grafo, construir_grafo  # noqa: E402
 from heuristica import cargar_coordenadas, haversine_km  # noqa: E402
 from umbral_costo import umbral_exacto  # noqa: E402
 
@@ -101,30 +101,44 @@ h = g.copy()
 h.remove_edge("Bogotá", "Tocancipá")
 d_desv = nx.shortest_path_length(h, "Duitama", "Puente Nacional",
                                  weight="distancia_km")
-chequear("ruta por Bogotá (km)", 352.41, round(d_corta, 2))
+chequear("ruta por Bogotá (km)", 309.10, round(d_corta, 2))
 chequear("ruta por Santander (km)", 654.25, round(d_desv, 2))
 ct = g["Chocontá"]["Tunja"]["distancia_km"]
 ct_reg = g["Chocontá"]["Tunja"]["distancia_cruda_km"]
 geo_ct = haversine_km(*co["Chocontá"], *co["Tunja"])
-chequear("Chocontá-Tunja vigente por progresivas (km)", 61.0, ct)
+chequear("Chocontá-Tunja base: valor oficial registrado (km)", 17.69, ct)
 chequear("Chocontá-Tunja registrada (km)", 17.69, ct_reg)
-chequear("Chocontá-Tunja fuente", "progresivas",
-         g["Chocontá"]["Tunja"]["distancia_fuente"])
+arista_ct = next(a for a in json.loads(leer("outputs/aristas_red.json"))
+                 if (a["origen"], a["destino"]) == ("Chocontá", "Tunja"))
+chequear("Chocontá-Tunja fuente y marca", ("registro", True), (
+    arista_ct["distancia_fuente"], arista_ct["distancia_truncada"]))
+chequear("Chocontá-Tunja diferencia de progresivas (km)", 61.0,
+         arista_ct["distancia_progresivas_km"])
 chequear("Chocontá-Tunja geodésica (km)", 56.96, round(geo_ct, 2))
-chequear("Chocontá-Tunja no menor que la geodésica", True, ct >= geo_ct)
-chequear("razón Chocontá-Tunja vigente", 1.071, round(ct / geo_ct, 3))
-chequear("razón Chocontá-Tunja registrada", 0.3106,
-         round(ct_reg / geo_ct, 4), 5e-5)
+chequear("razón Chocontá-Tunja base", 0.3106, round(ct / geo_ct, 4), 5e-5)
+chequear("razón Chocontá-Tunja con progresivas", 1.071,
+         round(61.0 / geo_ct, 3))
 chequear("PR final de Chocontá a Tunja menos PR de Tocancipá-Chocontá",
          61.0, round(120.0 - 59.0, 1))
 chequear("hueco de progresivas (km)", 49.1, round(108.096 - 59.0, 1), 0.05)
-chequear("ruta por Bogotá con la registrada (km)", 309.10,
-         round(d_corta - ct + ct_reg, 2), 0.005)
-chequear("distancia total de la red (km)", 1929.31, round(sum(
+chequear("cota inferior de la ruta por Bogotá (km)", 348.37,
+         round(d_corta - ct + round(geo_ct, 2), 2), 0.006)
+ev = json.loads(leer("outputs/evaluacion_progresivas.json"))[
+    "Chocontá - Tunja"]
+chequear("regla de progresivas: falla (b), (c) y (d); no se adopta",
+         (["b", "c", "d"], False), (
+             [k for k in "abcde" if not ev["reglas"][k]["cumple"]],
+             ev["reglas"]["adoptar"]))
+chequear("regla de progresivas: hueco, extremo a Tunja y razón",
+         (49.1, 11, 1.486), (
+             round(ev["mediciones"]["hueco_km"], 1),
+             round(ev["mediciones"]["extremo_destino_km"]),
+             round(ev["mediciones"]["razon_geometria"], 3)))
+chequear("distancia total de la red (km)", 1886.00, round(sum(
     d["distancia_km"] for _u, _v, d in g.edges(data=True)), 2), 0.005)
 razon = [float(f["razon"]) for f in csv.DictReader(
     open(RAIZ / "outputs" / "auditoria_aristas.csv", encoding="utf-8"))]
-chequear("aristas con carretera menor que la geodésica", 7,
+chequear("aristas con carretera menor que la geodésica", 8,
          sum(1 for x in razon if x < 1))
 sin_riesgo = sum(1 for _u, _v, d in g.edges(data=True)
                  if not d["riesgo_disponible"])
@@ -154,11 +168,12 @@ citas("Corte 1", c1, [("Spearman", "$-0.033$"),
                       ("cobertura", "16 de")])
 
 # ---- 3. Heurística ---------------------------------------------------------
-chequear("alfa", 0.458156, heur["alfa"], 1e-9)
-chequear("razón mínima exacta", 0.4581564074,
+chequear("alfa", 0.31057, heur["alfa"], 1e-9)
+chequear("razón mínima exacta", 0.3105704113,
          round(heur["razon_minima_exacta"], 10), 1e-10)
-chequear("alfa de la longitud registrada", 0.31057, sens["alfa_ref"], 1e-9)
-chequear("margen mínimo distancia (km)", 0.000008, round(
+chequear("alfa_ref (sin Chocontá a Tunja)", 0.458156, sens["alfa_ref"],
+         1e-9)
+chequear("margen mínimo distancia (km)", 0.000023, round(
     heur["criterios"]["distancia"]["admisibilidad"]["margen_minimo"], 6),
     1e-9)
 chequear("violaciones en todas las heurísticas", 0, sum(
@@ -166,13 +181,13 @@ chequear("violaciones en todas las heurísticas", 0, sum(
     for v in heur["criterios"].values()))
 chequear("heurísticas verificadas", 7, len(heur["criterios"]))
 p = heur["geodesica_pura_distancia"]
-chequear("violaciones adm. alfa=1", 34, p["admisibilidad"]["violaciones"])
-chequear("violaciones cons. alfa=1", 111, p["consistencia"]["violaciones"])
-chequear("peor margen alfa=1", -19.07,
+chequear("violaciones adm. alfa=1", 66, p["admisibilidad"]["violaciones"])
+chequear("violaciones cons. alfa=1", 141, p["consistencia"]["violaciones"])
+chequear("peor margen alfa=1", -56.51,
          round(p["admisibilidad"]["margen_minimo"], 2))
-citas("Corte 2", c2, [("alfa", "0.458156"), ("alfa registrada", "0.310570"),
-                      ("violaciones", "34 violaciones"),
-                      ("peor margen", "$-19.07$")])
+citas("Corte 2", c2, [("alfa", "0.310570"), ("alfa_ref", "0.458156"),
+                      ("violaciones", "66 violaciones"),
+                      ("peor margen", "$-56.51$")])
 
 # ---- 4. Escenarios ---------------------------------------------------------
 saltos = sorted({c["saltos"] for c in res if c["criterio"] == "distancia"
@@ -181,10 +196,10 @@ chequear("saltos de los pares de ruta única", [1, 2, 3, 4, 6], saltos)
 chequear("repeticiones", 2000, res[0]["repeticiones"])
 pre = [c["precalculo_h_media_s"] * 1e6 for c in res
        if c["precalculo_h_media_s"] is not None]
-chequear("precálculo medio (us)", 35.3, round(sum(pre) / len(pre), 1), 0.05)
-chequear("precálculo mínimo (us)", 6.5, round(min(pre), 1), 0.05)
-chequear("precálculo máximo (us)", 51.5, round(max(pre), 1), 0.05)
-chequear("máx desviación/media", 2.76, round(max(
+chequear("precálculo medio (us)", 60.4, round(sum(pre) / len(pre), 1), 0.05)
+chequear("precálculo mínimo (us)", 12.3, round(min(pre), 1), 0.05)
+chequear("precálculo máximo (us)", 78.5, round(max(pre), 1), 0.05)
+chequear("máx desviación/media", 2.31, round(max(
     c["tiempo_desv_s"] / c["tiempo_media_s"] for c in res), 2), 0.005)
 
 
@@ -197,53 +212,59 @@ def exceso(o, d, crit, alg):
     return round(100 * cel(o, d, crit, alg)["exceso_relativo"], 1)
 
 
-chequear("BFS exceso (%)", 85.7,
+chequear("BFS exceso (%)", 111.7,
          exceso("Duitama", "Puente Nacional", "distancia", "BFS"), 0.05)
 chequear("BFS saltos", 7,
          cel("Duitama", "Puente Nacional", "distancia", "BFS")["saltos"])
 chequear("UCS saltos", 8,
          cel("Duitama", "Puente Nacional", "distancia", "UCS")["saltos"])
-chequear("DFS Bucaramanga-Bogotá exceso (%)", 46.4,
+chequear("DFS Bucaramanga-Bogotá exceso (%)", 35.8,
          exceso("Bucaramanga", "Bogotá", "distancia", "DFS"), 0.05)
 for crit, esperado in (
-        ("distancia", {"BFS": 143, "DFS": 142, "UCS": 140, "Voraz": 50,
-                       "A*": 101}),
-        ("compuesto_sin_riesgo", {"BFS": 143, "DFS": 142, "UCS": 142,
-                                  "Voraz": 50, "A*": 122})):
+        ("distancia", {"BFS": 143, "DFS": 142, "UCS": 144, "Voraz": 50,
+                       "A*": 120}),
+        ("compuesto_sin_riesgo", {"BFS": 143, "DFS": 142, "UCS": 141,
+                                  "Voraz": 50, "A*": 129})):
     real = {a: sum(c["nodos_expandidos"] for c in res
                    if c["criterio"] == crit and c["algoritmo"] == a)
             for a in esperado}
     chequear(f"expandidos totales {crit}", esperado, real)
 a_ = cel("Duitama", "Puente Nacional", "distancia", "A*")
 u_ = cel("Duitama", "Puente Nacional", "distancia", "UCS")
-chequear("A* central media y desv (us)", (68, 21),
+chequear("A* central media y desv (us)", (137, 20),
          (round(a_["tiempo_media_s"] * 1e6), round(a_["tiempo_desv_s"] * 1e6)),
          0.5)
-chequear("UCS central media y desv (us)", (81, 18),
+chequear("UCS central media y desv (us)", (143, 36),
          (round(u_["tiempo_media_s"] * 1e6), round(u_["tiempo_desv_s"] * 1e6)),
          0.5)
-chequear("expandidos centrales A*, UCS", (18, 26),
+chequear("expandidos centrales A*, UCS", (20, 25),
          (a_["nodos_expandidos"], u_["nodos_expandidos"]))
-chequear("sin riesgo BFS exceso", 6.7, exceso(
+chequear("sin riesgo BFS exceso", 11.9, exceso(
     "Duitama", "Puente Nacional", "compuesto_sin_riesgo", "BFS"), 0.05)
-chequear("sin riesgo DFS Buc-Bog exceso", 7.4, exceso(
+chequear("sin riesgo DFS Buc-Bog exceso", 2.8, exceso(
     "Bucaramanga", "Bogotá", "compuesto_sin_riesgo", "DFS"), 0.05)
-citas("Corte 2", c2, [("exceso BFS", "85.7"), ("exceso DFS", "46.4"),
-                      ("precálculo", "35.3"), ("desviación", "2.76"),
-                      ("sin riesgo", "6.7"), ("sin riesgo DFS", "7.4")])
+citas("Corte 2", c2, [("exceso BFS", "111.7"), ("exceso DFS", "35.8"),
+                      ("precálculo", "60.4"), ("desviación", "2.31"),
+                      ("sin riesgo", "11.9"), ("sin riesgo DFS", "2.8"),
+                      ("totales A* y UCS", "UCS 144, voraz 50 y A* 120")])
 
 # ---- 5. Barrido de pesos ---------------------------------------------------
 b0, b1 = bar[0], bar[1]
 chequear("puntos", 66, len(b0["puntos"]))
-chequear("Bogotá gana (compuesto) base", 17, b0["ganan_bogota_compuesto"])
-chequear("umbral w1 base", 0.4422,
+chequear("Bogotá gana (compuesto) base", 19, b0["ganan_bogota_compuesto"])
+chequear("umbral w1 base", 0.4095,
          round(b0["w1_umbral_sobre_w3_cero"], 4), 5e-5)
-chequear("sin riesgo base", 36, b0["ganan_bogota_sin_riesgo"])
+chequear("sin riesgo base", 37, b0["ganan_bogota_sin_riesgo"])
 chequear("sin riesgo definidos", 65, b0["puntos_sin_riesgo_definidos"])
-chequear("umbral w1 con la registrada", 0.4095,
+chequear("umbral w1 con la cota inferior", 0.4389,
          round(b1["w1_umbral_sobre_w3_cero"], 4), 5e-5)
-chequear("Bogotá gana (compuesto) con la registrada", 19,
+chequear("Bogotá gana (compuesto) con la cota inferior", 17,
          b1["ganan_bogota_compuesto"])
+b3 = bar[3]
+chequear("barrido con las progresivas: umbral, Bogotá y sin riesgo",
+         (0.4422, 17, 36), (round(b3["w1_umbral_sobre_w3_cero"], 4),
+                            b3["ganan_bogota_compuesto"],
+                            b3["ganan_bogota_sin_riesgo"]))
 cambia = [(f["w1"], f["w2"], f["w3"]) for f, k in zip(
     b0["puntos"], b1["puntos"]) if f["compuesto"] != k["compuesto"]]
 chequear("puntos que cambian (compuesto)",
@@ -251,22 +272,29 @@ chequear("puntos que cambian (compuesto)",
 cambia2 = [(f["w1"], f["w2"], f["w3"]) for f, k in zip(
     b0["puntos"], b1["puntos"]) if f["sin_riesgo"] != k["sin_riesgo"]]
 chequear("puntos que cambian (sin riesgo)", [(0.3, 0.4, 0.3)], cambia2)
-citas("Corte 2", c2, [("umbral", "0.4422"), ("umbral registrada", "0.4095"),
-                      ("sin riesgo", "36 de 65")])
+citas("Corte 2", c2, [("umbral base", "0.4095"), ("umbral cota", "0.4389"),
+                      ("umbral progresivas", "0.4422"),
+                      ("sin riesgo", "37 de 65")])
 
 # ---- 6. Sensibilidad de A* -------------------------------------------------
-chequear("alfa base", 0.458156, sens["alfa_base"], 1e-9)
+chequear("alfa base", 0.31057, sens["alfa_base"], 1e-9)
 e0 = next(e for e in sens["por_escenario"] if e["origen"] == "Duitama")
-chequear("central alfa registrada, base, UCS", (20, 18, 26),
+chequear("central alfa_ref, base, UCS", (17, 20, 25),
          (e0["expandidos_alfa_ref"], e0["expandidos_alfa_base"],
           e0["expandidos_ucs"]))
 t = sens["todos_los_pares"]
-chequear("pares óptimos con la registrada", 992, t["pares"] - t["no_optimos"])
-chequear("pares no óptimos", [], t["detalle_no_optimos"])
-chequear("totales UCS, alfa base, alfa registrada", (15872, 12361, 13437),
+chequear("pares óptimos con alfa_ref", 991, t["pares"] - t["no_optimos"])
+d0 = t["detalle_no_optimos"][0]
+chequear("par no óptimo con alfa_ref", ("Bucaramanga", "Tunja", 482.01,
+                                        481.34),
+         (d0["origen"], d0["destino"], round(d0["costo"], 2),
+          round(d0["costo_optimo"], 2)))
+chequear("exceso del par no óptimo (%)", 0.14, round(
+    100 * (d0["costo"] - d0["costo_optimo"]) / d0["costo_optimo"], 2), 0.005)
+chequear("totales UCS, alfa base, alfa_ref", (15872, 13377, 12223),
          (t["expandidos_total_ucs"], t["expandidos_total_alfa_base"],
           t["expandidos_total_alfa_ref"]))
-chequear("A* contra UCS en distancia (101 y 140)", (101, 140), (sum(
+chequear("A* contra UCS en distancia (120 y 144)", (120, 144), (sum(
     c["nodos_expandidos"] for c in res
     if c["criterio"] == "distancia" and c["algoritmo"] == "A*"), sum(
     c["nodos_expandidos"] for c in res
@@ -312,7 +340,7 @@ chequear("30/30 por n hasta 20", True, all(sum(
     r["aco"]["semillas_que_igualan_referencia"]
     for r in con_ex if r["n"] == n) == 30 for n in (5, 10, 15, 20)))
 r32 = next(r for r in red if r["n"] == 32)
-chequear("óptimo por estructura con 32 ciudades", 2851.96,
+chequear("óptimo por estructura con 32 ciudades", 2808.65,
          round(r32["referencia"]["costo"], 2), 0.005)
 chequear("32 ciudades: 10 de 10", 10,
          r32["aco"]["semillas_que_igualan_referencia"])
@@ -327,9 +355,9 @@ def de_red(n):
     return [r for r in red if r["n"] == n]
 
 
-chequear("inicio fijo n=15", (2.24, 20),
+chequear("inicio fijo n=15", (2.608, 20),
          grupo("aco_sin_2opt_inicio_fijo", de_red(15)))
-chequear("inicio fijo n=20", (1.653, 15),
+chequear("inicio fijo n=20", (2.836, 13),
          grupo("aco_sin_2opt_inicio_fijo", de_red(20)))
 chequear("inicio aleatorio sin 2-opt en la red (brecha, semillas)", (0, 130),
          (sum(grupo("aco_sin_2opt", de_red(n))[0]
@@ -338,7 +366,7 @@ chequear("inicio aleatorio sin 2-opt en la red (brecha, semillas)", (0, 130),
               for n in (5, 10, 15, 20, 32))))
 chequear("con 2-opt 120/120 en las instancias con exacto", 120, sum(
     r["aco"]["semillas_que_igualan_referencia"] for r in con_ex))
-chequear("brecha de la iteración 1 en la red (máx., %)", 0.0, round(max(
+chequear("brecha de la iteración 1 en la red (máx., %)", 0.029, round(max(
     100 * abs(r["aco"]["curva_media"][0] - r["referencia"]["costo"])
     / r["referencia"]["costo"] for r in red), 3), 5e-4)
 chequear("euclidianas n=20: brecha media con 2-opt", 0.040,
@@ -360,12 +388,12 @@ chequear("euclidianas n=20 inicio fijo", (2.212, 1), (
         for r in tal)))
 hk = [r["exacto"]["tiempo_s"] for r in red + tal
       if r["n"] == 20 and "exacto" in r]
-chequear("Held-Karp n=20, tiempos mín y máx (s)", (1.05, 1.12),
+chequear("Held-Karp n=20, tiempos mín y máx (s)", (1.73, 1.79),
          (round(min(hk), 2), round(max(hk), 2)))
 chequear("Held-Karp n=20, memoria (MiB)", 111.8,
          round(red[9]["exacto"]["memoria_pico_mib"], 1), 0.05)
 at = [r["aco"]["tiempo_medio_s"] for r in red + tal if r["n"] == 20]
-chequear("ACO n=20, tiempos mín y máx (s)", (0.06, 0.06),
+chequear("ACO n=20, tiempos mín y máx (s)", (0.11, 0.13),
          (round(min(at), 2), round(max(at), 2)))
 chequear("exacto en ms hasta n=10", True, all(
     r["exacto"]["tiempo_s"] < 0.01 for r in red
@@ -377,27 +405,28 @@ for r in may:
              {100: (-0.315, -0.171), 200: (-1.937, -1.4)}[r["n"]],
              (round(r["aco"]["brecha_mejor_pct"], 3),
               round(r["aco"]["brecha_media_pct"], 3)))
-chequear("n=100: tiempo del ACO", (1.0, 0.01), (
+chequear("n=100: tiempo del ACO", (1.74, 0.11), (
     round(may[0]["aco"]["tiempo_medio_s"], 2),
     round(may[0]["aco"]["tiempo_desv_s"], 2)))
-chequear("n=100 sin 2-opt", (0.85, 0.02, 5.599), (
+chequear("n=100 sin 2-opt", (1.09, 0.07, 5.599), (
     round(may[0]["aco_sin_2opt"]["tiempo_medio_s"], 2),
     round(may[0]["aco_sin_2opt"]["tiempo_desv_s"], 2),
     round(may[0]["aco_sin_2opt"]["brecha_media_pct"], 3)))
-chequear("n=200 sin 2-opt", (4.67, 0.18, 6.209), (
+chequear("n=200 sin 2-opt", (5.06, 0.24, 6.209), (
     round(may[1]["aco_sin_2opt"]["tiempo_medio_s"], 2),
     round(may[1]["aco_sin_2opt"]["tiempo_desv_s"], 2),
     round(may[1]["aco_sin_2opt"]["brecha_media_pct"], 3)))
-chequear("n=200: tiempo y memoria", (5.92, 0.23, 5391), (
+chequear("n=200: tiempo y memoria", (8.93, 0.95, 5391), (
     round(may[1]["aco"]["tiempo_medio_s"], 2),
     round(may[1]["aco"]["tiempo_desv_s"], 2),
     round(may[1]["aco"]["memoria_pico_kib"])))
 chequear("inicios de 2-opt", (301, 151), (
     may[0]["referencia"]["inicios"], may[1]["referencia"]["inicios"]))
-citas("Corte 2", c2, [("óptimo 32", "2851.96"), ("inicio fijo n=15", "2.240"),
-                      ("inicio fijo n=20", "1.653"),
-                      ("Held-Karp", "entre 1.05 s y 1.12 s"),
-                      ("n=200", "5.92"), ("n=100 sin 2-opt", "0.85")])
+citas("Corte 2", c2, [("óptimo 32", "2808.65"), ("inicio fijo n=15", "2.608"),
+                      ("inicio fijo n=20", "2.836"),
+                      ("Held-Karp", "entre 1.73 s y 1.79 s"),
+                      ("n=200", "8.93"),
+                      ("n=100 sin 2-opt", "1.09")])
 
 # ---- 9. Perfil topológico e ida y vuelta -----------------------------------
 per = cargar("perfil_topologico.json")
@@ -414,15 +443,15 @@ chequear("texto del perfil cita 385, 111, 374, 105, 17 y 10", True, all(
     x in tex_perfil for x in ("385", "111", "374", "105", "17", "10 puntos")))
 r_iv = recomendar("Duitama", ["Puente Nacional"], True,
                   bloquear_regreso="Tunja-Chocontá", grafo=g)
-chequear("ida y vuelta con bloqueo: margen del regreso (%)", 6.7,
+chequear("ida y vuelta con bloqueo: margen del regreso (%)", 11.9,
          round(r_iv["detalle_regreso"]["margen_pct"], 1), 0.05)
-chequear("ida y vuelta con bloqueo: total km", 1006.66,
+chequear("ida y vuelta con bloqueo: total km", 963.35,
          round(r_iv["total"]["km"], 2), 0.005)
 chequear("ida y vuelta con bloqueo: total peaje", 271000,
          round(r_iv["total"]["peaje_cop"]))
-for o, d, esp in (("Chiquinquirá", "Chocontá", 483.0),
-                  ("Cajicá", "Zipaquirá", 20956.7),
-                  ("Duitama", "Presidente", 595.9)):
+for o, d, esp in (("Chiquinquirá", "Chocontá", 570.3),
+                  ("Cajicá", "Zipaquirá", 20480.8),
+                  ("Duitama", "Presidente", 578.0)):
     rr = recomendar(o, [d], grafo=g)
     c0 = rr["recomendada"]["costos"]["compuesto_sin_riesgo"]
     c1_ = min(a["costos"]["compuesto_sin_riesgo"]
@@ -452,7 +481,7 @@ chequear("rendimiento (km por galón)", 9.784, round(
 rec = recomendar("Duitama", ["Puente Nacional"], grafo=g)
 rb = rec["recomendada"]
 chequear("ruta por Bogotá: combustible y costo operativo (COP)",
-         (407737, 578537), (round(rb["costo_variable_cop"]),
+         (357628, 528428), (round(rb["costo_variable_cop"]),
                             round(rb["costo_operativo_cop"])))
 rs = next(a for a in rec["alternativas"])
 chequear("ruta por Santander: combustible y costo operativo (COP)",
@@ -461,30 +490,31 @@ chequear("ruta por Santander: combustible y costo operativo (COP)",
 chequear("criterio por defecto con un insumo supuesto",
          "compuesto_sin_riesgo", rec["criterio_efectivo"])
 u = rec["umbral_costo"]
-chequear("umbral exacto (COP/km), ahorro y km extra", (233.9, 70600, 301.84),
+chequear("umbral exacto (COP/km), ahorro y km extra", (204.5, 70600, 345.15),
          (round(u["cop_por_km"], 1), u["ahorro_peaje_cop"], u["km_extra"]))
-ex = umbral_exacto(g, "Duitama", "Puente Nacional")
-chequear("umbral_costo.umbral_exacto coincide", 233.9,
-         round(ex["cop_por_km"], 1), 0.05)
-chequear("umbral con la registrada (COP/km)", 204.5,
-         round(70600 / (d_desv - (d_corta - ct + ct_reg)), 1))
-chequear("umbral con la geodésica (COP/km)", 230.8,
-         round(70600 / (d_desv - (d_corta - ct + round(geo_ct, 2))), 1))
-chequear("combustible contra umbral (veces)", 4.95,
-         round(por_km / u["cop_por_km"], 2), 0.005)
+umbrales = {}
+for nombre, km in (("base", None), ("cota", 56.96), ("progresivas", 61.0)):
+    gv = g if km is None else construir_grafo(
+        reemplazos={("Chocontá", "Tunja"): km})
+    umbrales[nombre] = round(umbral_exacto(
+        gv, "Duitama", "Puente Nacional")["cop_por_km"], 1)
+chequear("umbrales derivados de los datos: base, cota y progresivas",
+         (204.5, 230.8, 233.9), tuple(umbrales.values()))
+chequear("combustible contra cada umbral (veces)", (5.7, 5.0, 4.9), tuple(
+    round(por_km / x, 1) for x in umbrales.values()))
 texto_dinero = leer("outputs/texto_c2_dinero.tex")
 chequear("dinero: la frase se incluye desde outputs/", True,
          r"\input{outputs/texto_c2_dinero.tex}" in leer("informe_corte2.tex"))
 citas("texto del dinero", texto_dinero, [
-    ("ahorro", "70\\,600"), ("km extra", "301.84"), ("umbral", "233.9"),
-    ("registrada", "204.5"), ("geodésica", "230.8"),
-    ("combustible", "1\\,157.0")])
+    ("ahorro", "70\\,600"), ("km extra", "345.15"),
+    ("umbral base", "204.5"), ("cota", "230.8"), ("progresivas", "233.9"),
+    ("combustible", "1\\,157.0"), ("veces", "5.7, 5.0, 4.9 veces")])
 citas("Corte 2", c2, [("combustible", "1\\,157.0"), ("precio", "11\\,320"),
                       ("rendimiento", "9.784"), ("consumo", "38.69"),
-                      ("progresivas", "61.00")])
+                      ("progresivas", "61.0"), ("hueco", "49.1")])
 
 # ---- 11. Corte 1: frases narrativas ----------------------------------------
-vigentes = {("Bogotá", 352.41), ("Santander", 654.25)}
+vigentes = {("Bogotá", 309.10), ("Santander", 654.25)}
 sin_corregir = {("Bogotá", 414.84), ("Santander", 668.14)}
 for mm in re.finditer(r"(\d+\.\d+) km por (Bogotá|Santander)", c1):
     valor, via = float(mm.group(1)), mm.group(2)
@@ -526,31 +556,33 @@ def peaje(ruta):
 
 mm = re.search(r"El desvío es ([\d.]+) km más largo, pero tiene ([\d\\,]+) "
                r"COP menos de\s+peaje", c1)
-chequear("Corte 1: desvío más largo (km) y menos peaje (COP)", (301.84, 70600),
+chequear("Corte 1: desvío más largo (km) y menos peaje (COP)", (345.15, 70600),
          (float(mm.group(1)), int(mm.group(2).replace("\\,", ""))))
-chequear("Corte 1: desvío calculado desde el grafo", (301.84, 70600),
+chequear("Corte 1: desvío calculado desde el grafo", (345.15, 70600),
          (round(d_desv - d_corta, 2), peaje(ruta_b) - peaje(ruta_s)), 0.005)
 citas("Corte 1", c1, [
-    ("costo en Bogotá", "578\\,537"), ("combustible en Bogotá", "407\\,737"),
+    ("costo en Bogotá", "528\\,428"), ("combustible en Bogotá", "357\\,628"),
     ("costo en Santander", "857\\,165"),
-    ("combustible en Santander", "756\\,965"), ("umbral", "233.9"),
-    ("combustible por km", "1\\,157.0"), ("progresivas", "61.0 km"),
-    ("siete aristas", "Siete aristas"), ("precio", "11\\,320"),
-    ("consumo", "38.69")])
+    ("combustible en Santander", "756\\,965"), ("umbral", "204.5"),
+    ("umbral cota", "230.8"), ("umbral progresivas", "233.9"),
+    ("combustible por km", "1\\,157.0"), ("truncada", "marcado como truncado"),
+    ("ocho aristas", "Ocho aristas"), ("precio", "11\\,320"),
+    ("consumo", "38.69"), ("regla", "razón entre la longitud de la geometría"),
+    ("hueco", "49.1")])
 
 # ---- 12. Guion de la demostración ------------------------------------------
 citas("guion", guion, [
-    ("ruta por Bogotá", "352.41"), ("alfa", "0.458156"),
-    ("margen mínimo", "0.000008"), ("34 violaciones", "34 violaciones"),
-    ("barrido", "17 de 66"), ("umbral del barrido", "0.4422"),
-    ("DFS", "598.17 km contra 408.49 km"), ("umbral", "233.9"),
-    ("combustible", "407 737"), ("total Bogotá", "578 537"),
-    ("total Santander", "857 165"), ("margen del agente", "6.7 %"),
-    ("ida y vuelta", "1006.66"), ("margen 1", "483.0 %"),
-    ("margen 2", "20 956.7 %"), ("margen 3", "595.9 %")])
+    ("ruta por Bogotá", "309.10"), ("alfa", "0.310570"),
+    ("margen mínimo", "0.000023"), ("violaciones", "66 violaciones"),
+    ("barrido", "19 de 66"), ("umbral del barrido", "0.4095"),
+    ("DFS", "598.17 km contra 408.49 km"), ("umbral", "204.5"),
+    ("combustible", "357 628"), ("total Bogotá", "528 428"),
+    ("total Santander", "857 165"), ("margen del agente", "11.9 %"),
+    ("ida y vuelta", "963.35"), ("margen 1", "570.3 %"),
+    ("margen 2", "20 480.8 %"), ("margen 3", "578.0 %")])
 chequear("guion: sin cifras del estado anterior", 0, sum(
-    guion.count(x) for x in ("309.10 km)", "0.310570, determinado",
-                             "348.37", "963.35", "570.3 %")))
+    guion.count(x) for x in ("352.41", "1006.66", "483.0 %", "6.7 %",
+                             "578 537", "0.4422")))
 patron = re.compile(r"```\n(python src/.*?)```", re.S)
 
 
@@ -584,8 +616,8 @@ from lecturas_informe import costos_sin_riesgo as _csr  # noqa: E402
 _c, _k = _csr("cruda"), _csr("corregida")
 chequear("conclusión: sin corregir (Bogotá 3.290, desvío 3.197)",
          (3.290, 3.197), (round(_c[0], 3), round(_c[1], 3)))
-chequear("conclusión: corregidas (Bogotá 3.302, desvío 3.524)",
-         (3.302, 3.524), (round(_k[0], 3), round(_k[1], 3)))
+chequear("conclusión: corregidas (Bogotá 3.149, desvío 3.524)",
+         (3.149, 3.524), (round(_k[0], 3), round(_k[1], 3)))
 informe2 = leer("informe_corte2.tex")
 informe1 = leer("formulacion_corte1.tex")
 chequear("sin PSO en los informes", 0,

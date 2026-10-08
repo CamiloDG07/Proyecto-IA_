@@ -24,7 +24,7 @@ supuesto del equipo, no un dato. Por eso el criterio por defecto sigue siendo
 | Ruta | Contenido |
 |---|---|
 | `data/carga/` | Datos oficiales (INVÍAS y ANSV), `VERIFICACION.md` y `FUENTES_NUEVAS.md` (fuentes evaluadas el 8 de octubre de 2026, con su decisión) |
-| `data/carga/nuevas/` | Archivos descargados de las fuentes nuevas (mortalidad ANSV, postes de INVÍAS, CREG y UPME), con su SHA-256 en `FUENTES_NUEVAS.md` |
+| `data/carga/nuevas/` | Archivos de las fuentes nuevas con licencia CC BY-SA 4.0 (mortalidad ANSV y postes de INVÍAS); los documentos de la CREG y de la UPME no se redistribuyen: sus URL, fechas y SHA-256 están en `FUENTES_NUEVAS.md` |
 | `config_costos.json` | Insumos del costo monetario, con fuente y estado |
 | `data/carga/_descarga_previa/` | Descarga anterior (esquema reducido), conservada con su hash; **no es la fuente oficial vigente** |
 | `data/carga/mgn2020_departamentos_dane.json` | Límites departamentales del DANE (MGN 2020), fondo de los mapas |
@@ -106,6 +106,7 @@ python src/agente_rutas.py Duitama "Puente Nacional" --criterio costo_operativo
 python src/agente_rutas.py Duitama "Puente Nacional" --precio-galon 14000 --rendimiento 8 --costo-otros-km 500
 python src/pruebas_agente_rutas.py   # pruebas del agente autónomo
 python src/pruebas_costos.py         # costo monetario, umbral y heurísticas nuevas
+python src/pruebas_progresivas.py    # regla de adopción de distancias por progresivas
 python src/cruce_mortalidad.py       # cruce de la mortalidad ANSV (lo llama construir_red.py)
 python src/verificar_cifras.py       # contrasta las cifras de los informes y del guion con los datos
 python src/pruebas_criterio.py       # pruebas de --criterio
@@ -128,3 +129,22 @@ pdflatex informe_corte2.tex
 ```
 
 Estilo del código: `pycodestyle src/*.py` (PEP 8, máximo 79 caracteres).
+
+## Licencias y atribución
+
+Los datos de INVÍAS (Red Vial, Peajes, Postes de Referencia), de la ANSV
+(sectores críticos de siniestralidad y de mortalidad 2022) y del DANE
+(DIVIPOLA) provienen del portal de datos abiertos datos.gov.co y se usan bajo
+la licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional
+(CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/deed.es). Los
+datos derivados que contiene este repositorio (`outputs/aristas_red.json`,
+`outputs/nodos_red.json`, `outputs/trazado_aristas.json`,
+`outputs/riesgo_mortalidad_aristas.json`, las auditorías y las tablas que salen
+de ellos) fueron cruzados, corregidos y transformados por el equipo y se
+comparten bajo la misma licencia, con atribución a INVÍAS, la ANSV y el DANE.
+
+El precio del combustible (CREG) y el consumo (UPME) son datos públicos de
+documentos que no declaran licencia de redistribución: no se incluyen los
+archivos, solo el valor con su cita en `config_costos.json`. La tabla completa
+(entidad, URL, fecha y licencia de cada fuente) está en
+`data/carga/FUENTES_NUEVAS.md`.
