@@ -275,3 +275,17 @@ aplica el propio servicio; los límites sirven solo de fondo de las figuras, no
 para medir distancias ni áreas. Las capas MGN 2024 y 2025 del mismo portal
 respondieron sin geometría en la misma consulta, por eso se usó la versión
 2020. Las figuras no usan mosaicos (tiles).
+
+## Descargas nuevas del 8 de octubre de 2026 (`nuevas\`)
+
+Evaluadas en `FUENTES_NUEVAS.md`.
+
+| Archivo | Fuente | URL | Filas o bytes | SHA-256 |
+|---|---|---|---|---|
+| `sectores_criticos_mortalidad_2022_ybqk-8s42.csv` | ANSV | https://www.datos.gov.co/resource/ybqk-8s42.csv | 647 filas | `4dd8f8a9432aa61557dfd8752c0514e5af3ed7b596f914800a1e6debfd828173` |
+| `postes_referencia_ufg7-is7r.csv` | INVÍAS | https://www.datos.gov.co/resource/ufg7-is7r.csv | 17 816 filas | `cd4637ba05fa01999c8b8b9acaede1d7917e6ebf16446f5104abede3ba1ea472` |
+| `creg_precios_combustibles_liquidos_15565.html` | CREG | https://creg.gov.co/publicaciones/15565/precios-de-combustibles-liquidos/ | 293 035 bytes | `42c6c9baeeb1d6a608a3b2bc5a5e0b310f187ef436b65e9b4912aa2895ed70b6` |
+| `upme_linea_base_consumo_carga.pdf` | UPME | https://docs.upme.gov.co/DemandayEficiencia/Documents/1_Reporte_linea_base_EE_carga.pdf | 4 490 050 bytes | `a12f8622f00bc7d37b89a650995b08930c59871929ceb0435821ef8d28261593` |
+
+Los dos CSV se descargaron con `?$limit=50000` y el conteo de filas coincide con el de la API. La página de la CREG
+cambia con cada actualización de precios: el hash corresponde a la consulta del 8 de octubre de 2026.

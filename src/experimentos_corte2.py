@@ -8,17 +8,24 @@ Escenarios (pares origen-destino), todos sobre la red corregida de 32 nodos:
     expandidos, el tiempo y la memoria; con 1 a 6 saltos.
 El número de rutas simples de cada par se comprueba al ejecutar.
 
-Criterios: distancia y compuesto_sin_riesgo (heurística geodésica con
-alfa = 0.310570); compuesto (riesgo faltante igual a 0) y riesgo se reportan
-aparte como limitados; en riesgo la heurística admisible es h = 0 (A* se
-reduce a UCS).
+Criterios: distancia, compuesto_sin_riesgo, costo_operativo y
+compuesto_total_sin_riesgo (heurística geodésica con alfa = 0.458156);
+compuesto, compuesto_total y compuesto_mortalidad (riesgo faltante igual a 0)
+y riesgo se reportan aparte como limitados; en riesgo la heurística admisible
+es h = 0 (A* se reduce a UCS). compuesto_mortalidad es solo sensibilidad.
+
+Sensibilidades rotuladas: distancias sin corregir (cruda) y la longitud
+registrada de Chocontá a Tunja (17.69 km, en lugar de las progresivas).
+Barrido de pesos: el compuesto de tres pesos (distancia, peaje y riesgo) y el
+compuesto total de cuatro pesos (con el costo variable), ambos en malla de
+paso 0.1.
 
 Mediciones: el tiempo se mide sin tracemalloc, REPETICIONES veces por celda
 (media y desviación estándar); la memoria pico, en una corrida aparte con
 tracemalloc.
 
-Escribe outputs/resultados_corte2.json, outputs/barrido_pesos.json y
-outputs/sensibilidad_corte2.json.
+Escribe outputs/resultados_corte2.json, outputs/barrido_pesos.json,
+outputs/barrido_total.json y outputs/sensibilidad_corte2.json.
 """
 import json
 from itertools import product
@@ -26,19 +33,23 @@ from itertools import product
 import networkx as nx
 
 from agente import CRITERIOS
-from build_graph import SALIDA, construir_grafo
+from build_graph import SALIDA, cargar_costos, construir_grafo
 from busquedas import a_estrella, bfs, dfs, medir, ucs, voraz
 from heuristica import Heuristica, alfa_minimo, cargar_coordenadas
 
 REPETICIONES = 2000
 PASO_MALLA = 0.1
-COTA_CHOCONTA_TUNJA = ("Chocontá", "Tunja")
-COTA_KM = 56.96
+CHOCONTA_TUNJA = ("Chocontá", "Tunja")
+REGISTRADA_KM = 17.69   # longitud registrada del sector truncado
 CRITERIOS_EXPERIMENTO = [
     ("distancia", False),
     ("compuesto_sin_riesgo", False),
     ("compuesto", True),
     ("riesgo", True),
+    ("costo_operativo", False),
+    ("compuesto_total_sin_riesgo", False),
+    ("compuesto_total", True),
+    ("compuesto_mortalidad", True),
 ]
 ALGORITMOS = ["BFS", "DFS", "UCS", "Voraz", "A*"]
 
@@ -115,14 +126,16 @@ def correr_escenarios(grafo, coordenadas, alfa):
 
 
 def sensibilidad_alfa(grafo, coordenadas, alfa):
-    """A* con alfa_ref (mínimo de razón sin Chocontá-Tunja), rotulado.
+    """A* con el alfa de la longitud registrada de Chocontá a Tunja.
 
-    Esta h no es admisible en la red por el defecto de Chocontá a Tunja.
-    Se compara con alfa = 0.310570 y con UCS en los escenarios y en todos
-    los pares de nodos (criterio distancia).
+    alfa_ref es el mínimo de la razón carretera/geodésica si esa arista
+    tuviera su longitud registrada (17.69 km): 0.310570, menor que el alfa
+    vigente (0.458156), de modo que h sigue siendo admisible pero informa
+    menos. Se compara con el alfa vigente y con UCS en los escenarios y en
+    todos los pares de nodos (criterio distancia).
     """
-    alfa_ref = alfa_minimo(grafo, coordenadas,
-                           excluir=[COTA_CHOCONTA_TUNJA])
+    registrada = construir_grafo(reemplazos={CHOCONTA_TUNJA: REGISTRADA_KM})
+    alfa_ref = alfa_minimo(registrada, coordenadas)
     atributo = CRITERIOS["distancia"]
     h_ref = Heuristica(grafo, coordenadas, "distancia", alfa_ref)
     h_base = Heuristica(grafo, coordenadas, "distancia", alfa)
@@ -155,8 +168,8 @@ def sensibilidad_alfa(grafo, coordenadas, alfa):
                                "costo": a1["costo"],
                                "costo_optimo": u["costo"]})
     return {
-        "rotulo": "sensibilidad: h con alfa_ref, no admisible por "
-                  "Chocontá a Tunja",
+        "rotulo": "sensibilidad: h con el alfa de la longitud registrada de "
+                  "Chocontá a Tunja (17.69 km)",
         "alfa_base": alfa, "alfa_ref": alfa_ref,
         "por_escenario": por_escenario,
         "todos_los_pares": {
@@ -174,6 +187,78 @@ def malla_pesos(paso=PASO_MALLA):
     n = round(1 / paso)
     return [(i * paso, j * paso, (n - i - j) * paso)
             for i, j in product(range(n + 1), repeat=2) if i + j <= n]
+
+
+def malla_pesos4(paso=PASO_MALLA):
+    """Todos los (w1, w2, w3, w4) en múltiplos de `paso` que suman 1."""
+    n = round(1 / paso)
+    return [(i * paso, j * paso, k * paso, (n - i - j - k) * paso)
+            for i, j, k in product(range(n + 1), repeat=3)
+            if i + j + k <= n]
+
+
+def sumas_ruta4(grafo, ruta):
+    """Sumas de los cuatro términos normalizados (w = 1 cada uno)."""
+    tope = grafo.graph["maximos"]
+    d = p = r = c = 0.0
+    for u, v in zip(ruta, ruta[1:]):
+        e = grafo[u][v]
+        d += e["distancia_km"] / tope["distancia"]
+        p += e["peaje_cop_camion"] / tope["peaje"]
+        c += e["costo_variable_cop"] / tope["costo_variable"]
+        if e["riesgo_disponible"]:
+            r += e["riesgo_gizscore_prom"] / tope["riesgo"]
+    return [d, p, r, c]
+
+
+def barrido_total(variante, distancia="corregida", reemplazos=None):
+    """Ruta ganadora de Duitama a Puente Nacional con cuatro pesos."""
+    origen, destino = "Duitama", "Puente Nacional"
+    base = construir_grafo(distancia=distancia, reemplazos=reemplazos)
+    caminos = list(nx.all_simple_paths(base, origen, destino))
+    por_bogota = next(c for c in caminos if "Bogotá" in c)
+    por_santander = next(c for c in caminos if "Bucaramanga" in c)
+    nombres = ("distancia", "peaje", "riesgo", "costo_variable")
+    puntos = []
+    for w in malla_pesos4():
+        costos = cargar_costos(pesos_total=dict(zip(nombres, w)))
+        g = construir_grafo(distancia=distancia, reemplazos=reemplazos,
+                            costos=costos)
+        fila = {"w1": round(w[0], 1), "w2": round(w[1], 1),
+                "w3": round(w[2], 1), "w4": round(w[3], 1)}
+        for nombre, atributo in (("total", "peso_total"),
+                                 ("sin_riesgo", "peso_total_sin_riesgo")):
+            if nombre == "sin_riesgo" and w[0] + w[1] + w[3] == 0:
+                fila[nombre], fila["costo_" + nombre] = None, None
+                continue
+            r = ucs(g, origen, destino, atributo)
+            fila[nombre] = "Bogotá" if "Bogotá" in r["ruta"] else "Santander"
+            fila["costo_" + nombre] = r["costo"]
+        puntos.append(fila)
+    sb, ss = sumas_ruta4(base, por_bogota), sumas_ruta4(base, por_santander)
+    delta = [sb[i] - ss[i] for i in range(4)]
+    incoherentes = 0
+    for f in puntos:
+        lineal = sum(f[k] * delta[i] for i, k in enumerate(
+            ("w1", "w2", "w3", "w4")))
+        esperado = "Bogotá" if lineal < 0 else "Santander"
+        if abs(lineal) > 1e-9 and esperado != f["total"]:
+            incoherentes += 1
+    sin = [f for f in puntos if f["sin_riesgo"] is not None]
+    return {
+        "variante": variante, "distancia": distancia,
+        "reemplazos": {"-".join(k): v for k, v in (reemplazos or {}).items()},
+        "ruta_bogota": por_bogota, "ruta_santander": por_santander,
+        "sumas_bogota": sb, "sumas_santander": ss,
+        "delta_corta_menos_desvio": delta,
+        "puntos_incoherentes_con_forma_lineal": incoherentes,
+        "puntos": puntos,
+        "ganan_bogota_total": sum(1 for f in puntos
+                                  if f["total"] == "Bogotá"),
+        "ganan_bogota_sin_riesgo": sum(1 for f in sin
+                                       if f["sin_riesgo"] == "Bogotá"),
+        "puntos_sin_riesgo_definidos": len(sin),
+    }
 
 
 def sumas_ruta(grafo, ruta):
@@ -274,17 +359,26 @@ def main():
     print("Sensibilidad de A* con alfa_ref")
     sens = sensibilidad_alfa(grafo, coordenadas, alfa)
     print("Barrido de pesos")
-    cota = {COTA_CHOCONTA_TUNJA: COTA_KM}
+    registrada = {CHOCONTA_TUNJA: REGISTRADA_KM}
     barridos = [
         barrido("base (red corregida)"),
-        barrido("sensibilidad con cota inferior", reemplazos=cota),
+        barrido("sensibilidad con la longitud registrada de Chocontá a "
+                "Tunja", reemplazos=registrada),
         barrido("sensibilidad con distancias crudas", distancia="cruda"),
     ]
     with open(SALIDA / "barrido_pesos.json", "w", encoding="utf-8") as f:
         json.dump(barridos, f, ensure_ascii=False, indent=1)
+    print("Barrido del compuesto total (cuatro pesos)")
+    totales = [
+        barrido_total("base (red corregida)"),
+        barrido_total("sensibilidad con la longitud registrada de "
+                      "Chocontá a Tunja", reemplazos=registrada),
+    ]
+    with open(SALIDA / "barrido_total.json", "w", encoding="utf-8") as f:
+        json.dump(totales, f, ensure_ascii=False, indent=1)
     sens["rutas_optimas_duitama_puente_nacional"] = {
         "base": rutas_optimas_por_criterio("corregida"),
-        "cota_inferior": rutas_optimas_por_criterio("corregida", cota),
+        "registrada": rutas_optimas_por_criterio("corregida", registrada),
         "crudas": rutas_optimas_por_criterio("cruda"),
     }
     with open(SALIDA / "sensibilidad_corte2.json", "w",

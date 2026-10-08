@@ -18,6 +18,18 @@ de distancia, w1 * alfa * d_geo / d_max, y se marca como limitada. Para
 peaje y riesgo no hay información geométrica: la heurística admisible es
 h = 0 (A* se reduce a costo uniforme).
 
+Criterios con costo monetario. El costo variable de una arista es el costo
+variable por km (c_km, constante, de config_costos.json) por su distancia;
+el peaje no negativo no rompe la admisibilidad. Así:
+
+    costo_operativo:            h = c_km * alfa * d_geo
+    compuesto_total_sin_riesgo: h = (w1 + w4) / (w1 + w2 + w4)
+                                    * alfa * d_geo / d_max
+    compuesto_total (limitada): h = (w1 + w4) * alfa * d_geo / d_max
+    compuesto_mortalidad (limitada): h = w1 * alfa * d_geo / d_max
+
+porque c_km * d / cv_max = d / d_max, ya que cv_max = c_km * d_max.
+
 El script escribe outputs/analisis_heuristica.json con alfa, las aristas que
 lo determinan y la verificación numérica de admisibilidad y consistencia.
 """
@@ -36,8 +48,13 @@ ATRIBUTOS = {
     "riesgo": "riesgo_gizscore_prom",
     "compuesto": "peso_multicriterio",
     "compuesto_sin_riesgo": "peso_sin_riesgo",
+    "costo_operativo": "costo_operativo_cop",
+    "compuesto_total": "peso_total",
+    "compuesto_total_sin_riesgo": "peso_total_sin_riesgo",
+    "compuesto_mortalidad": "peso_mortalidad",
 }
-CRITERIOS_LIMITADOS = ("compuesto", "riesgo")
+CRITERIOS_LIMITADOS = ("compuesto", "riesgo", "compuesto_total",
+                       "compuesto_mortalidad")
 
 
 def haversine_km(lat1, lon1, lat2, lon2):
@@ -95,8 +112,17 @@ class Heuristica:
         elif criterio == "compuesto_sin_riesgo":
             w1, w2 = pesos["distancia"], pesos["peaje"]
             self.factor = alfa * w1 / (w1 + w2) / tope
-        elif criterio == "compuesto":
+        elif criterio in ("compuesto", "compuesto_mortalidad"):
             self.factor = alfa * pesos["distancia"] / tope
+        elif criterio == "costo_operativo":
+            self.factor = alfa * grafo.graph["costos"][
+                "costo_variable_cop_km"]
+        elif criterio in ("compuesto_total", "compuesto_total_sin_riesgo"):
+            wt = grafo.graph["pesos_total"]
+            suma = (wt["distancia"] + wt["peaje"] + wt["costo_variable"]
+                    if criterio == "compuesto_total_sin_riesgo" else 1.0)
+            self.factor = (alfa * (wt["distancia"] + wt["costo_variable"])
+                           / suma / tope)
         else:
             self.factor = 0.0
 
@@ -182,7 +208,9 @@ def main():
             for r in razones if r[0] < 1],
         "criterios": {},
     }
-    for criterio in ("distancia", "compuesto_sin_riesgo", "compuesto"):
+    for criterio in ("distancia", "compuesto_sin_riesgo", "compuesto",
+                     "costo_operativo", "compuesto_total_sin_riesgo",
+                     "compuesto_total", "compuesto_mortalidad"):
         h = Heuristica(grafo, coordenadas, criterio, alfa)
         resultado["criterios"][criterio] = {
             "limitada": h.limitada,

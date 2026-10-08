@@ -1,0 +1,733 @@
+[
+ {
+  "origen": "Bogotá",
+  "destino": "Tocancipá",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Tocancipá",
+  "destino": "Chocontá",
+  "sectores_mortalidad": 1,
+  "mortalidad_por_100km": 3.027,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "25864",
+    "corredor": "Bogotá - Tunja",
+    "prioridades": {
+     "Peaton": 89
+    },
+    "distancia_max_al_trazado_km": 0.0076
+   }
+  ]
+ },
+ {
+  "origen": "Chocontá",
+  "destino": "Tunja",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Tunja",
+  "destino": "Duitama",
+  "sectores_mortalidad": 2,
+  "mortalidad_por_100km": 4.19,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "22418",
+    "corredor": "Duitama-Sogamoso",
+    "prioridades": {
+     "Todos": 266
+    },
+    "distancia_max_al_trazado_km": 0.011
+   },
+   {
+    "cod": "22765",
+    "corredor": "Tunja - Duitama",
+    "prioridades": {
+     "Peaton": 48
+    },
+    "distancia_max_al_trazado_km": 0.0033
+   }
+  ]
+ },
+ {
+  "origen": "Barbosa",
+  "destino": "Tunja",
+  "sectores_mortalidad": 3,
+  "mortalidad_por_100km": 4.775,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "22080",
+    "corredor": "Barbosa-Tunja",
+    "prioridades": {
+     "Vehiculo": 96
+    },
+    "distancia_max_al_trazado_km": 0.0162
+   },
+   {
+    "cod": "22082",
+    "corredor": "Barbosa-Tunja",
+    "prioridades": {
+     "Todos": 218,
+     "Vehiculo": 22
+    },
+    "distancia_max_al_trazado_km": 0.0045
+   },
+   {
+    "cod": "22106",
+    "corredor": "Barbosa-Tunja",
+    "prioridades": {
+     "Vehiculo": 46
+    },
+    "distancia_max_al_trazado_km": 0.0348
+   }
+  ]
+ },
+ {
+  "origen": "Chiquinquirá",
+  "destino": "Sáchica",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Sáchica",
+  "destino": "Tunja",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Bogotá",
+  "destino": "Cajicá",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Cajicá",
+  "destino": "Zipaquirá",
+  "sectores_mortalidad": 1,
+  "mortalidad_por_100km": 10.989,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "26296",
+    "corredor": "Bogotá - Chía - Cajicá - Zipaquirá - Briseño",
+    "prioridades": {
+     "Todos": 207
+    },
+    "distancia_max_al_trazado_km": 0.003
+   }
+  ]
+ },
+ {
+  "origen": "Zipaquirá",
+  "destino": "Ubaté",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Ubaté",
+  "destino": "Puente Nacional",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Madrid",
+  "destino": "Bogotá",
+  "sectores_mortalidad": 2,
+  "mortalidad_por_100km": 21.93,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "28381",
+    "corredor": "Bogotá - Mosquera",
+    "prioridades": {
+     "Todos": 110
+    },
+    "distancia_max_al_trazado_km": 0.0107
+   },
+   {
+    "cod": "28382",
+    "corredor": "Bogotá - Mosquera",
+    "prioridades": {
+     "Todos": 111
+    },
+    "distancia_max_al_trazado_km": 0.0126
+   }
+  ]
+ },
+ {
+  "origen": "Bogotá",
+  "destino": "Guasca",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Bogotá",
+  "destino": "Villavicencio",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Villavicencio",
+  "destino": "Ye de Granada",
+  "sectores_mortalidad": 1,
+  "mortalidad_por_100km": 1.377,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "33461",
+    "corredor": "Granada - Villavicencio",
+    "prioridades": {
+     "Todos": 105
+    },
+    "distancia_max_al_trazado_km": 0.0026
+   }
+  ]
+ },
+ {
+  "origen": "Ye de Granada",
+  "destino": "Granada",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Villavicencio",
+  "destino": "Puerto López",
+  "sectores_mortalidad": 1,
+  "mortalidad_por_100km": 1.288,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "33279",
+    "corredor": "Villavicencio-Puente Arimena",
+    "prioridades": {
+     "Peaton": 56,
+     "Todos": 201
+    },
+    "distancia_max_al_trazado_km": 0.0174
+   }
+  ]
+ },
+ {
+  "origen": "Puerto López",
+  "destino": "Puerto Gaitán",
+  "sectores_mortalidad": 2,
+  "mortalidad_por_100km": 1.842,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "5326",
+    "corredor": "Villavicencio-Puente Arimena",
+    "prioridades": {
+     "Moto": 63,
+     "Todos": 97
+    },
+    "distancia_max_al_trazado_km": 0.0058
+   },
+   {
+    "cod": "5327",
+    "corredor": "Villavicencio-Puente Arimena",
+    "prioridades": {
+     "Moto": 49,
+     "Todos": 66
+    },
+    "distancia_max_al_trazado_km": 0.0044
+   }
+  ]
+ },
+ {
+  "origen": "Bogotá",
+  "destino": "Villeta",
+  "sectores_mortalidad": 5,
+  "mortalidad_por_100km": 6.173,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "26048",
+    "corredor": "Bogotá - Villeta",
+    "prioridades": {
+     "Todos": 258
+    },
+    "distancia_max_al_trazado_km": 0.0076
+   },
+   {
+    "cod": "26530",
+    "corredor": "Bogotá - Villeta",
+    "prioridades": {
+     "Peaton": 88
+    },
+    "distancia_max_al_trazado_km": 0.0043
+   },
+   {
+    "cod": "26532",
+    "corredor": "Bogotá - Villeta",
+    "prioridades": {
+     "Peaton": 59
+    },
+    "distancia_max_al_trazado_km": 0.0154
+   },
+   {
+    "cod": "28054",
+    "corredor": "",
+    "prioridades": {
+     "Moto": 28,
+     "Todos": 17
+    },
+    "distancia_max_al_trazado_km": 0.0221
+   },
+   {
+    "cod": "28055",
+    "corredor": "",
+    "prioridades": {
+     "Todos": 286
+    },
+    "distancia_max_al_trazado_km": 0.0155
+   }
+  ]
+ },
+ {
+  "origen": "Villeta",
+  "destino": "Honda",
+  "sectores_mortalidad": 1,
+  "mortalidad_por_100km": 1.711,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "24935",
+    "corredor": "Villeta-Honda",
+    "prioridades": {
+     "Todos": 254,
+     "Vehiculo": 43
+    },
+    "distancia_max_al_trazado_km": 0.0247
+   }
+  ]
+ },
+ {
+  "origen": "Honda",
+  "destino": "Mariquita",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Bogotá",
+  "destino": "Fusagasugá",
+  "sectores_mortalidad": 10,
+  "mortalidad_por_100km": 16.943,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "30421",
+    "corredor": "",
+    "prioridades": {
+     "Todos": 114
+    },
+    "distancia_max_al_trazado_km": 0.0052
+   },
+   {
+    "cod": "30422",
+    "corredor": "",
+    "prioridades": {
+     "Todos": 16
+    },
+    "distancia_max_al_trazado_km": 0.0054
+   },
+   {
+    "cod": "30423",
+    "corredor": "",
+    "prioridades": {
+     "Todos": 162
+    },
+    "distancia_max_al_trazado_km": 0.0111
+   },
+   {
+    "cod": "30778",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Todos": 249,
+     "Vehiculo": 94
+    },
+    "distancia_max_al_trazado_km": 0.0131
+   },
+   {
+    "cod": "30791",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Peaton": 53
+    },
+    "distancia_max_al_trazado_km": 0.0033
+   },
+   {
+    "cod": "30793",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Peaton": 86
+    },
+    "distancia_max_al_trazado_km": 0.0187
+   },
+   {
+    "cod": "30806",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Vehiculo": 71
+    },
+    "distancia_max_al_trazado_km": 0.0056
+   },
+   {
+    "cod": "30808",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Todos": 78,
+     "Vehiculo": 9
+    },
+    "distancia_max_al_trazado_km": 0.0074
+   },
+   {
+    "cod": "31914",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Vehiculo": 21
+    },
+    "distancia_max_al_trazado_km": 0.0112
+   },
+   {
+    "cod": "31916",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Todos": 210
+    },
+    "distancia_max_al_trazado_km": 0.0067
+   }
+  ]
+ },
+ {
+  "origen": "Fusagasugá",
+  "destino": "Girardot",
+  "sectores_mortalidad": 4,
+  "mortalidad_por_100km": 6.372,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "32112",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Peaton": 11,
+     "Todos": 102
+    },
+    "distancia_max_al_trazado_km": 0.0207
+   },
+   {
+    "cod": "32372",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Peaton": 72
+    },
+    "distancia_max_al_trazado_km": 0.005
+   },
+   {
+    "cod": "5318",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Peaton": 24,
+     "Todos": 91
+    },
+    "distancia_max_al_trazado_km": 0.0223
+   },
+   {
+    "cod": "5354",
+    "corredor": "Girardot - Bogotá",
+    "prioridades": {
+     "Peaton": 81
+    },
+    "distancia_max_al_trazado_km": 0.0149
+   }
+  ]
+ },
+ {
+  "origen": "Girardot",
+  "destino": "El Espinal",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Girardot",
+  "destino": "Cambao",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Puente Nacional",
+  "destino": "San Gil",
+  "sectores_mortalidad": 6,
+  "mortalidad_por_100km": 4.811,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "17461",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Todos": 154
+    },
+    "distancia_max_al_trazado_km": 0.0325
+   },
+   {
+    "cod": "17697",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 87
+    },
+    "distancia_max_al_trazado_km": 0.0084
+   },
+   {
+    "cod": "17704",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Vehiculo": 70
+    },
+    "distancia_max_al_trazado_km": 0.0218
+   },
+   {
+    "cod": "18777",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 91
+    },
+    "distancia_max_al_trazado_km": 0.0089
+   },
+   {
+    "cod": "2490",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Vehiculo": 75
+    },
+    "distancia_max_al_trazado_km": 0.026
+   },
+   {
+    "cod": "2688",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Vehiculo": 39
+    },
+    "distancia_max_al_trazado_km": 0.0391
+   }
+  ]
+ },
+ {
+  "origen": "San Gil",
+  "destino": "Bucaramanga",
+  "sectores_mortalidad": 13,
+  "mortalidad_por_100km": 13.648,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "15680",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 119,
+     "Todos": 165
+    },
+    "distancia_max_al_trazado_km": 0.0043
+   },
+   {
+    "cod": "15681",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 111,
+     "Todos": 53
+    },
+    "distancia_max_al_trazado_km": 0.0251
+   },
+   {
+    "cod": "15682",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Todos": 70
+    },
+    "distancia_max_al_trazado_km": 0.0251
+   },
+   {
+    "cod": "16182",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 57
+    },
+    "distancia_max_al_trazado_km": 0.0296
+   },
+   {
+    "cod": "16183",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Todos": 237
+    },
+    "distancia_max_al_trazado_km": 0.0296
+   },
+   {
+    "cod": "17449",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Todos": 242
+    },
+    "distancia_max_al_trazado_km": 0.0158
+   },
+   {
+    "cod": "17460",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Todos": 43,
+     "Vehiculo": 2
+    },
+    "distancia_max_al_trazado_km": 0.0091
+   },
+   {
+    "cod": "2024",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 137,
+     "Todos": 188
+    },
+    "distancia_max_al_trazado_km": 0.0058
+   },
+   {
+    "cod": "2025",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 37,
+     "Todos": 59
+    },
+    "distancia_max_al_trazado_km": 0.0113
+   },
+   {
+    "cod": "2029",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 27,
+     "Todos": 88
+    },
+    "distancia_max_al_trazado_km": 0.0023
+   },
+   {
+    "cod": "2030",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 30,
+     "Todos": 33
+    },
+    "distancia_max_al_trazado_km": 0.0043
+   },
+   {
+    "cod": "2031",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 82,
+     "Todos": 189
+    },
+    "distancia_max_al_trazado_km": 0.0196
+   },
+   {
+    "cod": "2032",
+    "corredor": "Barbosa - Bucaramanga",
+    "prioridades": {
+     "Moto": 61,
+     "Todos": 96
+    },
+    "distancia_max_al_trazado_km": 0.0196
+   }
+  ]
+ },
+ {
+  "origen": "Bucaramanga",
+  "destino": "Cuestaboba",
+  "sectores_mortalidad": 2,
+  "mortalidad_por_100km": 2.855,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "14419",
+    "corredor": "Bucaramanga - Pamplona",
+    "prioridades": {
+     "Vehiculo": 84
+    },
+    "distancia_max_al_trazado_km": 0.0265
+   },
+   {
+    "cod": "14421",
+    "corredor": "Bucaramanga - Pamplona",
+    "prioridades": {
+     "Vehiculo": 6
+    },
+    "distancia_max_al_trazado_km": 0.0033
+   }
+  ]
+ },
+ {
+  "origen": "Cuestaboba",
+  "destino": "Pamplona",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Pamplona",
+  "destino": "Presidente",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "Presidente",
+  "destino": "La Palmera",
+  "sectores_mortalidad": 0,
+  "mortalidad_por_100km": 0.0,
+  "mortalidad_disponible": false,
+  "segmentos": []
+ },
+ {
+  "origen": "La Palmera",
+  "destino": "Duitama",
+  "sectores_mortalidad": 1,
+  "mortalidad_por_100km": 0.709,
+  "mortalidad_disponible": true,
+  "segmentos": [
+   {
+    "cod": "18515",
+    "corredor": "Duitama - Pamplona",
+    "prioridades": {
+     "Vehiculo": 61
+    },
+    "distancia_max_al_trazado_km": 0.0121
+   }
+  ]
+ }
+]

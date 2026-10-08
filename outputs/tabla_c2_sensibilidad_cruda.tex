@@ -1,22 +1,30 @@
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|l|r|r|r|r|}
+\begin{tabular}{|l|r|r|r|}
 \hline
-\rowcolor{gray!20} \textbf{Criterio} & \textbf{Base: vía} & \textbf{Base: km} & \textbf{Crudas: vía} & \textbf{Crudas: km} \\
+\rowcolor{gray!20} \textbf{Criterio} & \textbf{Base} & \textbf{Registrada} & \textbf{Crudas} \\
 \hline
-\textbf{distancia} & Bogotá & 309.10 & Bogotá & 414.84 \\
+\textbf{distancia} & Bogotá (352.41) & Bogotá (309.10) & Bogotá (414.84) \\
 \hline
-\textbf{peaje} & Santander & 654.25 & Santander & 668.14 \\
+\textbf{peaje} & Santander (654.25) & Santander (654.25) & Santander (668.14) \\
 \hline
-\textbf{riesgo (limitado)} & Santander & 654.25 & Santander & 668.14 \\
+\textbf{riesgo (limitado)} & Santander (654.25) & Santander (654.25) & Santander (668.14) \\
 \hline
-\textbf{compuesto (limitado)} & Santander & 654.25 & Santander & 668.14 \\
+\textbf{compuesto (limitado)} & Santander (654.25) & Santander (654.25) & Santander (668.14) \\
 \hline
-\textbf{compuesto sin riesgo} & Bogotá & 309.10 & Santander & 668.14 \\
+\textbf{compuesto sin riesgo} & Bogotá (352.41) & Bogotá (309.10) & Santander (668.14) \\
 \hline
-\textbf{Barrido: ruta por Bogotá (compuesto)} & \multicolumn{2}{r}{19 de 66} & \multicolumn{2}{r}{12 de 66} \\
+\textbf{costo operativo} & Bogotá (352.41) & Bogotá (309.10) & Bogotá (414.84) \\
 \hline
-\textbf{Barrido: ruta por Bogotá (sin riesgo)} & \multicolumn{2}{r}{37 de 65} & \multicolumn{2}{r}{30 de 65} \\
+\textbf{total (limitado)} & Santander (654.25) & Bogotá (309.10) & Santander (668.14) \\
 \hline
-\textbf{$w_1$ de cambio sobre $w_3=0$} & \multicolumn{2}{r}{0.4095} & \multicolumn{2}{r}{0.5291} \\
+\textbf{total sin riesgo} & Bogotá (352.41) & Bogotá (309.10) & Bogotá (414.84) \\
+\hline
+\textbf{mortalidad} & Bogotá (352.41) & Bogotá (309.10) & Santander (668.14) \\
+\hline
+\textbf{Barrido: Bogotá (compuesto)} & 17 de 66 & 19 de 66 & 12 de 66 \\
+\hline
+\textbf{Barrido: Bogotá (sin riesgo)} & 36 de 65 & 37 de 65 & 30 de 65 \\
+\hline
+\textbf{$w_1$ de cambio sobre $w_3=0$} & 0.4422 & 0.4095 & 0.5291 \\
 \hline
 \end{tabular}

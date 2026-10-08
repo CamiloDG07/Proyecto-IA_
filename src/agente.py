@@ -26,6 +26,12 @@ CRITERIOS = {
     "riesgo": "riesgo_gizscore_prom",
     "compuesto": "peso_multicriterio",
     "compuesto_sin_riesgo": "peso_sin_riesgo",
+    # costo monetario (config_costos.json)
+    "costo_operativo": "costo_operativo_cop",
+    "compuesto_total": "peso_total",
+    "compuesto_total_sin_riesgo": "peso_total_sin_riesgo",
+    # sensibilidad con los sectores críticos de mortalidad de la ANSV
+    "compuesto_mortalidad": "peso_mortalidad",
 }
 
 

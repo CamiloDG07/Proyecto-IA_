@@ -10,7 +10,7 @@ import networkx as nx
 
 from agente import CRITERIOS
 from build_graph import cargar_grafo
-from despachador import Despachador, Solicitud
+from despachador import CRITERIOS_CON_HEURISTICA, Despachador, Solicitud
 from heuristica import cargar_coordenadas
 
 EPS = 1e-9
@@ -42,7 +42,7 @@ def prueba_tipo_a(d, grafo):
         esperado = costo_nx(grafo, "Duitama", "Puente Nacional", criterio)
         verificar(abs(r["costo"] - esperado) < EPS,
                   f"costo exacto ({criterio}, {r['metodo']})")
-        con_h = criterio in ("distancia", "compuesto_sin_riesgo")
+        con_h = criterio in CRITERIOS_CON_HEURISTICA
         verificar(r["metodo"].startswith("A*") == con_h,
                   f"método según el criterio ({criterio})")
     r = d.resolver(Solicitud("origen_destino", "Duitama", "Puente Nacional"))

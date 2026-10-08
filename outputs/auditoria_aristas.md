@@ -2,7 +2,7 @@
 |---|---|---|---|---|---|---|
 | Bogotá - Tocancipá | 22.12 | 41.19 | 0.537 | 18.90 | 0.986 | carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría |
 | Tocancipá - Chocontá | 33.04 | 32.31 | 1.023 | 1.26 | 1.017 | - |
-| Chocontá - Tunja | 17.69 | 56.96 | 0.311 | 43.70 | 1.492 | carretera menor que geodésica; extremo lejos del nodo; nodo lejos de la geometría |
+| Chocontá - Tunja | 61.00 | 56.96 | 1.071 | 43.70 | 5.146 | extremo lejos del nodo; nodo lejos de la geometría; registro mayor que el camino de la geometría |
 | Tunja - Duitama | 47.73 | 47.78 | 0.999 | 4.17 | 0.995 | carretera menor que geodésica |
 | Barbosa - Tunja | 62.83 | 52.31 | 1.201 | 4.24 | 0.999 | - |
 | Chiquinquirá - Sáchica | 37.46 | 30.74 | 1.218 | 4.55 | 0.998 | - |

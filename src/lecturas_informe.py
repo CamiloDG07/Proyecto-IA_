@@ -17,6 +17,7 @@ import networkx as nx
 from build_graph import SALIDA, cargar_grafo, construir_grafo
 from exportar_latex import TRAMO_CICLO, costos
 from formato_latex import estilizar
+from umbral_costo import umbral_exacto
 from agente import AgenteRutas
 from agente_rutas import formatear, recomendar
 from mapa_geografico import (DESTINO, ORIGEN, UMBRAL_KM,
@@ -24,11 +25,22 @@ from mapa_geografico import (DESTINO, ORIGEN, UMBRAL_KM,
                              costos_ruta, unir)
 
 ALGORITMOS = ["BFS", "DFS", "UCS", "Voraz", "A*"]
+CRITERIOS_TABLA = ["distancia", "peaje", "riesgo", "compuesto",
+                   "compuesto_sin_riesgo", "costo_operativo",
+                   "compuesto_total", "compuesto_total_sin_riesgo",
+                   "compuesto_mortalidad"]
 
 
 def leer(nombre):
     with open(SALIDA / nombre, encoding="utf-8") as f:
         return json.load(f)
+
+
+def enumerar(items):
+    """«a, b y c» para una lista de textos."""
+    if len(items) == 1:
+        return items[0]
+    return ", ".join(items[:-1]) + " y " + items[-1]
 
 
 def miles(valor):
@@ -91,24 +103,23 @@ def lecturas_corte1():
         "dibuja punteado.")
     pruebas = leer("pruebas_agente.json")["ciclo"]
     por_via = {}
-    for criterio in ("distancia", "peaje", "riesgo", "compuesto",
-                     "compuesto_sin_riesgo"):
+    for criterio in CRITERIOS_TABLA:
         r = pruebas[criterio]
         via = "Santander" if "Bucaramanga" in r["ruta"] else "Bogotá"
         por_via.setdefault(via, []).append(criterio.replace("_", " "))
     ref = {v: next(pruebas[c.replace(" ", "_")] for c in cs)
            for v, cs in por_via.items()}
-    partes = [f"{' y '.join(cs)} eligen {v} "
-              f"({ref[v]['distancia_total_km']:.2f} km, "
-              f"{miles(ref[v]['peaje_total_cop'])} COP de peaje)"
+    partes = [f"por {v} ({ref[v]['distancia_total_km']:.2f} km, peaje "
+              f"{miles(ref[v]['peaje_total_cop'])} COP) van "
+              f"{enumerar(cs)}"
               for v, cs in por_via.items()]
     dif_peaje = (ref["Bogotá"]["peaje_total_cop"]
                  - ref["Santander"]["peaje_total_cop"])
     bloque(
         "c1_criterios",
-        "filas: los cinco criterios; columnas: vía elegida, distancia, "
+        "filas: los nueve criterios; columnas: vía elegida, distancia, "
         "peaje, tiempo y memoria de una corrida del agente.",
-        "; ".join(partes) + ".",
+        "\\raggedright " + "; ".join(partes) + ".",
         f"Medido: la ruta por Santander cuesta {miles(dif_peaje)} COP menos "
         f"de peaje y sus {pruebas['riesgo']['tramos_sin_dato_riesgo']} "
         "tramos sin dato de riesgo valen 0.")
@@ -272,13 +283,15 @@ def lecturas_corte2():
     d0, d1 = b0["delta_corta_menos_desvio"], b1["delta_corta_menos_desvio"]
     bloque(
         "c2_barrido_figura",
-        "dos paneles (red corregida y con cota inferior); cada punto es un "
+        "dos paneles (red corregida y con la longitud registrada de "
+        "Chocontá a Tunja); cada punto es un "
         "$(w_1, w_2)$ de la malla con $w_3 = 1 - w_1 - w_2$; círculo azul, "
         "gana Bogotá; triángulo naranja, gana Santander; la línea es la "
         "frontera exacta.",
         f"Bogotá gana en {b0['ganan_bogota_compuesto']} de "
         f"{len(b0['puntos'])} puntos en la red corregida y en "
-        f"{b1['ganan_bogota_compuesto']} con la cota inferior; la frontera "
+        f"{b1['ganan_bogota_compuesto']} con la longitud registrada; la "
+        "frontera "
         f"corta $w_3=0$ en $w_1 = {b0['w1_umbral_sobre_w3_cero']:.4f}$ y "
         f"${b1['w1_umbral_sobre_w3_cero']:.4f}$.",
         f"Medido: Bogotá es más corta ($\\Delta D = {d0[0]:.4f}$) pero más "
@@ -288,8 +301,10 @@ def lecturas_corte2():
     bloque(
         "c2_barrido_tabla",
         "filas: medidas del barrido; columnas: la red corregida y la "
-        "variante con la distancia de Chocontá a Tunja en su cota inferior.",
-        f"con la cota inferior Bogotá gana en {b1['ganan_bogota_compuesto']} "
+        "variante con la longitud registrada de Chocontá a Tunja "
+        "(17.69 km).",
+        f"con la longitud registrada Bogotá gana en "
+        f"{b1['ganan_bogota_compuesto']} "
         f"puntos en lugar de {b0['ganan_bogota_compuesto']} y el umbral "
         f"pasa de {b0['w1_umbral_sobre_w3_cero']:.4f} a "
         f"{b1['w1_umbral_sobre_w3_cero']:.4f}.",
@@ -304,11 +319,12 @@ def lecturas_corte2():
                      for c in heur["criterios"].values())
     bloque(
         "c2_heuristica",
-        "filas: heurística (distancia, compuesto sin riesgo, compuesto y "
-        "geodésica pura con $\\alpha = 1$); columnas: $\\alpha$, violaciones "
+        "filas: heurística (las de cada criterio con costo y la geodésica "
+        "pura con $\\alpha = 1$); columnas: $\\alpha$, violaciones "
         "y margen mínimo de admisibilidad y de consistencia.",
         f"con $\\alpha = {heur['alfa']:.6f}$ no hay violaciones "
-        f"({'en las tres heurísticas' if todos_cero else 'revisar'}); con "
+        f"(en las {len(heur['criterios'])} heurísticas"
+        f"{'' if todos_cero else ', revisar'}); con "
         f"$\\alpha = 1$ hay {pura['admisibilidad']['violaciones']} de "
         f"admisibilidad y {pura['consistencia']['violaciones']} de "
         "consistencia.",
@@ -510,9 +526,9 @@ def ejemplo_agente():
     # umbral de la participación de la distancia, del barrido de pesos, y
     # comprobación contra el propio agente a ambos lados del umbral
     barrido = leer("barrido_pesos.json")
-    cota = construir_grafo(reemplazos={("Chocontá", "Tunja"): 56.96})
+    registrada = construir_grafo(reemplazos={("Chocontá", "Tunja"): 17.69})
     umbrales = []
-    for b, grafo in ((barrido[0], None), (barrido[1], cota)):
+    for b, grafo in ((barrido[0], None), (barrido[1], registrada)):
         u = b["w1_umbral_sobre_w3_cero"]
         for delta, via in ((0.005, "Bogotá"), (-0.005, "Bucaramanga")):
             ruta = recomendar("Duitama", ["Puente Nacional"], grafo=grafo,
@@ -525,6 +541,8 @@ def ejemplo_agente():
         assert "Bogotá" in igual
         umbrales.append(u)
     u0, u1 = umbrales
+    um = ra["umbral_costo"]
+    modelo = ra["modelo_costos"]
     costo = m["costos"]["compuesto_sin_riesgo"]
     preferencias = ", ".join(otros[:-1]) + " y " + otros[-1]
     with open(SALIDA / "texto_ejemplo_agente.tex", "w",
@@ -541,7 +559,12 @@ def ejemplo_agente():
             "de los del desvío.\n"
             "\\item La recomendación se mantiene mientras el "
             f"peso de la distancia, $w_d/(w_d+w_p)$, sea mayor que {u0:.4f} "
-            f"({u1:.4f} con la cota inferior de Chocontá a Tunja).\n"
+            f"({u1:.4f} con la longitud registrada de Chocontá a "
+            "Tunja).\n"
+            "\\item Por costo operativo, la ruta por Bogotá es la más barata "
+            f"si el costo variable supera {um['cop_por_km']:.1f} COP por km; "
+            "el combustible solo, con los insumos verificados, cuesta "
+            f"{miles_1(modelo['combustible_cop_km'])} COP por km.\n"
             "\\end{itemize}\n")
     mc = rc["recomendada"]["metricas"]
     bloque(
@@ -574,47 +597,52 @@ def texto_corte1_caso_referencia():
             f"{santander_c:.2f} km).\n")
 
 
-def cifras_dinero():
-    """Ahorro de peaje y km extra del desvío, y umbrales de COP por km."""
-    grafo = cargar_grafo()
-    sin_enlace = grafo.copy()
-    sin_enlace.remove_edge("Bogotá", "Tocancipá")
-    rutas = [nx.shortest_path(h, "Duitama", "Puente Nacional",
-                              weight="distancia_km")
-             for h in (grafo, sin_enlace)]
+def miles_1(valor):
+    """Número con un decimal y separador de miles para el texto del
+    informe."""
+    return f"{valor:,.1f}".replace(",", "\\,")
 
-    def total(ruta, atributo):
-        return sum(grafo[u][v][atributo] or 0
-                   for u, v in zip(ruta, ruta[1:]))
-    km_b, km_s = (total(r, "distancia_km") for r in rutas)
-    peaje_b, peaje_s = (total(r, "peaje_cop_camion") for r in rutas)
-    sens = leer("sensibilidad_corte2.json")
-    sens = sens["rutas_optimas_duitama_puente_nacional"]
-    cota = sens["cota_inferior"]["distancia"]["distancia_km"]
-    ahorro = peaje_b - peaje_s
-    return {"km_bogota": km_b, "km_desvio": km_s, "ahorro_cop": ahorro,
-            "km_extra": km_s - km_b, "cota_bogota": cota,
-            "umbral_registrado": ahorro / (km_s - km_b),
-            "umbral_cota": ahorro / (km_s - cota)}
+
+def cifras_dinero():
+    """Umbral exacto del costo variable por km en el caso central, con la
+    distancia vigente de Chocontá a Tunja y con las dos variantes."""
+    variantes = {"vigente": None,
+                 "registrada": {("Chocontá", "Tunja"): 17.69},
+                 "geodesica": {("Chocontá", "Tunja"): 56.96}}
+    salida = {}
+    for nombre, reemplazos in variantes.items():
+        grafo = (cargar_grafo() if reemplazos is None
+                 else construir_grafo(reemplazos=reemplazos))
+        salida[nombre] = umbral_exacto(grafo, "Duitama", "Puente Nacional")
+    costos = cargar_grafo().graph["costos"]
+    return {"umbrales": salida, "modelo": costos}
 
 
 def texto_c2_dinero():
-    """Frase del barrido de pesos sobre el costo en dinero (outputs/)."""
+    """Umbral exacto del costo variable por km (outputs/), caso central."""
     d = cifras_dinero()
+    u, r, g = (d["umbrales"][k] for k in ("vigente", "registrada",
+                                          "geodesica"))
+    c = d["modelo"]
     with open(SALIDA / "texto_c2_dinero.tex", "w", encoding="utf-8") as f:
         f.write(
-            f"Con las distancias registradas, el desvío por Santander ahorra "
-            f"{miles(d['ahorro_cop'])} COP de peaje y suma "
-            f"{d['km_extra']:.2f} km. Solo es más barato en dinero si el "
-            f"costo operativo por km es menor que el ahorro dividido entre "
-            f"los km extra, {d['umbral_registrado']:.1f} COP/km; como la "
-            f"ruta por Bogotá está subestimada (cota inferior "
-            f"{d['cota_bogota']:.2f} km), el umbral real es al menos el "
-            f"ahorro dividido entre ({d['km_desvio']:.2f} $-$ "
-            f"{d['cota_bogota']:.2f}) km, {d['umbral_cota']:.1f} COP/km. "
-            "No hay datos de costo operativo por kilómetro para decidir "
-            "cuál ruta es más barata, y esta comparación no incluye tiempo "
-            "ni riesgo.\n")
+            "Con las distancias vigentes, el desvío por Santander ahorra "
+            f"{miles(u['ahorro_peaje_cop'])} COP de peaje y suma "
+            f"{u['km_extra']:.2f} km. La ruta por Bogotá es más barata en "
+            "dinero si el costo variable por km supera el ahorro dividido "
+            f"entre los km extra, {u['cop_por_km']:.1f} COP/km; con un costo "
+            "menor gana el desvío. Con la longitud registrada de Chocontá a "
+            f"Tunja (17.69 km) el umbral es {r['cop_por_km']:.1f} COP/km y "
+            f"con la línea recta entre los nodos (56.96 km), "
+            f"{g['cop_por_km']:.1f} COP/km. El combustible solo, con el "
+            "precio del galón de la CREG y el consumo de la UPME "
+            f"(insumos verificados), cuesta "
+            f"{miles_1(c['combustible_cop_km'])} COP/km, por encima de "
+            "esos umbrales; los otros costos por km (llantas, lubricantes, "
+            "mantenimiento y conductor) no tienen "
+            "fuente y se toman iguales a 0 (supuesto del equipo), de modo "
+            "que el costo variable real no es menor que el calculado. No se "
+            "incluyen tiempo ni riesgo.\n")
 
 
 def main():

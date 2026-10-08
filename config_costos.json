@@ -1,0 +1,45 @@
+{
+  "version": "2026-10-08",
+  "descripcion": "Insumos del costo monetario del camión de dos ejes (categoría III de peaje). Cada insumo lleva su fuente, fecha, unidad y estado: «verificada» (sale de una fuente oficial descargada, ver data/carga/FUENTES_NUEVAS.md) o «supuesto del equipo» (sin fuente verificable).",
+  "insumos": {
+    "precio_galon_acpm_cop": {
+      "valor": 11320,
+      "unidad": "COP por galón",
+      "fuente": "CREG, Precios de combustibles líquidos (promedio del precio de venta al público de las 13 ciudades principales, ACPM)",
+      "url": "https://creg.gov.co/publicaciones/15565/precios-de-combustibles-liquidos/",
+      "fecha": "vigente desde el 2 de octubre de 2026 (consulta del 8 de octubre de 2026)",
+      "archivo": "data/carga/nuevas/creg_precios_combustibles_liquidos_15565.html",
+      "sha256": "42c6c9baeeb1d6a608a3b2bc5a5e0b310f187ef436b65e9b4912aa2895ed70b6",
+      "estado": "verificada"
+    },
+    "consumo_litros_por_100km": {
+      "valor": 38.69,
+      "unidad": "litros de diésel equivalente por 100 km",
+      "fuente": "UPME, Línea base de consumo de combustible de vehículos de carga en Colombia (mayo de 2025), Tabla 2.7: camión rígido de dos ejes grande (C2G), diésel, modelo reciente, ciclo de conducción de vehículos de carga en pista (38.69 ± 2.99)",
+      "url": "https://docs.upme.gov.co/DemandayEficiencia/Documents/1_Reporte_linea_base_EE_carga.pdf",
+      "fecha": "mayo de 2025",
+      "archivo": "data/carga/nuevas/upme_linea_base_consumo_carga.pdf",
+      "sha256": "a12f8622f00bc7d37b89a650995b08930c59871929ceb0435821ef8d28261593",
+      "estado": "verificada"
+    },
+    "litros_por_galon": {
+      "valor": 3.785411784,
+      "unidad": "litros por galón estadounidense",
+      "fuente": "definición del galón estadounidense (231 pulgadas cúbicas)",
+      "estado": "verificada"
+    },
+    "otros_costos_variables_cop_por_km": {
+      "valor": 0,
+      "unidad": "COP por km (llantas, lubricantes, mantenimiento, lavado y conductor)",
+      "fuente": "ninguna: el SICE-TAC no publica una tabla descargable por kilómetro (ver data/carga/FUENTES_NUEVAS.md); se deja en 0 y no se estima",
+      "fecha": "8 de octubre de 2026",
+      "estado": "supuesto del equipo"
+    }
+  },
+  "pesos_compuesto_total": {
+    "valor": {"distancia": 0.25, "peaje": 0.25, "riesgo": 0.25, "costo_variable": 0.25},
+    "unidad": "pesos que suman 1",
+    "fuente": "pesos iguales: no hay un criterio objetivo para ponderar los cuatro términos",
+    "estado": "supuesto del equipo"
+  }
+}

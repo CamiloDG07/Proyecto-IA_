@@ -54,7 +54,9 @@ TIPOS = {
     "d": "orden_libre_regreso",
     "e": "orden_libre_sin_regreso",
 }
-CRITERIOS_CON_HEURISTICA = ("distancia", "compuesto_sin_riesgo")
+CRITERIOS_CON_HEURISTICA = ("distancia", "compuesto_sin_riesgo",
+                            "costo_operativo",
+                            "compuesto_total_sin_riesgo")
 ARCHIVO_UMBRAL = SALIDA / "umbral_held_karp.json"
 SEMILLAS_ACO = tuple(range(1, 11))
 

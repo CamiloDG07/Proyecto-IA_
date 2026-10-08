@@ -37,6 +37,7 @@ from busquedas import a_estrella, bfs, dfs, ucs, voraz  # noqa: E402
 from heuristica import (Heuristica, alfa_minimo,  # noqa: E402
                         cargar_coordenadas)
 from formato_latex import estilizar  # noqa: E402
+from umbral_costo import rutas_del_par, umbral_exacto  # noqa: E402
 from lecturas_informe import bloque  # noqa: E402
 from lecturas_informe import miles as miles_tex  # noqa: E402
 
@@ -1010,6 +1011,102 @@ def fig_agente(grafo, trazado):
     return fig
 
 
+# ------------------------------------- costo total según el costo por km
+def fig_costo_km(grafo, trazado):
+    """Costo total de las dos rutas del caso central según el costo variable
+    por km: dos rectas que se cruzan en el umbral exacto."""
+    u = umbral_exacto(grafo, ORIGEN, DESTINO)
+    corta = next(r for r in rutas_del_par(grafo, ORIGEN, DESTINO)
+                 if r["ruta"] == u["ruta_menos_km"])
+    larga = next(r for r in rutas_del_par(grafo, ORIGEN, DESTINO)
+                 if r["ruta"] == u["ruta_menos_peaje"])
+    c_umbral = u["cop_por_km"]
+    c_modelo = grafo.graph["costos"]["combustible_cop_km"]
+    cs = np.linspace(0, 1300, 261)
+
+    def total(r, c):
+        return (r["peaje_cop"] + c * r["km"]) / 1e6
+    fig, ax = plt.subplots(figsize=(ANCHO_IN, 3.8))
+    fig.subplots_adjust(left=0.1, right=0.985, top=0.97, bottom=0.3)
+    fig.fuente_minima = FUENTE_8
+    fig.solapes, fig.cajas = 0, []
+    ymax = total(larga, cs[-1]) * 1.05
+    ax.axvspan(0, c_umbral, facecolor="#f6e3da", hatch="///",
+               edgecolor="#d9b8a8", lw=0, zorder=0)
+    ax.axvspan(c_umbral, cs[-1], facecolor="#dce9f8", lw=0, zorder=0)
+    ax.plot(cs, [total(corta, c) for c in cs], color=AZUL, lw=2.0,
+            zorder=3)
+    ax.plot(cs, [total(larga, c) for c in cs], color=NARANJA, lw=2.0,
+            ls="--", zorder=3)
+    y_umbral = total(corta, c_umbral)
+    ax.plot([c_umbral], [y_umbral], marker="o", color=TINTA, ms=6,
+            zorder=5)
+    ax.axvline(c_modelo, color=TINTA, lw=1.0, ls=":", zorder=2)
+    ax.set_xlim(0, cs[-1])
+    ax.set_ylim(0, ymax)
+    ax.set_xlabel("Costo variable por km (COP/km)", fontsize=FUENTE_8,
+                  color=TINTA_2)
+    ax.set_ylabel("Costo total de la ruta (millones de COP)",
+                  fontsize=FUENTE_8, color=TINTA_2)
+    ax.tick_params(labelsize=FUENTE_8, colors=TINTA_2)
+    ax.grid(color="#e6e5e1", lw=0.6, zorder=1)
+    for borde in ("top", "right"):
+        ax.spines[borde].set_visible(False)
+    fig.canvas.draw()
+    rend = fig.canvas.get_renderer()
+    obst = []
+    for texto_t in ax.get_xticklabels() + ax.get_yticklabels():
+        bb = texto_t.get_window_extent(rend)
+        obst.append((bb.x0, bb.y0, bb.x1, bb.y1))
+    s, c = rotular(
+        ax, fig,
+        [(c_umbral, y_umbral, f"{c_umbral:.1f} COP/km", True),
+         (c_modelo, total(corta, c_modelo),
+          "combustible solo: " + f"{c_modelo:,.1f}".replace(",", " ")
+          + " COP/km", False)],
+        fijos=obst, tam=FUENTE_8,
+        preferidos={f"{c_umbral:.1f} COP/km": [(-8, 30, "right", "bottom")]})
+    unir_cajas(fig, c, s)
+    entradas = [
+        Line2D([0], [0], color=AZUL, lw=2.0,
+               label=f"Por Bogotá: {corta['km']:.2f} km, peaje "
+                     f"{miles(corta['peaje_cop'])} COP"),
+        Line2D([0], [0], color=NARANJA, lw=2.0, ls="--",
+               label=f"Desvío por Santander: {larga['km']:.2f} km, peaje "
+                     f"{miles(larga['peaje_cop'])} COP"),
+        Patch(facecolor="#dce9f8", edgecolor="#9db7d6",
+              label="Gana la ruta por Bogotá"),
+        Patch(facecolor="#f6e3da", edgecolor="#d9b8a8", hatch="///",
+              label="Gana el desvío por Santander")]
+    leyenda = fig.legend(handles=entradas, loc="lower center", ncol=2,
+                         fontsize=FUENTE_8, frameon=True,
+                         facecolor=SUPERFICIE, edgecolor=GRIS_LIMITE,
+                         columnspacing=1.2, bbox_to_anchor=(0.5, 0.0),
+                         borderpad=0.5, labelspacing=0.4)
+    fig.canvas.draw()
+    caja = leyenda.get_window_extent(fig.canvas.get_renderer())
+    unir_cajas(fig, [("leyenda", (caja.x0, caja.y0, caja.x1, caja.y1))], 0)
+    fig.umbral = u
+    fig.c_modelo = c_modelo
+    c_txt = f"{c_modelo:,.1f}".replace(",", "\\,")
+    bloque(
+        "c2_fig_costo_km",
+        "dos rectas, el costo total de cada ruta (peaje más km por costo "
+        "variable por km) contra el costo variable por km; la ruta por "
+        "Bogotá es la azul continua y el desvío por Santander la naranja "
+        "discontinua; el fondo azul es la zona donde gana Bogotá y el "
+        "rayado, la zona donde gana el desvío; el punto es el umbral y la "
+        "línea punteada, el combustible solo.",
+        f"las rectas se cruzan en {c_umbral:.1f} COP/km (un ahorro de peaje "
+        f"de {miles_tex(u['ahorro_peaje_cop'])} COP entre {u['km_extra']:.2f} "
+        f"km extra); el combustible solo cuesta {c_txt} COP/km, "
+        "a la derecha del umbral.",
+        "Medido: con un costo variable mayor que el umbral gana la ruta por "
+        "Bogotá, y los otros costos por km (supuesto del equipo, 0 COP/km) "
+        "solo pueden subirlo; no se incluyen tiempo ni riesgo.")
+    return fig
+
+
 # ------------------------------------------- C2: rutas de los casos de prueba
 def fig_c1_casos(grafo, trazado):
     p = leer("pruebas_agente.json")
@@ -1083,6 +1180,7 @@ FIGURAS = [
     ("fig_aco", fig_aco),
     ("fig_comparacion", fig_comparacion),
     ("fig_umbral", fig_umbral),
+    ("fig_costo_km", fig_costo_km),
     ("fig_perfil", fig_perfil),
     ("fig_c1_coherencia", fig_c1_coherencia),
     ("fig_c1_casos", fig_c1_casos)]

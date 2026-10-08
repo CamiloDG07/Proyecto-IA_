@@ -5,11 +5,14 @@
   "ciclos_independientes": 1,
   "aristas_con_peaje": 24,
   "aristas_con_riesgo": 11,
-  "distancia_total_km": 1886.0,
+  "aristas_con_mortalidad": 16,
+  "distancia_total_km": 1929.31,
   "maximos": {
     "distancia": 141.01,
     "peaje": 41600,
-    "riesgo": 3.423
+    "riesgo": 3.423,
+    "costo_variable": 163148.06956811648,
+    "mortalidad": 21.93
   },
   "pesos": {
     "distancia": 0.3333333333333333,

@@ -1,27 +1,27 @@
 {
- "rotulo": "sensibilidad: h con alfa_ref, no admisible por Chocontá a Tunja",
- "alfa_base": 0.31057,
- "alfa_ref": 0.458156,
+ "rotulo": "sensibilidad: h con el alfa de la longitud registrada de Chocontá a Tunja (17.69 km)",
+ "alfa_base": 0.458156,
+ "alfa_ref": 0.31057,
  "por_escenario": [
   {
    "origen": "Duitama",
    "destino": "Puente Nacional",
-   "costo_optimo": 309.1,
-   "expandidos_ucs": 25,
-   "expandidos_alfa_base": 20,
-   "expandidos_alfa_ref": 17,
-   "costo_alfa_ref": 309.1,
+   "costo_optimo": 352.41,
+   "expandidos_ucs": 26,
+   "expandidos_alfa_base": 18,
+   "expandidos_alfa_ref": 20,
+   "costo_alfa_ref": 352.41,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
   },
   {
    "origen": "Tunja",
    "destino": "Ubaté",
-   "costo_optimo": 166.89,
-   "expandidos_ucs": 15,
+   "costo_optimo": 210.2,
+   "expandidos_ucs": 16,
    "expandidos_alfa_base": 12,
    "expandidos_alfa_ref": 12,
-   "costo_alfa_ref": 166.89,
+   "costo_alfa_ref": 210.2,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
   },
@@ -30,8 +30,8 @@
    "destino": "Bogotá",
    "costo_optimo": 408.49,
    "expandidos_ucs": 10,
-   "expandidos_alfa_base": 10,
-   "expandidos_alfa_ref": 9,
+   "expandidos_alfa_base": 9,
+   "expandidos_alfa_ref": 10,
    "costo_alfa_ref": 408.49,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
@@ -39,11 +39,11 @@
   {
    "origen": "Barbosa",
    "destino": "Zipaquirá",
-   "costo_optimo": 181.96,
+   "costo_optimo": 225.27,
    "expandidos_ucs": 11,
    "expandidos_alfa_base": 11,
    "expandidos_alfa_ref": 11,
-   "costo_alfa_ref": 181.96,
+   "costo_alfa_ref": 225.27,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
   },
@@ -51,9 +51,9 @@
    "origen": "Bogotá",
    "destino": "Villavicencio",
    "costo_optimo": 93.72,
-   "expandidos_ucs": 10,
-   "expandidos_alfa_base": 8,
-   "expandidos_alfa_ref": 5,
+   "expandidos_ucs": 9,
+   "expandidos_alfa_base": 5,
+   "expandidos_alfa_ref": 8,
    "costo_alfa_ref": 93.72,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
@@ -63,8 +63,8 @@
    "destino": "Cambao",
    "costo_optimo": 88.71,
    "expandidos_ucs": 3,
-   "expandidos_alfa_base": 3,
-   "expandidos_alfa_ref": 2,
+   "expandidos_alfa_base": 2,
+   "expandidos_alfa_ref": 3,
    "costo_alfa_ref": 88.71,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
@@ -84,9 +84,9 @@
    "origen": "Bogotá",
    "destino": "Granada",
    "costo_optimo": 168.78,
-   "expandidos_ucs": 21,
-   "expandidos_alfa_base": 14,
-   "expandidos_alfa_ref": 11,
+   "expandidos_ucs": 19,
+   "expandidos_alfa_base": 11,
+   "expandidos_alfa_ref": 13,
    "costo_alfa_ref": 168.78,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
@@ -95,9 +95,9 @@
    "origen": "Madrid",
    "destino": "Puerto Gaitán",
    "costo_optimo": 289.01,
-   "expandidos_ucs": 26,
-   "expandidos_alfa_base": 24,
-   "expandidos_alfa_ref": 20,
+   "expandidos_ucs": 25,
+   "expandidos_alfa_base": 18,
+   "expandidos_alfa_ref": 24,
    "costo_alfa_ref": 289.01,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
@@ -106,9 +106,9 @@
    "origen": "Mariquita",
    "destino": "Granada",
    "costo_optimo": 327.18,
-   "expandidos_ucs": 21,
-   "expandidos_alfa_base": 16,
-   "expandidos_alfa_ref": 13,
+   "expandidos_ucs": 19,
+   "expandidos_alfa_base": 13,
+   "expandidos_alfa_ref": 15,
    "costo_alfa_ref": 327.18,
    "optima_alfa_ref": true,
    "reexpansiones_alfa_ref": 0
@@ -116,21 +116,61 @@
  ],
  "todos_los_pares": {
   "pares": 992,
-  "no_optimos": 1,
-  "detalle_no_optimos": [
-   {
-    "origen": "Bucaramanga",
-    "destino": "Tunja",
-    "costo": 482.01,
-    "costo_optimo": 481.34
-   }
-  ],
+  "no_optimos": 0,
+  "detalle_no_optimos": [],
   "expandidos_total_ucs": 15872,
-  "expandidos_total_alfa_base": 13377,
-  "expandidos_total_alfa_ref": 12223
+  "expandidos_total_alfa_base": 12361,
+  "expandidos_total_alfa_ref": 13437
  },
  "rutas_optimas_duitama_puente_nacional": {
   "base": {
+   "distancia": {
+    "via": "Bogotá",
+    "distancia_km": 352.41,
+    "costo": 352.41
+   },
+   "peaje": {
+    "via": "Santander",
+    "distancia_km": 654.25,
+    "costo": 100200
+   },
+   "riesgo": {
+    "via": "Santander",
+    "distancia_km": 654.25,
+    "costo": 0.0
+   },
+   "compuesto": {
+    "via": "Santander",
+    "distancia_km": 654.25,
+    "costo": 2.3494652361443724
+   },
+   "compuesto_sin_riesgo": {
+    "via": "Bogotá",
+    "distancia_km": 352.41,
+    "costo": 3.302476842886211
+   },
+   "costo_operativo": {
+    "via": "Bogotá",
+    "distancia_km": 352.41,
+    "costo": 578537.119328416
+   },
+   "compuesto_total": {
+    "via": "Santander",
+    "distancia_km": 654.25,
+    "costo": 2.922034392678097
+   },
+   "compuesto_total_sin_riesgo": {
+    "via": "Bogotá",
+    "distancia_km": 352.41,
+    "costo": 3.0347127135918712
+   },
+   "compuesto_mortalidad": {
+    "via": "Bogotá",
+    "distancia_km": 352.41,
+    "costo": 2.478380214758918
+   }
+  },
+  "registrada": {
    "distancia": {
     "via": "Bogotá",
     "distancia_km": 309.1,
@@ -155,33 +195,26 @@
     "via": "Bogotá",
     "distancia_km": 309.1,
     "costo": 3.1489061741393134
-   }
-  },
-  "cota_inferior": {
-   "distancia": {
+   },
+   "costo_operativo": {
     "via": "Bogotá",
-    "distancia_km": 348.37,
-    "costo": 348.37
+    "distancia_km": 309.1,
+    "costo": 528427.603031734
    },
-   "peaje": {
-    "via": "Santander",
-    "distancia_km": 654.25,
-    "costo": 100200
-   },
-   "riesgo": {
-    "via": "Santander",
-    "distancia_km": 654.25,
-    "costo": 0.0
-   },
-   "compuesto": {
-    "via": "Santander",
-    "distancia_km": 654.25,
-    "costo": 2.3494652361443724
-   },
-   "compuesto_sin_riesgo": {
+   "compuesto_total": {
     "via": "Bogotá",
-    "distancia_km": 348.37,
-    "costo": 3.288151617724875
+    "distancia_km": 309.1,
+    "costo": 2.842154196566784
+   },
+   "compuesto_total_sin_riesgo": {
+    "via": "Bogotá",
+    "distancia_km": 309.1,
+    "costo": 2.8299518219293414
+   },
+   "compuesto_mortalidad": {
+    "via": "Bogotá",
+    "distancia_km": 309.1,
+    "costo": 2.375999768927653
    }
   },
   "crudas": {
@@ -209,6 +242,26 @@
     "via": "Santander",
     "distancia_km": 668.14,
     "costo": 3.196752520977561
+   },
+   "costo_operativo": {
+    "via": "Bogotá",
+    "distancia_km": 414.84,
+    "costo": 650768.4077699273
+   },
+   "compuesto_total": {
+    "via": "Santander",
+    "distancia_km": 668.14,
+    "costo": 2.5945890594391
+   },
+   "compuesto_total_sin_riesgo": {
+    "via": "Bogotá",
+    "distancia_km": 414.84,
+    "costo": 3.0180201724082565
+   },
+   "compuesto_mortalidad": {
+    "via": "Santander",
+    "distancia_km": 668.14,
+    "costo": 2.465915269342998
    }
   }
  }

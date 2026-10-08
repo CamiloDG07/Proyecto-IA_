@@ -7,15 +7,25 @@ García.
 Un camión de carga de categoría III (dos ejes) se desplaza entre 32 ciudades
 de Colombia. Cada tramo tiene distancia (km), peaje (COP) y riesgo de
 siniestralidad (GiZScore). El agente elige la ruta de menor costo según un
-criterio: `distancia`, `peaje`, `riesgo`, `compuesto` o
-`compuesto_sin_riesgo`. El grafo tiene 32 nodos, 32 aristas y un único ciclo
-(desvío por Santander).
+criterio: `distancia`, `peaje`, `riesgo`, `compuesto`, `compuesto_sin_riesgo`,
+`costo_operativo` (peaje más combustible), `compuesto_total`,
+`compuesto_total_sin_riesgo` o `compuesto_mortalidad` (esta última, de
+sensibilidad). El grafo tiene 32 nodos, 32 aristas y un único ciclo (desvío
+por Santander).
+
+El costo en pesos usa los insumos de `config_costos.json`, cada uno con su
+fuente y su estado: precio del galón de ACPM (CREG) y consumo del camión de
+dos ejes (UPME) están verificados; «otros costos por km» vale 0 y es un
+supuesto del equipo, no un dato. Por eso el criterio por defecto sigue siendo
+`compuesto_sin_riesgo` y el costo en pesos es un piso.
 
 ## Estructura
 
 | Ruta | Contenido |
 |---|---|
-| `data/carga/` | Datos oficiales (INVÍAS y ANSV) y `VERIFICACION.md` |
+| `data/carga/` | Datos oficiales (INVÍAS y ANSV), `VERIFICACION.md` y `FUENTES_NUEVAS.md` (fuentes evaluadas el 8 de octubre de 2026, con su decisión) |
+| `data/carga/nuevas/` | Archivos descargados de las fuentes nuevas (mortalidad ANSV, postes de INVÍAS, CREG y UPME), con su SHA-256 en `FUENTES_NUEVAS.md` |
+| `config_costos.json` | Insumos del costo monetario, con fuente y estado |
 | `data/carga/_descarga_previa/` | Descarga anterior (esquema reducido), conservada con su hash; **no es la fuente oficial vigente** |
 | `data/carga/mgn2020_departamentos_dane.json` | Límites departamentales del DANE (MGN 2020), fondo de los mapas |
 | `data/_archivo_transmilenio/`, `src/_archivo_transmilenio/`, `outputs/_archivo_transmilenio/` | Material del dominio anterior (TransMilenio) |
@@ -92,7 +102,12 @@ python src/agente_rutas.py Bogotá Granada         # agente autónomo
 python src/agente_rutas.py Duitama "Puente Nacional" --regreso
 python src/agente_rutas.py Duitama "Puente Nacional" --regreso --bloquear-regreso "Tunja-Chocontá"
 python src/agente_rutas.py Duitama "Puente Nacional" --criterio peaje
+python src/agente_rutas.py Duitama "Puente Nacional" --criterio costo_operativo
+python src/agente_rutas.py Duitama "Puente Nacional" --precio-galon 14000 --rendimiento 8 --costo-otros-km 500
 python src/pruebas_agente_rutas.py   # pruebas del agente autónomo
+python src/pruebas_costos.py         # costo monetario, umbral y heurísticas nuevas
+python src/cruce_mortalidad.py       # cruce de la mortalidad ANSV (lo llama construir_red.py)
+python src/verificar_cifras.py       # contrasta las cifras de los informes y del guion con los datos
 python src/pruebas_criterio.py       # pruebas de --criterio
 python src/perfil_topologico.py      # perfil topológico de los 496 pares
 python src/pruebas_perfil_topologico.py
@@ -104,9 +119,11 @@ python src/pruebas_figuras.py
 python src/formato_latex.py outputs/tabla_*.tex  # estilo único de tablas (cuadrícula, encabezado gris)
 python src/pruebas_formato.py
 
-pdflatex formulacion_corte1.tex  # dos pasadas
+pdflatex formulacion_corte1.tex  # tres pasadas
 pdflatex formulacion_corte1.tex
-pdflatex informe_corte2.tex      # dos pasadas
+pdflatex formulacion_corte1.tex
+pdflatex informe_corte2.tex      # tres pasadas
+pdflatex informe_corte2.tex
 pdflatex informe_corte2.tex
 ```
 
