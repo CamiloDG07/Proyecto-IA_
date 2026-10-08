@@ -92,29 +92,33 @@ Camilo Andrés Díaz García}\\[1.2cm]
 
 La formulación del problema, los datos y su construcción están en el informe
 del Corte 1~\cite{formulacion}. La red corregida a la que se refiere este
-informe tiene 32 nodos, porque se excluyó Mosquera, y 9 registros con la
-distancia corregida por doble calzada digitalizada; ambos cambios se
-documentan en ese informe.
+informe tiene 32 nodos, porque se excluyó Mosquera, 9 registros con la
+distancia corregida por doble calzada digitalizada y la distancia de Chocontá
+a Tunja tomada de las progresivas oficiales; esos cambios se documentan en ese
+informe.
 
 \textbf{Problema de búsqueda.}
 \begin{itemize}
 \item \textbf{Estado:} la ciudad actual.
 \item \textbf{Acciones:} los tramos que salen de ella.
 \item \textbf{Costo de una acción:} el atributo de la arista según el
-criterio (\texttt{distancia}, \texttt{compuesto\_sin\_riesgo},
-\texttt{compuesto} o \texttt{riesgo}).
+criterio: distancia, peaje, riesgo, compuesto, compuesto sin riesgo, costo
+operativo, compuesto total, compuesto total sin riesgo o compuesto con
+mortalidad.
 \item \textbf{Meta:} la ciudad de destino.
 \end{itemize}
 
 \textbf{Caso central.} En Duitama a Puente Nacional, las dos rutas miden
-309.10 km por Bogotá y 654.25 km por Santander.
+352.41 km por Bogotá y 654.25 km por Santander.
 
-\textbf{Tramo truncado.} El sector de Chocontá a Tunja está truncado en la
-fuente (17.69 km frente a 56.96 km de línea recta). Por eso la ruta por Bogotá
-tiene una cota inferior de $309.10 - 17.69 + 56.96 = 348.37$ km (cota
-inferior: la geodésica no excede la distancia por carretera; no es un valor
-estimado). De esa arista depende el valor de $\alpha$ de la
-Sección~\ref{sec:heuristica}.
+\textbf{Chocontá a Tunja.} El sector de Chocontá a Tunja está truncado en la
+fuente: la longitud registrada es 17.69 km frente a 56.96 km de línea recta.
+Las progresivas oficiales de la Red Vial son continuas en la misma ruta y el
+mismo tramo (el sector anterior termina en el PR 59.0 y este en el PR 120.0),
+de modo que la distancia de la arista es 61.00 km, que no es menor que la
+geodésica entre los nodos. La longitud registrada queda como variante de
+sensibilidad: con ella la ruta por Bogotá mide 309.10 km. De esa distancia
+depende el valor de $\alpha$ de la Sección~\ref{sec:heuristica}.
 
 \section{Implementación de los cinco algoritmos}
 
@@ -174,8 +178,17 @@ h(n) = \alpha\, d_{\mathrm{geo}}(n, \text{meta}), \qquad
 h(n) = \frac{w_1}{w_1 + w_2}\,\alpha\,\frac{d_{\mathrm{geo}}(n, \text{meta})}
 {d_{\max}}
 \end{equation}
-para \texttt{distancia} y \texttt{compuesto\_sin\_riesgo}, respectivamente,
-con:
+para \texttt{distancia} y \texttt{compuesto\_sin\_riesgo}, respectivamente.
+Para los criterios con costo monetario, con $c_{\mathrm{km}}$ el costo variable
+por km, $w_1$ y $w_4$ los pesos de la distancia y del costo variable del
+compuesto total y $w_2$ el del peaje:
+\begin{itemize}
+\item \texttt{costo\_operativo}: $h(n) = c_{\mathrm{km}}\,\alpha\,
+d_{\mathrm{geo}}(n, \text{meta})$.
+\item \texttt{compuesto\_total\_sin\_riesgo}: $h(n) = \frac{w_1 + w_4}{w_1 +
+w_2 + w_4}\,\alpha\,d_{\mathrm{geo}}(n, \text{meta})/d_{\max}$.
+\end{itemize}
+En ambos, $d_{\mathrm{geo}}$ y $\alpha$ son:
 \begin{itemize}
 \item $d_{\mathrm{geo}}$, la distancia de Haversine entre las coordenadas
 oficiales (DANE, DIVIPOLA).
@@ -188,20 +201,22 @@ $\alpha\, d_{\mathrm{geo}}(u,v) \le c(u,v)$ en toda arista, lo que garantiza
 admisibilidad y consistencia por la desigualdad triangular. Los términos de
 peaje y de riesgo (no negativos) no se incluyen en $h$ y no la rompen.
 
-\textbf{Valor de $\alpha$.} $\alpha = 0.310570$ (razón mínima exacta
-0.3105704113). La determina la arista de Chocontá a Tunja, cuyo sector está
-truncado en la fuente. Las demás aristas con razón menor que 1 se muestran
-en la Figura~\ref{fig:heuristica}; la tabla completa de razones está en
-\texttt{outputs/tabla\_c2\_razones.tex}.
+\textbf{Valor de $\alpha$.} $\alpha = 0.458156$ (razón mínima exacta
+0.4581564074). La determina la arista de Bogotá a Madrid, cuyo trazado empieza
+en el límite urbano de Bogotá. Las aristas con razón menor que 1 son siete y
+se muestran en la Figura~\ref{fig:heuristica}; la tabla completa de razones
+está en \texttt{outputs/tabla\_c2\_razones.tex}. Con la longitud registrada de
+Chocontá a Tunja la razón mínima sería 0.310570.
 
 
 \textbf{Verificación numérica} (Tabla~\ref{tab:heuristica}). La admisibilidad
 compara $h(n)$ con el costo óptimo real $h^*(n)$ de Dijkstra para los 992
 pares $(n, \text{meta})$; la consistencia comprueba $h(u) \le c(u,v) + h(v)$
-en cada arista, en ambos sentidos y para las 32 metas. Con $\alpha = 0.310570$
-no hay violaciones y el margen mínimo es de 0.000023 km, en Chocontá a Tunja.
-Con la geodésica pura ($\alpha = 1$) hay 66 violaciones de admisibilidad y 141
-de consistencia: el peor margen es $-56.51$ km.
+en cada arista, en ambos sentidos y para las 32 metas. Con $\alpha = 0.458156$
+no hay violaciones en ninguna de las siete heurísticas; el margen mínimo de la
+distancia es de 0.000008 km, en Bogotá a Madrid. Con la geodésica pura
+($\alpha = 1$) hay 34 violaciones de admisibilidad y 111 de consistencia: el
+peor margen es $-19.07$ km.
 
 \begin{table}[H]
 \centering
@@ -237,6 +252,9 @@ los corredores donde la carretera es mucho más larga que la línea recta.
 \item En \texttt{compuesto} (riesgo faltante igual a 0) se usa solo el término
 de distancia, $w_1 \alpha d_{\mathrm{geo}}/d_{\max}$, y los resultados se
 reportan aparte, rotulados como limitados.
+\item Lo mismo vale para el compuesto total, con
+$(w_1 + w_4)\,\alpha\,d_{\mathrm{geo}}/d_{\max}$, y para el compuesto con
+mortalidad, que es solo sensibilidad.
 \item En \texttt{riesgo} y \texttt{peaje} no hay información geométrica: la
 heurística admisible es $h = 0$, y A* se reduce a costo uniforme.
 \end{itemize}
@@ -255,7 +273,7 @@ heurística admisible es $h = 0$, y A* se reduce a costo uniforme.
 Los cuatro primeros pares cruzan el ciclo y tienen dos rutas simples
 distintas; los seis restantes tienen ruta única y de 1 a 6 saltos. El número
 de rutas simples se comprueba en cada corrida. Cada escenario se ejecuta con
-los cinco algoritmos y con los cuatro criterios.
+los cinco algoritmos y con los ocho criterios.
 
 \textbf{Mediciones.}
 \begin{itemize}
@@ -266,8 +284,8 @@ estándar.
 \item Voraz y A* consultan una tabla de $h$ precalculada hacia el destino
 (mismos valores, mismas rutas y mismos nodos expandidos); el tiempo de
 construir la tabla se mide aparte y no está incluido en sus tiempos (media de
-47.7 $\mu$s, entre 8.4 y 109.2 $\mu$s).
-\item Las desviaciones son grandes respecto de las medias (la mayor es 1.77
+35.3 $\mu$s, entre 6.5 y 51.5 $\mu$s).
+\item Las desviaciones son grandes respecto de las medias (la mayor es 2.76
 veces la media), por lo que las diferencias de tiempo entre algoritmos solo son
 indicativas.
 \end{itemize}
@@ -334,49 +352,55 @@ Lo que muestran las corridas:
 
 \begin{itemize}
 \item En el caso central, BFS y DFS devuelven la ruta por Santander
-(654.25 km, 111.7\,\% más cara que el óptimo): BFS porque tiene un salto menos
+(654.25 km, 85.7\,\% más cara que el óptimo): BFS porque tiene un salto menos
 (7 contra 8), y DFS por su orden de exploración. UCS, la búsqueda voraz y A*
-devuelven la ruta óptima por Bogotá (309.10 km). En Bucaramanga a Bogotá, DFS
-devuelve una ruta 35.8\,\% más cara.
+devuelven la ruta óptima por Bogotá (352.41 km). En Bucaramanga a Bogotá, DFS
+devuelve una ruta 46.4\,\% más cara.
 \item En los seis pares de ruta única, los cinco algoritmos devuelven la misma
 ruta y el mismo costo.
 \item Sumados los diez escenarios, los nodos expandidos fueron: BFS 143,
-DFS 142, UCS 144, voraz 50 y A* 120. A* expande menos nodos que UCS en cada
+DFS 142, UCS 140, voraz 50 y A* 101. A* expande menos nodos que UCS en cada
 escenario o igual, y la búsqueda voraz es la que menos expande y devuelve la
 ruta óptima en los diez escenarios, aunque no lo garantiza.
-\item En el caso central A* tarda $115 \pm 40$ $\mu$s contra $167 \pm 74$
-$\mu$s de UCS, con 20 nodos contra 25. En dos escenarios (Girardot a Cambao y
-Chiquinquirá a Tunja) A* tarda más que UCS con el mismo número de nodos; con
-estas desviaciones las diferencias de tiempo son indicativas. Esos tiempos
-excluyen la construcción de la tabla de $h$, que se mide aparte.
+\item En el caso central A* tarda $68 \pm 21$ $\mu$s contra $81 \pm 18$
+$\mu$s de UCS, con 18 nodos contra 26. En tres escenarios (Bucaramanga a
+Bogotá, Barbosa a Zipaquirá y Madrid a Puerto Gaitán) A* tarda más que UCS, en
+el de Barbosa a Zipaquirá con el mismo número de nodos; con estas
+desviaciones las diferencias de tiempo son indicativas. Esos tiempos excluyen
+la construcción de la tabla de $h$, que se mide aparte.
 \end{itemize}
 
 \subsection{Criterio compuesto sin riesgo}
 
-\begin{table}[H]
-\centering
-\caption{Nodos expandidos, criterio compuesto sin riesgo}
-\label{tab:sr-exp}
-\small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_compuesto_sin_riesgo_expandidos.tex}
-\end{table}
-
-\begin{table}[H]
-\centering
-\caption{Optimalidad respecto de UCS, criterio compuesto sin riesgo}
-\label{tab:sr-opt}
-\small\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_c2_compuesto_sin_riesgo_optimalidad.tex}
-\end{table}
-
-Con este criterio, BFS y DFS vuelven a elegir el desvío en el caso central
-(11.9\,\% más caro), y DFS es 2.8\,\% más caro en Bucaramanga a Bogotá. UCS,
+Las tablas de nodos expandidos y de optimalidad con este criterio están
+en \nolinkurl{outputs/tabla_c2_compuesto_sin_riesgo_*}. BFS y DFS
+vuelven a elegir el desvío en el caso central
+(6.7\,\% más caro), y DFS es 7.4\,\% más caro en Bucaramanga a Bogotá. UCS,
 la búsqueda voraz y A* son óptimos. Sumados los diez escenarios, los nodos
-expandidos fueron 143 (BFS), 142 (DFS), 141 (UCS), 50 (voraz) y 129 (A*).
+expandidos fueron 143 (BFS), 142 (DFS), 142 (UCS), 50 (voraz) y 122 (A*).
 \input{outputs/texto_cambio_sin_riesgo.tex}
 
-El tiempo y la memoria de los cuatro criterios están en el archivo de
+El tiempo y la memoria de los ocho criterios están en el archivo de
 resultados del Corte 2 de la carpeta \texttt{outputs}.
+
+\subsection{Criterios con costo monetario}
+
+El costo variable por km sale de \texttt{config\_costos.json}
+(Sección~\ref{sec:agente}). Las tablas completas están en
+\nolinkurl{outputs/tabla_c2_costo_operativo_*} y
+\nolinkurl{outputs/tabla_c2_compuesto_total_sin_riesgo_*}.
+\begin{itemize}
+\item \textbf{Costo operativo} (peaje más costo variable). En el caso central
+BFS y DFS devuelven el desvío por Santander (48.2\,\% más caro) y DFS es
+29.4\,\% más caro en Bucaramanga a Bogotá; UCS, la búsqueda voraz y A* son
+óptimos. Sumados los diez escenarios, los nodos expandidos fueron 143 (BFS),
+142 (DFS), 137 (UCS), 50 (voraz) y 108 (A*).
+\item \textbf{Compuesto total sin riesgo.} En el caso central BFS y DFS
+devuelven el desvío (28.4\,\% más caro) y DFS es 19.4\,\% más caro en
+Bucaramanga a Bogotá; UCS, voraz y A* son óptimos. Sumados los diez escenarios,
+los nodos expandidos fueron 143 (BFS), 142 (DFS), 140 (UCS), 50 (voraz) y 111
+(A*).
+\end{itemize}
 
 \subsection{Criterios con heurística limitada}
 
@@ -462,76 +486,102 @@ frontera.
 
 \textbf{Red corregida.}
 \begin{itemize}
-\item La ruta por Bogotá gana en 19 de los 66 puntos y la frontera corta la
-recta $w_3 = 0$ en $w_1 = 0.4095$.
-\item Sin el término de riesgo gana en 37 de los 65 puntos donde esa variante
+\item La ruta por Bogotá gana en 17 de los 66 puntos y la frontera corta la
+recta $w_3 = 0$ en $w_1 = 0.4422$.
+\item Sin el término de riesgo gana en 36 de los 65 puntos donde esa variante
 está definida (en $w_1 = w_2 = 0$ no lo está).
 \end{itemize}
 
-\textbf{Cota inferior.} La variante \emph{sensibilidad con cota inferior}
-reemplaza la distancia de Chocontá a Tunja por 56.96 km:
+\textbf{Longitud registrada.} La variante \emph{sensibilidad con la longitud
+registrada de Chocontá a Tunja} reemplaza la distancia de esa arista por
+17.69 km:
 \begin{itemize}
-\item La frontera se desplaza a $w_1 = 0.4389$ y la ruta por Bogotá gana en 17
+\item La frontera se desplaza a $w_1 = 0.4095$ y la ruta por Bogotá gana en 19
 puntos.
 \item El ganador cambia en dos puntos de la malla, $(0.5, 0.2, 0.3)$ y
-$(0.5, 0.3, 0.2)$, que pasan a Santander.
+$(0.5, 0.3, 0.2)$, que pasan a Bogotá.
 \item Sin riesgo cambia en un punto, $(0.3, 0.4, 0.3)$.
+\end{itemize}
+
+\textbf{Compuesto total (cuatro pesos).} El costo variable entra como cuarto
+peso, $w_4$, con $w_1 + w_2 + w_3 + w_4 = 1$; la tabla completa está en
+\nolinkurl{outputs/tabla_c2_barrido_total.tex}.
+\begin{itemize}
+\item La malla de paso 0.1 tiene 286 puntos; la ruta por Bogotá gana en 137, y
+sin el término de riesgo en 220 de los 285 puntos donde esa variante está
+definida.
+\item Con la longitud registrada de Chocontá a Tunja gana en 149 y en 224.
+\item Las diferencias entre la ruta por Bogotá y el desvío son
+$\Delta D = -2.1406$, $\Delta P = 1.6971$, $\Delta R = 2.8788$ y
+$\Delta C = -2.1406$; $\Delta C$ es igual a $\Delta D$ porque el costo variable
+es proporcional a los km.
 \end{itemize}
 
 \textbf{Costo en dinero.} \input{outputs/texto_c2_dinero.tex}
 
 \begin{figure}[H]
     \centering
+    \includegraphics[width=\textwidth]{fig_costo_km.pdf}
+    \caption{Costo total de las dos rutas de Duitama a Puente Nacional según el costo variable por km. Fuente: elaboración propia}
+    \label{fig:costo-km}
+    \input{outputs/lectura_c2_fig_costo_km.tex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
     \includegraphics[width=\textwidth]{barrido_pesos.png}
     \caption{Ruta ganadora en la malla de pesos, red corregida y sensibilidad
-    con cota inferior. Fuente: elaboración propia}
+    con la longitud registrada de Chocontá a Tunja. Fuente: elaboración
+    propia}
     \label{fig:barrido}
     \input{outputs/lectura_c2_barrido_figura.tex}
 \end{figure}
 
 \subsection{Sensibilidad con distancias sin corregir}
 
-La Tabla~\ref{tab:sens-cruda} compara la red corregida (base) con una
-variante construida con la longitud registrada (\texttt{shape\_\_length}). Se
-genera con la función \texttt{construir\_grafo}, dando el valor
-\texttt{cruda} al parámetro \texttt{distancia}, a partir del mismo
+La Tabla~\ref{tab:sens-cruda} compara la red corregida (base) con dos
+variantes: la longitud registrada de Chocontá a Tunja (17.69 km, en lugar de
+las progresivas) y una construida con la longitud registrada de todos los
+sectores (\texttt{shape\_\_length}). Se generan con la función
+\texttt{construir\_grafo}, con el parámetro \texttt{reemplazos} o dando el
+valor \texttt{cruda} al parámetro \texttt{distancia}, a partir del mismo
 \texttt{aristas\_red.json}. La tabla muestra la ruta óptima de Duitama a
 Puente Nacional por criterio y el resultado del barrido de pesos.
 
 \begin{table}[H]
 \centering
-\caption{Sensibilidad: red corregida y distancias sin corregir}
+\caption{Sensibilidad: red corregida (Base), longitud registrada de
+Chocontá a Tunja (Registrada) y distancias sin corregir (Crudas); ruta óptima
+de Duitama a Puente Nacional por criterio, con sus km entre paréntesis}
 \label{tab:sens-cruda}
-\small\setlength{\tabcolsep}{4pt}
+\footnotesize\setlength{\tabcolsep}{3pt}
 \input{outputs/tabla_c2_sensibilidad_cruda.tex}
 \end{table}
 
-\section{Sensibilidad de A* ante el defecto de Chocontá a Tunja}
+\section{Sensibilidad de A* ante \texorpdfstring{$\alpha$}{alfa}}
 
-Variante única, rotulada como sensibilidad: A* con $\alpha_{\mathrm{ref}} =
-0.458156$, el mínimo de la razón entre las aristas restantes (sin Chocontá a
-Tunja; la determina Madrid a Bogotá). Esta $h$ \emph{no es admisible} en la red
-tal como está, porque Chocontá a Tunja tiene razón 0.3106 y $\alpha_{\mathrm{ref}}$
-la excede.
+Variante única, rotulada como sensibilidad: A* con $\alpha_{\mathrm{reg}} =
+0.310570$, el mínimo de la razón si Chocontá a Tunja tuviera su longitud
+registrada (17.69 km). Esta $h$ sigue siendo admisible, porque
+$\alpha_{\mathrm{reg}}$ es menor que el $\alpha$ vigente (0.458156), pero
+informa menos.
 
 \begin{table}[H]
 \centering
-\caption{Nodos expandidos con $\alpha$ y con $\alpha_{\mathrm{ref}}$,
+\caption{Nodos expandidos con $\alpha$ y con $\alpha_{\mathrm{reg}}$,
 criterio distancia}
 \label{tab:sens-alfa}
 \footnotesize\setlength{\tabcolsep}{3pt}
 \input{outputs/tabla_c2_sensibilidad_alfa.tex}
 \end{table}
 
-A* con $\alpha_{\mathrm{ref}}$ devuelve la ruta óptima en los diez escenarios y
-expande menos nodos que con $\alpha = 0.310570$ y que UCS (en el caso central
-17, 20 y 25).
+A* con $\alpha_{\mathrm{reg}}$ devuelve la ruta óptima en los diez escenarios y
+expande más nodos que con $\alpha = 0.458156$ y menos que UCS (en el caso
+central 18 con $\alpha$, 20 con $\alpha_{\mathrm{reg}}$ y 26 con UCS).
 \begin{itemize}
-\item Sobre los 992 pares de nodos, devuelve la ruta óptima en 991 y falla en
-uno: de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de 481.34 km
-(0.14\,\% más).
+\item Sobre los 992 pares de nodos, devuelve la ruta óptima en los 992.
 \item Sumados los 992 pares, UCS expande 15\,872 nodos, A* con $\alpha$
-13\,377 y A* con $\alpha_{\mathrm{ref}}$ 12\,223.
+12\,361 y A* con $\alpha_{\mathrm{reg}}$ 13\,437.
 \end{itemize}
 
 \section{Agente autónomo de rutas}
@@ -542,6 +592,10 @@ uno: de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de 481.34 km
 \item El usuario da solo el origen y el o los destinos
 (\texttt{agente\_rutas.py ORIGEN DESTINO ...} y, si se quiere volver, la
 opción \texttt{-{}-regreso}); no elige el tipo de problema ni el criterio.
+\item Opcionalmente da los insumos del costo monetario y los cuatro pesos del
+compuesto total con las opciones \texttt{-{}-precio-galon},
+\texttt{-{}-rendimiento}, \texttt{-{}-costo-otros-km} y \texttt{-{}-pesos};
+anulan la configuración y la salida los rotula «dado por el usuario».
 \item El agente decide el tipo, el criterio, el algoritmo y la heurística, y
 devuelve la mejor ruta con su explicación.
 \item La interfaz es de línea de comandos; el despachador conserva la suya como
@@ -566,16 +620,16 @@ $k \le K_{\mathrm{exacto}}$, ACO si no, y el criterio compuesto sin riesgo.
 
 \textbf{Candidatas y evaluación.}
 \begin{itemize}
-\item Con un destino, el agente calcula la ruta óptima por distancia, peaje y
-compuesto sin riesgo (A* con heurística admisible en el primero y el tercero;
-UCS en peaje).
+\item Con un destino, el agente calcula la ruta óptima por distancia, peaje,
+compuesto sin riesgo y costo operativo (A* con heurística admisible en la
+distancia, el compuesto sin riesgo y el costo operativo; UCS en peaje).
 \item Para cada una añade las alternativas que quedan al bloquear, una por vez,
 cada arista de la ruta óptima; en esta red de un solo ciclo eso encuentra el
 otro camino, pero en un grafo con más ciclos no garantiza las $k$ mejores
 rutas.
-\item Cada candidata se evalúa en km, peaje (COP) y riesgo (suma del GiZScore
-de las aristas con dato y porcentaje de aristas con dato), y se descartan las
-dominadas en km y peaje.
+\item Cada candidata se evalúa en km, peaje, costo variable y costo operativo
+(COP) y riesgo (suma del GiZScore de las aristas con dato y porcentaje de
+aristas con dato), y se descartan las dominadas en km y peaje.
 \end{itemize}
 
 \textbf{Regla de recomendación.}
@@ -584,19 +638,54 @@ dominadas en km y peaje.
 tramo de
 $(w_d\, \mathrm{km}/\mathrm{km}_{\max} + w_p\, \mathrm{peaje}/
 \mathrm{peaje}_{\max})/(w_d + w_p)$, con $w_d = w_p = 1$ por defecto.
-\item Los pesos iguales son un supuesto de modelado, sin datos de costo
-operativo por kilómetro para calibrarlos; la recomendación se recalcula con
-otros pesos (parámetro de \texttt{recomendar}).
+\item Los pesos iguales son un supuesto de modelado, sin un criterio objetivo
+para calibrarlos; la recomendación se recalcula con otros pesos (parámetro de
+\texttt{recomendar}).
+\item El agente recomienda por costo operativo solo si todos sus insumos tienen
+estado «verificada» (Tabla~\ref{tab:insumos}); hoy los otros costos por km son
+un supuesto del equipo, de modo que el criterio por defecto sigue siendo el
+compuesto sin riesgo, el costo se calcula con ese supuesto marcado y la salida
+lo advierte.
 \item Si el criterio \texttt{riesgo} o \texttt{compuesto} prefiere otra
 candidata, el agente lo avisa con la cobertura de datos de riesgo de ambas.
 \item También advierte si la ruta usa aristas con limitación conocida:
-Chocontá a Tunja (truncada), las marcadas por la auditoría y los tramos sin
-dato de riesgo.
+Chocontá a Tunja (distancia por progresivas), las marcadas por la auditoría y
+los tramos sin dato de riesgo.
 \item Con la opción opcional \texttt{-{}-criterio} (distancia, peaje, riesgo,
-compuesto o compuesto sin riesgo) el usuario elige el criterio: la
+compuesto, compuesto sin riesgo, costo operativo, compuesto total, compuesto
+total sin riesgo o compuesto con mortalidad) el usuario elige el criterio: la
 recomendación es entonces la ruta de menor costo según ese criterio, la salida
 lo indica y las candidatas y las advertencias se muestran igual.
 \end{enumerate}
+
+\textbf{Costo monetario.} El costo variable por km es el precio del galón
+dividido entre el rendimiento, más otros costos por km; el costo operativo de
+una arista es su peaje más su costo variable (km por costo variable por km).
+Con los insumos de la Tabla~\ref{tab:insumos}, el costo variable es de
+1\,157.0 COP por km (11\,320 COP por galón entre 9.784 km por galón). El combustible sale de fuentes
+oficiales; los otros costos no tienen una tabla descargable (el SICE-TAC solo
+da las fórmulas) y se toman iguales a 0 como supuesto del equipo.
+
+\begin{table}[H]
+\centering
+\caption{Insumos del costo monetario (\texttt{config\_costos.json})}
+\label{tab:insumos}
+\footnotesize
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}p{5.2cm}|>{\raggedright\arraybackslash}p{2.2cm}|}
+\hline
+\rowcolor{gray!20} \textbf{Insumo} & \textbf{Valor} & \textbf{Fuente} & \textbf{Estado} \\
+\hline
+\textbf{Precio del galón de ACPM} & 11\,320 COP por galón & CREG, promedio de las 13 ciudades principales, vigente desde el 2 de octubre de 2026 & verificada \\
+\hline
+\textbf{Rendimiento del camión de dos ejes (C2G)} & 38.69 L por 100 km, es decir 9.78 km por galón & UPME, línea base de consumo de combustible de vehículos de carga, mayo de 2025, Tabla 2.7 & verificada \\
+\hline
+\textbf{Otros costos por km (llantas, lubricantes, mantenimiento y conductor)} & 0 COP por km & ninguna: sin tabla descargable & supuesto del equipo \\
+\hline
+\textbf{Pesos del compuesto total} & 0.25 cada uno & pesos iguales, sin criterio objetivo & supuesto del equipo \\
+\hline
+\end{tabular}
+\end{table}
 La Tabla~\ref{tab:ejemplos-agente} muestra la salida real del agente en tres
 solicitudes; la ruta de (a) está en la Figura~\ref{fig:rutas}.
 
@@ -637,7 +726,7 @@ La matriz con la clase de cada par está en \texttt{outputs/fig\_perfil.png}.
 \hline
 \rowcolor{gray!20} \textbf{Tipo de solicitud} & \textbf{Método si es viable (exacto)} & \textbf{Si el exacto no es viable} \\
 \hline
-\textbf{a. Origen a destino} & A* si el criterio tiene heurística admisible (distancia, compuesto sin riesgo); UCS en los demás & No aplica \\
+\textbf{a. Origen a destino} & A* si el criterio tiene heurística admisible (distancia, compuesto sin riesgo, costo operativo, compuesto total sin riesgo); UCS en los demás & No aplica \\
 \hline
 \textbf{b. Paradas en orden fijo} & Un A* o UCS por tramo; el costo es la suma & No aplica \\
 \hline
@@ -803,7 +892,7 @@ semillas respecto de la referencia) están en
 \begin{itemize}
 \item \textbf{Red de carga.} El ACO con 2-opt alcanza el costo de Held-Karp en
 las 12 instancias con exacto (120 de 120 semillas) y el óptimo por estructura
-en las 32 ciudades (2808.65 km, 10 de 10). En la red de carga, casi un árbol,
+en las 32 ciudades (2851.96 km, 10 de 10). En la red de carga, casi un árbol,
 el exacto y el ACO coinciden. Con inicio aleatorio de las hormigas el ACO sin
 2-opt también alcanza la referencia en las 130 semillas de la red.
 \item \textbf{Euclidianas $n = 20$ (semillas 1 a 5).} El ACO con 2-opt
@@ -815,19 +904,21 @@ alcanzan: el aporte del 2-opt es nulo en la red y pequeño en las euclidianas
 él.
 \item \textbf{Efecto del inicio de las hormigas.} Con la ciudad de salida
 fija (contraste, «inicio fijo»), el ACO sin 2-opt tenía una brecha media de
-2.212\,\% en las euclidianas de $n = 20$ (1 de 50 semillas), de 2.608\,\% con $n = 15$ (20 de 30)
-y de 2.836\,\% con $n = 20$ (13 de 30) en la red. Esa brecha se debía al inicio
+2.212\,\% en las euclidianas de $n = 20$ (1 de 50 semillas), de 2.240\,\%
+con $n = 15$ (20 de 30) y de 1.653\,\% con $n = 20$ (15 de 30) en la red. Esa brecha se debía al inicio
 fijo de las hormigas y no a la ausencia de 2-opt: con el inicio aleatorio, sin
 cambiar nada más, es 0.357\,\% en las euclidianas de $n = 20$ y 0 en la red
 (Figura~\ref{fig:aco}). El aporte del 2-opt se reporta con inicio
 aleatorio y crece con $n$: nulo en la red, pequeño con $n = 20$ y grande con
 $n = 100$ y 200.
-\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 1.26 s y
-1.97 s y 111.8 MiB; el ACO, entre 0.07 s y 0.14 s. Con pocas paradas el exacto
-es más rápido (milisegundos hasta $n = 10$). La regla fija elige el exacto
-siempre que es viable, aunque el ACO resulte más rápido. Con $n = 100$ y 200
-el ACO con 2-opt tarda $2.06 \pm 0.08$ s y $10.62 \pm 0.49$ s, y sin 2-opt
-$1.53 \pm 0.06$ s y $8.85 \pm 0.68$ s.
+\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 1.05 s y
+1.12 s y 111.8 MiB; el ACO, 0.06 s. Con pocas paradas el exacto es más rápido
+(milisegundos hasta $n = 10$). La regla fija elige el exacto siempre que es
+viable, aunque el ACO resulte más rápido. Con $n = 100$ y 200 el ACO con 2-opt
+tarda $1.00 \pm 0.01$ s y $5.92 \pm 0.23$ s, y sin 2-opt $0.85 \pm 0.02$ s y
+$4.67 \pm 0.18$ s. En la sesión de medición anterior estos tiempos eran casi
+el doble (por ejemplo, 2.06 s con 2-opt y $n = 100$); la causa no se midió
+(Hipótesis: estado de la máquina).
 \end{itemize}
 
 \subsection{Referencia por estructura}
@@ -880,7 +971,7 @@ referencia).
 en \nolinkurl{outputs/tabla_ag_ampliada.tex}.
 \end{itemize}
 
-\begin{figure}[H]
+\begin{figure}[!htbp]
     \centering
     \includegraphics[width=\textwidth]{fig_aco.pdf}
     \caption{Convergencia del ACO con 2-opt (arriba) y brecha media por grupo con y sin 2-opt (abajo). Fuente: elaboración propia}
@@ -905,25 +996,33 @@ sin 2-opt, que no se validó en instancias de tamaño real.
 \item En las instancias mayores no hay referencia óptima.
 \item No se evaluaron otras metaheurísticas.
 \item Los costos de la red son los de la red corregida, con las limitaciones de
-datos descritas arriba (Chocontá a Tunja truncada, entrada urbana a Bogotá).
+datos descritas arriba (Chocontá a Tunja por progresivas, entrada urbana a
+Bogotá).
 \end{itemize}
 
 \section{Limitaciones}
 
 \begin{itemize}
-\item \textbf{Chocontá a Tunja truncada.} El sector cubre 17.69 km frente a
-56.96 km de línea recta; fija $\alpha$ y subestima la ruta por Bogotá (cota
-inferior 348.37 km). Las progresivas de la fuente dejan 49.1 km sin registro
-entre Chocontá y Tunja; por progresivas la arista mediría 61.0 km, cifra que
-solo evidencia que la cota es ajustada y no se aplicó.
+\item \textbf{Chocontá a Tunja por progresivas.} El sector registrado cubre
+17.69 km frente a 56.96 km de línea recta y deja 49.1 km sin sector entre
+Chocontá y Tunja; la distancia de la arista (61.00 km) es la diferencia de las
+progresivas oficiales, no una longitud medida sobre la geometría, y la
+longitud registrada queda como variante de sensibilidad.
 \item \textbf{Entrada urbana a Bogotá.} Las geometrías de INVÍAS que salen de
 Bogotá empiezan en el límite urbano; las distancias desde Bogotá excluyen ese
 tramo.
-\item \textbf{Registros con patrón no estándar} (Bogotá a Cajicá, Chocontá a
-Tunja, El Espinal a Girardot y el registro del Río Ocoa) conservan la longitud
-registrada.
+\item \textbf{Registros con patrón no estándar} (Bogotá a Cajicá, El Espinal a
+Girardot y el registro del Río Ocoa) conservan la longitud registrada.
 \item \textbf{Riesgo incompleto y por corredor.} Solo 11 de 32 aristas tienen
-dato y el dato no distingue subtramos.
+dato y el dato no distingue subtramos. Los sectores críticos de mortalidad de la
+ANSV (2022) cubren 16 de 32, pero no reproducen el orden del GiZScore
+(Spearman de $-0.033$ en las 11 aristas con ambos datos) y solo traen los
+sectores de mayor prioridad: entran como sensibilidad.
+\item \textbf{Costo monetario.} Los otros costos por km (llantas, lubricantes,
+mantenimiento y conductor) no tienen fuente descargable y valen 0 por supuesto
+del equipo; el precio del galón es el de la CREG del 2 de octubre de 2026 y el
+consumo es el de vehículos nuevos en ciclo de pista (38.69 L por 100 km); no se
+incluyen costos fijos, tiempo ni riesgo.
 \item \textbf{Tarifas de peaje.} Se actualizan cada año; corresponden a la
 descarga del 6 de octubre de 2026.
 \item \textbf{Mediciones.} El tiempo tiene dispersión alta y la memoria es de
@@ -931,6 +1030,9 @@ una sola corrida por celda; los valores son indicativos.
 \item \textbf{Mapa.} El fondo departamental está generalizado a unos 330 m
 y no sirve para medir distancias. Los tramos punteados no tienen trazado en la
 fuente: la geometría de INVÍAS queda a más de 5 km de uno de sus nodos.
+\item \textbf{Coordenadas.} Las de Cuestaboba, La Palmera y Yé de Granada
+siguen derivadas de la unión de los tramos de INVÍAS y no son independientes de
+la geometría: no se halló una fuente oficial.
 \item \textbf{Alcance.} Un solo ciclo, 10 escenarios y 32 nodos.
 \end{itemize}
 
@@ -941,20 +1043,29 @@ fuente: la geometría de INVÍAS queda a más de 5 km de uno de sus nodos.
 ciclo: BFS y DFS pueden devolver el desvío, y UCS, A* y, en estos escenarios,
 la búsqueda voraz devuelven la de menor costo; en los demás pares solo cambian
 los nodos expandidos, el tiempo y la memoria.
-\item A* expande menos nodos que UCS (120 contra 144 en la suma de los diez
-escenarios con distancia), pero la ventaja es modesta porque
-$\alpha = 0.310570$ vuelve a $h$ poco informativa.
+\item A* expande menos nodos que UCS (101 contra 140 en la suma de los diez
+escenarios con distancia); con el $\alpha$ de la longitud registrada de
+Chocontá a Tunja (0.310570) la ventaja baja (13\,437 contra 12\,361 nodos en
+los 992 pares) porque $h$ informa menos.
 \item El riesgo tiene dato en 11 de las 32 aristas: \texttt{riesgo} y
 \texttt{compuesto} prefieren el desvío por falta de datos y no porque sea más
-seguro.
+seguro; los sectores críticos de mortalidad cubren 16 y no reproducen su
+orden, por lo que solo son sensibilidad.
 \item Corregir las distancias cambió la decisión del compuesto sin riesgo:
 con las distancias sin corregir ganaba el desvío (3.197 contra 3.290) y con
-las corregidas gana la ruta por Bogotá (3.149 contra 3.524)
+las corregidas gana la ruta por Bogotá (3.302 contra 3.524)
 (Tabla~\ref{tab:sens-cruda}).
+\item La distancia de Chocontá a Tunja pasó de 17.69 a 61.00 km por las
+progresivas oficiales: la ruta por Bogotá pasó de 309.10 a 352.41 km, $\alpha$
+de 0.310570 a 0.458156 y la frontera del barrido de pesos de 0.4095 a 0.4422,
+sin cambiar las decisiones de los criterios sin costo monetario.
 \item El agente decide solo el tipo, el criterio y el método, cubre varias
 paradas y la ida y vuelta, y recomienda la ruta de menor costo compuesto sin
-riesgo; el despachador usa el método exacto hasta $K_{\mathrm{exacto}} = 19$
-y ACO después.
+riesgo, porque los otros costos por km son un supuesto del equipo; con los
+insumos verificados (el combustible), la ruta por Bogotá es más barata en
+dinero desde 233.9 COP/km y el combustible solo cuesta 1\,157.0 COP/km. El
+despachador usa el método exacto hasta $K_{\mathrm{exacto}} = 19$ y ACO
+después.
 \item El aporte del 2-opt crece con $n$ (nulo en la red, 0.357\,\% contra
 0.040\,\% con $n = 20$, y 5.599\,\% y 6.209\,\% sin 2-opt con $n = 100$ y
 200); la brecha de 2.212\,\% con inicio fijo se debía al inicio de las
@@ -967,6 +1078,7 @@ trazado de los tramos truncados y la evaluación de otras metaheurísticas.
 \addcontentsline{toc}{section}{Referencias}
 
 \begin{thebibliography}{9}
+\small\setlength{\itemsep}{2pt}
 
 \bibitem{formulacion}
 Andradé Gómez, J. D., Jiménez López, M., y Díaz García, C. A. (2026).
