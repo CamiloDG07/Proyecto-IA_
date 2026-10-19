@@ -4,6 +4,7 @@ Lee outputs/resultados_corte2.json, barrido_pesos.json y
 sensibilidad_corte2.json (escritos por experimentos_corte2.py) y escribe en
 outputs/ los archivos tabla_c2_*.tex que incluye informe_corte2.tex.
 """
+import csv
 import json
 
 import networkx as nx
@@ -95,7 +96,7 @@ def tablas_escenarios(resultados):
 
 
 def tabla_barrido(barridos):
-    """Base (17.69 km), cota inferior (56.96) y progresivas (61.0)."""
+    """Con piso (base), sin piso y progresivas (61.0 km)."""
     vs = (barridos[0], barridos[1], barridos[3])
     filas = [
         ("Bogotá gana (compuesto)",
@@ -113,39 +114,46 @@ def tabla_barrido(barridos):
                        for v in vs]))
     escribir("tabla_c2_barrido.tex",
              ["\\begin{tabular}{lrrr}", "\\toprule",
-              "\\textbf{Medida} & \\textbf{Base 17.69} & "
-              "\\textbf{Cota 56.96} & \\textbf{Progres. 61.0} \\\\",
+              "\\textbf{Medida} & \\textbf{Con piso} & "
+              "\\textbf{Sin piso} & \\textbf{Progres. 61.0} \\\\",
               "\\midrule"]
              + [f"{t} & " + " & ".join(c) + " \\\\" for t, c in filas]
              + ["\\bottomrule", "\\end{tabular}"])
 
 
 def tabla_sensibilidad_alfa(sens):
-    lineas = ["\\begin{tabular}{lrrrc}", "\\toprule",
+    """Nodos expandidos con piso y sin piso (criterio distancia)."""
+    lineas = ["\\begin{tabular}{lrrrrr}", "\\toprule",
+              "& \\multicolumn{2}{c}{\\textbf{Con piso}} & "
+              "\\multicolumn{3}{c}{\\textbf{Sin piso}} \\\\",
+              "\\cmidrule(lr){2-3}\\cmidrule(lr){4-6}",
               "\\textbf{Escenario} & \\textbf{UCS} & "
+              "\\textbf{A* $\\alpha=%.0f$} & \\textbf{UCS} & "
               "\\textbf{A* $\\alpha=%.6f$} & "
-              "\\textbf{A* $\\alpha_{\\mathrm{ref}}=%.6f$} & "
-              "\\textbf{Óptima} \\\\" % (sens["alfa_base"],
-                                         sens["alfa_ref"]),
+              "\\textbf{A* $\\alpha=1$} \\\\"
+              % (sens["alfa_piso"], sens["alfa_sin_piso"]),
               "\\midrule"]
     for e in sens["por_escenario"][:1]:
         lineas.append(
-            f"{e['origen']} -- {e['destino']} & {e['expandidos_ucs']} & "
-            f"{e['expandidos_alfa_base']} & {e['expandidos_alfa_ref']} & "
-            f"{'sí' if e['optima_alfa_ref'] else 'no'} \\\\")
+            f"{e['origen']} -- {e['destino']} & "
+            f"{e['expandidos_ucs_piso']} & {e['expandidos_astar_piso']} & "
+            f"{e['expandidos_ucs_sin_piso']} & "
+            f"{e['expandidos_astar_sin_piso']} & "
+            f"{e['expandidos_astar_sin_piso_alfa1']} \\\\")
     t = sens["todos_los_pares"]
     lineas += ["\\midrule",
-               f"Suma de {t['pares']} pares & {t['expandidos_total_ucs']} & "
-               f"{t['expandidos_total_alfa_base']} & "
-               f"{t['expandidos_total_alfa_ref']} & "
-               f"{t['pares'] - t['no_optimos']} de {t['pares']} \\\\",
+               f"Suma de {t['pares']} pares & {t['expandidos_total_ucs_piso']}"
+               f" & {t['expandidos_total_astar_piso']} & "
+               f"{t['expandidos_total_ucs_sin_piso']} & "
+               f"{t['expandidos_total_astar_sin_piso']} & "
+               f"{t['expandidos_total_astar_sin_piso_alfa1']} \\\\",
                "\\bottomrule", "\\end{tabular}"]
     escribir("tabla_c2_sensibilidad_alfa.tex", lineas)
 
 
 def tabla_sensibilidad_cruda(sens, barridos):
     rutas = sens["rutas_optimas_duitama_puente_nacional"]
-    vs = (rutas["base"], rutas["cota_inferior"], rutas["progresivas"],
+    vs = (rutas["base"], rutas["sin_piso"], rutas["progresivas"],
           rutas["crudas"])
     nombres = {"distancia": "distancia", "peaje": "peaje",
                "riesgo": "riesgo (limitado)",
@@ -156,8 +164,8 @@ def tabla_sensibilidad_cruda(sens, barridos):
                "compuesto_total_sin_riesgo": "total sin riesgo",
                "compuesto_mortalidad": "mortalidad"}
     lineas = ["\\begin{tabular}{lrrrr}", "\\toprule",
-              "\\textbf{Criterio} & \\textbf{Base} & "
-              "\\textbf{Cota} & \\textbf{Progres.} & "
+              "\\textbf{Criterio} & \\textbf{Piso} & "
+              "\\textbf{Sin piso} & \\textbf{Progres.} & "
               "\\textbf{Crudas} \\\\", "\\midrule"]
     for criterio, nombre in nombres.items():
         celdas = [f"{v[criterio]['via'][0]} {v[criterio]['distancia_km']:.2f}"
@@ -185,7 +193,7 @@ def tabla_sensibilidad_cruda(sens, barridos):
 
 
 def tabla_barrido_total(totales):
-    """Barrido de los cuatro pesos: base, cota inferior y progresivas."""
+    """Barrido de los cuatro pesos: con piso, sin piso y progresivas."""
     vs = totales
     filas = [
         ("Puntos con ruta por Bogotá (compuesto total)",
@@ -200,8 +208,8 @@ def tabla_barrido_total(totales):
                        for v in vs]))
     escribir("tabla_c2_barrido_total.tex",
              ["\\begin{tabular}{lrrr}", "\\toprule",
-              "\\textbf{Medida} & \\textbf{Base 17.69} & "
-              "\\textbf{Cota 56.96} & \\textbf{Progres. 61.0} \\\\",
+              "\\textbf{Medida} & \\textbf{Con piso} & "
+              "\\textbf{Sin piso} & \\textbf{Progres. 61.0} \\\\",
               "\\midrule"]
              + [f"{t} & " + " & ".join(c) + " \\\\" for t, c in filas]
              + ["\\bottomrule", "\\end{tabular}"])
@@ -219,11 +227,18 @@ def tabla_heuristica():
                "compuesto_mortalidad": "mortalidad (limitado)"}
     for criterio, datos in a["criterios"].items():
         adm, con = datos["admisibilidad"], datos["consistencia"]
-        filas.append((nombres[criterio], f"{a['alfa']:.6f}",
+        filas.append((nombres[criterio] + ", con piso", f"{a['alfa']:.0f}",
                       adm["violaciones"], f"{adm['margen_minimo']:.6f}",
                       con["violaciones"], f"{con['margen_minimo']:.6f}"))
-    p = a["geodesica_pura_distancia"]
-    filas.append(("distancia, geodésica pura", "1",
+    sp = a["sin_piso"]
+    dsp = sp["criterios"]["distancia"]
+    filas.append(("distancia, sin piso", f"{sp['alfa']:.6f}",
+                  dsp["admisibilidad"]["violaciones"],
+                  f"{dsp['admisibilidad']['margen_minimo']:.6f}",
+                  dsp["consistencia"]["violaciones"],
+                  f"{dsp['consistencia']['margen_minimo']:.6f}"))
+    p = sp["geodesica_pura_distancia"]
+    filas.append(("distancia, sin piso, geodésica pura", "1",
                   p["admisibilidad"]["violaciones"],
                   f"{p['admisibilidad']['margen_minimo']:.2f}",
                   p["consistencia"]["violaciones"],
@@ -236,14 +251,17 @@ def tabla_heuristica():
     cuerpo = [" & ".join(str(x) for x in f) + " \\\\" for f in filas]
     escribir("tabla_c2_heuristica.tex",
              encabezado + cuerpo + ["\\bottomrule", "\\end{tabular}"])
-    lineas = ["\\begin{tabular}{lrrr}", "\\toprule",
-              "\\textbf{Arista} & \\textbf{Carretera (km)} & "
-              "\\textbf{Geodésica (km)} & \\textbf{Razón} \\\\",
-              "\\midrule"]
-    for r in a["aristas_con_razon_menor_que_1"]:
-        u, v = r["arista"]
-        lineas.append(f"{u} -- {v} & {r['carretera_km']:.2f} & "
-                      f"{r['geodesica_km']:.2f} & {r['razon']:.6f} \\\\")
+    lineas = ["\\begin{tabular}{lrrrr}", "\\toprule",
+              "\\textbf{Arista} & \\textbf{Oficial (km)} & "
+              "\\textbf{Recta (km)} & \\textbf{Razón oficial} & "
+              "\\textbf{Modelo (km)} \\\\", "\\midrule"]
+    with open(SALIDA / "aristas_piso_geodesico.csv", encoding="utf-8") as g:
+        for r in csv.DictReader(g):
+            lineas.append(
+                f"{r['origen']} -- {r['destino']} & "
+                f"{r['distancia_oficial_km']} & "
+                f"{r['distancia_geodesica_km']} & {r['razon']} & "
+                f"{r['distancia_modelo_km']} \\\\")
     escribir("tabla_c2_razones.tex",
              lineas + ["\\bottomrule", "\\end{tabular}"])
 

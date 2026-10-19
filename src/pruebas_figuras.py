@@ -122,15 +122,18 @@ def main():
         ok(np.allclose(tiempos, fig.series["tiempo"][i]),
            f"comparación: barras de tiempo de {a} = outputs")
     # heurística y coherencia
-    alfa = fi.leer("analisis_heuristica.json")["alfa"]
+    alfa = fi.leer("analisis_heuristica.json")["sin_piso"]["alfa"]
     ok(f"y = {alfa:.6f} x" in textos(figs["fig_heuristica"]),
-       f"heurística: la recta rotulada es y = {alfa:.6f} x")
+       f"heurística: la recta rotulada (sin piso) es y = {alfa:.6f} x")
     datos = fi.datos_dispersion()
     bajo = sum(1 for d in datos if d[3] < d[2])
     for nombre in ("fig_heuristica", "fig_c1_coherencia"):
         etiquetas = [n for n, _ in figs[nombre].cajas]
         ok(len(etiquetas) == bajo,
-           f"{nombre}: {bajo} aristas bajo y = x rotuladas")
+           f"{nombre}: {bajo} aristas con distancia oficial bajo y = x "
+           "rotuladas")
+    ok(all(d[4] >= d[2] - 0.01 for d in datos),
+       "coherencia: con el piso, ninguna arista del modelo queda bajo y = x")
     # ACO
     fig = figs["fig_aco"]
     val = fi.leer("validacion_agente.json")["instancias"]

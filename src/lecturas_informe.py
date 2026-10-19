@@ -283,14 +283,14 @@ def lecturas_corte2():
     d0, d1 = b0["delta_corta_menos_desvio"], b1["delta_corta_menos_desvio"]
     bloque(
         "c2_barrido_figura",
-        "tres paneles (Chocontá a Tunja en 17.69 km, en la cota inferior "
-        "de 56.96 km y en las progresivas de 61.0 km); cada punto es un "
+        "tres paneles (con piso geodésico, sin piso y con Chocontá a Tunja "
+        "en las progresivas de 61.0 km); cada punto es un "
         "$(w_1, w_2)$ de la malla con $w_3 = 1 - w_1 - w_2$; círculo azul, "
         "gana Bogotá; triángulo naranja, gana Santander; la línea es la "
         "frontera exacta.",
         f"Bogotá gana en {b0['ganan_bogota_compuesto']} de "
-        f"{len(b0['puntos'])} puntos en la red corregida y en "
-        f"{b1['ganan_bogota_compuesto']} con la cota inferior y en "
+        f"{len(b0['puntos'])} puntos con piso, en "
+        f"{b1['ganan_bogota_compuesto']} sin piso y en "
         f"{bar[3]['ganan_bogota_compuesto']} con las progresivas; la "
         "frontera "
         f"corta $w_3=0$ en $w_1 = {b0['w1_umbral_sobre_w3_cero']:.4f}$, "
@@ -302,39 +302,41 @@ def lecturas_corte2():
         "tres términos se compensan.")
     bloque(
         "c2_barrido_tabla",
-        "filas: medidas del barrido; columnas: la red corregida (Chocontá a "
-        "Tunja en 17.69 km), la cota inferior (56.96 km) y las progresivas "
+        "filas: medidas del barrido; columnas: la red con piso geodésico "
+        "(base), sin piso y con Chocontá a Tunja en las progresivas "
         "(61.0 km).",
-        f"con la cota inferior Bogotá gana en "
+        f"sin piso Bogotá gana en "
         f"{b1['ganan_bogota_compuesto']} "
-        f"puntos en lugar de {b0['ganan_bogota_compuesto']} y el umbral "
-        f"pasa de {b0['w1_umbral_sobre_w3_cero']:.4f} a "
+        f"puntos en lugar de {b0['ganan_bogota_compuesto']} con piso y el "
+        f"umbral pasa de {b0['w1_umbral_sobre_w3_cero']:.4f} a "
         f"{b1['w1_umbral_sobre_w3_cero']:.4f} (con las progresivas, "
         f"{bar[3]['ganan_bogota_compuesto']} puntos y "
         f"{bar[3]['w1_umbral_sobre_w3_cero']:.4f}).",
-        f"Medido: $\\Delta D$ cambia de {d0[0]:.4f} a {d1[0]:.4f} mientras "
-        f"$\\Delta P$ ({d1[1]:.4f}) y $\\Delta R$ ({d1[2]:.4f}) no cambian; "
-        "la única arista distinta es Chocontá a Tunja.")
+        f"Medido: $\\Delta D$ cambia de {d0[0]:.4f} (con piso) a "
+        f"{d1[0]:.4f} (sin piso); $\\Delta P$ ({d1[1]:.4f}) y $\\Delta R$ "
+        f"({d1[2]:.4f}) no cambian, porque el piso solo toca distancias.")
     # --- tabla de heurística
     adm = heur["criterios"]["distancia"]["admisibilidad"]
-    pura = heur["geodesica_pura_distancia"]
+    pura = heur["sin_piso"]["geodesica_pura_distancia"]
     todos_cero = all(c["admisibilidad"]["violaciones"] == 0
                      and c["consistencia"]["violaciones"] == 0
                      for c in heur["criterios"].values())
     bloque(
         "c2_heuristica",
-        "filas: heurística (las de cada criterio con costo y la geodésica "
-        "pura con $\\alpha = 1$); columnas: $\\alpha$, violaciones "
-        "y margen mínimo de admisibilidad y de consistencia.",
-        f"con $\\alpha = {heur['alfa']:.6f}$ no hay violaciones "
+        "filas: heurística de cada criterio con piso geodésico y, para la "
+        "distancia sin piso, con su $\\alpha$ y con la geodésica pura "
+        "($\\alpha = 1$); columnas: $\\alpha$, violaciones y margen mínimo "
+        "de admisibilidad y de consistencia.",
+        f"con piso y $\\alpha = {heur['alfa']:.0f}$ no hay violaciones "
         f"(en las {len(heur['criterios'])} heurísticas"
-        f"{'' if todos_cero else ', revisar'}); con "
+        f"{'' if todos_cero else ', revisar'}); sin piso, con "
         f"$\\alpha = 1$ hay {pura['admisibilidad']['violaciones']} de "
         f"admisibilidad y {pura['consistencia']['violaciones']} de "
         "consistencia.",
-        f"Medido: el margen mínimo ({adm['margen_minimo']:.6f}) está en el "
-        f"par {adm['par_margen_minimo'][0]} a {adm['par_margen_minimo'][1]},"
-        " la arista que fija $\\alpha$.")
+        f"Medido: con piso el margen mínimo ({adm['margen_minimo']:.6f}) "
+        "es cero (en una arista con piso la carretera del modelo es la "
+        "propia recta); sin piso, $\\alpha$ es "
+        f"{heur['sin_piso']['alfa']:.6f}.")
     # --- tablas de la comparación de los cinco algoritmos (criterio dist.)
     dist = [c for c in res if c["criterio"] == "distancia"]
     escenarios = sorted({(c["origen"], c["destino"]) for c in dist})
@@ -532,9 +534,9 @@ def ejemplo_agente():
     # umbral de la participación de la distancia, del barrido de pesos, y
     # comprobación contra el propio agente a ambos lados del umbral
     barrido = leer("barrido_pesos.json")
-    cota = construir_grafo(reemplazos={("Chocontá", "Tunja"): 56.96})
+    sin_piso = construir_grafo(piso_geodesico=False)
     umbrales = []
-    for b, grafo in ((barrido[0], None), (barrido[1], cota)):
+    for b, grafo in ((barrido[0], None), (barrido[1], sin_piso)):
         u = b["w1_umbral_sobre_w3_cero"]
         for delta, via in ((0.005, "Bogotá"), (-0.005, "Bucaramanga")):
             ruta = recomendar("Duitama", ["Puente Nacional"], grafo=grafo,
@@ -565,8 +567,7 @@ def ejemplo_agente():
             "de los del desvío.\n"
             "\\item La recomendación se mantiene mientras el "
             f"peso de la distancia, $w_d/(w_d+w_p)$, sea mayor que {u0:.4f} "
-            f"({u1:.4f} con la cota inferior de Chocontá a "
-            "Tunja).\n"
+            f"({u1:.4f} sin piso geodésico).\n"
             "\\item Por costo operativo, la ruta por Bogotá es la más barata "
             f"si el costo variable supera {um['cop_por_km']:.1f} COP por km; "
             "el combustible solo, con los insumos verificados, cuesta "
@@ -610,16 +611,16 @@ def miles_1(valor):
 
 
 def cifras_dinero():
-    """Umbral exacto del costo variable por km en el caso central para los
-    tres valores de Chocontá a Tunja (base, cota inferior y progresivas)."""
-    variantes = {"base": None,
-                 "geodesica": {("Chocontá", "Tunja"): 56.96},
-                 "progresivas": {("Chocontá", "Tunja"): 61.0}}
-    salida = {}
-    for nombre, reemplazos in variantes.items():
-        grafo = (cargar_grafo() if reemplazos is None
-                 else construir_grafo(reemplazos=reemplazos))
-        salida[nombre] = umbral_exacto(grafo, "Duitama", "Puente Nacional")
+    """Umbral exacto del costo variable por km en el caso central: con piso
+    (base), sin piso (distancias oficiales) y con Chocontá a Tunja en las
+    progresivas (61.0 km, con piso)."""
+    variantes = {
+        "piso": cargar_grafo(),
+        "sin_piso": construir_grafo(piso_geodesico=False),
+        "progresivas": construir_grafo(
+            reemplazos={("Chocontá", "Tunja"): 61.0})}
+    salida = {nombre: umbral_exacto(grafo, "Duitama", "Puente Nacional")
+              for nombre, grafo in variantes.items()}
     costos = cargar_grafo().graph["costos"]
     return {"umbrales": salida, "modelo": costos}
 
@@ -627,36 +628,33 @@ def cifras_dinero():
 def texto_c2_dinero():
     """Umbral exacto del costo variable por km (outputs/), caso central."""
     d = cifras_dinero()
-    b, g, p = (d["umbrales"][k] for k in ("base", "geodesica",
+    b, g, p = (d["umbrales"][k] for k in ("piso", "sin_piso",
                                           "progresivas"))
     c = d["modelo"]
     comb = c["combustible_cop_km"]
-    evaluacion = leer("evaluacion_progresivas.json")["Chocontá - Tunja"][
-        "mediciones"]
     veces = ", ".join(f"{comb / x['cop_por_km']:.1f}" for x in (b, g, p))
     with open(SALIDA / "texto_c2_dinero.tex", "w", encoding="utf-8") as f:
         f.write(
-            "Con la distancia base de Chocontá a Tunja (17.69 km, valor "
-            "oficial registrado de un sector truncado), el desvío por "
-            f"Santander ahorra {miles(b['ahorro_peaje_cop'])} COP de peaje "
-            f"y suma {b['km_extra']:.2f} km. La ruta por Bogotá es más "
-            "barata en dinero si el costo variable por km supera el ahorro "
-            f"dividido entre los km extra, {b['cop_por_km']:.1f} COP/km. "
-            "Con la cota inferior (56.96 km, la línea recta entre los "
-            f"nodos) el umbral es {g['cop_por_km']:.1f} COP/km y con las "
-            f"progresivas ({evaluacion['por_progresivas_km']:.1f} km, con "
-            f"un hueco de {evaluacion['hueco_km']:.1f} km sin sector "
-            "registrado y el "
-            f"extremo a {evaluacion['extremo_destino_km']:.0f} km de "
-            f"Tunja), {p['cop_por_km']:.1f} COP/km. Con el costo variable "
-            f"vigente, {miles_1(comb)} COP/km (combustible con el precio "
-            "de la CREG y el consumo de la UPME, insumos verificados), la "
-            "ruta por Bogotá es la más barata en dinero en los tres casos, "
-            f"y lo supera {veces} veces, respectivamente. Los otros costos "
-            "por km (llantas, lubricantes, mantenimiento y conductor) no "
-            "tienen fuente y se toman iguales a 0 (supuesto del equipo), de "
-            "modo que el costo variable real no es menor que el calculado. "
-            "No se incluyen tiempo ni riesgo.\n")
+            "Con el piso geodésico (distancia del modelo no menor que la "
+            "línea recta entre los nodos), el desvío por Santander ahorra "
+            f"{miles(b['ahorro_peaje_cop'])} COP de peaje y suma "
+            f"{b['km_extra']:.2f} km. La ruta por Bogotá es más barata en "
+            "dinero si el costo variable por km supera el ahorro dividido "
+            f"entre los km extra, {b['cop_por_km']:.1f} COP/km. Sin piso "
+            "(distancias oficiales, con Chocontá a Tunja en 17.69 km) el "
+            f"desvío suma {g['km_extra']:.2f} km y el umbral es "
+            f"{g['cop_por_km']:.1f} COP/km; con Chocontá a Tunja en las "
+            f"progresivas (61.0 km, con un hueco de 49.1 km sin sector "
+            f"registrado) suma {p['km_extra']:.2f} km y el umbral es "
+            f"{p['cop_por_km']:.1f} COP/km. Con el costo variable vigente, "
+            f"{miles_1(comb)} COP/km (combustible con el precio de la CREG "
+            "y el consumo de la UPME, insumos verificados), la ruta por "
+            "Bogotá es la más barata en dinero en los tres casos, y lo "
+            f"supera {veces} veces, respectivamente. Los otros costos por "
+            "km (llantas, lubricantes, mantenimiento y conductor) no tienen "
+            "fuente y se toman iguales a 0 (supuesto del equipo), de modo "
+            "que el costo variable real no es menor que el calculado. No se "
+            "incluyen tiempo ni riesgo.\n")
 
 
 def main():

@@ -506,27 +506,38 @@ def fig_comparacion(grafo, trazado):
 
 # ------------------------------------------------ B3 y C3: dispersión
 def datos_dispersion():
+    """(origen, destino, geodésica, oficial, modelo) de las 32 aristas."""
     filas = leer_csv("auditoria_aristas.csv")
     return [(r["origen"], r["destino"], float(r["geodesica_km"]),
-             float(r["distancia_carretera_km"])) for r in filas]
+             float(r["distancia_carretera_km"]),
+             float(r["distancia_modelo_km"])) for r in filas]
 
 
 def dispersion(con_alfa):
+    """Distancia del modelo contra geodésica; con piso, ninguna arista queda
+    bajo la recta. Las aristas con piso se muestran con su valor oficial."""
     datos = datos_dispersion()
-    alfa = leer("analisis_heuristica.json")["alfa"] if con_alfa else None
+    alfa = (leer("analisis_heuristica.json")["sin_piso"]["alfa"]
+            if con_alfa else None)
     fig, ax = plt.subplots(figsize=(ANCHO_IN, 4.5))
     fig.subplots_adjust(left=0.1, right=0.985, top=0.98, bottom=0.11)
-    tope = max(max(d[2], d[3]) for d in datos) * 1.05
+    tope = max(max(d[2], d[3], d[4]) for d in datos) * 1.05
     ax.plot([0, tope], [0, tope], color=TINTA, lw=1.0, zorder=2)
     if con_alfa:
         ax.plot([0, tope], [0, alfa * tope], color=NARANJA, lw=1.4,
                 ls="--", zorder=2)
     sobre = [d for d in datos if d[3] >= d[2]]
     bajo = [d for d in datos if d[3] < d[2]]
-    ax.scatter([d[2] for d in sobre], [d[3] for d in sobre], s=20,
+    ax.scatter([d[2] for d in sobre], [d[4] for d in sobre], s=20,
                marker="o", color=AZUL, edgecolor=TINTA, lw=0.5, zorder=4)
+    for d in bajo:
+        ax.plot([d[2], d[2]], [d[3], d[4]], color=GRIS_LIMITE, lw=0.8,
+                zorder=3)
+    ax.scatter([d[2] for d in bajo], [d[4] for d in bajo], s=26,
+               marker="^", color=NARANJA, edgecolor=TINTA, lw=0.5, zorder=4)
     ax.scatter([d[2] for d in bajo], [d[3] for d in bajo], s=26,
-               marker="v", color=NARANJA, edgecolor=TINTA, lw=0.5, zorder=4)
+               marker="v", color=SUPERFICIE, edgecolor=TINTA, lw=0.8,
+               zorder=4)
     ax.set_xlim(0, tope)
     ax.set_ylim(0, tope)
     ax.set_xlabel("Distancia geodésica entre los nodos (km)",
@@ -545,12 +556,15 @@ def dispersion(con_alfa):
     entradas = [Line2D([0], [0], color=TINTA, lw=1.0,
                        label="carretera = geodésica"),
                 Line2D([0], [0], marker="o", color="none", mfc=AZUL,
-                       mec=TINTA, label="carretera ≥ geodésica"),
-                Line2D([0], [0], marker="v", color="none", mfc=NARANJA,
-                       mec=TINTA, label="carretera < geodésica")]
+                       mec=TINTA, label="arista sin piso"),
+                Line2D([0], [0], marker="^", color="none", mfc=NARANJA,
+                       mec=TINTA, label="arista con piso (distancia del "
+                       "modelo)"),
+                Line2D([0], [0], marker="v", color="none", mfc=SUPERFICIE,
+                       mec=TINTA, label="su distancia oficial")]
     if con_alfa:
         entradas.insert(1, Line2D([0], [0], color=NARANJA, lw=1.4, ls="--",
-                                  label=f"y = {alfa:.6f} x"))
+                                  label=f"sin piso: y = {alfa:.6f} x"))
     leg = ax.legend(handles=entradas, loc="lower right", fontsize=FUENTE,
                     frameon=True, facecolor=SUPERFICIE, edgecolor=GRIS_LIMITE)
     fig.leyenda = leg
@@ -566,13 +580,17 @@ def fig_heuristica(grafo, trazado):
         "c2_fig_heuristica",
         "cada punto es una de las 32 aristas: distancia geodésica en el eje "
         "horizontal y distancia por carretera en el vertical; la recta "
-        "continua es y = x y la discontinua es y = alfa x.",
-        f"{len(bajo)} aristas quedan bajo y = x y todas quedan sobre "
-        f"y = alfa x, con alfa = {alfa:.6f}; la razón mínima es "
-        f"{minimo[3] / minimo[2]:.4f} en {minimo[0]} a {minimo[1]}.",
-        "Medido: la arista que fija alfa es la de menor razón "
-        f"({minimo[3]:.2f} km por carretera frente a {minimo[2]:.2f} km en "
-        "línea recta); su sector está truncado en la fuente.")
+        "continua es y = x y la discontinua es y = alfa x sin piso; el "
+        "triángulo lleno es la distancia del modelo de una arista con piso "
+        "y el vacío su distancia oficial.",
+        f"con el piso las 32 aristas quedan sobre y = x y alfa = 1; "
+        f"{len(bajo)} aristas tienen una distancia oficial bajo y = x "
+        f"(razón mínima {minimo[3] / minimo[2]:.4f} en {minimo[0]} a "
+        f"{minimo[1]}); sin piso alfa = {alfa:.6f}.",
+        "Medido: la arista de menor razón oficial es "
+        f"{minimo[0]} a {minimo[1]} ({minimo[3]:.2f} km oficiales frente a "
+        f"{minimo[2]:.2f} km en línea recta); su sector está truncado en la "
+        "fuente.")
     return fig
 
 
@@ -583,12 +601,14 @@ def fig_c1_coherencia(grafo, trazado):
         "c1_fig_coherencia",
         "cada punto es una de las 32 aristas: distancia geodésica en el eje "
         "horizontal y distancia por carretera en el vertical; la recta es "
-        "y = x.",
+        "y = x; el triángulo lleno es la distancia del modelo de una arista "
+        "con piso y el vacío su distancia oficial.",
         f"{len(sobre)} aristas tienen carretera igual o mayor que la "
-        f"geodésica y {len(bajo)} la tienen menor.",
-        "Medido: la menor razón es "
+        f"recta; en las otras {len(bajo)} el dato oficial es menor que la "
+        "recta y el modelo usa la recta como cota inferior.",
+        "Medido: la menor razón oficial es "
         f"{minimo[3] / minimo[2]:.4f} en {minimo[0]} a {minimo[1]}; las "
-        "aristas bajo la recta son las que la auditoría marca por "
+        "aristas con triángulo vacío son las que la auditoría marca por "
         "carretera menor que la geodésica.")
     return fig
 
