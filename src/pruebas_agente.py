@@ -38,8 +38,9 @@ def distancias_json(variante):
     campo = ("distancia_km" if variante == "corregida"
              else "distancia_cruda_km")
     with open(SALIDA / "aristas_red.json", encoding="utf-8") as f:
-        return {frozenset((a["origen"], a["destino"])): a[campo]
-                for a in json.load(f)}
+        return {frozenset((a["origen"], a["destino"])): max(
+            a[campo], a["distancia_geodesica_km"])
+            for a in json.load(f)}
 
 
 def suma_ruta(distancias, ruta):
@@ -57,14 +58,14 @@ def prueba_ciclo(agente, resultados):
     corta = agente.calcular_ruta("Duitama", "Puente Nacional", "distancia")
     verificar(corta["ruta"] == por_bogota, "distancia: ruta por Bogotá")
     verificar(abs(corta["distancia_total_km"]
-                  - suma_ruta(distancias, por_bogota)) < 1e-6,
+                  - round(suma_ruta(distancias, por_bogota), 2)) < 1e-6,
               "distancia de la ruta corta = suma de aristas del JSON")
     desvio = agente.calcular_ruta("Duitama", "Puente Nacional", "distancia",
                                   tramos_bloqueados=[TRAMO_CICLO])
     verificar(desvio["ruta"] == por_santander,
               "con Bogotá a Tocancipá bloqueado: ruta por Santander")
     verificar(abs(desvio["distancia_total_km"]
-                  - suma_ruta(distancias, por_santander)) < 1e-6,
+                  - round(suma_ruta(distancias, por_santander), 2)) < 1e-6,
               "distancia del desvío = suma de aristas del JSON")
     resultados["ciclo"] = {"corta": corta, "desvio": desvio}
     for criterio in CRITERIOS:
@@ -78,10 +79,15 @@ def prueba_ciclo(agente, resultados):
     c_corta = cruda.calcular_ruta("Duitama", "Puente Nacional", "distancia")
     c_desvio = cruda.calcular_ruta("Duitama", "Puente Nacional", "distancia",
                                    tramos_bloqueados=[TRAMO_CICLO])
-    verificar(round(c_corta["distancia_total_km"], 1) == 414.8,
-              "variante cruda: ruta corta = 414.8 km")
-    verificar(round(c_desvio["distancia_total_km"], 1) == 668.1,
-              "variante cruda: desvío = 668.1 km")
+    cruda_json = distancias_json("cruda")
+    verificar(abs(c_corta["distancia_total_km"]
+                  - round(suma_ruta(cruda_json, por_bogota), 2)) < 1e-6,
+              "variante cruda (con piso): ruta corta = suma de aristas del "
+              "JSON, con piso")
+    verificar(abs(c_desvio["distancia_total_km"]
+                  - round(suma_ruta(cruda_json, por_santander), 2)) < 1e-6,
+              "variante cruda (con piso): desvío = suma de aristas del JSON, "
+              "con piso")
     resultados["ciclo_cruda"] = {"corta": c_corta, "desvio": c_desvio}
 
 

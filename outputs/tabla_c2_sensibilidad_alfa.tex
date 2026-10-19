@@ -1,10 +1,12 @@
 \renewcommand{\arraystretch}{1.2}
-\begin{tabular}{|l|r|r|r|c|}
+\begin{tabular}{|l|r|r|r|r|r|}
 \hline
-\rowcolor{gray!20} \textbf{Escenario} & \textbf{UCS} & \textbf{A* $\alpha=0.310570$} & \textbf{A* $\alpha_{\mathrm{ref}}=0.458156$} & \textbf{Óptima} \\
+\rowcolor{gray!20}  & \multicolumn{2}{c}{\textbf{Con piso}} & \multicolumn{3}{c}{\textbf{Sin piso}} \\
 \hline
-\textbf{Duitama -- Puente Nacional} & 25 & 20 & 17 & sí \\
+\rowcolor{gray!20} \textbf{\cmidrule(lr){2-3}\cmidrule(lr){4-6} \textbf{Escenario}} & \textbf{UCS} & \textbf{A* $\alpha=1$} & \textbf{UCS} & \textbf{A* $\alpha=0.310570$} & \textbf{A* $\alpha=1$} \\
 \hline
-\textbf{Suma de 992 pares} & 15872 & 13377 & 12223 & 991 de 992 \\
+\textbf{Duitama -- Puente Nacional} & 27 & 14 & 25 & 20 & 14 \\
+\hline
+\textbf{Suma de 992 pares} & 15872 & 8584 & 15872 & 13377 & 8321 \\
 \hline
 \end{tabular}
