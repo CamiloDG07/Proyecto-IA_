@@ -124,15 +124,11 @@ def tabla_barrido(barridos):
 def tabla_sensibilidad_alfa(sens):
     """Nodos expandidos con piso y sin piso (criterio distancia)."""
     lineas = ["\\begin{tabular}{lrrrrr}", "\\toprule",
-              "& \\multicolumn{2}{c}{\\textbf{Con piso}} & "
-              "\\multicolumn{3}{c}{\\textbf{Sin piso}} \\\\",
-              "\\cmidrule(lr){2-3}\\cmidrule(lr){4-6}",
-              "\\textbf{Escenario} & \\textbf{UCS} & "
-              "\\textbf{A* $\\alpha=%.0f$} & \\textbf{UCS} & "
-              "\\textbf{A* $\\alpha=%.6f$} & "
-              "\\textbf{A* $\\alpha=1$} \\\\"
-              % (sens["alfa_piso"], sens["alfa_sin_piso"]),
-              "\\midrule"]
+              "\\textbf{Escenario} & \\textbf{UCS piso} & "
+              "\\textbf{A* piso} & \\textbf{UCS sin} & "
+              "\\textbf{A* sin $\\alpha=%.6f$} & "
+              "\\textbf{A* sin $\\alpha=1$} \\\\"
+              % sens["alfa_sin_piso"], "\\midrule"]
     for e in sens["por_escenario"][:1]:
         lineas.append(
             f"{e['origen']} -- {e['destino']} & "
@@ -227,18 +223,18 @@ def tabla_heuristica():
                "compuesto_mortalidad": "mortalidad (limitado)"}
     for criterio, datos in a["criterios"].items():
         adm, con = datos["admisibilidad"], datos["consistencia"]
-        filas.append((nombres[criterio] + ", con piso", f"{a['alfa']:.0f}",
+        filas.append((nombres[criterio], f"{a['alfa']:.0f}",
                       adm["violaciones"], f"{adm['margen_minimo']:.6f}",
                       con["violaciones"], f"{con['margen_minimo']:.6f}"))
     sp = a["sin_piso"]
     dsp = sp["criterios"]["distancia"]
-    filas.append(("distancia, sin piso", f"{sp['alfa']:.6f}",
+    filas.append(("sin piso", f"{sp['alfa']:.6f}",
                   dsp["admisibilidad"]["violaciones"],
                   f"{dsp['admisibilidad']['margen_minimo']:.6f}",
                   dsp["consistencia"]["violaciones"],
                   f"{dsp['consistencia']['margen_minimo']:.6f}"))
     p = sp["geodesica_pura_distancia"]
-    filas.append(("distancia, sin piso, geodésica pura", "1",
+    filas.append(("sin piso, geodésica pura", "1",
                   p["admisibilidad"]["violaciones"],
                   f"{p['admisibilidad']['margen_minimo']:.2f}",
                   p["consistencia"]["violaciones"],

@@ -333,7 +333,7 @@ def lecturas_corte2():
         f"$\\alpha = 1$ hay {pura['admisibilidad']['violaciones']} de "
         f"admisibilidad y {pura['consistencia']['violaciones']} de "
         "consistencia.",
-        f"Medido: con piso el margen mínimo ({adm['margen_minimo']:.6f}) "
+        f"Medido: con piso el margen mínimo ({adm['margen_minimo']:.1e} km) "
         "es cero (en una arista con piso la carretera del modelo es la "
         "propia recta); sin piso, $\\alpha$ es "
         f"{heur['sin_piso']['alfa']:.6f}.")
