@@ -1,0 +1,7 @@
+# Bitácora del piso geodésico
+
+| Hora | Decisión | Motivo | Evidencia |
+|---|---|---|---|
+| 2026-10-19 15:02 | Se parte de master (contiene corte2-entrega-8, c3da3a5); rama piso-geodesico, etiqueta respaldo-pre-piso, copia de los PDF y el zip a previo_entrega_8 | Seguridad del repositorio | git rev-parse |
+| 15:10 | Fase 1: 8 aristas con razón carretera/geodésica < 1 (outputs/aristas_piso_geodesico.csv, sin piso aún): Chocontá a Tunja 17.69 (recta 56.96, piso +39.27), Madrid a Bogotá 9.12 (19.91, +10.79), Bogotá a Tocancipá 22.12 (41.19, +19.07), Cajicá a Zipaquirá 9.10 (12.15, +3.05), Yé de Granada a Granada 2.43 (3.04, +0.61), Girardot a El Espinal 19.36 (20.42, +1.06), Bogotá a Guasca 34.88 (35.12, +0.24), Tunja a Duitama 47.73 (47.78, +0.05) | Diagnóstico de solo lectura; el conjunto coincide con las 8 de la auditoría y no hay más | src/piso_geodesico.py |
+| 15:15 | Previsión (no definitiva): con el piso, toda arista cumple costo >= geodésica (razón mínima 1.0000000059) y h = geodésica es consistente por la desigualdad triangular; el caso central pasa de 309.10 a 370.54 km por Bogotá (el desvío por Santander no cambia: 654.25 km), el peaje no cambia y el umbral exacto pasa de 204.5 a 248.8 COP por km; de los 992 pares, 776 tienen una arista con piso en su ruta óptima anterior (sus costos cambian) y 216 no (deben quedar idénticos a corte2-entrega-8); cambian de ruta 14 pares con el criterio distancia | Se confirma el invariante y se acota la puerta de regresión | scratchpad/prevision.py |

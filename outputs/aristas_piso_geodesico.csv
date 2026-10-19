@@ -1,0 +1,9 @@
+origen,destino,distancia_oficial_km,distancia_geodesica_km,razon,piso_km,distancia_modelo_km,causa
+Chocontá,Tunja,17.69,56.96,0.3106,39.27,56.96,sector truncado en la fuente: el trazado queda a 43.70 km de un nodo
+Madrid,Bogotá,9.12,19.91,0.4582,10.79,19.91,entrada urbana a Bogotá: el trazado de INVÍAS empieza a 8.96 km del nodo
+Bogotá,Tocancipá,22.12,41.19,0.5371,19.07,41.19,entrada urbana a Bogotá: el trazado de INVÍAS empieza a 18.90 km del nodo
+Cajicá,Zipaquirá,9.10,12.15,0.7492,3.05,12.15,coordenada del nodo en el centro del municipio: el extremo del trazado queda a 2.14 km del nodo
+Ye de Granada,Granada,2.43,3.04,0.7984,0.61,3.04,coordenada del nodo derivada de la unión de tramos de INVÍAS (sin punto DANE)
+Girardot,El Espinal,19.36,20.42,0.9479,1.06,20.42,coordenada del nodo en el centro del municipio: el extremo del trazado queda a 3.07 km del nodo
+Bogotá,Guasca,34.88,35.12,0.9931,0.24,35.12,entrada urbana a Bogotá: el trazado de INVÍAS empieza a 11.17 km del nodo
+Tunja,Duitama,47.73,47.78,0.9989,0.05,47.78,coordenada del nodo en el centro del municipio: el extremo del trazado queda a 4.17 km del nodo
