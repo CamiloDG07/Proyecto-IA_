@@ -1,0 +1,12 @@
+inicio de la sesión de medición: 2026-10-19 15:36:01
+powercfg /getactivescheme: GUID de plan de energía: 381b4222-f694-41f0-9685-ff5bb260df2e  (Equilibrado)
+Corriente: PowerLineStatus=Online; carga de la batería 93 %
+CPU: Intel(R) Core(TM) i7-8750H CPU @ 2.20GHz; carga instantánea 12 %
+Equipo: LENOVO 81LF; RAM 15.88 GiB; libre 5.62 GiB
+SO: Microsoft Windows 11 Home 10.0.26300
+Procesos python/pdflatex al iniciar: 0
+fin de la sesión de medición: 2026-10-19 15:42:20
+Pasos de la sesión (cada uno con la corriente comprobada antes y después: PowerLineStatus=Online en los 20): construir_red, build_graph, auditar_aristas, auditar_distancias, piso_geodesico, exportar_latex, heuristica, pruebas_agente, experimentos_corte2 (15:36:59 a 15:37:36), tablas_corte2, perfil_topologico, mapa_geografico, visualizar_rutas, verificar_estructura, validacion_agente (15:37:53 a 15:41:45), tablas_agente, diagrama_red, lecturas_informe, figuras_informe, formato_latex.
+Condiciones: una sola sesión, un solo proceso a la vez; no se ejecutó pycodestyle, ninguna compilación ni ninguna otra prueba durante la sesión; el equipo estuvo conectado a corriente de principio a fin (carga de la batería 92 a 93 %); no había procesos python ni pdflatex al empezar. Los demás procesos de Windows (navegador y similares) seguían activos.
+El umbral de Held-Karp (K = 19, sesiones del 7 de octubre) no se repitió.
+Con el piso geodésico cambian las distancias de 8 aristas y, por tanto, los costos, las rutas y los nodos expandidos de los pares que usan esas aristas. En los 26 pares-criterio cuya ruta óptima no usa ninguna arista con piso (src/comparar_resultados.py) las rutas y los costos de los cinco algoritmos son idénticos a corte2-entrega-8; los nodos de BFS, DFS y UCS también, salvo 3 celdas de UCS cuya ruta pasa por un nodo con aristas con piso, y los de A* son menores o iguales.

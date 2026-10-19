@@ -1,123 +1,176 @@
 {
- "rotulo": "sensibilidad: h con alfa_ref, no admisible con la distancia registrada de Chocontá a Tunja",
- "alfa_base": 0.31057,
- "alfa_ref": 0.458156,
+ "rotulo": "sensibilidad sin piso: distancias oficiales; alfa = mínimo de la razón; con alfa = 1 la h no es admisible",
+ "alfa_piso": 1.0,
+ "alfa_sin_piso": 0.31057,
  "por_escenario": [
   {
    "origen": "Duitama",
    "destino": "Puente Nacional",
-   "costo_optimo": 309.1,
-   "expandidos_ucs": 25,
-   "expandidos_alfa_base": 20,
-   "expandidos_alfa_ref": 17,
-   "costo_alfa_ref": 309.1,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 370.53664,
+   "costo_optimo_sin_piso": 309.1,
+   "expandidos_ucs_piso": 27,
+   "expandidos_astar_piso": 14,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 25,
+   "expandidos_astar_sin_piso": 20,
+   "expandidos_astar_sin_piso_alfa1": 14,
+   "costo_astar_sin_piso_alfa1": 309.1,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Tunja",
    "destino": "Ubaté",
-   "costo_optimo": 166.89,
-   "expandidos_ucs": 15,
-   "expandidos_alfa_base": 12,
-   "expandidos_alfa_ref": 12,
-   "costo_alfa_ref": 166.89,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 228.27281299999999,
+   "costo_optimo_sin_piso": 166.89,
+   "expandidos_ucs_piso": 16,
+   "expandidos_astar_piso": 11,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 15,
+   "expandidos_astar_sin_piso": 12,
+   "expandidos_astar_sin_piso_alfa1": 12,
+   "costo_astar_sin_piso_alfa1": 166.89,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Bucaramanga",
    "destino": "Bogotá",
-   "costo_optimo": 408.49,
-   "expandidos_ucs": 10,
-   "expandidos_alfa_base": 10,
-   "expandidos_alfa_ref": 9,
-   "costo_alfa_ref": 408.49,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 411.536089,
+   "costo_optimo_sin_piso": 408.49,
+   "expandidos_ucs_piso": 10,
+   "expandidos_astar_piso": 7,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 10,
+   "expandidos_astar_sin_piso": 10,
+   "expandidos_astar_sin_piso_alfa1": 7,
+   "costo_astar_sin_piso_alfa1": 408.49,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Barbosa",
    "destino": "Zipaquirá",
-   "costo_optimo": 181.96,
-   "expandidos_ucs": 11,
-   "expandidos_alfa_base": 11,
-   "expandidos_alfa_ref": 11,
-   "costo_alfa_ref": 181.96,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 243.342813,
+   "costo_optimo_sin_piso": 181.96,
+   "expandidos_ucs_piso": 11,
+   "expandidos_astar_piso": 8,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 11,
+   "expandidos_astar_sin_piso": 11,
+   "expandidos_astar_sin_piso_alfa1": 7,
+   "costo_astar_sin_piso_alfa1": 181.96,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Bogotá",
    "destino": "Villavicencio",
-   "costo_optimo": 93.72,
-   "expandidos_ucs": 10,
-   "expandidos_alfa_base": 8,
-   "expandidos_alfa_ref": 5,
-   "costo_alfa_ref": 93.72,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 93.72,
+   "costo_optimo_sin_piso": 93.72,
+   "expandidos_ucs_piso": 9,
+   "expandidos_astar_piso": 1,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 10,
+   "expandidos_astar_sin_piso": 8,
+   "expandidos_astar_sin_piso_alfa1": 1,
+   "costo_astar_sin_piso_alfa1": 93.72,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Girardot",
    "destino": "Cambao",
-   "costo_optimo": 88.71,
-   "expandidos_ucs": 3,
-   "expandidos_alfa_base": 3,
-   "expandidos_alfa_ref": 2,
-   "costo_alfa_ref": 88.71,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 88.71,
+   "costo_optimo_sin_piso": 88.71,
+   "expandidos_ucs_piso": 3,
+   "expandidos_astar_piso": 1,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 3,
+   "expandidos_astar_sin_piso": 3,
+   "expandidos_astar_sin_piso_alfa1": 1,
+   "costo_astar_sin_piso_alfa1": 88.71,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Chiquinquirá",
    "destino": "Tunja",
-   "costo_optimo": 72.61,
-   "expandidos_ucs": 2,
-   "expandidos_alfa_base": 2,
-   "expandidos_alfa_ref": 2,
-   "costo_alfa_ref": 72.61,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 72.61,
+   "costo_optimo_sin_piso": 72.61,
+   "expandidos_ucs_piso": 2,
+   "expandidos_astar_piso": 2,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 2,
+   "expandidos_astar_sin_piso": 2,
+   "expandidos_astar_sin_piso_alfa1": 2,
+   "costo_astar_sin_piso_alfa1": 72.61,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Bogotá",
    "destino": "Granada",
-   "costo_optimo": 168.78,
-   "expandidos_ucs": 21,
-   "expandidos_alfa_base": 14,
-   "expandidos_alfa_ref": 11,
-   "costo_alfa_ref": 168.78,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 169.393507,
+   "costo_optimo_sin_piso": 168.78,
+   "expandidos_ucs_piso": 18,
+   "expandidos_astar_piso": 4,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 21,
+   "expandidos_astar_sin_piso": 14,
+   "expandidos_astar_sin_piso_alfa1": 4,
+   "costo_astar_sin_piso_alfa1": 168.78,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Madrid",
    "destino": "Puerto Gaitán",
-   "costo_optimo": 289.01,
-   "expandidos_ucs": 26,
-   "expandidos_alfa_base": 24,
-   "expandidos_alfa_ref": 20,
-   "costo_alfa_ref": 289.01,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 299.795866,
+   "costo_optimo_sin_piso": 289.01,
+   "expandidos_ucs_piso": 25,
+   "expandidos_astar_piso": 9,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 26,
+   "expandidos_astar_sin_piso": 24,
+   "expandidos_astar_sin_piso_alfa1": 10,
+   "costo_astar_sin_piso_alfa1": 289.01,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   },
   {
    "origen": "Mariquita",
    "destino": "Granada",
-   "costo_optimo": 327.18,
-   "expandidos_ucs": 21,
-   "expandidos_alfa_base": 16,
-   "expandidos_alfa_ref": 13,
-   "costo_alfa_ref": 327.18,
-   "optima_alfa_ref": true,
-   "reexpansiones_alfa_ref": 0
+   "costo_optimo_piso": 327.793507,
+   "costo_optimo_sin_piso": 327.18,
+   "expandidos_ucs_piso": 18,
+   "expandidos_astar_piso": 7,
+   "reexpansiones_astar_piso": 0,
+   "expandidos_ucs_sin_piso": 21,
+   "expandidos_astar_sin_piso": 16,
+   "expandidos_astar_sin_piso_alfa1": 7,
+   "costo_astar_sin_piso_alfa1": 327.18,
+   "optima_astar_sin_piso_alfa1": true,
+   "reexpansiones_astar_sin_piso_alfa1": 0
   }
  ],
  "todos_los_pares": {
   "pares": 992,
-  "no_optimos": 1,
+  "reexpansiones_astar_piso": 0,
+  "no_optimos_sin_piso_alfa1": 3,
   "detalle_no_optimos": [
+   {
+    "origen": "Bucaramanga",
+    "destino": "Barbosa",
+    "costo": 544.84,
+    "costo_optimo": 544.17
+   },
+   {
+    "origen": "Bucaramanga",
+    "destino": "Sáchica",
+    "costo": 517.16,
+    "costo_optimo": 516.49
+   },
    {
     "origen": "Bucaramanga",
     "destino": "Tunja",
@@ -125,12 +178,61 @@
     "costo_optimo": 481.34
    }
   ],
-  "expandidos_total_ucs": 15872,
-  "expandidos_total_alfa_base": 13377,
-  "expandidos_total_alfa_ref": 12223
+  "expandidos_total_ucs_piso": 15872,
+  "expandidos_total_astar_piso": 8584,
+  "expandidos_total_ucs_sin_piso": 15872,
+  "expandidos_total_astar_sin_piso": 13377,
+  "expandidos_total_astar_sin_piso_alfa1": 8321
  },
  "rutas_optimas_duitama_puente_nacional": {
   "base": {
+   "distancia": {
+    "via": "Bogotá",
+    "distancia_km": 370.54,
+    "costo": 370.53664
+   },
+   "peaje": {
+    "via": "Santander",
+    "distancia_km": 654.25,
+    "costo": 100200
+   },
+   "riesgo": {
+    "via": "Santander",
+    "distancia_km": 654.25,
+    "costo": 0.0
+   },
+   "compuesto": {
+    "via": "Santander",
+    "distancia_km": 654.25,
+    "costo": 2.3494652361443724
+   },
+   "compuesto_sin_riesgo": {
+    "via": "Bogotá",
+    "distancia_km": 370.54,
+    "costo": 3.3667511496729636
+   },
+   "costo_operativo": {
+    "via": "Bogotá",
+    "distancia_km": 370.54,
+    "costo": 599509.5774785911
+   },
+   "compuesto_total": {
+    "via": "Santander",
+    "distancia_km": 654.25,
+    "costo": 2.922034392678097
+   },
+   "compuesto_total_sin_riesgo": {
+    "via": "Bogotá",
+    "distancia_km": 370.54,
+    "costo": 3.120411789307542
+   },
+   "compuesto_mortalidad": {
+    "via": "Bogotá",
+    "distancia_km": 370.54,
+    "costo": 2.548382408818156
+   }
+  },
+  "sin_piso": {
    "distancia": {
     "via": "Bogotá",
     "distancia_km": 309.1,
@@ -174,61 +276,14 @@
    "compuesto_mortalidad": {
     "via": "Bogotá",
     "distancia_km": 309.1,
-    "costo": 2.375999768927653
-   }
-  },
-  "cota_inferior": {
-   "distancia": {
-    "via": "Bogotá",
-    "distancia_km": 348.37,
-    "costo": 348.37
-   },
-   "peaje": {
-    "via": "Santander",
-    "distancia_km": 654.25,
-    "costo": 100200
-   },
-   "riesgo": {
-    "via": "Santander",
-    "distancia_km": 654.25,
-    "costo": 0.0
-   },
-   "compuesto": {
-    "via": "Santander",
-    "distancia_km": 654.25,
-    "costo": 2.3494652361443724
-   },
-   "compuesto_sin_riesgo": {
-    "via": "Bogotá",
-    "distancia_km": 348.37,
-    "costo": 3.288151617724875
-   },
-   "costo_operativo": {
-    "via": "Bogotá",
-    "distancia_km": 348.37,
-    "costo": 573862.8536660149
-   },
-   "compuesto_total": {
-    "via": "Santander",
-    "distancia_km": 654.25,
-    "costo": 2.922034392678097
-   },
-   "compuesto_total_sin_riesgo": {
-    "via": "Bogotá",
-    "distancia_km": 348.37,
-    "costo": 3.0156124133767563
-   },
-   "compuesto_mortalidad": {
-    "via": "Bogotá",
-    "distancia_km": 348.37,
-    "costo": 2.468830064651361
+    "costo": 2.403152425129056
    }
   },
   "progresivas": {
    "distancia": {
     "via": "Bogotá",
-    "distancia_km": 352.41,
-    "costo": 352.41
+    "distancia_km": 374.58,
+    "costo": 374.576931
    },
    "peaje": {
     "via": "Santander",
@@ -247,13 +302,13 @@
    },
    "compuesto_sin_riesgo": {
     "via": "Bogotá",
-    "distancia_km": 352.41,
-    "costo": 3.302476842886211
+    "distancia_km": 374.58,
+    "costo": 3.381077406676013
    },
    "costo_operativo": {
     "via": "Bogotá",
-    "distancia_km": 352.41,
-    "costo": 578537.119328416
+    "distancia_km": 374.58,
+    "costo": 604184.1798269596
    },
    "compuesto_total": {
     "via": "Santander",
@@ -262,20 +317,20 @@
    },
    "compuesto_total_sin_riesgo": {
     "via": "Bogotá",
-    "distancia_km": 352.41,
-    "costo": 3.0347127135918712
+    "distancia_km": 374.58,
+    "costo": 3.1395134653116075
    },
    "compuesto_mortalidad": {
     "via": "Bogotá",
-    "distancia_km": 352.41,
-    "costo": 2.478380214758918
+    "distancia_km": 374.58,
+    "costo": 2.557933246820189
    }
   },
   "crudas": {
    "distancia": {
     "via": "Bogotá",
-    "distancia_km": 414.84,
-    "costo": 414.84000000000003
+    "distancia_km": 456.93,
+    "costo": 456.926724
    },
    "peaje": {
     "via": "Santander",
@@ -299,8 +354,8 @@
    },
    "costo_operativo": {
     "via": "Bogotá",
-    "distancia_km": 414.84,
-    "costo": 650768.4077699273
+    "distancia_km": 456.93,
+    "costo": 699462.5980759065
    },
    "compuesto_total": {
     "via": "Santander",
@@ -309,13 +364,13 @@
    },
    "compuesto_total_sin_riesgo": {
     "via": "Bogotá",
-    "distancia_km": 414.84,
-    "costo": 3.0180201724082565
+    "distancia_km": 456.93,
+    "costo": 3.185359684545192
    },
    "compuesto_mortalidad": {
     "via": "Santander",
     "distancia_km": 668.14,
-    "costo": 2.465915269342998
+    "costo": 2.5644446266077563
    }
   }
  }

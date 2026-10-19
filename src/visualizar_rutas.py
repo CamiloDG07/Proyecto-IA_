@@ -117,9 +117,9 @@ def figura_rutas(grafo, coordenadas, alfa, criterio, nombre):
 def figura_barrido():
     with open(SALIDA / "barrido_pesos.json", encoding="utf-8") as f:
         barridos = json.load(f)
-    paneles = ((barridos[0], "Base: Chocontá a Tunja 17.69 km"),
-               (barridos[1], "Cota inferior: 56.96 km"),
-               (barridos[3], "Progresivas: 61.0 km"))
+    paneles = ((barridos[0], "Con piso geodésico (base)"),
+               (barridos[1], "Sin piso (distancias oficiales)"),
+               (barridos[3], "Con piso y Chocontá a Tunja 61.0 km"))
     fig, ejes = plt.subplots(1, 3, figsize=(9.0, 3.7), facecolor=SUPERFICIE,
                              sharey=True)
     for ax, (b, titulo) in zip(ejes, paneles):

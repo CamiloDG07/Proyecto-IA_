@@ -160,9 +160,30 @@ def tabla_auditoria():
     escribir("tabla_auditoria.tex", lineas)
 
 
+def tabla_piso():
+    """Aristas con piso geodésico, desde outputs/aristas_piso_geodesico.csv."""
+    with open(SALIDA / "aristas_piso_geodesico.csv", encoding="utf-8") as f:
+        filas = list(csv.DictReader(f))
+    lineas = [
+        "\\begin{tabular}{lrrrr>{\\raggedright\\arraybackslash}p{4.5cm}}",
+        "\\toprule",
+        "\\textbf{Arista} & \\textbf{Oficial} & \\textbf{Recta} & "
+        "\\textbf{Modelo} & \\textbf{Razón} & \\textbf{Causa} \\\\",
+        "\\midrule",
+    ]
+    for r in filas:
+        lineas.append(
+            f"{r['origen']} -- {r['destino']} & "
+            f"{r['distancia_oficial_km']} & {r['distancia_geodesica_km']} & "
+            f"{r['distancia_modelo_km']} & {r['razon']} & {r['causa']} \\\\")
+    lineas += ["\\bottomrule", "\\end{tabular}"]
+    escribir("tabla_c1_piso.tex", lineas)
+
+
 def main():
     grafo = cargar_grafo()
     tabla_estadisticas(grafo)
+    tabla_piso()
     tabla_aristas(grafo)
     tabla_rutas(grafo)
     tabla_criterios()

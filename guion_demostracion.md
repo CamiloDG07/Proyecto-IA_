@@ -13,7 +13,7 @@ python src/agente.py
 
 Mostrar: 32 nodos, 32 aristas, 1 ciclo; el agente devuelve, para Duitama a
 Puente Nacional, la ruta por Bogotá con `distancia` y `compuesto_sin_riesgo`
-(309.10 km) y la ruta por Santander con `peaje`, `riesgo` y `compuesto`
+(370.54 km) y la ruta por Santander con `peaje`, `riesgo` y `compuesto`
 (654.25 km). Los criterios nuevos `costo_operativo` y `compuesto_total_sin_riesgo`
 eligen Bogotá; `compuesto_total` elige Santander. Abrir `outputs\diagrama_red.png` para señalar el ciclo.
 
@@ -33,13 +33,16 @@ juguete, en grafos aleatorios y en los 992 pares de la red.
 python src/heuristica.py
 ```
 
-Mostrar: alfa = 0.310570, determinado por Chocontá a Tunja (sector truncado
-en la fuente, 17.69 km); 0 violaciones de admisibilidad y de consistencia en
-las siete heurísticas, con margen mínimo de 0.000023 km en la distancia;
-con la geodésica pura (alfa = 1) hay 66 violaciones de admisibilidad en 992
-pares. Si esa arista midiera 56.96 o 61.0 km, el alfa sería 0.458156 (Bogotá a
-Madrid). Mencionar las aristas con razón carretera/geodésica menor que 1
-(`outputs\analisis_heuristica.json`).
+Mostrar: con el piso geodésico (la distancia de cada arista no es menor que la
+recta entre sus nodos: 8 aristas se corrigen, `outputs\aristas_piso_geodesico.csv`)
+alfa = 1 por construcción; 0 violaciones de admisibilidad y de consistencia en las
+siete heurísticas y margen mínimo cero en la distancia (una arista con piso mide
+la propia recta). Sin el piso (sensibilidad), alfa = 0.310570, determinado
+por Chocontá a Tunja (sector truncado en la fuente, 17.69 km); con la geodésica
+pura (alfa = 1) y sin piso hay 66 violaciones de admisibilidad y
+141 de consistencia (`outputs\analisis_heuristica.json`). La
+prueba `python src/pruebas_piso.py` verifica el invariante y que A* con piso no
+hace ninguna reexpansión en los 992 pares.
 
 ## 4. Comparación en vivo (3 min)
 
@@ -55,9 +58,9 @@ Qué comentar en cada uno:
 
 | Escenario | Qué mostrar |
 |---|---|
-| Duitama a Puente Nacional (ciclo) | BFS y DFS devuelven el desvío por Santander (654.25 km); UCS, voraz y A* la ruta óptima (309.10 km). BFS minimiza saltos, no costo |
+| Duitama a Puente Nacional (ciclo) | BFS y DFS devuelven el desvío por Santander (654.25 km); UCS, voraz y A* la ruta óptima (370.54 km). BFS minimiza saltos, no costo |
 | Duitama a Puente Nacional, compuesto sin riesgo | Con la corrección de distancias gana la ruta por Bogotá; con las distancias sin corregir ganaba el desvío |
-| Bucaramanga a Bogotá (ciclo) | DFS devuelve una ruta más cara que el óptimo (598.17 km contra 408.49 km) |
+| Bucaramanga a Bogotá (ciclo) | DFS devuelve una ruta más cara que el óptimo (613.25 km contra 411.54 km) |
 | Bogotá a Granada (ruta única) | Los cinco devuelven la misma ruta; solo cambian los nodos expandidos |
 | Mariquita a Granada (ruta única, 6 saltos) | Igual; la búsqueda voraz expande muy pocos nodos |
 
@@ -68,9 +71,9 @@ diferencias de ruta entre algoritmos.
 
 Abrir `outputs\rutas_central_distancia.png` y `outputs\barrido_pesos.png`:
 la ruta de cada algoritmo sobre las coordenadas oficiales y la frontera
-exacta entre las dos rutas (19 de 66 puntos de la malla favorecen la ruta por
-Bogotá en la red corregida; la frontera con riesgo en cero está en
-$w_1 = 0.4095$).
+exacta entre las dos rutas (17 de 66 puntos de la malla favorecen la ruta por
+Bogotá con el piso geodésico y 19 sin él; la frontera con riesgo en cero está
+en $w_1 = 0.4576$ con piso y 0.4095 sin él).
 
 ## 6. Agente autónomo de rutas y costo monetario (5 min)
 
@@ -106,10 +109,10 @@ Con `--criterio {distancia,peaje,riesgo,compuesto,compuesto_sin_riesgo,costo_ope
 
 | Caso | Qué mostrar |
 |---|---|
-| Duitama a Puente Nacional (cruza el ciclo) | Recomienda la ruta por Bogotá: 309.10 km, 170 800 COP de peaje, 357 628 COP de combustible (528 428 COP en total), compuesto sin riesgo 3.149. La alternativa por Santander (654.25 km, 100 200 COP de peaje, 857 165 COP en total) queda a 0.375 (11.9 %). Los criterios peaje, riesgo y compuesto prefieren el desvío; el aviso dice que el riesgo solo tiene dato en el 50 % de los tramos de la recomendada y en el 0 % de los del desvío. Advierte Chocontá a Tunja truncada |
-| Umbral de costo | La recomendación por costo operativo cambia en 204.5 COP por km (ahorro de peaje de 70 600 COP entre 345.15 km extra; 230.8 con la cota inferior de 56.96 km y 233.9 con las progresivas de 61.0 km); el combustible solo cuesta 1 157.0 COP por km, unas cinco veces el umbral. Con `--criterio peaje` la alternativa por Bogotá queda a 70 600 COP |
+| Duitama a Puente Nacional (cruza el ciclo) | Recomienda la ruta por Bogotá: 370.54 km (cota inferior por el piso geodésico; 309.10 km con las distancias oficiales), 170 800 COP de peaje, 428 710 COP de combustible (599 510 COP en total), compuesto sin riesgo 3.367. La alternativa por Santander (654.25 km, 100 200 COP de peaje, 857 165 COP en total) queda a 0.157 (4.7 %). Los criterios peaje, riesgo y compuesto prefieren el desvío; el aviso dice que el riesgo solo tiene dato en el 50 % de los tramos de la recomendada y en el 0 % de los del desvío. Advierte las aristas con piso geodésico |
+| Umbral de costo | La recomendación por costo operativo cambia en 248.8 COP por km (ahorro de peaje de 70 600 COP entre 283.71 km extra; 204.5 sin piso y 252.4 con las progresivas de 61.0 km); el combustible solo cuesta 1 157.0 COP por km, unas cuatro veces y media el umbral. Con `--criterio peaje` la alternativa por Bogotá queda a 70 600 COP |
 | Bogotá a Granada (ruta única) | Una sola candidata: 168.78 km, 46 700 COP de peaje, 241 978 COP en total; todos los criterios coinciden; solo advierte aristas marcadas por la auditoría |
-| Duitama, Tunja, Bogotá y Villeta con regreso | Orden libre: Held-Karp (k = 3); orden Duitama, Villeta, Bogotá, Tunja, Duitama; 403.16 km, 208 800 COP de peaje y 675 255 COP de costo operativo |
+| Duitama, Tunja, Bogotá y Villeta con regreso | Orden libre: Held-Karp (k = 3); orden Duitama, Villeta, Bogotá, Tunja, Duitama; 519.94 km, 208 800 COP de peaje y 810 370 COP de costo operativo |
 
 Decir sin adornos: la recomendación es la de menor compuesto sin riesgo; los
 criterios con riesgo se avisan, no se imponen, porque faltan datos, y el costo
@@ -131,15 +134,15 @@ independiente.
 
 El margen es la diferencia porcentual del costo compuesto sin riesgo entre la
 segunda ruta y la recomendada (la regla del agente); todos los pares con
-alternativa superan el 5 %.
+alternativa superan el 1 % (el menor es 1.2 %, Presidente a Ubaté).
 
 | Tipo de par | Par | Clase según el perfil | Margen de la segunda ruta |
 |---|---|---|---|
 | Camino único | Bogotá a Fusagasugá | camino único (1 camino; obligatorios: ninguno) | sin segunda ruta |
-| Paso obligatorio | Chiquinquirá a Chocontá | paso obligatorio (2 caminos; obligatorios: Sáchica, Tunja) | 570.3 % |
-| Atajo | Cajicá a Zipaquirá | atajo (2 caminos; obligatorios: ninguno) | 20 480.8 % |
-| Atajo | Duitama a Presidente | atajo (2 caminos; obligatorios: ninguno) | 578.0 % |
-| Ida y vuelta con regreso distinto | Duitama a Puente Nacional, con Tunja-Chocontá bloqueado solo en el regreso | ida por Bogotá, regreso por Santander | 11.9 % (regreso contra ida invertida) |
+| Paso obligatorio | Chiquinquirá a Chocontá | paso obligatorio (2 caminos; obligatorios: Sáchica, Tunja) | 496.9 % |
+| Atajo | Cajicá a Zipaquirá | atajo (2 caminos; obligatorios: ninguno) | 15 800.1 % |
+| Atajo | Duitama a Presidente | atajo (2 caminos; obligatorios: ninguno) | 603.4 % |
+| Ida y vuelta con regreso distinto | Duitama a Puente Nacional, con Tunja-Chocontá bloqueado solo en el regreso | ida por Bogotá, regreso por Santander | 4.7 % (regreso contra ida invertida) |
 
 Con un destino y `--regreso`, el agente resuelve ida y vuelta: sin bloqueos el
 regreso es la ida invertida; con `--bloquear-regreso "A-B;C-D"` el regreso se
@@ -169,14 +172,14 @@ Regla: menor costo compuesto sin riesgo = suma por tramo de (w_d*km/máx_km +
       w_p*peaje/máx_peaje)/(w_d+w_p), con w_d = 1 y w_p = 1
 Método y heurística:
   distancia: A* por tramo; exacto: A* con heurística admisible, disponible para el criterio
-      distancia; 3 nodos expandidos
+      distancia; 1 nodos expandidos
   peaje: UCS por tramo; exacto: UCS, porque el criterio peaje no tiene heurística admisible
       informativa o no hay coordenadas; 8 nodos expandidos
   compuesto_sin_riesgo: A* por tramo; exacto: A* con heurística admisible, disponible para el
-      criterio compuesto_sin_riesgo; 6 nodos expandidos
+      criterio compuesto_sin_riesgo; 3 nodos expandidos
   costo_operativo: A* por tramo; exacto: A* con heurística admisible, disponible para el
-      criterio costo_operativo; 5 nodos expandidos
-  alfa de la heurística: 0.310570; total de nodos expandidos: 22
+      criterio costo_operativo; 2 nodos expandidos
+  alfa de la heurística: 1.000000; total de nodos expandidos: 14
 Criterio que prefiere cada candidata:
   distancia, peaje, riesgo, compuesto_sin_riesgo, compuesto, costo_operativo: Bogotá >
       Fusagasugá
@@ -198,10 +201,10 @@ Insumos del costo monetario: precio del galón 11 320 COP (verificada); rendimie
   Advertencia: el criterio por defecto sigue siendo el compuesto sin riesgo porque no todos los
       insumos del costo operativo están verificados (otros costos por km); el costo se calcula
       con ese valor marcado.
-  Distancia: 90.30 km   Peaje: 58 600 COP
-  Costo variable: 104 477 COP   Costo operativo (peaje + variable): 163 077 COP
+  Distancia: 129.57 km   Peaje: 58 600 COP
+  Costo variable: 149 912 COP   Costo operativo (peaje + variable): 208 512 COP
   Riesgo (suma de GiZScore con dato): 2.57; dato en el 33 % de los tramos
-  Costo compuesto sin riesgo: 1.025
+  Costo compuesto sin riesgo: 1.164
 Regla: menor costo compuesto sin riesgo = suma por tramo de (w_d*km/máx_km +
       w_p*peaje/máx_peaje)/(w_d+w_p), con w_d = 1 y w_p = 1
 Método y heurística:
@@ -213,17 +216,17 @@ Método y heurística:
       criterio compuesto_sin_riesgo; 3 nodos expandidos
   costo_operativo: A* por tramo; exacto: A* con heurística admisible, disponible para el
       criterio costo_operativo; 3 nodos expandidos
-  alfa de la heurística: 0.310570; total de nodos expandidos: 13
+  alfa de la heurística: 1.000000; total de nodos expandidos: 13
 Descartadas por dominadas en km y peaje:
   Chiquinquirá > Sáchica > Tunja > Duitama > La Palmera > Presidente > Pamplona > Cuestaboba >
       Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá > Tocancipá
-      > Chocontá: 1018.27 km  271 000 COP
+      > Chocontá: 1040.44 km  271 000 COP
 Criterio que prefiere cada candidata:
   distancia, peaje, riesgo, compuesto_sin_riesgo, compuesto, costo_operativo: Chiquinquirá >
       Sáchica > Tunja > Chocontá
 Advertencias:
-  - La ruta usa Chocontá a Tunja, sector truncado en la fuente (17.69 km frente a 56.96 km en
-      línea recta): su distancia está subestimada.
+  - La ruta usa Chocontá a Tunja, sector truncado en la fuente: su distancia oficial (17.69 km)
+      es menor que la línea recta (56.96 km); el modelo usa la recta como cota inferior.
   - 2 de 3 tramos no tienen dato de riesgo y valen 0 en los criterios que lo incluyen.
 ```
 
@@ -241,10 +244,10 @@ Insumos del costo monetario: precio del galón 11 320 COP (verificada); rendimie
   Advertencia: el criterio por defecto sigue siendo el compuesto sin riesgo porque no todos los
       insumos del costo operativo están verificados (otros costos por km); el costo se calcula
       con ese valor marcado.
-  Distancia: 9.10 km   Peaje: 0 COP
-  Costo variable: 10 529 COP   Costo operativo (peaje + variable): 10 529 COP
+  Distancia: 12.15 km   Peaje: 0 COP
+  Costo variable: 14 053 COP   Costo operativo (peaje + variable): 14 053 COP
   Riesgo (suma de GiZScore con dato): 0.00; dato en el 0 % de los tramos
-  Costo compuesto sin riesgo: 0.032
+  Costo compuesto sin riesgo: 0.043
 Regla: menor costo compuesto sin riesgo = suma por tramo de (w_d*km/máx_km +
       w_p*peaje/máx_peaje)/(w_d+w_p), con w_d = 1 y w_p = 1
 Método y heurística:
@@ -256,15 +259,16 @@ Método y heurística:
       criterio compuesto_sin_riesgo; 1 nodos expandidos
   costo_operativo: A* por tramo; exacto: A* con heurística admisible, disponible para el
       criterio costo_operativo; 1 nodos expandidos
-  alfa de la heurística: 0.310570; total de nodos expandidos: 4
+  alfa de la heurística: 1.000000; total de nodos expandidos: 4
 Descartadas por dominadas en km y peaje:
   Cajicá > Bogotá > Tocancipá > Chocontá > Tunja > Duitama > La Palmera > Presidente > Pamplona
-      > Cuestaboba > Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá: 954.25 km  271
-      000 COP
+      > Cuestaboba > Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá: 1012.64 km
+      271 000 COP
 Criterio que prefiere cada candidata:
   distancia, peaje, riesgo, compuesto_sin_riesgo, compuesto, costo_operativo: Cajicá > Zipaquirá
 Advertencias:
-  - Aristas marcadas por la auditoría geométrica: Cajicá - Zipaquirá.
+  - Aristas con piso geodésico (la distancia oficial es menor que la línea recta y el modelo usa
+      la recta como cota inferior): Cajicá - Zipaquirá (9.10 a 12.15 km).
   - 1 de 1 tramos no tienen dato de riesgo y valen 0 en los criterios que lo incluyen.
 ```
 
@@ -290,17 +294,17 @@ Regla: menor costo compuesto sin riesgo = suma por tramo de (w_d*km/máx_km +
       w_p*peaje/máx_peaje)/(w_d+w_p), con w_d = 1 y w_p = 1
 Método y heurística:
   distancia: A* por tramo; exacto: A* con heurística admisible, disponible para el criterio
-      distancia; 11 nodos expandidos
+      distancia; 3 nodos expandidos
   peaje: UCS por tramo; exacto: UCS, porque el criterio peaje no tiene heurística admisible
       informativa o no hay coordenadas; 2 nodos expandidos
   compuesto_sin_riesgo: A* por tramo; exacto: A* con heurística admisible, disponible para el
-      criterio compuesto_sin_riesgo; 3 nodos expandidos
+      criterio compuesto_sin_riesgo; 2 nodos expandidos
   costo_operativo: A* por tramo; exacto: A* con heurística admisible, disponible para el
-      criterio costo_operativo; 8 nodos expandidos
-  alfa de la heurística: 0.310570; total de nodos expandidos: 24
+      criterio costo_operativo; 2 nodos expandidos
+  alfa de la heurística: 1.000000; total de nodos expandidos: 9
 Descartadas por dominadas en km y peaje:
   Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional
-      > San Gil > Bucaramanga > Cuestaboba > Pamplona > Presidente: 721.44 km  271 000 COP
+      > San Gil > Bucaramanga > Cuestaboba > Pamplona > Presidente: 782.88 km  271 000 COP
 Criterio que prefiere cada candidata:
   distancia, peaje, riesgo, compuesto_sin_riesgo, compuesto, costo_operativo: Duitama > La
       Palmera > Presidente
@@ -323,32 +327,34 @@ Insumos del costo monetario: precio del galón 11 320 COP (verificada); rendimie
       con ese valor marcado.
 Ida: Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente
       Nacional
-  Distancia: 309.10 km   Peaje: 170 800 COP
-  Costo variable: 357 628 COP   Costo operativo (peaje + variable): 528 428 COP
+  Distancia: 370.54 km   Peaje: 170 800 COP
+  Costo variable: 428 710 COP   Costo operativo (peaje + variable): 599 510 COP
   Riesgo (suma de GiZScore con dato): 9.85; dato en el 50 % de los tramos
 Vuelta: Puente Nacional > San Gil > Bucaramanga > Cuestaboba > Pamplona > Presidente > La
       Palmera > Duitama
   Distancia: 654.25 km   Peaje: 100 200 COP
   Costo variable: 756 965 COP   Costo operativo (peaje + variable): 857 165 COP
   Regreso recalculado con los tramos bloqueados solo en el regreso: Tunja-Chocontá; costo
-      compuesto sin riesgo +11.9 % respecto de la ida invertida
-Total ida y vuelta: 963.35 km   Peaje: 271 000 COP   Costo operativo: 1 385 593 COP
+      compuesto sin riesgo +4.7 % respecto de la ida invertida
+Total ida y vuelta: 1024.79 km   Peaje: 271 000 COP   Costo operativo: 1 456 675 COP
 Método y heurística de la ida:
-  distancia: A* por tramo; 20 nodos expandidos
+  distancia: A* por tramo; 14 nodos expandidos
   peaje: UCS por tramo; 14 nodos expandidos
-  compuesto_sin_riesgo: A* por tramo; 28 nodos expandidos
-  costo_operativo: A* por tramo; 22 nodos expandidos
+  compuesto_sin_riesgo: A* por tramo; 22 nodos expandidos
+  costo_operativo: A* por tramo; 17 nodos expandidos
 Método y heurística del regreso:
-  distancia: A* por tramo; 27 nodos expandidos
+  distancia: A* por tramo; 26 nodos expandidos
   peaje: UCS por tramo; 13 nodos expandidos
-  compuesto_sin_riesgo: A* por tramo; 25 nodos expandidos
-  costo_operativo: A* por tramo; 27 nodos expandidos
-  alfa de la heurística: 0.310570; total de nodos expandidos: 176
+  compuesto_sin_riesgo: A* por tramo; 18 nodos expandidos
+  costo_operativo: A* por tramo; 24 nodos expandidos
+  alfa de la heurística: 1.000000; total de nodos expandidos: 148
 Advertencias:
-  - La ruta usa Chocontá a Tunja, sector truncado en la fuente (17.69 km frente a 56.96 km en
-      línea recta): su distancia está subestimada.
-  - Aristas marcadas por la auditoría geométrica: Bogotá - Cajicá; Bogotá - Tocancipá; Cajicá -
-      Zipaquirá; Duitama - Tunja.
+  - La ruta usa Chocontá a Tunja, sector truncado en la fuente: su distancia oficial (17.69 km)
+      es menor que la línea recta (56.96 km); el modelo usa la recta como cota inferior.
+  - Aristas con piso geodésico (la distancia oficial es menor que la línea recta y el modelo usa
+      la recta como cota inferior): Bogotá - Tocancipá (22.12 a 41.19 km); Cajicá - Zipaquirá
+      (9.10 a 12.15 km); Duitama - Tunja (47.73 a 47.78 km).
+  - Aristas marcadas por la auditoría geométrica: Bogotá - Cajicá.
   - 4 de 8 tramos no tienen dato de riesgo y valen 0 en los criterios que lo incluyen.
   - Los criterios riesgo y compuesto prefieren otra ruta: Duitama > La Palmera > Presidente >
       Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional. El riesgo solo tiene dato
@@ -372,26 +378,28 @@ Insumos del costo monetario: precio del galón 11 320 COP (verificada); rendimie
       con ese valor marcado.
 Ida: Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente
       Nacional
-  Distancia: 309.10 km   Peaje: 170 800 COP
-  Costo variable: 357 628 COP   Costo operativo (peaje + variable): 528 428 COP
+  Distancia: 370.54 km   Peaje: 170 800 COP
+  Costo variable: 428 710 COP   Costo operativo (peaje + variable): 599 510 COP
   Riesgo (suma de GiZScore con dato): 9.85; dato en el 50 % de los tramos
 Vuelta: Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá > Tocancipá > Chocontá > Tunja >
       Duitama
-  Distancia: 309.10 km   Peaje: 170 800 COP
-  Costo variable: 357 628 COP   Costo operativo (peaje + variable): 528 428 COP
+  Distancia: 370.54 km   Peaje: 170 800 COP
+  Costo variable: 428 710 COP   Costo operativo (peaje + variable): 599 510 COP
   Sin bloqueos, el regreso es la ida invertida
-Total ida y vuelta: 618.20 km   Peaje: 341 600 COP   Costo operativo: 1 056 855 COP
+Total ida y vuelta: 741.07 km   Peaje: 341 600 COP   Costo operativo: 1 199 019 COP
 Método y heurística de la ida:
-  distancia: A* por tramo; 20 nodos expandidos
+  distancia: A* por tramo; 14 nodos expandidos
   peaje: UCS por tramo; 14 nodos expandidos
-  compuesto_sin_riesgo: A* por tramo; 28 nodos expandidos
-  costo_operativo: A* por tramo; 22 nodos expandidos
-  alfa de la heurística: 0.310570; total de nodos expandidos: 84
+  compuesto_sin_riesgo: A* por tramo; 22 nodos expandidos
+  costo_operativo: A* por tramo; 17 nodos expandidos
+  alfa de la heurística: 1.000000; total de nodos expandidos: 67
 Advertencias:
-  - La ruta usa Chocontá a Tunja, sector truncado en la fuente (17.69 km frente a 56.96 km en
-      línea recta): su distancia está subestimada.
-  - Aristas marcadas por la auditoría geométrica: Bogotá - Cajicá; Bogotá - Tocancipá; Cajicá -
-      Zipaquirá; Duitama - Tunja.
+  - La ruta usa Chocontá a Tunja, sector truncado en la fuente: su distancia oficial (17.69 km)
+      es menor que la línea recta (56.96 km); el modelo usa la recta como cota inferior.
+  - Aristas con piso geodésico (la distancia oficial es menor que la línea recta y el modelo usa
+      la recta como cota inferior): Bogotá - Tocancipá (22.12 a 41.19 km); Cajicá - Zipaquirá
+      (9.10 a 12.15 km); Duitama - Tunja (47.73 a 47.78 km).
+  - Aristas marcadas por la auditoría geométrica: Bogotá - Cajicá.
   - 4 de 8 tramos no tienen dato de riesgo y valen 0 en los criterios que lo incluyen.
   - Los criterios riesgo y compuesto prefieren otra ruta: Duitama > La Palmera > Presidente >
       Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional. El riesgo solo tiene dato
@@ -415,7 +423,7 @@ python src/demostracion.py despachador c Duitama --destino "Puente Nacional" --o
 
 | Comando | Qué mostrar |
 |---|---|
-| Tipo a | A* por tramo; el motivo dice que hay heurística admisible para `distancia`; 309.10 km |
+| Tipo a | A* por tramo; el motivo dice que hay heurística admisible para `distancia`; 370.54 km |
 | Tipo d con cinco paradas | Held-Karp, porque k = 5 es menor o igual que el umbral medido (K = 19); el motivo y las métricas salen en la respuesta |
 | Tipo c con obligatoria y tramo bloqueado | El orden queda determinado (una obligatoria) y el tramo bloqueado se excluye de todas las búsquedas |
 
@@ -449,9 +457,9 @@ python src/tablas_corte2.py
 ```
 
 (Tarda cerca de un minuto: 2000 repeticiones por celda.) Cerrar con las
-limitaciones del informe: Chocontá a Tunja truncada (17.69 km; 56.96 y 61.0 km solo como
-sensibilidad), entrada
-urbana a Bogotá no cubierta por la fuente, riesgo (GiZScore) disponible en 11
-de 32 aristas y mortalidad de la ANSV en 16 solo como sensibilidad, otros
-costos por km como supuesto del equipo (el costo en pesos es un piso),
-mediciones de tiempo con dispersión alta.
+limitaciones del informe: las 8 aristas con piso geodésico (su distancia es una
+cota inferior: la recta entre los nodos, no una medida; Chocontá a Tunja, con 17.69 km
+oficiales, es la más extrema), la entrada urbana a Bogotá no cubierta por la fuente,
+riesgo (GiZScore) disponible en 11 de 32 aristas y mortalidad de la ANSV en 16 solo
+como sensibilidad, otros costos por km como supuesto del equipo (el costo en pesos es
+un piso), mediciones de tiempo con dispersión alta.

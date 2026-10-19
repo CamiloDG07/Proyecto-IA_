@@ -2,26 +2,28 @@
 
 Uso: python src/comparar_resultados.py [referencia_git]
 
-La referencia por defecto es la etiqueta corte2-entrega-6. Se comparan, sin
-los tiempos ni la memoria (que dependen de la máquina), los resultados de los
-criterios anteriores (distancia, peaje, riesgo, compuesto y compuesto sin
-riesgo: rutas, costos, nodos expandidos y generados, optimalidad), la
-validación del agente, el barrido de pesos, la sensibilidad de A*, el perfil
-topológico y las aristas. Los campos y criterios nuevos no se comparan.
-Termina con código 1 si hay una diferencia.
+La referencia por defecto es la etiqueta corte2-entrega-8, anterior al piso
+geodésico. Se comparan, sin los tiempos ni la memoria (que dependen de la
+máquina), los resultados de los escenarios de los pares cuya ruta no contiene
+ninguna arista con piso (outputs/aristas_piso_geodesico.csv): rutas y costos
+idénticos en los cinco algoritmos; nodos expandidos y generados de BFS, DFS y
+UCS idénticos cuando ninguno de los nodos de la ruta toca una arista con piso
+(si alguno la toca, la búsqueda la explora y el orden de expansión puede
+cambiar; esas diferencias se listan como explicadas); en A*, nodos expandidos
+menores o iguales (la heurística es más informativa con alfa = 1). También se
+comparan el perfil topológico y los campos de las aristas sin piso. Termina
+con código 1 si hay una diferencia inesperada.
 """
 import csv
-import io
 import json
 import subprocess
 import sys
 from pathlib import Path
 
 RAIZ = Path(__file__).resolve().parent.parent
-CRITERIOS_ANTERIORES = ("distancia", "peaje", "riesgo", "compuesto",
-                        "compuesto_sin_riesgo")
+SALIDA = RAIZ / "outputs"
 IGNORAR = ("tiempo", "precalculo", "memoria", "fecha", "maquina", "sesion",
-           "limite", "variante")  # variante: solo el rótulo
+           "limite")
 diferencias = []
 
 
@@ -33,15 +35,16 @@ def de_git(ref, ruta):
     return r.stdout.decode("utf-8")
 
 
-def ignorado(clave):
-    return any(x in str(clave) for x in IGNORAR)
+def cargar(ref, nombre):
+    return json.loads(de_git(ref, f"outputs/{nombre}")), json.loads(
+        (SALIDA / nombre).read_text(encoding="utf-8"))
 
 
-def comparar(a, b, ruta, nuevo_ok=True):
+def comparar(a, b, ruta):
     """Compara `a` (entrega anterior) con `b` (vigente) recursivamente."""
     if isinstance(a, dict) and isinstance(b, dict):
         for k in a:
-            if ignorado(k):
+            if any(x in k for x in IGNORAR):
                 continue
             if k not in b:
                 diferencias.append(f"{ruta}/{k}: falta en la versión vigente")
@@ -60,60 +63,90 @@ def comparar(a, b, ruta, nuevo_ok=True):
         diferencias.append(f"{ruta}: {a!r} contra {b!r}")
 
 
-def cargar(ref, nombre):
-    return json.loads(de_git(ref, f"outputs/{nombre}")), json.loads(
-        (RAIZ / "outputs" / nombre).read_text(encoding="utf-8"))
+def aristas_con_piso():
+    with open(SALIDA / "aristas_piso_geodesico.csv", encoding="utf-8") as f:
+        return {frozenset((r["origen"], r["destino"]))
+                for r in csv.DictReader(f)}
+
+
+def libre(ruta, pisos):
+    return not any(frozenset(p) in pisos for p in zip(ruta, ruta[1:]))
+
+
+def vecindad_libre(ruta, pisos):
+    """Ningún nodo de la ruta tiene una arista con piso incidente."""
+    nodos = {n for par in pisos for n in par}
+    return not any(n in nodos for n in ruta)
 
 
 def main(ref):
+    pisos = aristas_con_piso()
     cuenta = {}
-
-    # resultados de los escenarios con los criterios anteriores
     a, b = cargar(ref, "resultados_corte2.json")
     clave = ("origen", "destino", "criterio", "algoritmo")
     vigente = {tuple(r[k] for k in clave): r for r in b["resultados"]}
-    n = 0
-    for r in a["resultados"]:
-        if r["criterio"] not in CRITERIOS_ANTERIORES:
-            continue
-        comparar(r, vigente[tuple(r[k] for k in clave)],
-                 "resultados/" + "|".join(str(r[k]) for k in clave))
-        n += 1
-    cuenta["celdas de escenarios (criterios anteriores)"] = n
-    comparar(a["alfa"], b["alfa"], "resultados/alfa")
+    antes = {tuple(r[k] for k in clave): r for r in a["resultados"]}
+    pares = {k[:3] for k in antes}
+    libres = {p for p in pares if libre(antes[p + ("UCS",)]["ruta"], pisos)}
+    cuenta["pares-criterio con ruta óptima sin piso"] = len(libres)
+    cuenta["pares-criterio con ruta óptima con piso (no comparables)"] = (
+        len(pares) - len(libres))
+    iguales = menores = explicadas = 0
+    for p in sorted(libres):
+        for alg in ("BFS", "DFS", "UCS", "Voraz", "A*"):
+            x, y = antes[p + (alg,)], vigente[p + (alg,)]
+            if not libre(x["ruta"], pisos):
+                continue
+            nombre = "resultados/" + "|".join(p + (alg,))
+            comparar({"ruta": x["ruta"], "costo": x["costo"]},
+                     {"ruta": y["ruta"], "costo": y["costo"]}, nombre)
+            if alg in ("BFS", "DFS", "UCS"):
+                if (x["nodos_expandidos"], x["nodos_generados"]) != (
+                        y["nodos_expandidos"], y["nodos_generados"]):
+                    if vecindad_libre(x["ruta"], pisos):
+                        diferencias.append(
+                            f"{nombre}: nodos {x['nodos_expandidos']}, "
+                            f"{x['nodos_generados']} contra "
+                            f"{y['nodos_expandidos']}, "
+                            f"{y['nodos_generados']} sin arista con piso "
+                            "en la ruta ni en sus nodos")
+                    else:
+                        explicadas += 1
+                        print(f"  explicada: {nombre}: expandidos "
+                              f"{x['nodos_expandidos']} a "
+                              f"{y['nodos_expandidos']}, generados "
+                              f"{x['nodos_generados']} a "
+                              f"{y['nodos_generados']} (la ruta pasa por un "
+                              "nodo con arista con piso)")
+                else:
+                    iguales += 1
+            elif alg == "A*":
+                if y["nodos_expandidos"] > x["nodos_expandidos"]:
+                    diferencias.append(
+                        f"{nombre}: A* expande más nodos que antes "
+                        f"({x['nodos_expandidos']} a "
+                        f"{y['nodos_expandidos']})")
+                menores += y["nodos_expandidos"] < x["nodos_expandidos"]
+    cuenta["celdas BFS, DFS y UCS con ruta, costo y nodos idénticos"] = (
+        iguales)
+    cuenta["celdas con nodos distintos explicados por un nodo con piso"] = (
+        explicadas)
+    cuenta["celdas de A* con menos nodos que antes"] = menores
 
-    for nombre in ("validacion_agente.json", "perfil_topologico.json",
-                   "verificacion_estructura.json", "analisis_heuristica.json"):
-        a, b = cargar(ref, nombre)
-        if nombre == "analisis_heuristica.json":
-            b = dict(b, criterios={k: v for k, v in b["criterios"].items()
-                                   if k in a["criterios"]})
-        comparar(a, b, nombre)
-        cuenta[nombre] = 1
-
-    # barrido de pesos: sin la variante de la entrega anterior que cambió
-    a, b = cargar(ref, "barrido_pesos.json")
-    comparar(a[0], b[0], "barrido_pesos/base")
-    comparar(a[2], b[2], "barrido_pesos/crudas")
-    comparar(a[1], b[1], "barrido_pesos/cota_inferior")
-    cuenta["barrido_pesos.json (base, cota inferior y crudas)"] = 3
-
-    a, b = cargar(ref, "sensibilidad_corte2.json")
-    for k in ("alfa_base", "alfa_ref", "por_escenario", "todos_los_pares"):
-        comparar(a[k], b[k], f"sensibilidad_corte2/{k}")
-    cuenta["sensibilidad_corte2.json"] = 4
+    a, b = cargar(ref, "perfil_topologico.json")
+    comparar(a, b, "perfil_topologico")
+    cuenta["perfil_topologico.json"] = 1
 
     a, b = cargar(ref, "aristas_red.json")
-    comparar(a, b, "aristas_red")
-    cuenta["aristas_red.json (campos de la entrega anterior)"] = len(a)
-
-    filas = list(csv.DictReader(io.StringIO(
-        de_git(ref, "outputs/auditoria_aristas.csv"))))
-    with open(RAIZ / "outputs" / "auditoria_aristas.csv",
-              encoding="utf-8") as f:
-        actuales = list(csv.DictReader(f))
-    comparar(filas, actuales, "auditoria_aristas")
-    cuenta["auditoria_aristas.csv"] = len(filas)
+    nuevo = {(r["origen"], r["destino"]): r for r in b}
+    sin_piso = 0
+    for r in a:
+        par = (r["origen"], r["destino"])
+        if frozenset(par) in pisos:
+            continue
+        comparar(r, nuevo[par], f"aristas_red/{par[0]}-{par[1]}")
+        sin_piso += 1
+    cuenta["aristas sin piso (campos de la entrega anterior)"] = sin_piso
 
     for nombre, n in cuenta.items():
         print(f"  comparado: {nombre}: {n}")
@@ -122,8 +155,9 @@ def main(ref):
         for d in diferencias[:60]:
             print("  -", d)
         sys.exit(1)
-    print(f"\nSin diferencias frente a {ref} (salvo tiempos y memoria).")
+    print(f"\nSin diferencias frente a {ref} en los pares sin piso "
+          "(salvo tiempos y memoria).")
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "corte2-entrega-6")
+    main(sys.argv[1] if len(sys.argv) > 1 else "corte2-entrega-8")

@@ -1,7 +1,651 @@
 [
  {
-  "variante": "base (red corregida, Chocontá a Tunja 17.69 km)",
+  "variante": "base (con piso geodésico)",
   "distancia": "corregida",
+  "piso_geodesico": true,
+  "reemplazos": {},
+  "ruta_bogota": [
+   "Duitama",
+   "Tunja",
+   "Chocontá",
+   "Tocancipá",
+   "Bogotá",
+   "Cajicá",
+   "Zipaquirá",
+   "Ubaté",
+   "Puente Nacional"
+  ],
+  "ruta_santander": [
+   "Duitama",
+   "La Palmera",
+   "Presidente",
+   "Pamplona",
+   "Cuestaboba",
+   "Bucaramanga",
+   "San Gil",
+   "Puente Nacional"
+  ],
+  "sumas_bogota": [
+   2.627733068576697,
+   4.105769230769231,
+   2.8787613204791116
+  ],
+  "sumas_santander": [
+   4.639741862279271,
+   2.4086538461538463,
+   0.0
+  ],
+  "delta_corta_menos_desvio": [
+   -2.012008793702574,
+   1.6971153846153846,
+   2.8787613204791116
+  ],
+  "w1_umbral_sobre_w3_cero": 0.45755151432676083,
+  "puntos_incoherentes_con_forma_lineal": 0,
+  "puntos": [
+   {
+    "w1": 0.0,
+    "w2": 0.0,
+    "w3": 1.0,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.0,
+    "sin_riesgo": null,
+    "costo_sin_riesgo": null
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.1,
+    "w3": 0.9,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.24086538461538465,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.4086538461538463
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.2,
+    "w3": 0.8,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.4817307692307693,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.4086538461538463
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.3,
+    "w3": 0.7,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.7225961538461539,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.4086538461538463
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.4,
+    "w3": 0.6,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.9634615384615386,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.4086538461538463
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.5,
+    "w3": 0.5,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.2043269230769231,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.4086538461538463
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.6,
+    "w3": 0.4,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.4451923076923079,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.4086538461538463
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.7,
+    "w3": 0.3,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.6860576923076924,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.408653846153846
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.8,
+    "w3": 0.2,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.9269230769230772,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.4086538461538463
+   },
+   {
+    "w1": 0.0,
+    "w2": 0.9,
+    "w3": 0.1,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.1677884615384615,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.408653846153846
+   },
+   {
+    "w1": 0.0,
+    "w2": 1.0,
+    "w3": 0.0,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.4086538461538463,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.4086538461538463
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.0,
+    "w3": 0.9,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.46397418622792713,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.1,
+    "w3": 0.8,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.7048395708433118,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.366751149672964
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.2,
+    "w3": 0.7,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.9457049554586964,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.1523498515289874
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.3,
+    "w3": 0.6,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.186570340074081,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.9664258501852023
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.4,
+    "w3": 0.5,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.4274357246894656,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.854871449378931
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.5,
+    "w3": 0.4,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.66830110930485,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.7805018488414173
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.6,
+    "w3": 0.3,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.909166493920235,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.7273807056003356
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.7,
+    "w3": 0.2,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.1500318785356196,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.6875398481695245
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.8,
+    "w3": 0.1,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.3908972631510044,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.656552514612227
+   },
+   {
+    "w1": 0.1,
+    "w2": 0.9,
+    "w3": 0.0,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.6317626477663887,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.6317626477663887
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.0,
+    "w3": 0.8,
+    "compuesto": "Santander",
+    "costo_compuesto": 0.9279483724558543,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.1,
+    "w3": 0.7,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.168813757071239,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.1204117893075414
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.2,
+    "w3": 0.6,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.4096791416866237,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.366751149672964
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.3,
+    "w3": 0.5,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.6505445263020082,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.3010890526040164
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.4,
+    "w3": 0.4,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.8914099109173927,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.1523498515289874
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.5,
+    "w3": 0.3,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.1322752955327773,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.046107565046825
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.6,
+    "w3": 0.2,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.373140680148162,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.9664258501852023
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.7,
+    "w3": 0.1,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.614006064763547,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.904451183070607
+   },
+   {
+    "w1": 0.2,
+    "w2": 0.8,
+    "w3": 0.0,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.854871449378931,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 2.854871449378931
+   },
+   {
+    "w1": 0.3,
+    "w2": 0.0,
+    "w3": 0.7,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.3919225586837816,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.3,
+    "w2": 0.1,
+    "w3": 0.6,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.632787943299166,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.9972421091248305
+   },
+   {
+    "w1": 0.3,
+    "w2": 0.2,
+    "w3": 0.5,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.8736533279145509,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.2189475334537105
+   },
+   {
+    "w1": 0.3,
+    "w2": 0.3,
+    "w3": 0.4,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.1145187125299354,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.3667511496729636
+   },
+   {
+    "w1": 0.3,
+    "w2": 0.4,
+    "w3": 0.3,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.35538409714532,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.364834424493314
+   },
+   {
+    "w1": 0.3,
+    "w2": 0.5,
+    "w3": 0.2,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.5962494817607045,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.2453118522008806
+   },
+   {
+    "w1": 0.3,
+    "w2": 0.6,
+    "w3": 0.1,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.8371148663760897,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.152349851528988
+   },
+   {
+    "w1": 0.3,
+    "w2": 0.7,
+    "w3": 0.0,
+    "compuesto": "Santander",
+    "costo_compuesto": 3.077980250991474,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.077980250991474
+   },
+   {
+    "w1": 0.4,
+    "w2": 0.0,
+    "w3": 0.6,
+    "compuesto": "Santander",
+    "costo_compuesto": 1.8558967449117085,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.4,
+    "w2": 0.1,
+    "w3": 0.5,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.096762129527093,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.923340301015204
+   },
+   {
+    "w1": 0.4,
+    "w2": 0.2,
+    "w3": 0.4,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.337627514142478,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.1204117893075414
+   },
+   {
+    "w1": 0.4,
+    "w2": 0.3,
+    "w3": 0.3,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.5784928987578626,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.261177138087783
+   },
+   {
+    "w1": 0.4,
+    "w2": 0.4,
+    "w3": 0.2,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.8193582833732473,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.366751149672964
+   },
+   {
+    "w1": 0.4,
+    "w2": 0.5,
+    "w3": 0.1,
+    "compuesto": "Santander",
+    "costo_compuesto": 3.0602236679886317,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.400248519987368
+   },
+   {
+    "w1": 0.4,
+    "w2": 0.6,
+    "w3": 0.0,
+    "compuesto": "Santander",
+    "costo_compuesto": 3.3010890526040164,
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.3010890526040164
+   },
+   {
+    "w1": 0.5,
+    "w2": 0.0,
+    "w3": 0.5,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.3198709311396355,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.5,
+    "w2": 0.1,
+    "w3": 0.4,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.5607363157550203,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.8740724289421196
+   },
+   {
+    "w1": 0.5,
+    "w2": 0.2,
+    "w3": 0.3,
+    "compuesto": "Santander",
+    "costo_compuesto": 2.801601700370405,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.0500291149174212
+   },
+   {
+    "w1": 0.5,
+    "w2": 0.3,
+    "w3": 0.2,
+    "compuesto": "Santander",
+    "costo_compuesto": 3.0424670849857893,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.1819966293988973
+   },
+   {
+    "w1": 0.5,
+    "w2": 0.4,
+    "w3": 0.1,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 3.244050358643952,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.284638029551157
+   },
+   {
+    "w1": 0.5,
+    "w2": 0.5,
+    "w3": 0.0,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 3.3667511496729636,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.3667511496729636
+   },
+   {
+    "w1": 0.6,
+    "w2": 0.0,
+    "w3": 0.4,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.728144369337663,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.6,
+    "w2": 0.1,
+    "w3": 0.3,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.850845160366675,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.838881091747059
+   },
+   {
+    "w1": 0.6,
+    "w2": 0.2,
+    "w3": 0.2,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.9735459513956872,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.9972421091248305
+   },
+   {
+    "w1": 0.6,
+    "w2": 0.3,
+    "w3": 0.1,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 3.096246742424699,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.120411789307542
+   },
+   {
+    "w1": 0.6,
+    "w2": 0.4,
+    "w3": 0.0,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 3.2189475334537105,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.2189475334537105
+   },
+   {
+    "w1": 0.7,
+    "w2": 0.0,
+    "w3": 0.3,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.7030415441474216,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.7,
+    "w2": 0.1,
+    "w3": 0.2,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.8257423351764337,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.8124875888507637
+   },
+   {
+    "w1": 0.7,
+    "w2": 0.2,
+    "w3": 0.1,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.9484431262054454,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.9561855490639264
+   },
+   {
+    "w1": 0.7,
+    "w2": 0.3,
+    "w3": 0.0,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 3.0711439172344575,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 3.0711439172344575
+   },
+   {
+    "w1": 0.8,
+    "w2": 0.0,
+    "w3": 0.2,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.67793871895718,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.8,
+    "w2": 0.1,
+    "w3": 0.1,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.800639509986192,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.791959308820312
+   },
+   {
+    "w1": 0.8,
+    "w2": 0.2,
+    "w3": 0.0,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.923340301015204,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.923340301015204
+   },
+   {
+    "w1": 0.9,
+    "w2": 0.0,
+    "w3": 0.1,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.6528358937669383,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   },
+   {
+    "w1": 0.9,
+    "w2": 0.1,
+    "w3": 0.0,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.7755366847959504,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.7755366847959504
+   },
+   {
+    "w1": 1.0,
+    "w2": 0.0,
+    "w3": 0.0,
+    "compuesto": "Bogotá",
+    "costo_compuesto": 2.627733068576697,
+    "sin_riesgo": "Bogotá",
+    "costo_sin_riesgo": 2.627733068576697
+   }
+  ],
+  "ganan_bogota_compuesto": 17,
+  "ganan_bogota_sin_riesgo": 35,
+  "puntos_sin_riesgo_definidos": 65
+ },
+ {
+  "variante": "sensibilidad sin piso (distancias oficiales)",
+  "distancia": "corregida",
+  "piso_geodesico": false,
   "reemplazos": {},
   "ruta_bogota": [
    "Duitama",
@@ -642,652 +1286,9 @@
   "puntos_sin_riesgo_definidos": 65
  },
  {
-  "variante": "sensibilidad con cota inferior (56.96 km)",
-  "distancia": "corregida",
-  "reemplazos": {
-   "Chocontá-Tunja": 56.96
-  },
-  "ruta_bogota": [
-   "Duitama",
-   "Tunja",
-   "Chocontá",
-   "Tocancipá",
-   "Bogotá",
-   "Cajicá",
-   "Zipaquirá",
-   "Ubaté",
-   "Puente Nacional"
-  ],
-  "ruta_santander": [
-   "Duitama",
-   "La Palmera",
-   "Presidente",
-   "Pamplona",
-   "Cuestaboba",
-   "Bucaramanga",
-   "San Gil",
-   "Puente Nacional"
-  ],
-  "sumas_bogota": [
-   2.4705340046805193,
-   4.105769230769231,
-   2.8787613204791116
-  ],
-  "sumas_santander": [
-   4.639741862279271,
-   2.4086538461538463,
-   0.0
-  ],
-  "delta_corta_menos_desvio": [
-   -2.1692078575987517,
-   1.6971153846153846,
-   2.8787613204791116
-  ],
-  "w1_umbral_sobre_w3_cero": 0.4389481371049291,
-  "puntos_incoherentes_con_forma_lineal": 0,
-  "puntos": [
-   {
-    "w1": 0.0,
-    "w2": 0.0,
-    "w3": 1.0,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.0,
-    "sin_riesgo": null,
-    "costo_sin_riesgo": null
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.1,
-    "w3": 0.9,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.24086538461538465,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.4086538461538463
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.2,
-    "w3": 0.8,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.4817307692307693,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.4086538461538463
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.3,
-    "w3": 0.7,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.7225961538461539,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.4086538461538463
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.4,
-    "w3": 0.6,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.9634615384615386,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.4086538461538463
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.5,
-    "w3": 0.5,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.2043269230769231,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.4086538461538463
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.6,
-    "w3": 0.4,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.4451923076923079,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.4086538461538463
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.7,
-    "w3": 0.3,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.6860576923076924,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.408653846153846
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.8,
-    "w3": 0.2,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.9269230769230772,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.4086538461538463
-   },
-   {
-    "w1": 0.0,
-    "w2": 0.9,
-    "w3": 0.1,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.1677884615384615,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.408653846153846
-   },
-   {
-    "w1": 0.0,
-    "w2": 1.0,
-    "w3": 0.0,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.4086538461538463,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.4086538461538463
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.0,
-    "w3": 0.9,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.46397418622792713,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.1,
-    "w3": 0.8,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.7048395708433118,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.288151617724875
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.2,
-    "w3": 0.7,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.9457049554586964,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.1523498515289874
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.3,
-    "w3": 0.6,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.186570340074081,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.9664258501852023
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.4,
-    "w3": 0.5,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.4274357246894656,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.854871449378931
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.5,
-    "w3": 0.4,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.66830110930485,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.7805018488414173
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.6,
-    "w3": 0.3,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.909166493920235,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.7273807056003356
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.7,
-    "w3": 0.2,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.1500318785356196,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.6875398481695245
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.8,
-    "w3": 0.1,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.3908972631510044,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.656552514612227
-   },
-   {
-    "w1": 0.1,
-    "w2": 0.9,
-    "w3": 0.0,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.6317626477663887,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.6317626477663887
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.0,
-    "w3": 0.8,
-    "compuesto": "Santander",
-    "costo_compuesto": 0.9279483724558543,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.1,
-    "w3": 0.7,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.168813757071239,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.0156124133767563
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.2,
-    "w3": 0.6,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.4096791416866237,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.288151617724875
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.3,
-    "w3": 0.5,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.6505445263020082,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.3010890526040164
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.4,
-    "w3": 0.4,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.8914099109173927,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.1523498515289874
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.5,
-    "w3": 0.3,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.1322752955327773,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.046107565046825
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.6,
-    "w3": 0.2,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.373140680148162,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.9664258501852023
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.7,
-    "w3": 0.1,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.614006064763547,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.904451183070607
-   },
-   {
-    "w1": 0.2,
-    "w2": 0.8,
-    "w3": 0.0,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.854871449378931,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 2.854871449378931
-   },
-   {
-    "w1": 0.3,
-    "w2": 0.0,
-    "w3": 0.7,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.3919225586837816,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.3,
-    "w2": 0.1,
-    "w3": 0.6,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.632787943299166,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.8793428112026973
-   },
-   {
-    "w1": 0.3,
-    "w2": 0.2,
-    "w3": 0.5,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.8736533279145509,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.1246280951160044
-   },
-   {
-    "w1": 0.3,
-    "w2": 0.3,
-    "w3": 0.4,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.1145187125299354,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.288151617724875
-   },
-   {
-    "w1": 0.3,
-    "w2": 0.4,
-    "w3": 0.3,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.35538409714532,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.364834424493314
-   },
-   {
-    "w1": 0.3,
-    "w2": 0.5,
-    "w3": 0.2,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.5962494817607045,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.2453118522008806
-   },
-   {
-    "w1": 0.3,
-    "w2": 0.6,
-    "w3": 0.1,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.8371148663760897,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.152349851528988
-   },
-   {
-    "w1": 0.3,
-    "w2": 0.7,
-    "w3": 0.0,
-    "compuesto": "Santander",
-    "costo_compuesto": 3.077980250991474,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.077980250991474
-   },
-   {
-    "w1": 0.4,
-    "w2": 0.0,
-    "w3": 0.6,
-    "compuesto": "Santander",
-    "costo_compuesto": 1.8558967449117085,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.4,
-    "w2": 0.1,
-    "w3": 0.5,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.096762129527093,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.7975810498982616
-   },
-   {
-    "w1": 0.4,
-    "w2": 0.2,
-    "w3": 0.4,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.337627514142478,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.0156124133767563
-   },
-   {
-    "w1": 0.4,
-    "w2": 0.3,
-    "w3": 0.3,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.5784928987578626,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.1713491015756814
-   },
-   {
-    "w1": 0.4,
-    "w2": 0.4,
-    "w3": 0.2,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.8193582833732473,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.288151617724875
-   },
-   {
-    "w1": 0.4,
-    "w2": 0.5,
-    "w3": 0.1,
-    "compuesto": "Santander",
-    "costo_compuesto": 3.0602236679886317,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.378998019174248
-   },
-   {
-    "w1": 0.4,
-    "w2": 0.6,
-    "w3": 0.0,
-    "compuesto": "Santander",
-    "costo_compuesto": 3.3010890526040164,
-    "sin_riesgo": "Santander",
-    "costo_sin_riesgo": 3.3010890526040164
-   },
-   {
-    "w1": 0.5,
-    "w2": 0.0,
-    "w3": 0.5,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.3198709311396355,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.5,
-    "w2": 0.1,
-    "w3": 0.4,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.5607363157550203,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.7430732090286383
-   },
-   {
-    "w1": 0.5,
-    "w2": 0.2,
-    "w3": 0.3,
-    "compuesto": "Santander",
-    "costo_compuesto": 2.801601700370405,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.9377440692772945
-   },
-   {
-    "w1": 0.5,
-    "w2": 0.3,
-    "w3": 0.2,
-    "compuesto": "Santander",
-    "costo_compuesto": 3.0424670849857893,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.0837472144637865
-   },
-   {
-    "w1": 0.5,
-    "w2": 0.4,
-    "w3": 0.1,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 3.165450826695863,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.197305216275502
-   },
-   {
-    "w1": 0.5,
-    "w2": 0.5,
-    "w3": 0.0,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 3.288151617724875,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.288151617724875
-   },
-   {
-    "w1": 0.6,
-    "w2": 0.0,
-    "w3": 0.4,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.6338249309999564,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.6,
-    "w2": 0.1,
-    "w3": 0.3,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.7565257220289685,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.7041390369789067
-   },
-   {
-    "w1": 0.6,
-    "w2": 0.2,
-    "w3": 0.2,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.8792265130579806,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.8793428112026973
-   },
-   {
-    "w1": 0.6,
-    "w2": 0.3,
-    "w3": 0.1,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 3.0019273040869923,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.015612413376757
-   },
-   {
-    "w1": 0.6,
-    "w2": 0.4,
-    "w3": 0.0,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 3.1246280951160044,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.1246280951160044
-   },
-   {
-    "w1": 0.7,
-    "w2": 0.0,
-    "w3": 0.3,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.5930021994200976,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.7,
-    "w2": 0.1,
-    "w3": 0.2,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.7157029904491092,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.6749384079416085
-   },
-   {
-    "w1": 0.7,
-    "w2": 0.2,
-    "w3": 0.1,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.8384037814781213,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.8339196104780107
-   },
-   {
-    "w1": 0.7,
-    "w2": 0.3,
-    "w3": 0.0,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.9611045725071334,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.9611045725071334
-   },
-   {
-    "w1": 0.8,
-    "w2": 0.0,
-    "w3": 0.2,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.552179467840238,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.8,
-    "w2": 0.1,
-    "w3": 0.1,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.67488025886925,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.652226807579265
-   },
-   {
-    "w1": 0.8,
-    "w2": 0.2,
-    "w3": 0.0,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.7975810498982616,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.7975810498982616
-   },
-   {
-    "w1": 0.9,
-    "w2": 0.0,
-    "w3": 0.1,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.5113567362603786,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   },
-   {
-    "w1": 0.9,
-    "w2": 0.1,
-    "w3": 0.0,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.6340575272893907,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.6340575272893907
-   },
-   {
-    "w1": 1.0,
-    "w2": 0.0,
-    "w3": 0.0,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 2.4705340046805193,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4705340046805193
-   }
-  ],
-  "ganan_bogota_compuesto": 17,
-  "ganan_bogota_sin_riesgo": 36,
-  "puntos_sin_riesgo_definidos": 65
- },
- {
   "variante": "sensibilidad con distancias crudas",
   "distancia": "cruda",
+  "piso_geodesico": true,
   "reemplazos": {},
   "ruta_bogota": [
    "Duitama",
@@ -1311,7 +1312,7 @@
    "Puente Nacional"
   ],
   "sumas_bogota": [
-   2.474145643227769,
+   2.7251549114331723,
    4.105769230769231,
    2.8787613204791116
   ],
@@ -1321,11 +1322,11 @@
    0.0
   ],
   "delta_corta_menos_desvio": [
-   -1.510705552573508,
+   -1.2596962843681045,
    1.6971153846153846,
    2.8787613204791116
   ],
-  "w1_umbral_sobre_w3_cero": 0.5290555233119142,
+  "w1_umbral_sobre_w3_cero": 0.5739680353733281,
   "puntos_incoherentes_con_forma_lineal": 0,
   "puntos": [
    {
@@ -1434,7 +1435,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 0.39848511958012767,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.474145643227769
+    "costo_sin_riesgo": 2.7251549114331723
    },
    {
     "w1": 0.1,
@@ -1524,7 +1525,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 0.7969702391602553,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.474145643227769
+    "costo_sin_riesgo": 2.7251549114331723
    },
    {
     "w1": 0.2,
@@ -1533,7 +1534,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.03783562377564,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.0180201724082565
+    "costo_sin_riesgo": 3.185359684545192
    },
    {
     "w1": 0.2,
@@ -1605,7 +1606,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.1954553587403831,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4741456432277693
+    "costo_sin_riesgo": 2.725154911433173
    },
    {
     "w1": 0.3,
@@ -1614,7 +1615,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.4363207433557679,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.882051540113135
+    "costo_sin_riesgo": 3.070308491267187
    },
    {
     "w1": 0.3,
@@ -1623,7 +1624,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.6771861279711524,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.126795078244354
+    "costo_sin_riesgo": 3.2774006391675963
    },
    {
     "w1": 0.3,
@@ -1677,7 +1678,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.5939404783205107,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.474145643227769
+    "costo_sin_riesgo": 2.7251549114331723
    },
    {
     "w1": 0.4,
@@ -1686,7 +1687,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.8348058629358954,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.8004703607360617
+    "costo_sin_riesgo": 3.0012777753003843
    },
    {
     "w1": 0.4,
@@ -1695,7 +1696,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.07567124755128,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.0180201724082565
+    "costo_sin_riesgo": 3.185359684545192
    },
    {
     "w1": 0.4,
@@ -1703,8 +1704,8 @@
     "w3": 0.3,
     "compuesto": "Santander",
     "costo_compuesto": 2.316536632166665,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.173412895031253
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.309338045952378
    },
    {
     "w1": 0.4,
@@ -1740,7 +1741,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.9924255979006384,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.474145643227769
+    "costo_sin_riesgo": 2.7251549114331723
    },
    {
     "w1": 0.5,
@@ -1749,7 +1750,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.233290982516023,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.7460829078180127
+    "costo_sin_riesgo": 2.9552572979891822
    },
    {
     "w1": 0.5,
@@ -1758,7 +1759,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.4741563671314077,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.9403238110967584
+    "costo_sin_riesgo": 3.1196161455291893
    },
    {
     "w1": 0.5,
@@ -1767,7 +1768,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.7150217517467925,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.086004488555817
+    "costo_sin_riesgo": 3.2428852811841944
    },
    {
     "w1": 0.5,
@@ -1775,8 +1776,8 @@
     "w3": 0.1,
     "compuesto": "Santander",
     "costo_compuesto": 2.955887136362177,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.1993116821350855
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.2843190404024187
    },
    {
     "w1": 0.5,
@@ -1794,7 +1795,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.3909107174807662,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4741456432277693
+    "costo_sin_riesgo": 2.725154911433173
    },
    {
     "w1": 0.6,
@@ -1803,7 +1804,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.631776102096151,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.707234727162264
+    "costo_sin_riesgo": 2.9223855284811813
    },
    {
     "w1": 0.6,
@@ -1812,124 +1813,125 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.8726414867115357,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.882051540113135
+    "costo_sin_riesgo": 3.070308491267187
    },
    {
     "w1": 0.6,
     "w2": 0.3,
     "w3": 0.1,
-    "compuesto": "Bogotá",
-    "costo_compuesto": 3.0040942872153424,
+    "compuesto": "Santander",
+    "costo_compuesto": 3.1135068713269205,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.0180201724082565
+    "costo_sin_riesgo": 3.1853596845451917
    },
    {
     "w1": 0.6,
     "w2": 0.4,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 3.126795078244354,
+    "costo_compuesto": 3.2774006391675963,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.126795078244354
+    "costo_sin_riesgo": 3.2774006391675963
    },
    {
     "w1": 0.7,
     "w2": 0.0,
     "w3": 0.3,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.595530346403172,
+    "costo_compuesto": 2.7712368341469547,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.474145643227769
+    "costo_sin_riesgo": 2.7251549114331723
    },
    {
     "w1": 0.7,
     "w2": 0.1,
     "w3": 0.2,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.718231137432184,
+    "costo_compuesto": 2.8939376251759663,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.678098591670452
+    "costo_sin_riesgo": 2.89773170135018
    },
    {
     "w1": 0.7,
     "w2": 0.2,
     "w3": 0.1,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.8409319284611962,
+    "costo_compuesto": 3.0166384162049784,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.836728662681427
+    "costo_sin_riesgo": 3.031958093507852
    },
    {
     "w1": 0.7,
     "w2": 0.3,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.963632719490208,
+    "costo_compuesto": 3.1393392072339905,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.963632719490208
+    "costo_sin_riesgo": 3.1393392072339905
    },
    {
     "w1": 0.8,
     "w2": 0.0,
     "w3": 0.2,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.555068778678038,
+    "costo_compuesto": 2.7558761932423606,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.474145643227769
+    "costo_sin_riesgo": 2.7251549114331723
    },
    {
     "w1": 0.8,
     "w2": 0.1,
     "w3": 0.1,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.6777695697070496,
+    "costo_compuesto": 2.8785769842713727,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.6554371529545984
+    "costo_sin_riesgo": 2.8785565024705124
    },
    {
     "w1": 0.8,
     "w2": 0.2,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.8004703607360617,
+    "costo_compuesto": 3.0012777753003843,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.8004703607360617
+    "costo_sin_riesgo": 3.0012777753003843
    },
    {
     "w1": 0.9,
     "w2": 0.0,
     "w3": 0.1,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.5146072109529034,
+    "costo_compuesto": 2.7405155523377664,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4741456432277693
+    "costo_sin_riesgo": 2.725154911433173
    },
    {
     "w1": 0.9,
     "w2": 0.1,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.6373080019819155,
+    "costo_compuesto": 2.8632163433667785,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.6373080019819155
+    "costo_sin_riesgo": 2.8632163433667785
    },
    {
     "w1": 1.0,
     "w2": 0.0,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.474145643227769,
+    "costo_compuesto": 2.7251549114331723,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.474145643227769
+    "costo_sin_riesgo": 2.7251549114331723
    }
   ],
-  "ganan_bogota_compuesto": 12,
-  "ganan_bogota_sin_riesgo": 30,
+  "ganan_bogota_compuesto": 11,
+  "ganan_bogota_sin_riesgo": 28,
   "puntos_sin_riesgo_definidos": 65
  },
  {
   "variante": "sensibilidad con progresivas (61.0 km)",
   "distancia": "corregida",
+  "piso_geodesico": true,
   "reemplazos": {
    "Chocontá-Tunja": 61.0
   },
@@ -1955,7 +1957,7 @@
    "Puente Nacional"
   ],
   "sumas_bogota": [
-   2.4991844550031916,
+   2.6563855825827956,
    4.105769230769231,
    2.8787613204791116
   ],
@@ -1965,11 +1967,11 @@
    0.0
   ],
   "delta_corta_menos_desvio": [
-   -2.1405574072760793,
+   -1.9833562796964754,
    1.6971153846153846,
    2.8787613204791116
   ],
-  "w1_umbral_sobre_w3_cero": 0.4422251392044635,
+  "w1_umbral_sobre_w3_cero": 0.4611135580995419,
   "puntos_incoherentes_con_forma_lineal": 0,
   "puntos": [
    {
@@ -2078,7 +2080,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 0.46397418622792713,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.499184455003191
+    "costo_sin_riesgo": 2.6563855825827956
    },
    {
     "w1": 0.1,
@@ -2087,7 +2089,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 0.7048395708433118,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.302476842886211
+    "costo_sin_riesgo": 3.381077406676013
    },
    {
     "w1": 0.1,
@@ -2168,7 +2170,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 0.9279483724558543,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.499184455003191
+    "costo_sin_riesgo": 2.6563855825827956
    },
    {
     "w1": 0.2,
@@ -2177,7 +2179,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.168813757071239,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.034712713591871
+    "costo_sin_riesgo": 3.139513465311607
    },
    {
     "w1": 0.2,
@@ -2186,7 +2188,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.4096791416866237,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.302476842886211
+    "costo_sin_riesgo": 3.381077406676013
    },
    {
     "w1": 0.2,
@@ -2249,7 +2251,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.3919225586837816,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4991844550031916
+    "costo_sin_riesgo": 2.6563855825827956
    },
    {
     "w1": 0.3,
@@ -2258,7 +2260,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.632787943299166,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.9008306489447016
+    "costo_sin_riesgo": 3.018731494629405
    },
    {
     "w1": 0.3,
@@ -2267,7 +2269,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.8736533279145509,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.1418183653096077
+    "costo_sin_riesgo": 3.23613904185737
    },
    {
     "w1": 0.3,
@@ -2276,7 +2278,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.1145187125299354,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.302476842886211
+    "costo_sin_riesgo": 3.381077406676013
    },
    {
     "w1": 0.3,
@@ -2321,7 +2323,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 1.8558967449117085,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.499184455003191
+    "costo_sin_riesgo": 2.6563855825827956
    },
    {
     "w1": 0.4,
@@ -2330,7 +2332,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.096762129527093,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.820501410156399
+    "costo_sin_riesgo": 2.946262312220083
    },
    {
     "w1": 0.4,
@@ -2339,7 +2341,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.337627514142478,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.034712713591871
+    "costo_sin_riesgo": 3.139513465311607
    },
    {
     "w1": 0.4,
@@ -2348,7 +2350,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.5784928987578626,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.187720787474351
+    "costo_sin_riesgo": 3.277550003234125
    },
    {
     "w1": 0.4,
@@ -2357,7 +2359,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.8193582833732473,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.302476842886211
+    "costo_sin_riesgo": 3.381077406676013
    },
    {
     "w1": 0.4,
@@ -2365,8 +2367,8 @@
     "w3": 0.1,
     "compuesto": "Santander",
     "costo_compuesto": 3.0602236679886317,
-    "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.3917315526509912
+    "sin_riesgo": "Santander",
+    "costo_sin_riesgo": 3.400248519987368
    },
    {
     "w1": 0.4,
@@ -2384,7 +2386,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.3198709311396355,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4991844550031916
+    "costo_sin_riesgo": 2.656385582582796
    },
    {
     "w1": 0.5,
@@ -2393,7 +2395,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.5607363157550203,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.766948584297532
+    "costo_sin_riesgo": 2.8979495239472017
    },
    {
     "w1": 0.5,
@@ -2402,7 +2404,7 @@
     "compuesto": "Santander",
     "costo_compuesto": 2.801601700370405,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.9582086766506315
+    "costo_sin_riesgo": 3.070495196350349
    },
    {
     "w1": 0.5,
@@ -2411,164 +2413,164 @@
     "compuesto": "Santander",
     "costo_compuesto": 3.0424670849857893,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.1016537459154563
+    "costo_sin_riesgo": 3.1999044506527095
    },
    {
     "w1": 0.5,
     "w2": 0.4,
     "w3": 0.1,
     "compuesto": "Bogotá",
-    "costo_compuesto": 3.1797760518571994,
+    "costo_compuesto": 3.2583766156470015,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.2132221331214312
+    "costo_sin_riesgo": 3.300556092887878
    },
    {
     "w1": 0.5,
     "w2": 0.5,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 3.302476842886211,
+    "costo_compuesto": 3.381077406676013,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.302476842886211
+    "costo_sin_riesgo": 3.381077406676013
    },
    {
     "w1": 0.6,
     "w2": 0.0,
     "w3": 0.4,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.6510152011935597,
+    "costo_compuesto": 2.7453358777413226,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4991844550031916
+    "costo_sin_riesgo": 2.6563855825827956
    },
    {
     "w1": 0.6,
     "w2": 0.1,
     "w3": 0.3,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.773715992222572,
+    "costo_compuesto": 2.8680366687703343,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.7286965658269113
+    "costo_sin_riesgo": 2.8634403894665725
    },
    {
     "w1": 0.6,
     "w2": 0.2,
     "w3": 0.2,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.896416783251584,
+    "costo_compuesto": 2.9907374597993464,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.9008306489447016
+    "costo_sin_riesgo": 3.018731494629405
    },
    {
     "w1": 0.6,
     "w2": 0.3,
     "w3": 0.1,
     "compuesto": "Bogotá",
-    "costo_compuesto": 3.0191175742805956,
+    "costo_compuesto": 3.1134382508283585,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.0347127135918712
+    "costo_sin_riesgo": 3.1395134653116075
    },
    {
     "w1": 0.6,
     "w2": 0.4,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 3.1418183653096077,
+    "costo_compuesto": 3.23613904185737,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 3.1418183653096077
+    "costo_sin_riesgo": 3.23613904185737
    },
    {
     "w1": 0.7,
     "w2": 0.0,
     "w3": 0.3,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.613057514645968,
+    "costo_compuesto": 2.7230983039516907,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4991844550031916
+    "costo_sin_riesgo": 2.656385582582796
    },
    {
     "w1": 0.7,
     "w2": 0.1,
     "w3": 0.2,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.7357583056749797,
+    "costo_compuesto": 2.845799094980703,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.7000075519739464
+    "costo_sin_riesgo": 2.8375585386061
    },
    {
     "w1": 0.7,
     "w2": 0.2,
     "w3": 0.1,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.858459096703992,
+    "costo_compuesto": 2.9684998860097145,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.856203294062311
+    "costo_sin_riesgo": 2.9784708377353364
    },
    {
     "w1": 0.7,
     "w2": 0.3,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.981159887733004,
+    "costo_compuesto": 3.0912006770387266,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.981159887733004
+    "costo_sin_riesgo": 3.0912006770387266
    },
    {
     "w1": 0.8,
     "w2": 0.0,
     "w3": 0.2,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.5750998280983755,
+    "costo_compuesto": 2.7008607301620593,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.499184455003191
+    "costo_sin_riesgo": 2.6563855825827956
    },
    {
     "w1": 0.8,
     "w2": 0.1,
     "w3": 0.1,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.6978006191273876,
+    "costo_compuesto": 2.823561521191071,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.6776938745327517
+    "costo_sin_riesgo": 2.8174282101590666
    },
    {
     "w1": 0.8,
     "w2": 0.2,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.820501410156399,
+    "costo_compuesto": 2.946262312220083,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.820501410156399
+    "costo_sin_riesgo": 2.946262312220083
    },
    {
     "w1": 0.9,
     "w2": 0.0,
     "w3": 0.1,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.5371421415507838,
+    "costo_compuesto": 2.6786231563724274,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4991844550031916
+    "costo_sin_riesgo": 2.656385582582796
    },
    {
     "w1": 0.9,
     "w2": 0.1,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.6598429325797954,
+    "costo_compuesto": 2.8013239474014395,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.6598429325797954
+    "costo_sin_riesgo": 2.8013239474014395
    },
    {
     "w1": 1.0,
     "w2": 0.0,
     "w3": 0.0,
     "compuesto": "Bogotá",
-    "costo_compuesto": 2.4991844550031916,
+    "costo_compuesto": 2.656385582582796,
     "sin_riesgo": "Bogotá",
-    "costo_sin_riesgo": 2.4991844550031916
+    "costo_sin_riesgo": 2.656385582582796
    }
   ],
   "ganan_bogota_compuesto": 17,
-  "ganan_bogota_sin_riesgo": 36,
+  "ganan_bogota_sin_riesgo": 35,
   "puntos_sin_riesgo_definidos": 65
  }
 ]

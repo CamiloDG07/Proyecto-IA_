@@ -13,6 +13,15 @@ criterio: `distancia`, `peaje`, `riesgo`, `compuesto`, `compuesto_sin_riesgo`,
 sensibilidad). El grafo tiene 32 nodos, 32 aristas y un único ciclo (desvío
 por Santander).
 
+Piso geodésico: una carretera no puede ser más corta que la línea recta entre
+sus nodos. En 8 aristas la distancia oficial es menor que la recta (sector
+truncado, entrada urbana a Bogotá o coordenada del nodo en el centro del
+municipio); la distancia del modelo es `max(oficial, geodésica)` y la oficial se
+conserva (`distancia_oficial_km`, `distancia_piso_km`; ver `src/piso_geodesico.py`
+y `outputs/aristas_piso_geodesico.csv`). El piso es una cota inferior, no una
+medida. Con él, `h = geodésica` es admisible y consistente en toda la red con
+alfa = 1; la variante «sin piso» (distancias oficiales) es una sensibilidad.
+
 El costo en pesos usa los insumos de `config_costos.json`, cada uno con su
 fuente y su estado: precio del galón de ACPM (CREG) y consumo del camión de
 dos ejes (UPME) están verificados; «otros costos por km» vale 0 y es un
@@ -107,6 +116,9 @@ python src/agente_rutas.py Duitama "Puente Nacional" --precio-galon 14000 --rend
 python src/pruebas_agente_rutas.py   # pruebas del agente autónomo
 python src/pruebas_costos.py         # costo monetario, umbral y heurísticas nuevas
 python src/pruebas_progresivas.py    # regla de adopción de distancias por progresivas
+python src/piso_geodesico.py         # aristas con piso geodésico (tras auditar_aristas.py)
+python src/pruebas_piso.py           # invariante geodésico, admisibilidad y consistencia
+python src/comparar_resultados.py    # identidad con corte2-entrega-8 en los pares sin piso
 python src/cruce_mortalidad.py       # cruce de la mortalidad ANSV (lo llama construir_red.py)
 python src/verificar_cifras.py       # contrasta las cifras de los informes y del guion con los datos
 python src/pruebas_criterio.py       # pruebas de --criterio

@@ -1,6 +1,8 @@
 """Experimentos del Corte 2: escenarios, barrido de pesos y sensibilidad.
 
-Escenarios (pares origen-destino), todos sobre la red corregida de 32 nodos:
+Escenarios (pares origen-destino), todos sobre la red corregida de 32 nodos
+y con el piso geodésico (la distancia de cada arista no es menor que la recta
+entre sus nodos; ver piso_geodesico.py):
   - pares que cruzan el ciclo, con dos rutas simples distintas (el caso
     central es Duitama a Puente Nacional): solo aquí pueden diferir las rutas
     de los cinco algoritmos;
@@ -9,15 +11,16 @@ Escenarios (pares origen-destino), todos sobre la red corregida de 32 nodos:
 El número de rutas simples de cada par se comprueba al ejecutar.
 
 Criterios: distancia, compuesto_sin_riesgo, costo_operativo y
-compuesto_total_sin_riesgo (heurística geodésica con alfa = 0.458156);
+compuesto_total_sin_riesgo (heurística geodésica con alfa = 1, admisible y
+consistente por construcción con el piso);
 compuesto, compuesto_total y compuesto_mortalidad (riesgo faltante igual a 0)
 y riesgo se reportan aparte como limitados; en riesgo la heurística admisible
 es h = 0 (A* se reduce a UCS). compuesto_mortalidad es solo sensibilidad.
 
-Sensibilidades rotuladas: distancias sin corregir (cruda) y tres valores
-para Chocontá a Tunja: 17.69 km (base, longitud registrada de un sector
-truncado), 56.96 km (cota inferior, la geodésica) y 61.0 km (progresivas con
-un hueco de 49.1 km; la regla de adopción no los acepta como base).
+Sensibilidades rotuladas: «sin piso» (distancias oficiales, alfa = mínimo de
+la razón carretera/geodésica, 0.310570), Chocontá a Tunja con 61.0 km por
+progresivas (con un hueco de 49.1 km; también con piso) y distancias sin
+corregir por doble calzada (cruda, con piso).
 Barrido de pesos: el compuesto de tres pesos (distancia, peaje y riesgo) y el
 compuesto total de cuatro pesos (con el costo variable), ambos en malla de
 paso 0.1.
@@ -42,7 +45,6 @@ from heuristica import Heuristica, alfa_minimo, cargar_coordenadas
 REPETICIONES = 2000
 PASO_MALLA = 0.1
 CHOCONTA_TUNJA = ("Chocontá", "Tunja")
-COTA_KM = 56.96         # cota inferior: la geodésica entre los nodos
 PROGRESIVAS_KM = 61.0   # PR 120.0 menos PR 59.0, con hueco de 49.1 km
 CRITERIOS_EXPERIMENTO = [
     ("distancia", False),
@@ -128,58 +130,80 @@ def correr_escenarios(grafo, coordenadas, alfa):
     return resultados
 
 
-def sensibilidad_alfa(grafo, coordenadas, alfa):
-    """A* con alfa_ref (mínimo de razón sin Chocontá a Tunja), rotulado.
+def sensibilidad_alfa(grafo, sin_piso, coordenadas):
+    """Sensibilidad «sin piso»: A* con las distancias oficiales.
 
-    alfa_ref es el mínimo de la razón carretera/geodésica de las demás
-    aristas (0.458156). Es el alfa que daría Chocontá a Tunja con 56.96 o con
-    61.0 km. Con la distancia registrada de esa arista (17.69 km) esta h no
-    es admisible: se compara con el alfa vigente y con UCS en los escenarios
-    y en todos los pares de nodos (criterio distancia).
+    Con piso (base) alfa = 1 y h es admisible y consistente. Sin piso, alfa es
+    el mínimo de la razón oficial (0.310570, admisible pero débil); con
+    alfa = 1 y sin piso h deja de ser admisible. Se compara, en los
+    escenarios y en los 992 pares (criterio distancia), UCS y A* con piso
+    contra UCS, A* con ese alfa y A* con alfa = 1, ambos sin piso.
     """
-    alfa_ref = alfa_minimo(grafo, coordenadas, excluir=[CHOCONTA_TUNJA])
+    alfa_piso = alfa_minimo(grafo, coordenadas)
+    alfa_sp = alfa_minimo(sin_piso, coordenadas)
     atributo = CRITERIOS["distancia"]
-    h_ref = Heuristica(grafo, coordenadas, "distancia", alfa_ref)
-    h_base = Heuristica(grafo, coordenadas, "distancia", alfa)
+    h_piso = Heuristica(grafo, coordenadas, "distancia", alfa_piso)
+    h_sp = Heuristica(sin_piso, coordenadas, "distancia", alfa_sp)
+    h_pura = Heuristica(sin_piso, coordenadas, "distancia", 1.0)
+
+    def corrida(o, d):
+        u0 = ucs(grafo, o, d, atributo)
+        a0 = a_estrella(grafo, o, d, atributo, h_piso)
+        u1 = ucs(sin_piso, o, d, atributo)
+        a1 = a_estrella(sin_piso, o, d, atributo, h_sp)
+        a2 = a_estrella(sin_piso, o, d, atributo, h_pura)
+        return u0, a0, u1, a1, a2
+
     por_escenario = []
     for origen, destino, _ in ESCENARIOS:
-        u = ucs(grafo, origen, destino, atributo)
-        a0 = a_estrella(grafo, origen, destino, atributo, h_base)
-        a1 = a_estrella(grafo, origen, destino, atributo, h_ref)
+        u0, a0, u1, a1, a2 = corrida(origen, destino)
         por_escenario.append({
             "origen": origen, "destino": destino,
-            "costo_optimo": u["costo"],
-            "expandidos_ucs": u["nodos_expandidos"],
-            "expandidos_alfa_base": a0["nodos_expandidos"],
-            "expandidos_alfa_ref": a1["nodos_expandidos"],
-            "costo_alfa_ref": a1["costo"],
-            "optima_alfa_ref": abs(a1["costo"] - u["costo"]) < 1e-9,
-            "reexpansiones_alfa_ref": a1["reexpansiones"],
+            "costo_optimo_piso": u0["costo"],
+            "costo_optimo_sin_piso": u1["costo"],
+            "expandidos_ucs_piso": u0["nodos_expandidos"],
+            "expandidos_astar_piso": a0["nodos_expandidos"],
+            "reexpansiones_astar_piso": a0["reexpansiones"],
+            "expandidos_ucs_sin_piso": u1["nodos_expandidos"],
+            "expandidos_astar_sin_piso": a1["nodos_expandidos"],
+            "expandidos_astar_sin_piso_alfa1": a2["nodos_expandidos"],
+            "costo_astar_sin_piso_alfa1": a2["costo"],
+            "optima_astar_sin_piso_alfa1":
+                abs(a2["costo"] - u1["costo"]) < 1e-9,
+            "reexpansiones_astar_sin_piso_alfa1": a2["reexpansiones"],
         })
     pares = [(o, d) for o in grafo for d in grafo if o != d]
-    no_optimos, exp_ucs, exp_base, exp_ref = [], 0, 0, 0
+    no_optimos = []
+    tot = {"ucs_piso": 0, "astar_piso": 0, "ucs_sin_piso": 0,
+           "astar_sin_piso": 0, "astar_sin_piso_alfa1": 0}
+    reexp_piso = 0
     for o, d in pares:
-        u = ucs(grafo, o, d, atributo)
-        a0 = a_estrella(grafo, o, d, atributo, h_base)
-        a1 = a_estrella(grafo, o, d, atributo, h_ref)
-        exp_ucs += u["nodos_expandidos"]
-        exp_base += a0["nodos_expandidos"]
-        exp_ref += a1["nodos_expandidos"]
-        if abs(a1["costo"] - u["costo"]) > 1e-9:
+        u0, a0, u1, a1, a2 = corrida(o, d)
+        tot["ucs_piso"] += u0["nodos_expandidos"]
+        tot["astar_piso"] += a0["nodos_expandidos"]
+        tot["ucs_sin_piso"] += u1["nodos_expandidos"]
+        tot["astar_sin_piso"] += a1["nodos_expandidos"]
+        tot["astar_sin_piso_alfa1"] += a2["nodos_expandidos"]
+        reexp_piso += a0["reexpansiones"]
+        if abs(a0["costo"] - u0["costo"]) > 1e-9:
+            raise AssertionError(f"A* con piso no óptimo: {o} - {d}")
+        if abs(a1["costo"] - u1["costo"]) > 1e-9:
+            raise AssertionError(f"A* sin piso no óptimo: {o} - {d}")
+        if abs(a2["costo"] - u1["costo"]) > 1e-9:
             no_optimos.append({"origen": o, "destino": d,
-                               "costo": a1["costo"],
-                               "costo_optimo": u["costo"]})
+                               "costo": a2["costo"],
+                               "costo_optimo": u1["costo"]})
     return {
-        "rotulo": "sensibilidad: h con alfa_ref, no admisible con la "
-                  "distancia registrada de Chocontá a Tunja",
-        "alfa_base": alfa, "alfa_ref": alfa_ref,
+        "rotulo": "sensibilidad sin piso: distancias oficiales; alfa = "
+                  "mínimo de la razón; con alfa = 1 la h no es admisible",
+        "alfa_piso": alfa_piso, "alfa_sin_piso": alfa_sp,
         "por_escenario": por_escenario,
         "todos_los_pares": {
-            "pares": len(pares), "no_optimos": len(no_optimos),
+            "pares": len(pares),
+            "reexpansiones_astar_piso": reexp_piso,
+            "no_optimos_sin_piso_alfa1": len(no_optimos),
             "detalle_no_optimos": no_optimos[:20],
-            "expandidos_total_ucs": exp_ucs,
-            "expandidos_total_alfa_base": exp_base,
-            "expandidos_total_alfa_ref": exp_ref,
+            **{f"expandidos_total_{k}": v for k, v in tot.items()},
         },
     }
 
@@ -213,10 +237,12 @@ def sumas_ruta4(grafo, ruta):
     return [d, p, r, c]
 
 
-def barrido_total(variante, distancia="corregida", reemplazos=None):
+def barrido_total(variante, distancia="corregida", reemplazos=None,
+                  piso=True):
     """Ruta ganadora de Duitama a Puente Nacional con cuatro pesos."""
     origen, destino = "Duitama", "Puente Nacional"
-    base = construir_grafo(distancia=distancia, reemplazos=reemplazos)
+    base = construir_grafo(distancia=distancia, reemplazos=reemplazos,
+                           piso_geodesico=piso)
     caminos = list(nx.all_simple_paths(base, origen, destino))
     por_bogota = next(c for c in caminos if "Bogotá" in c)
     por_santander = next(c for c in caminos if "Bucaramanga" in c)
@@ -225,7 +251,7 @@ def barrido_total(variante, distancia="corregida", reemplazos=None):
     for w in malla_pesos4():
         costos = cargar_costos(pesos_total=dict(zip(nombres, w)))
         g = construir_grafo(distancia=distancia, reemplazos=reemplazos,
-                            costos=costos)
+                            costos=costos, piso_geodesico=piso)
         fila = {"w1": round(w[0], 1), "w2": round(w[1], 1),
                 "w3": round(w[2], 1), "w4": round(w[3], 1)}
         for nombre, atributo in (("total", "peso_total"),
@@ -248,7 +274,7 @@ def barrido_total(variante, distancia="corregida", reemplazos=None):
             incoherentes += 1
     sin = [f for f in puntos if f["sin_riesgo"] is not None]
     return {
-        "variante": variante, "distancia": distancia,
+        "variante": variante, "distancia": distancia, "piso_geodesico": piso,
         "reemplazos": {"-".join(k): v for k, v in (reemplazos or {}).items()},
         "ruta_bogota": por_bogota, "ruta_santander": por_santander,
         "sumas_bogota": sb, "sumas_santander": ss,
@@ -276,17 +302,19 @@ def sumas_ruta(grafo, ruta):
     return d, p, r
 
 
-def barrido(variante, distancia="corregida", reemplazos=None):
+def barrido(variante, distancia="corregida", reemplazos=None, piso=True):
     """Ruta ganadora de Duitama a Puente Nacional en la malla de pesos."""
     origen, destino = "Duitama", "Puente Nacional"
-    base = construir_grafo(distancia=distancia, reemplazos=reemplazos)
+    base = construir_grafo(distancia=distancia, reemplazos=reemplazos,
+                           piso_geodesico=piso)
     caminos = list(nx.all_simple_paths(base, origen, destino))
     por_bogota = next(c for c in caminos if "Bogotá" in c)
     por_santander = next(c for c in caminos if "Bucaramanga" in c)
     puntos = []
     for w in malla_pesos():
         pesos = {"distancia": w[0], "peaje": w[1], "riesgo": w[2]}
-        g = construir_grafo(pesos, distancia, reemplazos)
+        g = construir_grafo(pesos, distancia, reemplazos,
+                            piso_geodesico=piso)
         fila = {"w1": round(w[0], 1), "w2": round(w[1], 1),
                 "w3": round(w[2], 1)}
         for nombre, atributo in (("compuesto", "peso_multicriterio"),
@@ -316,7 +344,7 @@ def barrido(variante, distancia="corregida", reemplazos=None):
         if abs(lineal) > 1e-9 and esperado != f["compuesto"]:
             incoherentes += 1
     return {
-        "variante": variante, "distancia": distancia,
+        "variante": variante, "distancia": distancia, "piso_geodesico": piso,
         "reemplazos": {"-".join(k): v for k, v in (reemplazos or {}).items()},
         "ruta_bogota": por_bogota, "ruta_santander": por_santander,
         "sumas_bogota": dc, "sumas_santander": dd,
@@ -333,9 +361,10 @@ def barrido(variante, distancia="corregida", reemplazos=None):
     }
 
 
-def rutas_optimas_por_criterio(distancia, reemplazos=None):
+def rutas_optimas_por_criterio(distancia, reemplazos=None, piso=True):
     """Ruta óptima de Duitama a Puente Nacional por criterio."""
-    g = construir_grafo(distancia=distancia, reemplazos=reemplazos)
+    g = construir_grafo(distancia=distancia, reemplazos=reemplazos,
+                        piso_geodesico=piso)
     salida = {}
     for criterio, atributo in CRITERIOS.items():
         r = ucs(g, "Duitama", "Puente Nacional", atributo)
@@ -358,15 +387,14 @@ def main():
         json.dump({"alfa": alfa, "repeticiones": REPETICIONES,
                    "resultados": resultados}, f, ensure_ascii=False,
                   indent=1)
-    print("Sensibilidad de A* con alfa_ref")
-    sens = sensibilidad_alfa(grafo, coordenadas, alfa)
+    print("Sensibilidad de A* sin piso")
+    sin_piso = construir_grafo(piso_geodesico=False)
+    sens = sensibilidad_alfa(grafo, sin_piso, coordenadas)
     print("Barrido de pesos")
-    cota = {CHOCONTA_TUNJA: COTA_KM}
     progresivas = {CHOCONTA_TUNJA: PROGRESIVAS_KM}
     barridos = [
-        barrido("base (red corregida, Chocontá a Tunja 17.69 km)"),
-        barrido("sensibilidad con cota inferior (56.96 km)",
-                reemplazos=cota),
+        barrido("base (con piso geodésico)"),
+        barrido("sensibilidad sin piso (distancias oficiales)", piso=False),
         barrido("sensibilidad con distancias crudas", distancia="cruda"),
         barrido("sensibilidad con progresivas (61.0 km)",
                 reemplazos=progresivas),
@@ -375,9 +403,9 @@ def main():
         json.dump(barridos, f, ensure_ascii=False, indent=1)
     print("Barrido del compuesto total (cuatro pesos)")
     totales = [
-        barrido_total("base (red corregida, Chocontá a Tunja 17.69 km)"),
-        barrido_total("sensibilidad con cota inferior (56.96 km)",
-                      reemplazos=cota),
+        barrido_total("base (con piso geodésico)"),
+        barrido_total("sensibilidad sin piso (distancias oficiales)",
+                      piso=False),
         barrido_total("sensibilidad con progresivas (61.0 km)",
                       reemplazos=progresivas),
     ]
@@ -385,7 +413,7 @@ def main():
         json.dump(totales, f, ensure_ascii=False, indent=1)
     sens["rutas_optimas_duitama_puente_nacional"] = {
         "base": rutas_optimas_por_criterio("corregida"),
-        "cota_inferior": rutas_optimas_por_criterio("corregida", cota),
+        "sin_piso": rutas_optimas_por_criterio("corregida", piso=False),
         "progresivas": rutas_optimas_por_criterio("corregida", progresivas),
         "crudas": rutas_optimas_por_criterio("cruda"),
     }
@@ -398,8 +426,8 @@ def main():
               f"(compuesto), umbral w1 sobre w3=0: "
               f"{b['w1_umbral_sobre_w3_cero']}")
     t = sens["todos_los_pares"]
-    print(f"  A* alfa_ref={sens['alfa_ref']:.6f}: "
-          f"{t['no_optimos']} de {t['pares']} pares no óptimos")
+    print(f"  A* sin piso con alfa = 1: {t['no_optimos_sin_piso_alfa1']} de "
+          f"{t['pares']} pares no óptimos")
 
 
 if __name__ == "__main__":

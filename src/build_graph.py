@@ -17,6 +17,13 @@ dos variantes y un indicador booleano riesgo_disponible:
     sesga hacia corredores sin medición);
   - peso_sin_riesgo: sin término de riesgo, con w1 y w2 renormalizados.
 
+Piso geodésico (piso_geodesico.py): la distancia del modelo de cada arista es
+max(distancia oficial, geodésica entre sus nodos). Con piso_geodesico=True
+(por defecto) el costo de distancia de toda arista es mayor o igual que su
+geodésica, y h = geodésica(n, meta) es consistente y admisible en toda la red.
+Con piso_geodesico=False el grafo usa las distancias oficiales (variante de
+sensibilidad «sin piso», no admisible por construcción con alfa = 1).
+
 Costo monetario (config_costos.json, cada insumo con su fuente y su estado):
 
     combustible_cop   = km * precio del galón / rendimiento (km por galón)
@@ -99,6 +106,26 @@ def cargar_datos():
     return nodos, aristas
 
 
+TOLERANCIA_GEODESICA = 1e-9
+
+
+def verificar_invariante_geodesico(grafo):
+    """Falla si alguna arista queda por debajo de su geodésica.
+
+    Solo aplica a los grafos construidos con piso geodésico; devuelve el
+    número de aristas verificadas.
+    """
+    if not grafo.graph.get("piso_geodesico"):
+        raise ValueError("El grafo se construyó sin piso geodésico")
+    for u, v, d in grafo.edges(data=True):
+        minimo = d["distancia_geodesica_km"] - TOLERANCIA_GEODESICA
+        if d["distancia_km"] < minimo:
+            raise AssertionError(
+                f"{u} - {v}: distancia {d['distancia_km']} km menor que la "
+                f"geodésica {d['distancia_geodesica_km']} km")
+    return grafo.number_of_edges()
+
+
 def maximos(aristas, campo="distancia_km", costo_km=0.0):
     """Máximo de cada criterio (el de riesgo solo sobre datos disponibles)."""
     return {
@@ -111,28 +138,38 @@ def maximos(aristas, campo="distancia_km", costo_km=0.0):
 
 
 def construir_grafo(pesos=None, distancia="corregida",
-                    reemplazos=None, costos=None):
+                    reemplazos=None, costos=None, piso_geodesico=True):
     """Construye el grafo no dirigido con los atributos de cada arista.
 
     distancia: "corregida" (base, con la regla de doble calzada) o "cruda"
     (variante de sensibilidad, con shape__length). Ambas salen del mismo
     aristas_red.json; el atributo distancia_km toma la elegida.
 
-    reemplazos: diccionario {(u, v): km} que sustituye la distancia de
-    aristas concretas (solo para análisis de sensibilidad rotulados).
+    reemplazos: diccionario {(u, v): km} que sustituye la distancia oficial
+    de aristas concretas (solo para análisis de sensibilidad rotulados).
+
+    piso_geodesico: si es verdadero (base), la distancia de cada arista es
+    max(distancia elegida, geodésica) y se verifica el invariante geodésico,
+    también en las variantes cruda y con reemplazos; si es falso, se usan las
+    distancias oficiales sin piso (sensibilidad «sin piso»).
 
     costos: resultado de cargar_costos (por defecto, config_costos.json).
     """
     if distancia not in ("corregida", "cruda"):
         raise ValueError(f"Variante de distancia desconocida: {distancia}")
-    campo = ("distancia_km" if distancia == "corregida"
+    campo = ("distancia_oficial_km" if distancia == "corregida"
              else "distancia_cruda_km")
     pesos = pesos or PESOS
     nodos, aristas = cargar_datos()
     cambios = {frozenset(par): km for par, km in (reemplazos or {}).items()}
-    aristas = [dict(a, **{campo: cambios.get(
-        frozenset((a["origen"], a["destino"])), a[campo])})
+    aristas = [dict(a, distancia_elegida_km=cambios.get(
+        frozenset((a["origen"], a["destino"])), a[campo]))
         for a in aristas]
+    for a in aristas:
+        a["distancia_modelo_km"] = (
+            max(a["distancia_elegida_km"], a["distancia_geodesica_km"])
+            if piso_geodesico else a["distancia_elegida_km"])
+    campo = "distancia_modelo_km"
     costos = costos or cargar_costos()
     c_km = costos["costo_variable_cop_km"]
     tope = maximos(aristas, campo, c_km)
@@ -157,7 +194,13 @@ def construir_grafo(pesos=None, distancia="corregida",
         grafo.add_edge(
             a["origen"], a["destino"],
             distancia_km=a[campo],
-            distancia_corregida_km=a["distancia_km"],
+            distancia_oficial_km=a["distancia_elegida_km"],
+            distancia_geodesica_km=a["distancia_geodesica_km"],
+            distancia_piso_km=round(
+                a[campo] - a["distancia_elegida_km"], 6),
+            distancia_piso_aplicado=(
+                a[campo] - a["distancia_elegida_km"] > 1e-9),
+            distancia_corregida_km=a["distancia_oficial_km"],
             distancia_cruda_km=a["distancia_cruda_km"],
             peaje_nombre=a["peaje_nombre"],
             peaje_cop_camion=a["peaje_cop_camion"],
@@ -188,6 +231,9 @@ def construir_grafo(pesos=None, distancia="corregida",
     grafo.graph["costos"] = costos
     grafo.graph["pesos_total"] = dict(wt)
     grafo.graph["variante_distancia"] = distancia
+    grafo.graph["piso_geodesico"] = piso_geodesico
+    if piso_geodesico:
+        verificar_invariante_geodesico(grafo)
     return grafo
 
 
@@ -205,6 +251,9 @@ def estadisticas(grafo):
         "aristas_con_mortalidad": sum(d["mortalidad_disponible"]
                                       for d in datos),
         "distancia_total_km": round(sum(d["distancia_km"] for d in datos), 2),
+        "distancia_oficial_total_km": round(
+            sum(d["distancia_oficial_km"] for d in datos), 2),
+        "aristas_con_piso": sum(d["distancia_piso_aplicado"] for d in datos),
         "maximos": grafo.graph["maximos"],
         "pesos": grafo.graph["pesos"],
     }

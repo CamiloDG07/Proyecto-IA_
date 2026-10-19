@@ -16,7 +16,10 @@ Anomalías marcadas (umbrales fijos, no ajustados a los datos):
   - longitud del registro mayor que 1.5 veces el camino más corto entre los
     extremos de su propia geometría (posible suma de ambas calzadas).
 
-La distancia por carretera es la que usa el grafo (aristas_red.json). El
+La distancia por carretera es la distancia oficial del grafo
+(distancia_oficial_km de aristas_red.json, ya corregida por doble calzada),
+sin el piso geodésico; las dos últimas columnas dan la distancia del modelo
+(con piso, ver piso_geodesico.py) y el piso aplicado. El
 camino de la geometría se mide como camino más corto entre extremos sobre
 el grafo de vértices del sector.
 """
@@ -116,8 +119,12 @@ def main():
                  for r in csv.DictReader(f)}
     puntos, largos = vertices_por_sector()
     with open(SALIDA / "aristas_red.json", encoding="utf-8") as f:
-        en_grafo = {(a["origen"], a["destino"]): a["distancia_km"]
-                    for a in json.load(f)}
+        aristas = json.load(f)
+    en_grafo = {(a["origen"], a["destino"]): a["distancia_oficial_km"]
+                for a in aristas}
+    del_modelo = {(a["origen"], a["destino"]): (a["distancia_km"],
+                                                a["distancia_piso_km"])
+                  for a in aristas}
     filas = []
     for sector, origen, destino, _ in TRAMOS:
         extra = TRAMO_EXTRA_LONGITUD.get((sector, origen, destino))
@@ -155,7 +162,9 @@ def main():
                       f"{nodo_o:.2f}", f"{nodo_d:.2f}",
                       f"{camino:.2f}",
                       "" if sobre_camino is None else f"{sobre_camino:.3f}",
-                      "; ".join(marcas)])
+                      "; ".join(marcas),
+                      f"{del_modelo[(origen, destino)][0]:.2f}",
+                      f"{del_modelo[(origen, destino)][1]:.2f}"])
     with open(SALIDA / "auditoria_aristas.csv", "w", encoding="utf-8",
               newline="") as f:
         w = csv.writer(f)
@@ -163,10 +172,11 @@ def main():
                     "geodesica_km", "razon", "extremo_a_origen_km",
                     "extremo_a_destino_km", "origen_a_geometria_km",
                     "destino_a_geometria_km", "camino_geometria_km",
-                    "registro_sobre_camino", "anomalia"])
+                    "registro_sobre_camino", "anomalia",
+                    "distancia_modelo_km", "piso_km"])
         w.writerows(filas)
     escribir_markdown(filas)
-    marcadas = [r for r in filas if r[-1]]
+    marcadas = [r for r in filas if r[12]]
     print(f"{len(filas)} aristas auditadas, {len(marcadas)} con anomalía")
 
 
