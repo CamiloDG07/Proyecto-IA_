@@ -116,6 +116,13 @@ def _evaluar(grafo, ruta, pesos):
             "costos": costos}
 
 
+def _con_piso(grafo, usadas):
+    """Aristas usadas cuya distancia del modelo es el piso geodésico."""
+    return sorted((" - ".join(sorted(par)), grafo[min(par)][max(par)])
+                  for par in usadas
+                  if grafo[min(par)][max(par)].get("distancia_piso_aplicado"))
+
+
 def _avisos(grafo, ruta, auditadas):
     """Advertencias por aristas con limitación conocida."""
     avisos = []
@@ -124,19 +131,31 @@ def _avisos(grafo, ruta, auditadas):
     if ARISTA_TRUNCADA in usadas:
         e = grafo["Chocontá"]["Tunja"]
         geo = haversine_km(*COORDENADAS["Chocontá"], *COORDENADAS["Tunja"])
-        if e["distancia_fuente"] == "progresivas":
+        if e.get("distancia_piso_aplicado"):
             avisos.append(
-                "La ruta usa Chocontá a Tunja, cuyo sector está truncado en "
-                f"la fuente: su distancia ({e['distancia_km']:.2f} km frente "
-                f"a {geo:.2f} km en línea recta) sale de las progresivas "
-                "oficiales y no de la longitud registrada.")
+                "La ruta usa Chocontá a Tunja, sector truncado en la "
+                "fuente: su distancia oficial "
+                f"({e['distancia_oficial_km']:.2f} km) es menor que la línea "
+                f"recta ({geo:.2f} km); el modelo usa la recta como cota "
+                "inferior.")
         else:
             avisos.append(
                 f"La ruta usa Chocontá a Tunja, sector truncado en la "
                 f"fuente ({e['distancia_km']:.2f} km frente a {geo:.2f} km "
                 "en línea recta): su distancia está subestimada.")
+    pisos = [(n, e) for n, e in _con_piso(grafo, usadas)
+             if frozenset(n.split(" - ")) != ARISTA_TRUNCADA]
+    if pisos:
+        avisos.append(
+            "Aristas con piso geodésico (la distancia oficial es menor que "
+            "la línea recta y el modelo usa la recta como cota inferior): "
+            + "; ".join(f"{n} ({e['distancia_oficial_km']:.2f} a "
+                        f"{e['distancia_km']:.2f} km)" for n, e in pisos)
+            + ".")
+    con_piso = {frozenset(n.split(" - ")) for n, _ in _con_piso(grafo, usadas)}
     marcadas = sorted(" - ".join(sorted(par)) for par in usadas
-                      if par in auditadas and par != ARISTA_TRUNCADA)
+                      if par in auditadas and par != ARISTA_TRUNCADA
+                      and par not in con_piso)
     if marcadas:
         avisos.append("Aristas marcadas por la auditoría geométrica: "
                       + "; ".join(marcadas) + ".")
@@ -152,9 +171,12 @@ def _limitaciones(grafo, ruta, auditadas):
     """Conteos de las limitaciones de la ruta (los mismos de _avisos)."""
     tramos = _aristas(ruta)
     usadas = {frozenset(t) for t in tramos}
+    con_piso = {frozenset(n.split(" - ")) for n, _ in _con_piso(grafo, usadas)}
     return {"truncada": ARISTA_TRUNCADA in usadas,
+            "piso": len(con_piso - {ARISTA_TRUNCADA}),
             "marcadas": len([p for p in usadas
-                             if p in auditadas and p != ARISTA_TRUNCADA]),
+                             if p in auditadas and p != ARISTA_TRUNCADA
+                             and p not in con_piso]),
             "sin_dato": sum(1 for u, v in tramos
                             if not grafo[u][v]["riesgo_disponible"]),
             "tramos": len(tramos)}

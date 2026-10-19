@@ -95,6 +95,15 @@ Chocontá - Tunja, El Espinal - Girardot y el registro del Río Ocoa) se marcan
 valor de 167.67 km de Bogotá - Villeta es un artefacto de esta doble calzada
 digitalizada y queda en 81.00 km.
 
+Piso geodésico (ver piso_geodesico.py): una carretera no puede ser más corta
+que la línea recta entre sus nodos. La distancia del modelo es
+distancia_km = max(distancia_oficial_km, geodésica); la distancia oficial (ya
+corregida por doble calzada) se conserva en distancia_oficial_km, la
+geodésica (redondeada hacia arriba) en distancia_geodesica_km y la diferencia
+en distancia_piso_km, con el indicador distancia_piso_aplicado. Las 8 aristas
+cuya distancia oficial es menor que la recta quedan marcadas; las demás
+conservan su distancia oficial exacta.
+
 Regla de adopción de una distancia por progresivas (fijada de antemano y
 probada en src/pruebas_progresivas.py): la diferencia de progresivas de la Red
 Vial solo reemplaza al valor registrado como base si se cumplen TODAS estas
@@ -141,6 +150,7 @@ import sys
 from pathlib import Path
 
 from heuristica import cargar_coordenadas, haversine_km
+from piso_geodesico import distancia_modelo, geodesica_arista
 
 csv.field_size_limit(sys.maxsize)
 
@@ -537,10 +547,16 @@ def main():
         else:
             giz_prom, fallecidos_tot, n_puntos = 0.0, 0.0, 0
 
+        geodesica = geodesica_arista(coordenadas, origen, destino)
+        modelo_km, piso_km = distancia_modelo(dist_km, geodesica)
         aristas.append({
             "origen": origen,
             "destino": destino,
-            "distancia_km": dist_km,
+            "distancia_km": modelo_km,
+            "distancia_oficial_km": dist_km,
+            "distancia_geodesica_km": geodesica,
+            "distancia_piso_km": piso_km,
+            "distancia_piso_aplicado": piso_km > 0,
             "distancia_cruda_km": crudo_km,
             "distancia_registrada_km": registrada_km,
             "distancia_fuente": fuente_distancia,

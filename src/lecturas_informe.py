@@ -479,6 +479,8 @@ def columna_ejemplo(r, solicitud):
     avisos = []
     if lim["truncada"]:
         avisos.append("Chocontá a Tunja truncada")
+    if lim["piso"]:
+        avisos.append(f"{lim['piso']} aristas con piso geodésico")
     if lim["marcadas"]:
         avisos.append(f"{lim['marcadas']} aristas marcadas por la auditoría")
     if lim["sin_dato"]:

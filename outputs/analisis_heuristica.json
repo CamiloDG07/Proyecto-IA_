@@ -1,124 +1,52 @@
 {
-  "alfa": 0.31057,
-  "razon_minima_exacta": 0.3105704113225443,
+  "piso_geodesico": true,
+  "alfa": 1.0,
+  "razon_minima_exacta": 1.0000000058813603,
   "aristas_que_determinan_alfa": [
     {
       "arista": [
-        "Chocontá",
-        "Tunja"
-      ],
-      "razon": 0.3105704113225443
-    },
-    {
-      "arista": [
         "Bogotá",
         "Madrid"
       ],
-      "razon": 0.4581564074448208
+      "razon": 1.0000000058813603
     },
-    {
-      "arista": [
-        "Bogotá",
-        "Tocancipá"
-      ],
-      "razon": 0.5370624810216452
-    }
-  ],
-  "aristas_con_razon_menor_que_1": [
     {
       "arista": [
         "Chocontá",
         "Tunja"
       ],
-      "carretera_km": 17.69,
-      "geodesica_km": 56.95970818555529,
-      "razon": 0.3105704113225443
-    },
-    {
-      "arista": [
-        "Bogotá",
-        "Madrid"
-      ],
-      "carretera_km": 9.12,
-      "geodesica_km": 19.90586588292643,
-      "razon": 0.4581564074448208
-    },
-    {
-      "arista": [
-        "Bogotá",
-        "Tocancipá"
-      ],
-      "carretera_km": 22.12,
-      "geodesica_km": 41.187014140182505,
-      "razon": 0.5370624810216452
-    },
-    {
-      "arista": [
-        "Cajicá",
-        "Zipaquirá"
-      ],
-      "carretera_km": 9.1,
-      "geodesica_km": 12.146088388038828,
-      "razon": 0.7492123973806627
-    },
-    {
-      "arista": [
-        "Granada",
-        "Ye de Granada"
-      ],
-      "carretera_km": 2.43,
-      "geodesica_km": 3.043506072912752,
-      "razon": 0.7984212752611323
-    },
-    {
-      "arista": [
-        "El Espinal",
-        "Girardot"
-      ],
-      "carretera_km": 19.36,
-      "geodesica_km": 20.42327336096597,
-      "razon": 0.9479381516286144
-    },
-    {
-      "arista": [
-        "Bogotá",
-        "Guasca"
-      ],
-      "carretera_km": 34.88,
-      "geodesica_km": 35.120635275756676,
-      "razon": 0.9931483222365632
+      "razon": 1.000000014298611
     },
     {
       "arista": [
         "Duitama",
         "Tunja"
       ],
-      "carretera_km": 47.73,
-      "geodesica_km": 47.78382616742511,
-      "razon": 0.9988735484003203
+      "razon": 1.0000000174237804
     }
   ],
+  "aristas_con_razon_menor_que_1": [],
   "criterios": {
     "distancia": {
       "limitada": false,
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 2.3428812092163298e-05,
+        "margen_minimo": 1.1707356861734297e-07,
         "par_margen_minimo": [
-          "Chocontá",
-          "Tunja"
+          "Bogotá",
+          "Madrid"
         ],
-        "margen_maximo": 655.0673290760725
+        "margen_maximo": 428.6378714518546
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 2.3428812092163298e-05,
+        "margen_minimo": 1.1707356861734297e-07,
         "caso_margen_minimo": [
-          "Chocontá",
-          "Tunja",
-          "Tunja"
+          "Bogotá",
+          "Madrid",
+          "Madrid"
         ]
       }
     },
@@ -127,21 +55,21 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 0.005264797953817058,
+        "margen_minimo": 2.169921180239509e-09,
         "par_margen_minimo": [
-          "Granada",
-          "Ye de Granada"
+          "Cajicá",
+          "Zipaquirá"
         ],
-        "margen_maximo": 4.754305122661257
+        "margen_maximo": 4.024623017170395
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 0.005264797953817058,
+        "margen_minimo": 2.169921180239509e-09,
         "caso_margen_minimo": [
-          "Granada",
-          "Ye de Granada",
-          "Ye de Granada"
+          "Cajicá",
+          "Zipaquirá",
+          "Zipaquirá"
         ]
       }
     },
@@ -150,17 +78,17 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 0.012594353424879511,
+        "margen_minimo": 1.4466141166902258e-09,
         "par_margen_minimo": [
           "Cajicá",
           "Zipaquirá"
         ],
-        "margen_maximo": 4.091008615908759
+        "margen_maximo": 3.559397064914364
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 0.012594353424879511,
+        "margen_minimo": 1.4466141166902258e-09,
         "caso_margen_minimo": [
           "Cajicá",
           "Zipaquirá",
@@ -173,21 +101,21 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 1717.8832456628459,
+        "margen_minimo": 0.000708036903233733,
         "par_margen_minimo": [
-          "Granada",
-          "Ye de Granada"
+          "Cajicá",
+          "Zipaquirá"
         ],
-        "margen_maximo": 944741.8027849378
+        "margen_maximo": 711132.496072311
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 1717.8832456628459,
+        "margen_minimo": 0.000708036903233733,
         "caso_margen_minimo": [
-          "Granada",
-          "Ye de Granada",
-          "Ye de Granada"
+          "Cajicá",
+          "Zipaquirá",
+          "Zipaquirá"
         ]
       }
     },
@@ -196,21 +124,21 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 0.007019730605089409,
+        "margen_minimo": 2.8932282333804515e-09,
         "par_margen_minimo": [
-          "Granada",
-          "Ye de Granada"
+          "Cajicá",
+          "Zipaquirá"
         ],
-        "margen_maximo": 4.5656767034121755
+        "margen_maximo": 3.7508718526506075
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 0.007019730605089409,
+        "margen_minimo": 2.8932282333804515e-09,
         "caso_margen_minimo": [
-          "Granada",
-          "Ye de Granada",
-          "Ye de Granada"
+          "Cajicá",
+          "Zipaquirá",
+          "Zipaquirá"
         ]
       }
     },
@@ -219,17 +147,17 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 0.01889153013731927,
+        "margen_minimo": 2.169921180239509e-09,
         "par_margen_minimo": [
           "Cajicá",
           "Zipaquirá"
         ],
-        "margen_maximo": 4.007362725263169
+        "margen_maximo": 3.3383498887449763
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 0.01889153013731927,
+        "margen_minimo": 2.169921180239509e-09,
         "caso_margen_minimo": [
           "Cajicá",
           "Zipaquirá",
@@ -242,17 +170,17 @@
       "admisibilidad": {
         "pares": 992,
         "violaciones": 0,
-        "margen_minimo": 0.003509865302544705,
+        "margen_minimo": 2.1915401932429135e-09,
         "par_margen_minimo": [
           "Granada",
           "Ye de Granada"
         ],
-        "margen_maximo": 3.7485392216596325
+        "margen_maximo": 3.545377594874688
       },
       "consistencia": {
         "casos": 2048,
         "violaciones": 0,
-        "margen_minimo": 0.003509865302544705,
+        "margen_minimo": 2.1915401932429135e-09,
         "caso_margen_minimo": [
           "Granada",
           "Ye de Granada",
@@ -265,23 +193,311 @@
     "alfa": 1.0,
     "admisibilidad": {
       "pares": 992,
-      "violaciones": 66,
-      "margen_minimo": -56.51137948181665,
+      "violaciones": 0,
+      "margen_minimo": 1.1707356861734297e-07,
       "par_margen_minimo": [
         "Bogotá",
-        "Tunja"
+        "Madrid"
       ],
-      "margen_maximo": 425.59178245185467
+      "margen_maximo": 428.6378714518546
     },
     "consistencia": {
       "casos": 2048,
-      "violaciones": 141,
-      "margen_minimo": -39.26970818555529,
+      "violaciones": 0,
+      "margen_minimo": 1.1707356861734297e-07,
       "caso_margen_minimo": [
-        "Chocontá",
-        "Tunja",
-        "Tunja"
+        "Bogotá",
+        "Madrid",
+        "Madrid"
       ]
+    }
+  },
+  "sin_piso": {
+    "piso_geodesico": false,
+    "alfa": 0.31057,
+    "razon_minima_exacta": 0.3105704113225443,
+    "aristas_que_determinan_alfa": [
+      {
+        "arista": [
+          "Chocontá",
+          "Tunja"
+        ],
+        "razon": 0.3105704113225443
+      },
+      {
+        "arista": [
+          "Bogotá",
+          "Madrid"
+        ],
+        "razon": 0.4581564074448208
+      },
+      {
+        "arista": [
+          "Bogotá",
+          "Tocancipá"
+        ],
+        "razon": 0.5370624810216452
+      }
+    ],
+    "aristas_con_razon_menor_que_1": [
+      {
+        "arista": [
+          "Chocontá",
+          "Tunja"
+        ],
+        "carretera_km": 17.69,
+        "geodesica_km": 56.95970818555529,
+        "razon": 0.3105704113225443
+      },
+      {
+        "arista": [
+          "Bogotá",
+          "Madrid"
+        ],
+        "carretera_km": 9.12,
+        "geodesica_km": 19.90586588292643,
+        "razon": 0.4581564074448208
+      },
+      {
+        "arista": [
+          "Bogotá",
+          "Tocancipá"
+        ],
+        "carretera_km": 22.12,
+        "geodesica_km": 41.187014140182505,
+        "razon": 0.5370624810216452
+      },
+      {
+        "arista": [
+          "Cajicá",
+          "Zipaquirá"
+        ],
+        "carretera_km": 9.1,
+        "geodesica_km": 12.146088388038828,
+        "razon": 0.7492123973806627
+      },
+      {
+        "arista": [
+          "Granada",
+          "Ye de Granada"
+        ],
+        "carretera_km": 2.43,
+        "geodesica_km": 3.043506072912752,
+        "razon": 0.7984212752611323
+      },
+      {
+        "arista": [
+          "El Espinal",
+          "Girardot"
+        ],
+        "carretera_km": 19.36,
+        "geodesica_km": 20.42327336096597,
+        "razon": 0.9479381516286144
+      },
+      {
+        "arista": [
+          "Bogotá",
+          "Guasca"
+        ],
+        "carretera_km": 34.88,
+        "geodesica_km": 35.120635275756676,
+        "razon": 0.9931483222365632
+      },
+      {
+        "arista": [
+          "Duitama",
+          "Tunja"
+        ],
+        "carretera_km": 47.73,
+        "geodesica_km": 47.78382616742511,
+        "razon": 0.9988735484003203
+      }
+    ],
+    "criterios": {
+      "distancia": {
+        "limitada": false,
+        "admisibilidad": {
+          "pares": 992,
+          "violaciones": 0,
+          "margen_minimo": 2.3428812092163298e-05,
+          "par_margen_minimo": [
+            "Chocontá",
+            "Tunja"
+          ],
+          "margen_maximo": 655.0673290760725
+        },
+        "consistencia": {
+          "casos": 2048,
+          "violaciones": 0,
+          "margen_minimo": 2.3428812092163298e-05,
+          "caso_margen_minimo": [
+            "Chocontá",
+            "Tunja",
+            "Tunja"
+          ]
+        }
+      },
+      "compuesto_sin_riesgo": {
+        "limitada": false,
+        "admisibilidad": {
+          "pares": 992,
+          "violaciones": 0,
+          "margen_minimo": 0.005264797953817058,
+          "par_margen_minimo": [
+            "Granada",
+            "Ye de Granada"
+          ],
+          "margen_maximo": 4.754305122661257
+        },
+        "consistencia": {
+          "casos": 2048,
+          "violaciones": 0,
+          "margen_minimo": 0.005264797953817058,
+          "caso_margen_minimo": [
+            "Granada",
+            "Ye de Granada",
+            "Ye de Granada"
+          ]
+        }
+      },
+      "compuesto": {
+        "limitada": true,
+        "admisibilidad": {
+          "pares": 992,
+          "violaciones": 0,
+          "margen_minimo": 0.012594353424879511,
+          "par_margen_minimo": [
+            "Cajicá",
+            "Zipaquirá"
+          ],
+          "margen_maximo": 4.091008615908759
+        },
+        "consistencia": {
+          "casos": 2048,
+          "violaciones": 0,
+          "margen_minimo": 0.012594353424879511,
+          "caso_margen_minimo": [
+            "Cajicá",
+            "Zipaquirá",
+            "Zipaquirá"
+          ]
+        }
+      },
+      "costo_operativo": {
+        "limitada": false,
+        "admisibilidad": {
+          "pares": 992,
+          "violaciones": 0,
+          "margen_minimo": 1717.8832456628459,
+          "par_margen_minimo": [
+            "Granada",
+            "Ye de Granada"
+          ],
+          "margen_maximo": 944741.8027849378
+        },
+        "consistencia": {
+          "casos": 2048,
+          "violaciones": 0,
+          "margen_minimo": 1717.8832456628459,
+          "caso_margen_minimo": [
+            "Granada",
+            "Ye de Granada",
+            "Ye de Granada"
+          ]
+        }
+      },
+      "compuesto_total_sin_riesgo": {
+        "limitada": false,
+        "admisibilidad": {
+          "pares": 992,
+          "violaciones": 0,
+          "margen_minimo": 0.007019730605089409,
+          "par_margen_minimo": [
+            "Granada",
+            "Ye de Granada"
+          ],
+          "margen_maximo": 4.5656767034121755
+        },
+        "consistencia": {
+          "casos": 2048,
+          "violaciones": 0,
+          "margen_minimo": 0.007019730605089409,
+          "caso_margen_minimo": [
+            "Granada",
+            "Ye de Granada",
+            "Ye de Granada"
+          ]
+        }
+      },
+      "compuesto_total": {
+        "limitada": true,
+        "admisibilidad": {
+          "pares": 992,
+          "violaciones": 0,
+          "margen_minimo": 0.01889153013731927,
+          "par_margen_minimo": [
+            "Cajicá",
+            "Zipaquirá"
+          ],
+          "margen_maximo": 4.007362725263169
+        },
+        "consistencia": {
+          "casos": 2048,
+          "violaciones": 0,
+          "margen_minimo": 0.01889153013731927,
+          "caso_margen_minimo": [
+            "Cajicá",
+            "Zipaquirá",
+            "Zipaquirá"
+          ]
+        }
+      },
+      "compuesto_mortalidad": {
+        "limitada": true,
+        "admisibilidad": {
+          "pares": 992,
+          "violaciones": 0,
+          "margen_minimo": 0.003509865302544705,
+          "par_margen_minimo": [
+            "Granada",
+            "Ye de Granada"
+          ],
+          "margen_maximo": 3.901003638868098
+        },
+        "consistencia": {
+          "casos": 2048,
+          "violaciones": 0,
+          "margen_minimo": 0.003509865302544705,
+          "caso_margen_minimo": [
+            "Granada",
+            "Ye de Granada",
+            "Ye de Granada"
+          ]
+        }
+      }
+    },
+    "geodesica_pura_distancia": {
+      "alfa": 1.0,
+      "admisibilidad": {
+        "pares": 992,
+        "violaciones": 66,
+        "margen_minimo": -56.51137948181665,
+        "par_margen_minimo": [
+          "Bogotá",
+          "Tunja"
+        ],
+        "margen_maximo": 425.59178245185467
+      },
+      "consistencia": {
+        "casos": 2048,
+        "violaciones": 141,
+        "margen_minimo": -39.26970818555529,
+        "caso_margen_minimo": [
+          "Chocontá",
+          "Tunja",
+          "Tunja"
+        ]
+      }
     }
   }
 }

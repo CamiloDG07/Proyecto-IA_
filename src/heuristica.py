@@ -30,8 +30,15 @@ el peaje no negativo no rompe la admisibilidad. Así:
 
 porque c_km * d / cv_max = d / d_max, ya que cv_max = c_km * d_max.
 
+Con el piso geodésico (piso_geodesico.py) la distancia de toda arista es
+mayor o igual que su geodésica: la razón mínima es 1 y alfa = 1 por
+construcción, de modo que h(n) = geodésica(n, meta) es admisible y
+consistente en toda la red. Sin el piso (variante de sensibilidad), alfa es el
+mínimo de la razón con las distancias oficiales.
+
 El script escribe outputs/analisis_heuristica.json con alfa, las aristas que
-lo determinan y la verificación numérica de admisibilidad y consistencia.
+lo determinan y la verificación numérica de admisibilidad y consistencia, y
+la misma verificación para la variante sin piso.
 """
 import csv
 import json
@@ -39,7 +46,8 @@ from math import asin, cos, floor, radians, sin, sqrt
 
 import networkx as nx
 
-from build_graph import RAIZ, SALIDA, cargar_grafo
+from build_graph import (RAIZ, SALIDA, cargar_grafo, construir_grafo,
+                         verificar_invariante_geodesico)
 
 COORDENADAS_CSV = RAIZ / "data" / "carga" / "coordenadas_nodos.csv"
 ATRIBUTOS = {
@@ -192,12 +200,17 @@ def verificar_consistencia(grafo, h, criterio):
     }
 
 
-def main():
-    grafo = cargar_grafo()
-    coordenadas = cargar_coordenadas()
+CRITERIOS_VERIFICADOS = ("distancia", "compuesto_sin_riesgo", "compuesto",
+                         "costo_operativo", "compuesto_total_sin_riesgo",
+                         "compuesto_total", "compuesto_mortalidad")
+
+
+def analizar(grafo, coordenadas):
+    """Alfa y verificación numérica de un grafo (con o sin piso)."""
     razones = razones_carretera_geodesica(grafo, coordenadas)
     alfa = alfa_minimo(grafo, coordenadas)
     resultado = {
+        "piso_geodesico": bool(grafo.graph.get("piso_geodesico")),
         "alfa": alfa,
         "razon_minima_exacta": razones[0][0],
         "aristas_que_determinan_alfa": [
@@ -208,9 +221,7 @@ def main():
             for r in razones if r[0] < 1],
         "criterios": {},
     }
-    for criterio in ("distancia", "compuesto_sin_riesgo", "compuesto",
-                     "costo_operativo", "compuesto_total_sin_riesgo",
-                     "compuesto_total", "compuesto_mortalidad"):
+    for criterio in CRITERIOS_VERIFICADOS:
         h = Heuristica(grafo, coordenadas, criterio, alfa)
         resultado["criterios"][criterio] = {
             "limitada": h.limitada,
@@ -223,18 +234,36 @@ def main():
         "admisibilidad": verificar_admisibilidad(grafo, pura, "distancia"),
         "consistencia": verificar_consistencia(grafo, pura, "distancia"),
     }
+    return resultado
+
+
+def main():
+    grafo = cargar_grafo()
+    coordenadas = cargar_coordenadas()
+    verificar_invariante_geodesico(grafo)
+    resultado = analizar(grafo, coordenadas)
+    assert resultado["razon_minima_exacta"] >= 1 - 1e-9, resultado
+    assert resultado["alfa"] == 1.0, resultado["alfa"]
+    resultado["sin_piso"] = analizar(
+        construir_grafo(piso_geodesico=False), coordenadas)
     with open(SALIDA / "analisis_heuristica.json", "w",
               encoding="utf-8") as f:
         json.dump(resultado, f, ensure_ascii=False, indent=2)
-    print(f"alfa = {alfa:.6f} (razón mínima {razones[0][0]:.10f})")
-    for r in razones[:3]:
-        print(f"  {r[1]} - {r[2]}: {r[0]:.6f}")
+    razones = razones_carretera_geodesica(grafo, coordenadas)
+    print(f"alfa = {resultado['alfa']:.6f} con piso (razón mínima "
+          f"{razones[0][0]:.10f})")
     for criterio, datos in resultado["criterios"].items():
         a, c = datos["admisibilidad"], datos["consistencia"]
         print(f"{criterio}: admisibilidad violaciones={a['violaciones']} "
               f"margen mín={a['margen_minimo']:.6f}; "
               f"consistencia violaciones={c['violaciones']} "
               f"margen mín={c['margen_minimo']:.6f}")
+    sp = resultado["sin_piso"]
+    pura = sp["geodesica_pura_distancia"]
+    print(f"sin piso: alfa = {sp['alfa']:.6f}; con alfa = 1 hay "
+          f"{pura['admisibilidad']['violaciones']} violaciones de "
+          f"admisibilidad y {pura['consistencia']['violaciones']} de "
+          "consistencia")
 
 
 if __name__ == "__main__":

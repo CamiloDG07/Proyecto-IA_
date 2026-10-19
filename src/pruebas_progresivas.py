@@ -84,9 +84,10 @@ def main():
     with open(SALIDA / "aristas_red.json", encoding="utf-8") as f:
         arista = next(a for a in json.load(f)
                       if (a["origen"], a["destino"]) == ("Chocontá", "Tunja"))
-    ok(arista["distancia_km"] == 17.69 and arista["distancia_truncada"]
+    ok(arista["distancia_oficial_km"] == 17.69
+       and arista["distancia_truncada"]
        and arista["distancia_fuente"] == "registro",
-       "la base de la arista es 17.69 km, marcada truncada")
+       "la base oficial de la arista es 17.69 km, marcada truncada")
     ok(arista["distancia_progresivas_km"] == 61.0,
        "los 61.0 km quedan solo como dato de sensibilidad")
 
