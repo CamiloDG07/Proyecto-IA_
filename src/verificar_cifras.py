@@ -246,10 +246,10 @@ chequear("saltos de los pares de ruta única", [1, 2, 3, 4, 6], saltos)
 chequear("repeticiones", 2000, res[0]["repeticiones"])
 pre = [c["precalculo_h_media_s"] * 1e6 for c in res
        if c["precalculo_h_media_s"] is not None]
-chequear("precálculo medio (us)", 60.4, round(sum(pre) / len(pre), 1), 0.05)
-chequear("precálculo mínimo (us)", 12.3, round(min(pre), 1), 0.05)
-chequear("precálculo máximo (us)", 78.5, round(max(pre), 1), 0.05)
-chequear("máx desviación/media", 2.31, round(max(
+chequear("precálculo medio (us)", 36.9, round(sum(pre) / len(pre), 1), 0.05)
+chequear("precálculo mínimo (us)", 6.7, round(min(pre), 1), 0.05)
+chequear("precálculo máximo (us)", 71.2, round(max(pre), 1), 0.05)
+chequear("máx desviación/media", 1.49, round(max(
     c["tiempo_desv_s"] / c["tiempo_media_s"] for c in res), 2), 0.005)
 
 
@@ -281,10 +281,10 @@ for crit, esperado in (
     chequear(f"expandidos totales {crit}", esperado, real)
 a_ = cel("Duitama", "Puente Nacional", "distancia", "A*")
 u_ = cel("Duitama", "Puente Nacional", "distancia", "UCS")
-chequear("A* central media y desv (us)", (137, 20),
+chequear("A* central media y desv (us)", (56, 7),
          (round(a_["tiempo_media_s"] * 1e6), round(a_["tiempo_desv_s"] * 1e6)),
          0.5)
-chequear("UCS central media y desv (us)", (143, 36),
+chequear("UCS central media y desv (us)", (89, 5),
          (round(u_["tiempo_media_s"] * 1e6), round(u_["tiempo_desv_s"] * 1e6)),
          0.5)
 chequear("expandidos centrales A*, UCS", (14, 27),
@@ -294,7 +294,7 @@ chequear("sin riesgo BFS exceso", 4.7, exceso(
 chequear("sin riesgo DFS Buc-Bog exceso", 8.7, exceso(
     "Bucaramanga", "Bogotá", "compuesto_sin_riesgo", "DFS"), 0.05)
 citas("Corte 2", c2, [("exceso BFS", "76.6"), ("exceso DFS", "49.0"),
-                      ("precálculo", "60.4"), ("desviación", "2.31"),
+                      ("precálculo", "36.9"), ("desviación", "1.49"),
                       ("sin riesgo", "4.7"), ("sin riesgo DFS", "8.7"),
                       ("totales A* y UCS", "UCS 139, voraz 50 y A* 64")])
 
@@ -459,12 +459,12 @@ chequear("euclidianas n=20 inicio fijo", (2.212, 1), (
         for r in tal)))
 hk = [r["exacto"]["tiempo_s"] for r in red + tal
       if r["n"] == 20 and "exacto" in r]
-chequear("Held-Karp n=20, tiempos mín y máx (s)", (1.73, 1.79),
+chequear("Held-Karp n=20, tiempos mín y máx (s)", (1.12, 1.19),
          (round(min(hk), 2), round(max(hk), 2)))
 chequear("Held-Karp n=20, memoria (MiB)", 111.8,
          round(red[9]["exacto"]["memoria_pico_mib"], 1), 0.05)
 at = [r["aco"]["tiempo_medio_s"] for r in red + tal if r["n"] == 20]
-chequear("ACO n=20, tiempos mín y máx (s)", (0.11, 0.13),
+chequear("ACO n=20, tiempos mín y máx (s)", (0.06, 0.07),
          (round(min(at), 2), round(max(at), 2)))
 chequear("exacto en ms hasta n=10", True, all(
     r["exacto"]["tiempo_s"] < 0.01 for r in red
@@ -476,18 +476,18 @@ for r in may:
              {100: (-0.315, -0.171), 200: (-1.937, -1.4)}[r["n"]],
              (round(r["aco"]["brecha_mejor_pct"], 3),
               round(r["aco"]["brecha_media_pct"], 3)))
-chequear("n=100: tiempo del ACO", (1.74, 0.11), (
+chequear("n=100: tiempo del ACO", (1.07, 0.03), (
     round(may[0]["aco"]["tiempo_medio_s"], 2),
     round(may[0]["aco"]["tiempo_desv_s"], 2)))
-chequear("n=100 sin 2-opt", (1.09, 0.07, 5.599), (
+chequear("n=100 sin 2-opt", (0.89, 0.03, 5.599), (
     round(may[0]["aco_sin_2opt"]["tiempo_medio_s"], 2),
     round(may[0]["aco_sin_2opt"]["tiempo_desv_s"], 2),
     round(may[0]["aco_sin_2opt"]["brecha_media_pct"], 3)))
-chequear("n=200 sin 2-opt", (5.06, 0.24, 6.209), (
+chequear("n=200 sin 2-opt", (4.84, 0.15, 6.209), (
     round(may[1]["aco_sin_2opt"]["tiempo_medio_s"], 2),
     round(may[1]["aco_sin_2opt"]["tiempo_desv_s"], 2),
     round(may[1]["aco_sin_2opt"]["brecha_media_pct"], 3)))
-chequear("n=200: tiempo y memoria", (8.93, 0.95, 5391), (
+chequear("n=200: tiempo y memoria", (6.05, 0.07, 5391), (
     round(may[1]["aco"]["tiempo_medio_s"], 2),
     round(may[1]["aco"]["tiempo_desv_s"], 2),
     round(may[1]["aco"]["memoria_pico_kib"])))
@@ -495,9 +495,9 @@ chequear("inicios de 2-opt", (301, 151), (
     may[0]["referencia"]["inicios"], may[1]["referencia"]["inicios"]))
 citas("Corte 2", c2, [("óptimo 32", "2895.49"), ("inicio fijo n=15", "2.012"),
                       ("inicio fijo n=20", "1.832"),
-                      ("Held-Karp", "entre 1.73 s y 1.79 s"),
-                      ("n=200", "8.93"),
-                      ("n=100 sin 2-opt", "1.09")])
+                      ("Held-Karp", "entre 1.12 s y 1.19 s"),
+                      ("n=200", "6.05"),
+                      ("n=100 sin 2-opt", "0.89")])
 
 # ---- 9. Perfil topológico e ida y vuelta -----------------------------------
 per = cargar("perfil_topologico.json")
