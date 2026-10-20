@@ -1,0 +1,13 @@
+escenario,zoom,contenedor_px,nodos_evaluados,aristas_evaluadas,nodos_fuera_de_1px,aristas_fuera_de_1px,desfase_maximo_px
+inicial (encuadrado),7.25,1019x543,32,32,0,0,0.000
+"zoom acercado (+2, sin animación)",9.25,1019x543,32,11,0,0,0.000
+mapa movido (180,-120),9.25,1019x543,32,7,0,0,0.000
+"zoom alejado (6, animado)",6,1019x543,32,32,0,0,0.000
+mapa movido tras alejar,6,1019x543,32,32,0,0,0.000
+re-encuadrado,7.25,1019x543,32,32,0,0,0.000
+sin fondo,7.25,1019x543,32,32,0,0,0.000
+"sin fondo, zoom 9",9,1019x543,32,16,0,0,0.000
+contenedor redimensionado: alto 380 px,6.75,1019x380,32,32,0,0,0.000
+contenedor redimensionado: alto 700 px,7.75,1019x700,32,32,0,0,0.000
+contenedor redimensionado: ancho de columna completa,7.25,1817x543,32,32,0,0,0.000
+contenedor restituido,7.25,1019x543,32,32,0,0,0.000

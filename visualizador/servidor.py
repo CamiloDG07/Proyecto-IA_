@@ -287,6 +287,15 @@ async def validacion(_peticion: Request, excepcion: RequestValidationError):
         content={"detail": f"Solicitud inválida: revise {campos}."})
 
 
+@app.middleware("http")
+async def sin_cache(peticion: Request, siguiente):
+    """La interfaz se revalida siempre: no queda una hoja de estilos vieja."""
+    respuesta = await siguiente(peticion)
+    if not peticion.url.path.startswith("/api"):
+        respuesta.headers["Cache-Control"] = "no-cache"
+    return respuesta
+
+
 @app.get("/api/red")
 def api_red():
     nodos = [{"nombre": n, "latitud": COORDENADAS[n][0],

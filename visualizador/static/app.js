@@ -68,7 +68,7 @@ const S = {
   velKmh: 50, mostrarH: false, sinFondo: false,
   tipo: "d", idaVuelta: false, modoBloqueo: false,
   libres: [], obligatorias: [], bloqueados: new Set(),
-  ultimoExtremo: "destino", token: 0, hover: null,
+  ultimoExtremo: "destino", token: 0, hover: null, encuadreAuto: true,
   aristasRuta: [], piernas: [], tiempoFin: [], caso: "",
 };
 
@@ -106,6 +106,7 @@ function poblarSelects() {
 }
 
 function sincronizarControles() {
+  if (typeof encuadrar === "function") requestAnimationFrame(() => encuadrar(false));
   $("sel-origen").value = S.origen;
   $("sel-destino").value = S.destino || S.red.nodos[0].nombre;
   $("sel-criterio").value = S.criterio;
@@ -195,9 +196,29 @@ function fijarFondo(sin, motivo) {
   if (motivo) aviso(motivo);
 }
 
+/* Tamaño real del contenedor y encuadre de la red completa. invalidateSize
+   recalcula el origen de píxeles de Leaflet; fitBounds se aplica después, y
+   solo mientras la persona no haya movido o acercado el mapa a mano. */
+let encuadrando = false;
+function encuadrar(forzar) {
+  if (!mapa) return;
+  mapa.invalidateSize({pan: false});
+  if (forzar) S.encuadreAuto = true;
+  if (!S.encuadreAuto) { reubicarRotulos(); return; }
+  encuadrando = true;
+  mapa.fitBounds(S.red.nodos.map((n) => [n.latitud, n.longitud]), {padding: [40, 40], animate: false});
+  encuadrando = false;
+  reubicarRotulos();
+}
+let temporizadorTam = null;
+function alCambiarTamano() {
+  clearTimeout(temporizadorTam);
+  temporizadorTam = setTimeout(() => encuadrar(false), 80);
+}
+
 function construirMapa() {
   mapa = L.map("mapa", {zoomControl: false, zoomSnap: 0.25, keyboard: false, zoomAnimation: !reducirMovimiento,
-                        fadeAnimation: !reducirMovimiento, markerZoomAnimation: false});
+                        fadeAnimation: !reducirMovimiento});
   L.control.zoom({position: "bottomright", zoomInTitle: "Acercar", zoomOutTitle: "Alejar"}).addTo(mapa);
   mapa.attributionControl.setPrefix(false);
   mapa.createPane("aristas").style.zIndex = 420;
@@ -214,7 +235,8 @@ function construirMapa() {
     }
   });
   capaMosaicos.addTo(mapa);
-  mapa.fitBounds(S.red.nodos.map((n) => [n.latitud, n.longitud]), {padding: [24, 24]});
+  mapa.fitBounds(S.red.nodos.map((n) => [n.latitud, n.longitud]), {padding: [40, 40], animate: false});
+  mapa.on("dragstart zoomstart", () => { if (!encuadrando) S.encuadreAuto = false; });
 
   S.red.aristas.forEach((a) => {
     const pts = [ll(a.u), ll(a.v)];
@@ -247,6 +269,8 @@ function construirMapa() {
   });
   mapa.on("zoomend moveend resize", reubicarRotulos);
   actualizarGrosores();
+  // lectura para la verificación automática del mapa (pruebas/verificar_mapa.js)
+  window.VISUALIZADOR = {mapa, marcadores, capasArista};
 }
 
 function htmlArista(a) {
@@ -336,8 +360,15 @@ function pintarMapa(animar) {
   reubicarRotulos();
 }
 
+/* Rótulos sin montarse. Al alejar solo se muestran los relevantes (origen,
+   destino, paradas, ruta, extraído y frontera); al acercar, todos. Cada uno
+   prueba ocho posiciones alrededor de su nodo, de mayor a menor prioridad, y
+   se oculta si ninguna queda libre (salvo origen, destino y el nodo actual). */
+const ZOOM_TODOS = 8.5;
+const PRIORIDAD_RELEVANTE = 60;
 function reubicarRotulos() {
   if (!mapa) return;
+  const todos = mapa.getZoom() >= ZOOM_TODOS;
   const info = Object.keys(marcadores).map((nombre) => {
     const el = marcadores[nombre].getElement();
     const rot = el.querySelector(".rot");
@@ -347,23 +378,30 @@ function reubicarRotulos() {
             prio: prioridadNodo(nombre, el.dataset.e), w: rot.offsetWidth, h: rot.offsetHeight};
   });
   const tam = mapa.getSize();
-  const radio = 12;
+  const radio = 14;
+  const aire = 2;
   const ocupados = info.map((i) => ({x0: i.p.x - radio, y0: i.p.y - radio, x1: i.p.x + radio, y1: i.p.y + radio, dueno: i.nombre}));
-  const choca = (r, dueno) => ocupados.some((o) => o.dueno !== dueno && r.x0 < o.x1 && r.x1 > o.x0 && r.y0 < o.y1 && r.y1 > o.y0);
+  const choca = (r, dueno) => ocupados.some((o) => o.dueno !== dueno
+    && r.x0 < o.x1 + aire && r.x1 + aire > o.x0 && r.y0 < o.y1 + aire && r.y1 + aire > o.y0);
   const lados = [
     ["lado-d", (i) => ({x0: i.p.x + radio, y0: i.p.y - i.h / 2, x1: i.p.x + radio + i.w, y1: i.p.y + i.h / 2})],
     ["lado-i", (i) => ({x0: i.p.x - radio - i.w, y0: i.p.y - i.h / 2, x1: i.p.x - radio, y1: i.p.y + i.h / 2})],
     ["lado-s", (i) => ({x0: i.p.x - i.w / 2, y0: i.p.y - radio - i.h, x1: i.p.x + i.w / 2, y1: i.p.y - radio})],
     ["lado-n", (i) => ({x0: i.p.x - i.w / 2, y0: i.p.y + radio, x1: i.p.x + i.w / 2, y1: i.p.y + radio + i.h})],
+    ["lado-ne", (i) => ({x0: i.p.x + radio, y0: i.p.y - radio - i.h, x1: i.p.x + radio + i.w, y1: i.p.y - radio})],
+    ["lado-se", (i) => ({x0: i.p.x + radio, y0: i.p.y + radio, x1: i.p.x + radio + i.w, y1: i.p.y + radio + i.h})],
+    ["lado-no", (i) => ({x0: i.p.x - radio - i.w, y0: i.p.y - radio - i.h, x1: i.p.x - radio, y1: i.p.y - radio})],
+    ["lado-so", (i) => ({x0: i.p.x - radio - i.w, y0: i.p.y + radio, x1: i.p.x - radio, y1: i.p.y + radio + i.h})],
   ];
   const dentro = (r) => r.x0 >= 0 && r.y0 >= 0 && r.x1 <= tam.x && r.y1 <= tam.y;
-  info.sort((a, b) => b.prio - a.prio).forEach((i) => {
+  info.sort((a, b) => (b.prio - a.prio) || (a.nombre < b.nombre ? -1 : 1)).forEach((i) => {
+    if (!todos && i.prio < PRIORIDAD_RELEVANTE) { i.rot.hidden = true; return; }
     let puesto = null;
     for (const [clase, caja] of lados) {
       const r = caja(i);
       if (dentro(r) && !choca(r, i.nombre)) { puesto = [clase, r]; break; }
     }
-    if (!puesto && i.prio >= 70) puesto = [lados[0][0], lados[0][1](i)];
+    if (!puesto && i.prio >= 90) puesto = [lados[0][0], lados[0][1](i)];
     if (puesto) {
       i.rot.className = "rot " + puesto[0];
       ocupados.push(Object.assign({dueno: "r" + i.nombre}, puesto[1]));
@@ -1271,6 +1309,7 @@ function enlazar() {
     if (b) { S.bloqueados.delete(b.dataset.desbloquear); pintarContador(); pintarMapa(); }
   });
   $("chk-h").addEventListener("change", (ev) => { S.mostrarH = ev.target.checked; pintarMapa(); });
+  $("btn-encuadrar").addEventListener("click", () => encuadrar(true));
   $("chk-sinfondo").addEventListener("change", (ev) => fijarFondo(ev.target.checked));
   $("btn-tema").addEventListener("click", () => aplicarTema(document.documentElement.dataset.tema === "claro" ? "oscuro" : "claro"));
 
@@ -1342,7 +1381,10 @@ async function iniciar() {
   poblarSelects();
   construirMapa();
   if (document.fonts) document.fonts.ready.then(reubicarRotulos);
-  window.addEventListener("load", () => { mapa.invalidateSize(); reubicarRotulos(); });
+  encuadrar(true);
+  window.addEventListener("load", () => encuadrar(false));
+  if (window.ResizeObserver) new ResizeObserver(alCambiarTamano).observe($("mapa"));
+  window.addEventListener("resize", alCambiarTamano);
   construirPanelRuta();
   construirLeyenda();
   enlazar();

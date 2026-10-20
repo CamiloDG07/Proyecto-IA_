@@ -631,6 +631,7 @@ python pruebas/pruebas_visualizador.py
 
 ```text
 GET /api/red
+GET /api/red: coordenadas de los 32 nodos dentro de Colombia
 GET /api/busqueda: caso central
   coincide con busquedas.py en los cinco algoritmos
 Las métricas son la suma de las aristas de la ruta

@@ -41,7 +41,7 @@ def verificar(condicion, mensaje):
         raise AssertionError(mensaje)
 
 
-async def _llamar(metodo, ruta, consulta="", cuerpo=None):
+async def _llamar(metodo, ruta, consulta="", cuerpo=None, cabeceras=None):
     datos = json.dumps(cuerpo).encode() if cuerpo is not None else b""
     alcance = {
         "type": "http", "method": metodo, "path": ruta,
@@ -64,6 +64,9 @@ async def _llamar(metodo, ruta, consulta="", cuerpo=None):
     async def enviar(mensaje):
         if mensaje["type"] == "http.response.start":
             salida["estado"] = mensaje["status"]
+            if cabeceras is not None:
+                cabeceras.update({k.decode(): v.decode()
+                                  for k, v in mensaje["headers"]})
         elif mensaje["type"] == "http.response.body":
             salida["cuerpo"] += mensaje.get("body", b"")
 
@@ -128,6 +131,30 @@ def prueba_red():
               and "Bogotá" not in ej["veinte"]["paradas"]
               and ej["veinte"]["paradas"][:19] == ej["diecinueve"]["paradas"],
               "instancias de demostración de 19 y 20 paradas")
+
+
+def prueba_coordenadas():
+    print("GET /api/red: coordenadas de los 32 nodos dentro de Colombia")
+    nodos = {n["nombre"]: n for n in ok("/api/red")["nodos"]}
+    verificar(len(nodos) == 32, "32 nodos con coordenadas")
+    for n in nodos.values():
+        verificar(isinstance(n["latitud"], float)
+                  and isinstance(n["longitud"], float)
+                  and -4.3 <= n["latitud"] <= 13.5
+                  and -79.1 <= n["longitud"] <= -66.8,
+                  f"{n['nombre']} fuera de Colombia: {n}")
+    bogota = nodos["Bogotá"]
+    verificar(nodos["Duitama"]["latitud"] > bogota["latitud"]
+              and nodos["Duitama"]["longitud"] > bogota["longitud"],
+              "Duitama al noreste de Bogotá")
+    pn, barbosa = nodos["Puente Nacional"], nodos["Barbosa"]
+    verificar(pn["latitud"] > bogota["latitud"]
+              and abs(pn["latitud"] - barbosa["latitud"]) < 0.4
+              and abs(pn["longitud"] - barbosa["longitud"]) < 0.4,
+              "Puente Nacional al norte de Bogotá y cerca de Barbosa")
+    verificar(nodos["Villavicencio"]["latitud"] < bogota["latitud"]
+              and nodos["Villavicencio"]["longitud"] > bogota["longitud"],
+              "Villavicencio al sureste de Bogotá")
 
 
 def prueba_busqueda():
@@ -384,8 +411,16 @@ def prueba_umbral_y_aco():
               == sorted(ej["veinte"]["paradas"]), "visita las 20 paradas")
 
 
+def servidor_sin_cache():
+    """Las respuestas no de API llevan Cache-Control: no-cache."""
+    cabeceras = {}
+    asyncio.run(_llamar("GET", "/static/estilos.css", cabeceras=cabeceras))
+    return cabeceras.get("cache-control") == "no-cache"
+
+
 def prueba_estaticos():
     print("Interfaz y documentación de la API")
+    verificar(servidor_sin_cache(), "la interfaz se revalida siempre")
     for ruta, texto in (("/", b"Rutas de carga"), ("/docs", b"swagger"),
                         ("/static/app.js", b"use strict"),
                         ("/static/estilos.css", b"--c-ambar"),
@@ -453,6 +488,7 @@ def prueba_arranque():
 
 def main():
     prueba_red()
+    prueba_coordenadas()
     prueba_busqueda()
     prueba_metricas_coherentes()
     prueba_comparar()
