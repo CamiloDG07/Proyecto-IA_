@@ -1,5 +1,8 @@
 # Cómo ejecutar el proyecto
 
+> **Paquete entregable.** Si recibió este proyecto como el paquete del Corte 2, empiece por `GUIA_DE_COMANDOS.md`: allí están los comandos probados con su salida. Este documento describe el repositorio completo, que además incluye los fuentes LaTeX de los informes, el historial de git y el verificador de cifras.
+
+
 Proyecto integrador de inteligencia artificial (Universidad Sergio Arboleda):
 enrutamiento de carga interurbana sobre una red fija de 32 nodos, 32 aristas y
 un ciclo. Todos los comandos de este documento se probaron desde un clon limpio

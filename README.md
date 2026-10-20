@@ -1,5 +1,8 @@
 # Proyecto Integrador de Inteligencia Artificial: ruta de carga interurbana
 
+> **Paquete entregable.** Si recibió este proyecto como el paquete del Corte 2, empiece por `GUIA_DE_COMANDOS.md`: allí están los comandos probados con su salida. Este documento describe el repositorio completo, que además incluye los fuentes LaTeX de los informes, el historial de git y el verificador de cifras.
+
+
 Universidad Sergio Arboleda, Inteligencia Artificial (SIST5036).
 Autores: Juan David Andradé Gómez, Mario Jiménez López y Camilo Andrés Díaz
 García.

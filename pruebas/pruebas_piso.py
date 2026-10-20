@@ -193,9 +193,17 @@ def prueba_sin_piso_conserva_oficial():
     print("(f) Las aristas sin piso conservan su distancia oficial exacta")
     with open(SALIDA / "aristas_red.json", encoding="utf-8") as f:
         aristas = json.load(f)
-    previo = json.loads(subprocess.run(
-        ["git", "show", "corte2-entrega-8:outputs/aristas_red.json"],
-        cwd=RAIZ, capture_output=True, check=True).stdout.decode("utf-8"))
+    try:
+        entrega = subprocess.run(
+            ["git", "show", "corte2-entrega-8:outputs/aristas_red.json"],
+            cwd=RAIZ, capture_output=True)
+    except OSError:
+        entrega = None
+    if entrega is None or entrega.returncode != 0:
+        print("  omitida: requiere el historial de git del repositorio "
+              "(etiqueta corte2-entrega-8)")
+        return
+    previo = json.loads(entrega.stdout.decode("utf-8"))
     anterior = {(a["origen"], a["destino"]): a["distancia_km"]
                 for a in previo}
     g = cargar_grafo()
