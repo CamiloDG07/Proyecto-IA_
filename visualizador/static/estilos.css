@@ -419,7 +419,9 @@ path.pierna-6 { stroke: var(--pierna-6); }
 }
 
 /* nodos del mapa */
-.nd { position: relative; width: var(--nodo-g); height: var(--nodo-g); display: grid; place-items: center; cursor: pointer; }
+/* sin position: Leaflet fija position: absolute en cada marcador */
+/* iconSize nulo: el centro del marcador queda sobre su coordenada */
+.nd { margin: calc(var(--nodo-g) / -2) 0 0 calc(var(--nodo-g) / -2); width: var(--nodo-g); height: var(--nodo-g); display: grid; place-items: center; cursor: pointer; }
 .nd-f {
   width: var(--nodo); height: var(--nodo);
   border: var(--borde-fuerte) solid var(--c-papel-suave);
@@ -460,6 +462,10 @@ path.pierna-6 { stroke: var(--pierna-6); }
 .lado-d { left: 100%; top: 50%; transform: translate(var(--e-1), -50%); }
 .lado-i { right: 100%; top: 50%; transform: translate(calc(var(--e-1) * -1), -50%); }
 .lado-s { bottom: 100%; left: 50%; transform: translate(-50%, calc(var(--e-1) * -1)); }
+.lado-ne { left: 100%; bottom: 100%; }
+.lado-se { left: 100%; top: 100%; }
+.lado-no { right: 100%; bottom: 100%; }
+.lado-so { right: 100%; top: 100%; }
 .lado-n { top: 100%; left: 50%; transform: translate(-50%, var(--e-1)); }
 .orden {
   display: grid; place-items: center; min-width: var(--e-6); height: var(--e-6); padding: 0 var(--e-1);

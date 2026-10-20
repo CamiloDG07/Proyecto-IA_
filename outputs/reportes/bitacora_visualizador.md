@@ -93,3 +93,22 @@ solo mostró errores de una extensión ajena del navegador.
 
 Ver el estado final (etiquetas, fusión y envío) en
 `D:\camilo\Descargas\REPORTE_VISUALIZADOR.md`.
+
+## Corrección del mapa (rama `corrige-mapa`, etiqueta `corte2-visualizador-2`)
+
+Defecto: los círculos de los nodos aparecían desplazados y escalados respecto
+de las aristas. Causa raíz: la hoja de estilos daba `position: relative` a
+`.nd`, la clase de los marcadores de los nodos, y eso anulaba el
+`position: absolute` de `.leaflet-marker-icon`; los marcadores se apilaban en
+el flujo normal y cada uno se sumaba al desplazamiento de los anteriores
+(hasta 850 px con 32 nodos), mientras los trazos de las aristas, que están en
+su propio SVG, quedaban bien. Además faltaba compensar el centro del marcador
+(sin tamaño de icono, su esquina superior izquierda quedaba sobre la
+coordenada) y el mapa no recalculaba su tamaño ni se encuadraba al cambiar el
+contenedor. Corrección: se quitó `position: relative`, se centró el marcador
+con un margen, se llama a `invalidateSize` y `fitBounds` (al cargar, al
+cambiar el tamaño con `ResizeObserver` y desde un botón «Encuadrar»), las
+respuestas de la interfaz llevan `Cache-Control: no-cache` (una hoja de
+estilos vieja en la caché reproducía el defecto) y los rótulos prueban ocho
+posiciones y, al alejar, solo se muestran los relevantes. Verificación en
+`outputs/reportes/verificacion_mapa.csv` (script `pruebas/verificar_mapa.js`).
