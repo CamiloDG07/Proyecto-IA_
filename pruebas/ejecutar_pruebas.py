@@ -3,8 +3,8 @@
 Uso:
     python pruebas/ejecutar_pruebas.py [--detalle]
 
-Corre cada pruebas/pruebas_*.py en su propio proceso, con la codificación UTF-8,
-e imprime una línea por suite (código de salida y duración). Algunas suites
+Corre cada pruebas/pruebas_*.py en su propio proceso, con la codificación
+UTF-8, e imprime una línea por suite (código de salida y duración). Algunas suites
 regeneran archivos de outputs/ (por ejemplo pruebas_agente.py reescribe los
 tiempos de pruebas_agente.json); para no cambiar los resultados guardados, se
 toma una copia de outputs/ antes y se restaura al terminar. Termina con código
