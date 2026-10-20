@@ -406,15 +406,15 @@ python src/demostracion.py Duitama "Puente Nacional" distancia
 
 ```text
 Duitama a Puente Nacional, criterio distancia
-BFS    costo   654.250  expandidos  25  generados  32  frontera  7     34.6 us  7 saltos
+BFS    costo   654.250  expandidos  25  generados  32  frontera  7    266.8 us  7 saltos
        Duitama > La Palmera > Presidente > Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional  [Santander]
-DFS    costo   654.250  expandidos   7  generados   9  frontera  2     15.6 us  7 saltos
+DFS    costo   654.250  expandidos   7  generados   9  frontera  2     92.0 us  7 saltos
        Duitama > La Palmera > Presidente > Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional  [Santander]
-UCS    costo   370.537  expandidos  27  generados  31  frontera  7     89.4 us  8 saltos
+UCS    costo   370.537  expandidos  27  generados  31  frontera  7    329.2 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
-Voraz  costo   370.537  expandidos  12  generados  19  frontera  7     48.7 us  8 saltos
+Voraz  costo   370.537  expandidos  12  generados  19  frontera  7    218.8 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
-A*     costo   370.537  expandidos  14  generados  19  frontera  7     75.0 us  8 saltos
+A*     costo   370.537  expandidos  14  generados  19  frontera  7    375.1 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
 ```
 
@@ -426,15 +426,15 @@ python src/demostracion.py Duitama "Puente Nacional" compuesto_sin_riesgo
 
 ```text
 Duitama a Puente Nacional, criterio compuesto_sin_riesgo
-BFS    costo     3.524  expandidos  25  generados  32  frontera  7     33.3 us  7 saltos
+BFS    costo     3.524  expandidos  25  generados  32  frontera  7    341.4 us  7 saltos
        Duitama > La Palmera > Presidente > Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional  [Santander]
-DFS    costo     3.524  expandidos   7  generados   9  frontera  2     15.0 us  7 saltos
+DFS    costo     3.524  expandidos   7  generados   9  frontera  2     91.9 us  7 saltos
        Duitama > La Palmera > Presidente > Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional  [Santander]
-UCS    costo     3.367  expandidos  29  generados  32  frontera  7     94.3 us  8 saltos
+UCS    costo     3.367  expandidos  29  generados  32  frontera  7    629.3 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
-Voraz  costo     3.367  expandidos  12  generados  19  frontera  7     50.2 us  8 saltos
+Voraz  costo     3.367  expandidos  12  generados  19  frontera  7    331.2 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
-A*     costo     3.367  expandidos  22  generados  27  frontera  7    115.2 us  8 saltos
+A*     costo     3.367  expandidos  22  generados  27  frontera  7    313.1 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
 ```
 
@@ -444,15 +444,15 @@ python src/demostracion.py Bucaramanga Bogotá distancia
 
 ```text
 Bucaramanga a Bogotá, criterio distancia
-BFS    costo   411.536  expandidos  12  generados  16  frontera  4     19.6 us  6 saltos
+BFS    costo   411.536  expandidos  12  generados  16  frontera  4     87.1 us  6 saltos
        Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá  [Santander]
-DFS    costo   613.251  expandidos  10  generados  13  frontera  4     21.9 us  9 saltos
+DFS    costo   613.251  expandidos  10  generados  13  frontera  4     69.9 us  9 saltos
        Bucaramanga > Cuestaboba > Pamplona > Presidente > La Palmera > Duitama > Tunja > Chocontá > Tocancipá > Bogotá  [Santander]
-UCS    costo   411.536  expandidos  10  generados  12  frontera  2     37.1 us  6 saltos
+UCS    costo   411.536  expandidos  10  generados  12  frontera  2    120.4 us  6 saltos
        Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá  [Santander]
-Voraz  costo   411.536  expandidos   6  generados   8  frontera  2     30.6 us  6 saltos
+Voraz  costo   411.536  expandidos   6  generados   8  frontera  2     91.8 us  6 saltos
        Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá  [Santander]
-A*     costo   411.536  expandidos   7  generados   9  frontera  2     44.6 us  6 saltos
+A*     costo   411.536  expandidos   7  generados   9  frontera  2    150.3 us  6 saltos
        Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá  [Santander]
 ```
 
@@ -471,8 +471,8 @@ Método: A* por tramo
 Motivo: exacto: A* con heurística admisible, disponible para el criterio distancia
   paradas: 2
   nodos_expandidos: 14
-  tiempo_matriz_s: 0.0001576000067871064
-  tiempo_s: 0.00019809999503195286
+  tiempo_matriz_s: 0.0003179999766871333
+  tiempo_s: 0.00039900001138448715
 ```
 
 ```powershell
@@ -488,13 +488,13 @@ Método: Held-Karp
 Motivo: exacto viable: k = 5 paradas libres <= 19 (umbral medido en esta máquina para un presupuesto de 5.0 s)
   paradas: 6
   nodos_expandidos: 77
-  tiempo_matriz_s: 0.0007333999965339899
+  tiempo_matriz_s: 0.0022068000107537955
   k: 5
   umbral_k: 19
   modo: ciclo
   presupuesto_s: 5.0
-  tiempo_orden_s: 0.0006188999977894127
-  tiempo_s: 0.002033899989328347
+  tiempo_orden_s: 0.0016094000020530075
+  tiempo_s: 0.006540700007462874
 ```
 
 Con cinco paradas libres el despachador usa Held-Karp (método exacto) porque k = 5 no supera el umbral medido (K = 19).
@@ -512,8 +512,8 @@ Método: A* por tramo
 Motivo: una parada obligatoria intermedia: orden determinado; 1 tramo(s) bloqueado(s) excluidos de todas las búsquedas; exacto: A* con heurística admisible, disponible para el criterio distancia
   paradas: 3
   nodos_expandidos: 23
-  tiempo_matriz_s: 0.00043140001071151346
-  tiempo_s: 0.0006164000078570098
+  tiempo_matriz_s: 0.0016733999946154654
+  tiempo_s: 0.0018934999825432897
 ```
 
 ## 5. Pruebas y verificación
@@ -525,21 +525,21 @@ python pruebas/ejecutar_pruebas.py
 ```
 
 ```text
-OK    pruebas_agente.py (1 s)
-OK    pruebas_agente_rutas.py (1 s)
-OK    pruebas_busquedas.py (4 s)
-OK    pruebas_costos.py (6 s)
-OK    pruebas_criterio.py (2 s)
-OK    pruebas_despachador.py (2 s)
-OK    pruebas_figuras.py (29 s)
-OK    pruebas_formato.py (1 s)
-OK    pruebas_mapa.py (9 s)
-OK    pruebas_orden_libre.py (1 s)
-OK    pruebas_perfil_topologico.py (1 s)
-OK    pruebas_piso.py (1 s)
+OK    pruebas_agente.py (2 s)
+OK    pruebas_agente_rutas.py (3 s)
+OK    pruebas_busquedas.py (18 s)
+OK    pruebas_costos.py (24 s)
+OK    pruebas_criterio.py (6 s)
+OK    pruebas_despachador.py (6 s)
+OK    pruebas_figuras.py (78 s)
+OK    pruebas_formato.py (3 s)
+OK    pruebas_mapa.py (24 s)
+OK    pruebas_orden_libre.py (2 s)
+OK    pruebas_perfil_topologico.py (3 s)
+OK    pruebas_piso.py (2 s)
 OK    pruebas_progresivas.py (1 s)
-OK    pruebas_tabla_heuristica.py (2 s)
-OK    pruebas_tablas_resumen.py (2 s)
+OK    pruebas_tabla_heuristica.py (4 s)
+OK    pruebas_tablas_resumen.py (5 s)
 Se restauraron archivos de outputs/ que las pruebas reescriben: barrido_pesos_base.pdf, barrido_pesos_base.png, pruebas_agente.json
 15 de 15 suites pasan
 ```
@@ -589,12 +589,15 @@ Tablas de resumen escritas en outputs/ (tabla_r_*.tex)
 ```
 
 ```powershell
-python informe/lecturas_informe.py
+python experimentos/verificar_estructura.py
 ```
 
 ```text
-Bloques 'Cómo leerla' escritos en C:\Users\camil\AppData\Local\Temp\Guía de prueba ñ\paquete nuevo\ProyectoIA\outputs
+300 grafos: 300 coincidencias, 0 discrepancias, mayor diferencia 4.26e-14
+longitudes de ciclo: {3: 64, 4: 61, 5: 59, 6: 41, 7: 28, 8: 17, 9: 13, 10: 9, 11: 5, 12: 3}
 ```
+
+El segundo comprueba la fórmula del óptimo por estructura del ciclo contra Held-Karp en grafos de prueba (`verificacion_estructura.json`).
 
 La construcción de la red desde cero (`src/construir_red.py`) requiere `data/carga/red_vial.csv`, que no se incluye: pesa 238 MB y es la descarga oficial de INVÍAS en datos.gov.co (`https://www.datos.gov.co/resource/ie7y-asdn.csv`). Su huella SHA-256 está en `data/carga/VERIFICACION.md`. Sin ese archivo el script termina con `FileNotFoundError` por `red_vial.csv`; el grafo ya está construido en `outputs/datos/`.
 

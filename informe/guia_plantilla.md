@@ -230,10 +230,12 @@ python informe/tablas_resumen.py
 {{salida 5}}
 
 ```powershell
-python informe/lecturas_informe.py
+python experimentos/verificar_estructura.py
 ```
 
 {{salida 5}}
+
+El segundo comprueba la fórmula del óptimo por estructura del ciclo contra Held-Karp en grafos de prueba (`verificacion_estructura.json`).
 
 La construcción de la red desde cero (`src/construir_red.py`) requiere `data/carga/red_vial.csv`, que no se incluye: pesa 238 MB y es la descarga oficial de INVÍAS en datos.gov.co (`https://www.datos.gov.co/resource/ie7y-asdn.csv`). Su huella SHA-256 está en `data/carga/VERIFICACION.md`. Sin ese archivo el script termina con `FileNotFoundError` por `red_vial.csv`; el grafo ya está construido en `outputs/datos/`.
 

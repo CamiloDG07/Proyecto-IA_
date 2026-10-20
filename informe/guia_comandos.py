@@ -31,7 +31,7 @@ from pathlib import Path
 BLOQUE = re.compile(r"```(powershell|powershell-manual|text)\n(.*?)```",
                     re.S)
 SALIDA_MARCA = re.compile(r"\{\{salida (\d+)\}\}")
-TIEMPOS = [(re.compile(r"\d+(?:\.\d+)? us"), "<t> us"),
+TIEMPOS = [(re.compile(r" +\d+(?:\.\d+)? us"), " <t> us"),
            (re.compile(r"(tiempo\w*: )[\d.e+-]+"), r"\1<t>"),
            (re.compile(r"\(\d+ s\)"), "(<t> s)"),
            (re.compile(r"(reescriben): .*"), r"\1: <archivos>")]
