@@ -4,11 +4,6 @@ La posición de los nodos es esquemática (disposición automática), no
 geográfica. Guarda outputs/figuras/diagrama_red.png y
 outputs/figuras/diagrama_red.pdf.
 """
-import sys
-from pathlib import Path
-if True:  # carpetas de código en el path
-    sys.path[:0] = [str(Path(__file__).resolve().parents[1] / c)
-                    for c in ("src", "experimentos", "informe", "pruebas")]
 import matplotlib
 
 matplotlib.use("Agg")

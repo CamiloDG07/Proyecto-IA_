@@ -272,7 +272,7 @@ construir_red.py,src/construir_red.py,src/construir_red.py,núcleo: lo que impor
 cruce_mortalidad.py,src/cruce_mortalidad.py,src/cruce_mortalidad.py,núcleo: lo que importa el agente o construye la red
 demostracion.py,src/demostracion.py,src/demostracion.py,núcleo: lo que importa el agente o construye la red
 despachador.py,src/despachador.py,src/despachador.py,núcleo: lo que importa el agente o construye la red
-diagrama_red.py,src/diagrama_red.py,informe/diagrama_red.py,"arma tablas, lecturas, figuras o formato de los informes"
+diagrama_red.py,src/diagrama_red.py,src/diagrama_red.py,"dibuja el diagrama de la red (informe), pero mapa_geografico.py importa aristas_del_ciclo y la construcción de la red importa mapa_geografico; se deja en src"
 empaquetar.py,src/empaquetar.py,src/empaquetar.py,utilidad de entrega; no es ni ejecución ni informe; se deja en src
 experimentos_corte2.py,src/experimentos_corte2.py,experimentos/experimentos_corte2.py,produce resultados (corridas y auditorías)
 exportar_latex.py,src/exportar_latex.py,informe/exportar_latex.py,"arma tablas, lecturas, figuras o formato de los informes"

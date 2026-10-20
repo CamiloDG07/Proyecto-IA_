@@ -214,7 +214,7 @@ python informe/tablas_resumen.py        # tablas de resumen (tabla_r_*.tex)
 python informe/figuras_informe.py       # figuras de los informes
 python informe/visualizar_rutas.py      # figuras de rutas y del barrido
 python src/mapa_geografico.py       # mapas
-python informe/diagrama_red.py          # diagrama esquemático de la red
+python src/diagrama_red.py          # diagrama esquemático de la red
 ```
 
 Todos terminan con código 0 desde un clon limpio y tardan segundos (las

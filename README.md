@@ -56,7 +56,7 @@ proyecto paso a paso, ver `EJECUTAR.md`.
 | `data/carga/nuevas/` | Mortalidad ANSV y postes de INVÍAS (CC BY-SA 4.0) | datos |
 | `data/carga/_descarga_previa/` | Descarga anterior, conservada como evidencia | datos |
 | `data/_archivo_transmilenio/` | Material del dominio anterior (TransMilenio) | datos (archivo) |
-| `src/` | Núcleo que se ejecuta para resolver rutas y construir la red: construcción de la red y del grafo, búsquedas, heurística, piso geodésico, costos, agente, despachador, Held-Karp, ACO y demostración; `rutas.py` define las rutas de entrada y de salida; `mapa_geografico.py` (trazado que usa la construcción de la red) y `empaquetar.py` quedan aquí por ambiguos | ejecución |
+| `src/` | Núcleo que se ejecuta para resolver rutas y construir la red: construcción de la red y del grafo, búsquedas, heurística, piso geodésico, costos, agente, despachador, Held-Karp, ACO y demostración; `rutas.py` define las rutas de entrada y de salida; `mapa_geografico.py` (trazado que usa la construcción de la red), `diagrama_red.py` (que aquel importa) y `empaquetar.py` quedan aquí por ambiguos | ejecución |
 | `src/_archivo_transmilenio/` | Código del dominio anterior | archivo |
 | `experimentos/` | Corridas que producen resultados: experimentos del Corte 2, validación del agente, umbral de Held-Karp, perfil topológico, auditorías de aristas y de distancias, verificación de estructura | medición |
 | `informe/` | Código que arma las tablas, las lecturas, las figuras, los diagramas y el estilo de los informes | informe |
@@ -120,7 +120,7 @@ python src/construir_red.py      # requiere data/carga/red_vial.csv
 python src/build_graph.py        # grafo y estadísticas
 python src/agente.py             # demostración del agente
 python pruebas/pruebas_agente.py     # pruebas
-python informe/diagrama_red.py       # figura de la red
+python src/diagrama_red.py       # figura de la red
 python src/heuristica.py         # alfa y verificación de h
 python pruebas/pruebas_busquedas.py  # BFS, DFS, UCS, voraz y A*
 python experimentos/auditar_aristas.py    # auditoría geométrica (requiere red_vial.csv)
