@@ -23,8 +23,8 @@ raíz del repositorio. `src/rutas.py` define las rutas.
 - Python 3.14 (probado con 3.14.3). Cualquier Python 3.10 o posterior debería
   servir, pero solo se probó 3.14.
 - Dependencias de terceros (las que importa el código, en `requirements.txt`):
-  `numpy`, `scipy`, `networkx`, `matplotlib` y `pycodestyle` (esta solo para
-  las pruebas de estilo). Probado con numpy 2.5, scipy 1.18, networkx 3.7 y
+  `numpy`, `scipy`, `networkx`, `matplotlib`, `pycodestyle` (esta solo para
+  las pruebas de estilo), y `fastapi` y `uvicorn` (solo para el visualizador web). Probado con numpy 2.5, scipy 1.18, networkx 3.7 y
   matplotlib 3.11.
 - Para compilar los informes: una distribución de LaTeX con `pdflatex` y los
   paquetes que cargan `formulacion_corte1.tex` e `informe_corte2.tex`
@@ -128,7 +128,7 @@ python pruebas/comparar_resultados.py   # identidad con corte2-entrega-8 en los 
 Estilo del código:
 
 ```powershell
-python -m pycodestyle --max-line-length=79 --exclude=_archivo_transmilenio src experimentos informe pruebas
+python -m pycodestyle --max-line-length=79 --exclude=_archivo_transmilenio src experimentos informe pruebas visualizador
 ```
 
 ## 5. Compilar los informes
@@ -263,3 +263,21 @@ Medido en el clon limpio (segundos):
 - No medidos (mediciones largas, no ejecutadas): `experimentos_corte2.py`,
   `validacion_agente.py` y `medir_umbral.py`; los dos últimos tardan varios
   minutos o más y dependen de la máquina.
+
+## 9. Visualizador web
+
+```powershell
+python visualizador/servidor.py
+```
+
+Levanta la API y la interfaz en `http://127.0.0.1:8000` y abre el navegador (`--sin-navegador` lo evita; `--puerto N` cambia el puerto). La documentación de la API está en `/docs`. Funciona sin internet: Leaflet, las fuentes (con sus licencias) y los estilos están en `visualizador/static/vendor/`; el fondo de OpenStreetMap solo aparece con conexión y se puede apagar con «Sin fondo».
+
+Comprobación de arranque y de la API (levanta el servidor en un puerto libre, pide `/`, `/api/red` y una búsqueda, y lo apaga; tarda unos 15 s):
+
+```powershell
+python pruebas/pruebas_visualizador.py
+```
+
+Qué ofrece: mapa con el estado de cada nodo; animación paso a paso de BFS, DFS, UCS, voraz y A* con su árbol de búsqueda; construcción de la ruta tramo por tramo con distancia, peajes y costo operativo acumulados; tablas de los cinco algoritmos y de los nueve criterios; y el despachador (paradas con clic en el mapa, bloqueo de aristas, Held-Karp o ACO, matriz de costos y curva de convergencia). Cada consulta muestra el comando equivalente de `python src/demostracion.py ...`.
+
+Límite: el proyecto no tiene datos de tiempo de viaje. El «tiempo estimado» es la distancia dividida por una velocidad supuesta (50 km/h, supuesto del equipo, en `visualizador/config_visualizador.json` y editable en la interfaz de 20 a 90 km/h); no es un criterio de búsqueda y no entra a ningún costo ni resultado. Las instancias de 19 y 20 paradas son de demostración (Bogotá de origen y las primeras ciudades restantes en orden alfabético), no casos de las pruebas del informe.

@@ -3,3 +3,5 @@ scipy
 networkx
 matplotlib
 pycodestyle
+fastapi==0.156.2
+uvicorn==0.54.0

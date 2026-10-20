@@ -14,7 +14,8 @@ Modo --entregable: el paquete ejecutable mínimo que se entrega con el informe
 del Corte 2. Solo el código que corre sin el repositorio (sin .git, sin los
 fuentes .tex y sin red_vial.csv), los resultados, tablas, lecturas y figuras
 que ese código lee, los datos livianos de data/carga, la configuración de
-costos y la documentación. No incluye los informes (.tex ni .pdf), las
+costos, el visualizador web (visualizador/, con Leaflet y las fuentes con sus
+licencias) y la documentación. No incluye los informes (.tex ni .pdf), las
 auditorías de una sola vez ni las bitácoras.
 
 El contenido de cada archivo es el del árbol de trabajo, que debe coincidir
@@ -62,6 +63,8 @@ def en_entregable(ruta):
     """Regla del paquete mínimo (ver el modo --entregable)."""
     if excluido(ruta) or ruta in SIN_REPOSITORIO:
         return False
+    if ruta.startswith("visualizador/"):
+        return True  # servidor, interfaz, Leaflet y fuentes con licencia
     if ruta.startswith(CARPETAS_CODIGO):
         return ruta.endswith(".py")
     if ruta.startswith(("outputs/datos/", "outputs/tablas/",
