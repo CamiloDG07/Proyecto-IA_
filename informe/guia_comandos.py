@@ -206,6 +206,15 @@ def condensar(md, maximo=5):
                 lineas = lineas[:maximo] + ["…"]
             parte = "```text\n" + "\n".join(lineas) + "\n```"
         else:
+            parte = parte.replace(
+                "hecha desde el paquete descomprimido en un entorno "
+                "virtual nuevo.",
+                "hecha desde el paquete descomprimido en un entorno "
+                "virtual nuevo. Esta versión impresa recorta las salidas a "
+                f"{maximo} líneas; `GUIA_DE_COMANDOS.md` trae fragmentos de "
+                "10 a 30 líneas.")
+            parte = parte.replace("(fragmentos de 10 líneas)",
+                                  "(sus salidas están en la guía en .md)")
             if "**Otros comandos del guion" in parte:
                 omitir = True
             if "\n## 4." in parte:

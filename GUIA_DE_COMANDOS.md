@@ -518,7 +518,7 @@ Motivo: una parada obligatoria intermedia: orden determinado; 1 tramo(s) bloquea
 
 ## 5. Pruebas y verificación
 
-Un solo comando corre todas las suites, cada una en su proceso. Algunas regeneran archivos de `outputs/`; `ejecutar_pruebas.py` toma una copia antes y restaura lo que cambió, de modo que los resultados guardados no se alteran.
+Un solo comando corre todas las suites, cada una en su proceso (tarda unos 3 minutos). Algunas regeneran archivos de `outputs/`; `ejecutar_pruebas.py` toma una copia antes y restaura lo que cambió, de modo que los resultados guardados no se alteran.
 
 ```powershell
 python pruebas/ejecutar_pruebas.py

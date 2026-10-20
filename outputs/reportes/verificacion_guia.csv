@@ -1,23 +1,23 @@
 comando,codigo_salida,salida_coincide,lineas_mostradas,segundos
-"python src/agente_rutas.py Duitama ""Puente Nacional""",0,True,31,4.3
-python src/agente_rutas.py Bogotá Granada,0,True,31,2.7
-"python src/agente_rutas.py Duitama ""Puente Nacional"" --criterio peaje",0,True,31,2.9
-"python src/agente_rutas.py Duitama ""Puente Nacional"" --criterio costo_operativo",0,True,31,3.5
-python src/agente_rutas.py Duitama Tunja Bogotá Villeta --regreso,0,True,30,3.1
-"python src/agente_rutas.py Duitama ""Puente Nacional"" --regreso --bloquear-regreso ""Tunja-Chocontá""",0,True,31,3.2
-python src/agente_rutas.py Bogotá Fusagasugá,0,True,11,3.0
-python src/agente_rutas.py Chiquinquirá Chocontá,0,True,11,3.5
-python src/agente_rutas.py Cajicá Zipaquirá,0,True,11,1.7
-python src/agente_rutas.py Duitama Presidente,0,True,11,2.3
-"python src/agente_rutas.py Duitama ""Puente Nacional"" --regreso",0,True,11,3.1
-"python src/agente_rutas.py Duitama ""Puente Nacional"" --precio-galon 14000 --rendimiento 8 --costo-otros-km 500",0,True,11,3.4
-"python src/demostracion.py Duitama ""Puente Nacional"" distancia",0,False,11,3.1
-"python src/demostracion.py Duitama ""Puente Nacional"" compuesto_sin_riesgo",0,False,11,4.0
-python src/demostracion.py Bucaramanga Bogotá distancia,0,False,11,2.4
-"python src/demostracion.py despachador a Duitama --destino ""Puente Nacional""",0,True,10,2.2
-"python src/demostracion.py despachador d Bogotá --paradas ""Tunja,Villeta,Girardot,Duitama,Zipaquirá""",0,True,15,3.0
-"python src/demostracion.py despachador c Duitama --destino ""Puente Nacional"" --obligatorias Tunja --bloqueados ""Tunja/Chocontá""",0,True,10,3.7
-python pruebas/ejecutar_pruebas.py,0,True,17,180.2
-python -m pycodestyle --max-line-length=79 src pruebas experimentos informe,0,True,0,2.2
-python informe/tablas_resumen.py,0,True,1,4.6
-python informe/lecturas_informe.py,0,False,1,5.0
+"python src/agente_rutas.py Duitama ""Puente Nacional""",0,True,31,4.1
+python src/agente_rutas.py Bogotá Granada,0,True,31,3.0
+"python src/agente_rutas.py Duitama ""Puente Nacional"" --criterio peaje",0,True,31,3.0
+"python src/agente_rutas.py Duitama ""Puente Nacional"" --criterio costo_operativo",0,True,31,2.8
+python src/agente_rutas.py Duitama Tunja Bogotá Villeta --regreso,0,True,30,2.8
+"python src/agente_rutas.py Duitama ""Puente Nacional"" --regreso --bloquear-regreso ""Tunja-Chocontá""",0,True,31,3.4
+python src/agente_rutas.py Bogotá Fusagasugá,0,True,11,3.3
+python src/agente_rutas.py Chiquinquirá Chocontá,0,True,11,3.2
+python src/agente_rutas.py Cajicá Zipaquirá,0,True,11,2.0
+python src/agente_rutas.py Duitama Presidente,0,True,11,3.0
+"python src/agente_rutas.py Duitama ""Puente Nacional"" --regreso",0,True,11,2.0
+"python src/agente_rutas.py Duitama ""Puente Nacional"" --precio-galon 14000 --rendimiento 8 --costo-otros-km 500",0,True,11,2.4
+"python src/demostracion.py Duitama ""Puente Nacional"" distancia",0,True,11,3.1
+"python src/demostracion.py Duitama ""Puente Nacional"" compuesto_sin_riesgo",0,True,11,3.5
+python src/demostracion.py Bucaramanga Bogotá distancia,0,True,11,2.4
+"python src/demostracion.py despachador a Duitama --destino ""Puente Nacional""",0,True,10,2.8
+"python src/demostracion.py despachador d Bogotá --paradas ""Tunja,Villeta,Girardot,Duitama,Zipaquirá""",0,True,15,2.9
+"python src/demostracion.py despachador c Duitama --destino ""Puente Nacional"" --obligatorias Tunja --bloqueados ""Tunja/Chocontá""",0,True,10,1.9
+python pruebas/ejecutar_pruebas.py,0,True,17,189.5
+python -m pycodestyle --max-line-length=79 src pruebas experimentos informe,0,True,0,2.5
+python informe/tablas_resumen.py,0,True,1,3.9
+python experimentos/verificar_estructura.py,0,True,2,4.0
