@@ -86,3 +86,62 @@ los resultados guardados).
    confirmó; el texto del `.tex` no cambia. Corte 1: texto idéntico.
 4. `src/empaquetar.py` (opcional) se probó: 272 archivos, 13.6 MB; descomprimido
    aparte, `agente_rutas.py Bogotá Granada` y `demostracion.py` rc 0.
+
+## Fase 2: reorganización (rama `organizar-carpetas`, respaldo `respaldo-pre-organizar`)
+
+Base: `master` en `corte2-entrega-docs`. PDF y zip previos en
+`D:\camilo\Descargas\previo_organizar\`.
+
+### Decisiones
+
+1. Estructura: `src` (núcleo), `experimentos`, `informe`, `pruebas` y `outputs`
+   con `datos`, `tablas`, `lecturas`, `figuras` y `reportes`. Regla única de
+   clasificación de salidas en `src/rutas.py` (`tipo`): `tabla_*.tex` a tablas,
+   `lectura_*.tex` y `texto_*.tex` a lecturas, png y pdf a figuras, md y txt y
+   los CSV de candidatos y cifras movidas a reportes, el resto a datos.
+2. `src/rutas.py` define `RAIZ`, `DATA`, `CARGA`, `DATOS`, `TABLAS`, `LECTURAS`,
+   `FIGURAS`, `REPORTES`, `SALIDA` y `ruta_salida`. `SALIDA / "archivo.ext"`
+   devuelve la ruta según el tipo, de modo que ningún script escribe carpetas
+   como cadenas sueltas.
+3. Los scripts de `experimentos`, `informe` y `pruebas` llevan un encabezado de
+   5 líneas que agrega las cuatro carpetas de código al path desde su ubicación;
+   se ejecutan desde cualquier directorio (probado desde `/`).
+4. Inventario: `outputs/reportes/mapa_archivos.csv` (archivo, origen, destino,
+   motivo; 311 archivos versionados, cada uno una vez, más `rutas.py`).
+   Reemplazos de rutas: `outputs/reportes/reemplazos_rutas.csv`.
+5. Módulos ambiguos que se dejaron en `src`: `mapa_geografico.py` (dibuja los
+   mapas del informe, pero `construir_red.py` y `cruce_mortalidad.py` lo
+   importan), `diagrama_red.py` (lo importa `mapa_geografico.py`; se movió de
+   `informe` a `src` al fallar la importación) y `empaquetar.py` (utilidad de
+   entrega). Con esos tres, todo `src` se importa en aislamiento.
+6. Los textos de los informes cambian solo en rutas citadas y en
+   `\graphicspath` (`outputs/figuras/`). Dos rutas largas se pasaron a
+   `\nolinkurl` y una a `\allowbreak` para no producir overfull ni underfull; el
+   texto impreso es el mismo. En el Corte 1 también se corrigió la ruta de las
+   pruebas citadas (`pruebas/...`).
+7. El PDF versionado de ambos informes se volvió a compilar desde clon limpio.
+
+### Puertas
+
+- Inventario: 311 de 311 orígenes en el mapa, 0 destinos duplicados, 0
+  ausentes; el hash de los 261 archivos que no son código ni documentación
+  (datos, tablas, lecturas, figuras, PDF, `data/`) es idéntico al anterior; los
+  50 que cambian son código, `.tex` y documentación (solo rutas, importaciones y
+  encabezados).
+- Clon limpio de la rama, con entorno virtual nuevo y desde otro directorio: 49
+  de 49 comandos con código 0 (agente, demostración, despachador, 16 suites,
+  comparador, verificador con 276 cifras y 0 discrepancias, generadores,
+  empaquetado); pycodestyle limpio en las cuatro carpetas; red en 32 nodos, 32
+  aristas, 1 ciclo.
+- Generadores re-ejecutados con las rutas nuevas: las tablas, lecturas y PNG
+  salen idénticos byte a byte; los 21 PDF de figuras difieren en metadatos pero
+  son idénticos por píxeles. Dos excepciones que ya existían en master y no
+  vienen de la reorganización: `tabla_criterios.tex` (los tiempos de
+  `pruebas_agente.json` no coinciden con la tabla versionada) y
+  `riesgo_mortalidad_aristas.json` (`cruce_mortalidad.py` escribe más
+  decimales, 4.186 contra 4.19). Se restauraron los versionados.
+- Informes: ambos compilan desde clon limpio con 0 errores, overfull, underfull
+  y avisos; 21 y 29 páginas (iguales); 0 «Anexo», «??», «Discusión» y «PSO». El
+  texto de los PDF coincide con el de master salvo las rutas citadas y
+  corrimientos de salto de página (los números del índice de unas secciones
+  cambian porque las rutas son más largas).

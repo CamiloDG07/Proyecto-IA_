@@ -8,7 +8,7 @@ experimentos\medir_umbral.py,2,2
 experimentos\perfil_topologico.py,2,0
 experimentos\validacion_agente.py,3,0
 experimentos\verificar_estructura.py,1,0
-formulacion_corte1.tex,15,2
+formulacion_corte1.tex,18,2
 guion_demostracion.md,9,6
 informe\candidatos_tablas.py,1,0
 informe\cifras_movidas.py,1,0
@@ -18,7 +18,7 @@ informe\figuras_informe.py,3,0
 informe\lecturas_informe.py,2,0
 informe\tablas_agente.py,1,0
 informe\tablas_corte2.py,1,0
-informe_corte2.tex,40,2
+informe_corte2.tex,48,2
 pruebas\comparar_resultados.py,1,1
 pruebas\pruebas_agente.py,1,0
 pruebas\pruebas_figuras.py,1,1
