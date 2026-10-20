@@ -1,0 +1,53 @@
+archivo,seccion,lineas,numero_de_cifras,entidades_comparadas,decision
+informe_corte2.tex,Formulación de continuidad,93-97,4,aristas,dejar
+informe_corte2.tex,Formulación de continuidad,114-124,5,criterios; aristas,dejar
+informe_corte2.tex,Implementación de los cinco algoritmos,177-182,3,algoritmos,dejar
+informe_corte2.tex,Heurística: admisibilidad y consistencia,220-225,6,aristas,ya hay tabla
+informe_corte2.tex,Heurística: admisibilidad y consistencia,227-239,13,criterios; aristas,ya hay tabla
+informe_corte2.tex,Criterio distancia,375-379,6,algoritmos; aristas,convertir
+informe_corte2.tex,Criterio distancia,382-385,5,algoritmos; instancias,convertir
+informe_corte2.tex,Criterio distancia,386-389,6,algoritmos,convertir
+informe_corte2.tex,Criterio compuesto sin riesgo,394-400,7,algoritmos,convertir
+informe_corte2.tex,Criterios con costo monetario,412-416,7,algoritmos,convertir
+informe_corte2.tex,Criterios con costo monetario,417-421,7,algoritmos,convertir
+informe_corte2.tex,Barrido de pesos,484-486,4,criterios,dejar
+informe_corte2.tex,Barrido de pesos,523-526,6,variantes; aristas,convertir
+informe_corte2.tex,Sensibilidad sin piso de A*,601-603,7,algoritmos; variantes,dejar
+informe_corte2.tex,Sensibilidad sin piso de A*,605-607,11,variantes,dejar
+informe_corte2.tex,Sensibilidad sin piso de A*,608-610,13,algoritmos; variantes,convertir
+informe_corte2.tex,Agente autónomo de rutas,687-693,6,criterios,dejar
+informe_corte2.tex,Despachador y criterio de selección,817-819,6,sesiones,dejar
+informe_corte2.tex,Validación,892-894,5,instancias,dejar
+informe_corte2.tex,Validación,895-896,3,instancias,dejar
+informe_corte2.tex,Validación,897-899,3,instancias,dejar
+informe_corte2.tex,Validación,902-907,5,aristas,dejar
+informe_corte2.tex,Validación,926-930,10,instancias,dejar
+informe_corte2.tex,Validación,931-937,20,instancias,convertir
+informe_corte2.tex,Validación,938-946,21,instancias,convertir
+informe_corte2.tex,Validación,947-953,20,instancias,convertir
+informe_corte2.tex,Validación ampliada: ACO con y sin 2-opt,974-978,5,instancias,dejar
+informe_corte2.tex,Validación ampliada: ACO con y sin 2-opt,982-984,7,instancias,dejar
+informe_corte2.tex,Validación ampliada: ACO con y sin 2-opt,991-994,7,instancias,convertir
+informe_corte2.tex,Limitaciones del agente,1020-1025,11,instancias,dejar
+informe_corte2.tex,Limitaciones,1038-1045,8,criterios; variantes; aristas,dejar
+informe_corte2.tex,Limitaciones,1052-1056,7,aristas,dejar
+informe_corte2.tex,Conclusiones,1082-1085,11,algoritmos,dejar
+informe_corte2.tex,Conclusiones,1086-1089,3,criterios,dejar
+informe_corte2.tex,Conclusiones,1090-1093,4,criterios; variantes,dejar
+informe_corte2.tex,Conclusiones,1094-1097,7,criterios; aristas,dejar
+informe_corte2.tex,Conclusiones,1098-1105,7,criterios,dejar
+informe_corte2.tex,Conclusiones,1106-1109,10,instancias,dejar
+formulacion_corte1.tex,Datos y metodología de cruce,206-213,5,criterios; variantes,dejar
+formulacion_corte1.tex,Datos y metodología de cruce,229-237,5,aristas,dejar
+formulacion_corte1.tex,Datos y metodología de cruce,243-247,5,aristas,dejar
+formulacion_corte1.tex,Datos y metodología de cruce,252-260,15,variantes; aristas,dejar
+formulacion_corte1.tex,Costo compuesto,360-363,3,criterios; aristas,dejar
+formulacion_corte1.tex,Costo monetario,430-437,11,variantes; aristas,dejar
+formulacion_corte1.tex,Pruebas,473-477,4,aristas,convertir
+formulacion_corte1.tex,Pruebas,513-515,15,criterios,ya hay tabla
+formulacion_corte1.tex,Auditoría geométrica de las aristas,569-574,10,variantes; aristas,dejar
+formulacion_corte1.tex,Auditoría geométrica de las aristas,592-596,3,aristas,dejar
+formulacion_corte1.tex,Auditoría geométrica de las aristas,597-601,5,variantes,dejar
+formulacion_corte1.tex,Auditoría geométrica de las aristas,603-606,4,aristas,dejar
+formulacion_corte1.tex,Limitaciones,701-705,5,criterios; aristas,dejar
+formulacion_corte1.tex,Limitaciones,719-726,4,aristas,dejar

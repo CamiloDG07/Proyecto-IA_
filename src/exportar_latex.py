@@ -8,6 +8,7 @@ import csv
 import json
 
 from agente import CRITERIOS, AgenteRutas
+from agente_rutas import recomendar
 from build_graph import SALIDA, cargar_grafo
 from formato_latex import estilizar
 
@@ -90,10 +91,17 @@ def tabla_rutas(grafo):
     desvio = agente.calcular_ruta("Duitama", "Puente Nacional", "distancia",
                                   tramos_bloqueados=[TRAMO_CICLO])["ruta"]
     c, d = costos(grafo, corta), costos(grafo, desvio)
+    rec = recomendar("Duitama", ["Puente Nacional"], grafo=grafo)
+    rb, rs = rec["recomendada"], rec["alternativas"][0]
     filas = [
         ("Saltos", c["saltos"], d["saltos"]),
         ("Distancia (km)", f"{c['km']:.2f}", f"{d['km']:.2f}"),
         ("Peaje total (COP)", miles(c["peaje"]), miles(d["peaje"])),
+        ("Combustible (COP)", miles(round(rb["costo_variable_cop"])),
+         miles(round(rs["costo_variable_cop"]))),
+        ("Costo operativo (COP)",
+         miles(round(rb["costo_operativo_cop"])),
+         miles(round(rs["costo_operativo_cop"]))),
         ("Tramos sin dato de riesgo", c["sin_dato"], d["sin_dato"]),
         ("Costo compuesto, riesgo faltante $=0$", f"{c['compuesto']:.3f}",
          f"{d['compuesto']:.3f}"),

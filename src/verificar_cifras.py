@@ -235,9 +235,9 @@ chequear("violaciones cons. sin piso con alfa=1", 141,
 chequear("peor margen sin piso con alfa=1", -56.51,
          round(p["admisibilidad"]["margen_minimo"], 2))
 citas("Corte 2", c2, [("alfa sin piso", "0.310570"),
-                      ("violaciones", "66 violaciones"),
-                      ("peor margen", "$-56.51$"),
                       ("razón mínima", "1.0000000059")])
+citas("tabla de heurísticas", leer("outputs/tabla_c2_heuristica.tex"),
+      [("violaciones", "& 66 &"), ("peor margen", "-56.51")])
 
 # ---- 4. Escenarios ---------------------------------------------------------
 saltos = sorted({c["saltos"] for c in res if c["criterio"] == "distancia"
@@ -295,8 +295,9 @@ chequear("sin riesgo DFS Buc-Bog exceso", 8.7, exceso(
     "Bucaramanga", "Bogotá", "compuesto_sin_riesgo", "DFS"), 0.05)
 citas("Corte 2", c2, [("exceso BFS", "76.6"), ("exceso DFS", "49.0"),
                       ("precálculo", "36.9"), ("desviación", "1.49"),
-                      ("sin riesgo", "4.7"), ("sin riesgo DFS", "8.7"),
-                      ("totales A* y UCS", "UCS 139, voraz 50 y A* 64")])
+                      ("sin riesgo", "4.7"), ("sin riesgo DFS", "8.7")])
+citas("tabla de nodos", leer("outputs/tabla_r_nodos.tex"),
+      [("totales con distancia", "& 143 & 142 & 139 & 50 & 64 \\\\")])
 
 # ---- 5. Barrido de pesos ---------------------------------------------------
 b0, b1, b2, b3 = bar
@@ -368,8 +369,10 @@ chequear("A* contra UCS en distancia (64 y 139)", (64, 139), (sum(
     if c["criterio"] == "distancia" and c["algoritmo"] == "A*"), sum(
     c["nodos_expandidos"] for c in res
     if c["criterio"] == "distancia" and c["algoritmo"] == "UCS")))
-citas("Corte 2", c2, [("A* piso", "8\\,584"), ("A* sin piso", "13\\,377"),
-                      ("A* alfa=1 sin piso", "8\\,321")])
+citas("tabla de sensibilidad de A*",
+      leer("outputs/tabla_c2_sensibilidad_alfa.tex"),
+      [("A* piso", "8584"), ("A* sin piso", "13377"),
+       ("A* alfa=1 sin piso", "8321")])
 
 # ---- 7. Umbral de Held-Karp y máquina --------------------------------------
 chequear("RAM (GiB)", 15.88, round(umb["maquina"]["memoria_instalada_gib"], 2),
@@ -495,7 +498,6 @@ chequear("inicios de 2-opt", (301, 151), (
     may[0]["referencia"]["inicios"], may[1]["referencia"]["inicios"]))
 citas("Corte 2", c2, [("óptimo 32", "2895.49"), ("inicio fijo n=15", "2.012"),
                       ("inicio fijo n=20", "1.832"),
-                      ("Held-Karp", "entre 1.12 s y 1.19 s"),
                       ("n=200", "6.05"),
                       ("n=100 sin 2-opt", "0.89")])
 
@@ -585,10 +587,16 @@ texto_dinero = leer("outputs/texto_c2_dinero.tex")
 chequear("dinero: la frase se incluye desde outputs/", True,
          r"\input{outputs/texto_c2_dinero.tex}" in leer("informe_corte2.tex"))
 citas("texto del dinero", texto_dinero, [
-    ("ahorro", "70\\,600"), ("km extra", "283.71"),
-    ("umbral con piso", "248.8"), ("sin piso", "204.5"),
-    ("progresivas", "252.4"), ("combustible", "1\\,157.0"),
-    ("veces", "4.6, 5.7, 4.6 veces")])
+    ("ahorro", "70\\,600"), ("combustible", "1\\,157.0")])
+citas("tabla del umbral de costo", leer("outputs/tabla_r_umbral_costo.tex"),
+      [("con piso", "283.71 & 70\\,600 & 248.8 & 4.6"),
+       ("sin piso", "345.15 & 70\\,600 & 204.5 & 5.7"),
+       ("progresivas", "279.67 & 70\\,600 & 252.4 & 4.6")])
+citas("tabla de tiempos", leer("outputs/tabla_r_tiempos.tex"),
+      [("Held-Karp", "1.12 a 1.19"), ("memoria", "111.8")])
+citas("tabla de pruebas del ciclo", leer("outputs/tabla_r_pruebas_ciclo.tex"),
+      [("sin corregir sin bloqueo", "456.93"),
+       ("sin corregir bloqueado", "668.14")])
 citas("Corte 2", c2, [("combustible", "1\\,157.0"), ("precio", "11\\,320"),
                       ("rendimiento", "9.784"), ("consumo", "38.69"),
                       ("progresivas", "61.0"), ("hueco", "49.1")])
@@ -607,7 +615,7 @@ for mm in re.finditer(r"(\d+\.\d+) km por (Bogotá|Santander)", c1):
     chequear(f"Corte 1: «{mm.group(0)}» es vigente o dice «sin corregir»",
              True, ok)
 for mm in re.finditer(r"456\.9\d?|668\.1\d?", c1):
-    ctx = c1[max(0, mm.start() - 200):mm.end() + 200]
+    ctx = c1[max(0, mm.start() - 600):mm.end() + 200].lower()
     chequear(f"Corte 1: cifra sin corregir {mm.group(0)} rotulada", True,
              "sin corregir" in ctx)
 mm = re.search(r"tiene (\d+) ciudades y (\d+) tramos", c1)
