@@ -10,6 +10,7 @@ Proyecto integrador de inteligencia artificial, Universidad Sergio Arboleda: enr
 | `experimentos/` | Corridas que producen los resultados del informe (escenarios, validación, umbral de Held-Karp) |
 | `informe/` | Código que arma las tablas, las lecturas y las figuras del informe |
 | `pruebas/` | Pruebas automáticas (`pruebas_*.py`) y `ejecutar_pruebas.py`, que las corre todas |
+| `visualizador/` | Aplicación web local: servidor FastAPI e interfaz con Leaflet y fuentes propias (sección 8) |
 | `outputs/` | Resultados guardados (`datos/`), tablas, lecturas y figuras del informe |
 | `data/carga/` | Datos livianos de entrada: coordenadas, peajes, siniestralidad y mapa departamental |
 | raíz | `config_costos.json`, `requirements.txt`, `README.md`, `EJECUTAR.md`, `guion_demostracion.md` y esta guía |
@@ -27,7 +28,7 @@ python -m pip install -r requirements.txt
 $env:PYTHONIOENCODING = "utf-8"
 ```
 
-`requirements.txt` lista `numpy`, `scipy`, `networkx`, `matplotlib` y `pycodestyle`. La variable `PYTHONIOENCODING` evita errores con las tildes en la consola. Si PowerShell bloquea la activación del entorno, ejecutar antes `Set-ExecutionPolicy -Scope Process Bypass`. En lo que sigue, `python` es el del entorno virtual y los comandos se dan desde la raíz del paquete (también funcionan desde otro directorio con la ruta completa del script).
+`requirements.txt` lista `numpy`, `scipy`, `networkx`, `matplotlib`, `pycodestyle` y, para el visualizador web, `fastapi` y `uvicorn` (con versión fijada). La variable `PYTHONIOENCODING` evita errores con las tildes en la consola. Si PowerShell bloquea la activación del entorno, ejecutar antes `Set-ExecutionPolicy -Scope Process Bypass`. En lo que sigue, `python` es el del entorno virtual y los comandos se dan desde la raíz del paquete (también funcionan desde otro directorio con la ruta completa del script).
 
 ## 3. Demostración del agente
 
@@ -189,12 +190,12 @@ python pruebas/ejecutar_pruebas.py
 
 {{salida 20}}
 
-Resultado esperado: todas las suites en `OK` y la última línea «15 de 15 suites pasan» (código de salida 0). Para una sola suite: `python pruebas/pruebas_busquedas.py`.
+Resultado esperado: todas las suites en `OK` y la última línea «17 de 17 suites pasan» (código de salida 0). Para una sola suite: `python pruebas/pruebas_busquedas.py`.
 
 El estilo del código (PEP 8) se comprueba con pycodestyle; no imprime nada si todo está bien.
 
 ```powershell
-python -m pycodestyle --max-line-length=79 src pruebas experimentos informe
+python -m pycodestyle --max-line-length=79 src pruebas experimentos informe visualizador
 ```
 
 {{salida 5}}
@@ -249,3 +250,21 @@ La construcción de la red desde cero (`src/construir_red.py`) requiere `data/ca
 | `FileNotFoundError` con una ruta relativa | Ejecutar desde la raíz del paquete o usar la ruta completa del script |
 | `FileNotFoundError: ... red_vial.csv` | Solo `construir_red.py` lo necesita; ver la sección 6 |
 | Una prueba reescribió un archivo de `outputs/` | Usar `python pruebas/ejecutar_pruebas.py`, que lo restaura |
+
+## 8. Visualizador web
+
+La aplicación local dibuja, sobre la red real, la animación paso a paso de los cinco algoritmos con su árbol de búsqueda, la construcción de la ruta con las métricas acumuladas, la comparación de algoritmos y de criterios, y el despachador. El comando levanta el servidor en `http://127.0.0.1:8000` y abre el navegador (se detiene con Ctrl+C); la documentación de la API está en `/docs`.
+
+```powershell-manual
+python visualizador/servidor.py
+```
+
+La verificación de arranque levanta el servidor en un puerto libre, pide `/`, `/api/red` y una búsqueda, comprueba los valores conocidos del caso central (370.54 km por Bogotá, 654.25 km por Santander, A* con 14 expandidos) y lo apaga. Tarda unos 15 segundos.
+
+```powershell
+python pruebas/pruebas_visualizador.py
+```
+
+{{salida 20}}
+
+Límite: el proyecto no tiene datos de tiempo de viaje; el «tiempo estimado» de la aplicación es la distancia dividida por una velocidad supuesta (50 km/h, supuesto del equipo, editable) y no entra a ningún costo ni resultado. Las instancias de 19 y 20 paradas de los casos de ejemplo son de demostración, no casos de las pruebas del informe.

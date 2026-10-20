@@ -463,3 +463,23 @@ oficiales, es la más extrema), la entrada urbana a Bogotá no cubierta por la f
 riesgo (GiZScore) disponible en 11 de 32 aristas y mortalidad de la ANSV en 16 solo
 como sensibilidad, otros costos por km como supuesto del equipo (el costo en pesos es
 un piso), mediciones de tiempo con dispersión alta.
+
+
+## 10. Recorrido en la aplicación web (opcional, 5 min)
+
+La aplicación local muestra, sobre el mapa de la red, lo mismo que se ejecutó en la terminal: cada paso de la búsqueda, el árbol y las métricas de la ruta. Las búsquedas y los costos los calcula Python con los módulos del proyecto; el navegador solo dibuja.
+
+```
+python visualizador/servidor.py
+```
+
+Se abre en `http://127.0.0.1:8000` y carga el caso central con A*. Recorrido sugerido:
+
+1. Caso central con BFS: elegir BFS en el selector y avanzar con la flecha derecha; BFS minimiza saltos y devuelve el desvío por Santander (654.25 km). Luego elegir A* y repetir: 14 expandidos y 370.54 km por Bogotá. La frase de cada paso dice qué sale de la frontera, por qué y qué entra.
+2. Árbol de búsqueda: pasar el cursor sobre una caja para ver el nodo en el mapa; las entradas descartadas aparecen tachadas.
+3. Pestaña «Nueve criterios»: la ruta cambia de corredor según el criterio (Bogotá con distancia, costo operativo y compuesto sin riesgo; Santander con peaje, riesgo y compuesto).
+4. «Construir ruta»: los tramos se dibujan de uno en uno y las cifras (distancia, peajes, costo operativo) se acumulan.
+5. Modo «Despachador», caso «5 paradas»: Held-Karp, con el orden de visita numerado y la matriz de costos.
+6. Caso «20 paradas»: sobre el umbral K = 19 el despachador usa ACO con 2-opt y se ve la curva de convergencia. Los casos de 19 y 20 paradas son instancias de demostración (Bogotá de origen y las primeras ciudades restantes en orden alfabético), no casos de las pruebas del informe.
+
+El tiempo de viaje que muestra la aplicación es una estimación con velocidad supuesta (50 km/h, supuesto del equipo, editable); el proyecto no tiene datos de tiempo de viaje y esa cifra no se cita como dato.

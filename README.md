@@ -42,6 +42,7 @@ supuesto del equipo, no un dato. Por eso el criterio por defecto sigue siendo
 | `data/carga/mgn2020_departamentos_dane.json` | Límites departamentales del DANE (MGN 2020), fondo de los mapas |
 | `data/_archivo_transmilenio/`, `src/_archivo_transmilenio/`, `outputs/_archivo_transmilenio/` | Material del dominio anterior (TransMilenio) |
 | `src/`, `experimentos/`, `informe/`, `pruebas/` | Código (ver el mapa de carpetas) |
+| `visualizador/` | Aplicación web local (FastAPI y Leaflet) que muestra la búsqueda y el despachador sobre la red |
 | `outputs/` | Resultados por tipo: `datos/`, `tablas/`, `lecturas/`, `figuras/` y `reportes/` |
 | `formulacion_corte1.tex` | Informe del Corte 1 |
 | `informe_corte2.tex`, `guion_demostracion.md` | Informe del Corte 2 y guion de la demostración |
@@ -63,6 +64,7 @@ proyecto paso a paso, ver `EJECUTAR.md`.
 | `src/_archivo_transmilenio/` | Código del dominio anterior | archivo |
 | `experimentos/` | Corridas que producen resultados: experimentos del Corte 2, validación del agente, umbral de Held-Karp, perfil topológico, auditorías de aristas y de distancias, verificación de estructura | medición |
 | `informe/` | Código que arma las tablas, las lecturas, las figuras, los diagramas y el estilo de los informes | informe |
+| `visualizador/` | Servidor y interfaz web local (`servidor.py`, `static/` con Leaflet y las fuentes con sus licencias) | ejecución |
 | `pruebas/` | Pruebas (`pruebas_*.py`), `verificar_cifras.py` y `comparar_resultados.py` | pruebas |
 | `outputs/` | Resultados guardados, ordenados por tipo en las subcarpetas siguientes | resultados e informe |
 | `outputs/datos/` | JSON, CSV, grafo persistido, trazados y evaluaciones | resultados |
@@ -180,6 +182,19 @@ pdflatex informe_corte2.tex
 ```
 
 Estilo del código: `python -m pycodestyle --max-line-length=79 --exclude=_archivo_transmilenio src experimentos informe pruebas` (PEP 8).
+
+## Visualizador web
+
+Aplicación local que dibuja, sobre la red real de 32 nodos y 32 aristas, cómo trabajan los cinco algoritmos y el despachador. Necesita dos dependencias más, `fastapi` y `uvicorn` (versiones fijadas en `requirements.txt`), y se instala con el resto:
+
+```
+pip install -r requirements.txt
+python visualizador/servidor.py
+```
+
+Abre `http://127.0.0.1:8000` (la documentación de la API queda en `/docs`) y funciona sin conexión: Leaflet, las fuentes y los estilos están en `visualizador/static/vendor/`; el fondo de OpenStreetMap solo se descarga si hay conexión y tiene un interruptor «sin fondo». Ofrece el mapa con el estado de cada nodo, la animación paso a paso de la búsqueda con su árbol, la construcción de la ruta tramo por tramo con las métricas acumuladas, la comparación de los cinco algoritmos y de los nueve criterios, y el despachador con paradas elegidas en el mapa (orden de visita, matriz de costos y curva del ACO). Las búsquedas y los costos los calculan los módulos del proyecto (`src/trazas.py` repite la lógica de `busquedas.py` y se prueba contra ella en 44 640 casos); el navegador solo dibuja.
+
+Límite: el proyecto no tiene datos de tiempo de viaje. La aplicación muestra un «tiempo estimado» igual a la distancia dividida por una velocidad supuesta (50 km/h, supuesto del equipo, editable de 20 a 90 km/h y rotulado como estimación); no es un criterio de búsqueda y no entra a ningún costo ni resultado. Las instancias de 19 y 20 paradas son de demostración, no casos de las pruebas del informe.
 
 ## Licencias y atribución
 

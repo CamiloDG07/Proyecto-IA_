@@ -368,12 +368,11 @@ def prueba_despachador():
 def prueba_umbral_y_aco():
     print("Held-Karp con k = 19 y ACO con k = 20 (instancias de demostración)")
     ej = {e["id"]: e for e in ok("/api/red")["ejemplos"]}
-    inicio = time.perf_counter()
     estado, d19 = despachar(tipo="d", origen="Bogotá",
                             paradas=ej["diecinueve"]["paradas"])
     verificar(estado == 200 and d19["k"] == 19
               and d19["metodo"] == "Held-Karp", "k = 19 usa Held-Karp")
-    print(f"  k = 19: {time.perf_counter() - inicio:.1f} s")
+    print("  k = 19: Held-Karp, el límite del método exacto")
     estado, d20 = despachar(tipo="d", origen="Bogotá",
                             paradas=ej["veinte"]["paradas"])
     verificar(estado == 200 and d20["k"] == 20
@@ -449,7 +448,7 @@ def prueba_arranque():
             proceso.wait(timeout=10)
         except subprocess.TimeoutExpired:
             proceso.kill()
-    print(f"  puerto {puerto}: / , /api/red y /api/busqueda responden")
+    print("  / , /api/red y /api/busqueda responden en un puerto libre")
 
 
 def main():
