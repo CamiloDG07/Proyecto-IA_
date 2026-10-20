@@ -1,0 +1,11 @@
+{
+  "descripcion": "Supuestos propios de la interfaz del visualizador. No son datos del proyecto, no entran a ningún costo ni resultado y no se citan en el informe como dato.",
+  "velocidad_promedio_kmh": {
+    "valor": 50,
+    "minimo": 20,
+    "maximo": 90,
+    "estado": "supuesto del equipo",
+    "uso": "Solo para la cifra «tiempo estimado» = distancia / velocidad. El proyecto no tiene datos de tiempo de viaje; si el equipo consigue velocidades reales, basta cambiar este archivo."
+  },
+  "rotulo_tiempo": "estimación con velocidad supuesta"
+}
