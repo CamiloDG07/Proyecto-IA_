@@ -23,7 +23,8 @@ function fmtHoras(h) {
   const total = Math.round(h * 60);
   const hh = Math.floor(total / 60);
   const mm = total % 60;
-  return hh > 0 ? `${hh} h ${String(mm).padStart(2, "0")} min` : `${mm} min`;
+  const u = (t) => `<small>${t}</small>`;
+  return hh > 0 ? `${hh}${u("h")} ${String(mm).padStart(2, "0")}${u("min")}` : `${mm}${u("min")}`;
 }
 const reducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const par = (u, v) => (u < v ? `${u}|${v}` : `${v}|${u}`);
@@ -63,7 +64,7 @@ const S = {
   origen: "Duitama", destino: "Puente Nacional",
   criterio: "distancia", algoritmo: "astar",
   busqueda: null, comparar: null, criterios: null, despacho: null,
-  paso: 0, tramo: 0, jugando: false, temporizador: null, velocidad: 2,
+  paso: 0, tramo: 0, jugando: false, temporizador: null, velocidad: 3,
   velKmh: 50, mostrarH: false, sinFondo: false,
   tipo: "d", idaVuelta: false, modoBloqueo: false,
   libres: [], obligatorias: [], bloqueados: new Set(),
@@ -1340,6 +1341,8 @@ async function iniciar() {
   indexarRed();
   poblarSelects();
   construirMapa();
+  if (document.fonts) document.fonts.ready.then(reubicarRotulos);
+  window.addEventListener("load", () => { mapa.invalidateSize(); reubicarRotulos(); });
   construirPanelRuta();
   construirLeyenda();
   enlazar();

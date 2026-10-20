@@ -49,6 +49,7 @@
   --c-halo: #0b1420;           /* contorno de los rótulos del mapa */
   --c-mapa: #0f1a28;           /* fondo del mapa sin mosaicos */
   --c-arista: #3b516f;         /* aristas sin explorar */
+  color-scheme: dark;
   --filtro-mosaicos: invert(1) hue-rotate(198deg) saturate(0.55) brightness(0.72) contrast(0.95);
 
   /* tonos derivados (se recalculan con cada modo) */
@@ -75,8 +76,7 @@
   --t-lg: 1.125rem;
   --t-xl: 1.375rem;
   --t-2xl: 1.75rem;
-  --t-cifra: 2rem;
-
+  
   /* espaciado (múltiplos de 4 px) */
   --e-1: 0.25rem;
   --e-2: 0.5rem;
@@ -136,19 +136,20 @@
   --c-trazo: #d3cab4;
   --c-papel: #1b2434;
   --c-papel-suave: #4a566a;
-  --c-ambar: #a45f00;
-  --c-hielo: #0f6f96;
-  --c-coral: #b53c24;
-  --c-alga: #0f7a52;
+  --c-ambar: #8a4e00;
+  --c-hielo: #0a5a80;
+  --c-coral: #a0321d;
+  --c-alga: #0a6845;
+  color-scheme: light;
   --c-sobre-acento: #ffffff;
   --c-halo: #fbf8f0;
   --c-mapa: #e8e1d0;
   --c-arista: #9aa6b8;
   --filtro-mosaicos: sepia(0.35) saturate(0.7) brightness(1.02) contrast(0.95);
-  --pierna-1: #a45f00;
-  --pierna-2: #0f6f96;
-  --pierna-3: #b53c24;
-  --pierna-4: #0f7a52;
+  --pierna-1: #8a4e00;
+  --pierna-2: #0a5a80;
+  --pierna-3: #a0321d;
+  --pierna-4: #0a6845;
   --pierna-5: #7a3fb0;
   --pierna-6: #7d6a00;
   --sombra-1: 0 0.0625rem 0.125rem color-mix(in srgb, #1b2434 18%, transparent);
@@ -404,7 +405,7 @@ path.ar-prov { stroke: var(--c-ambar); stroke-dasharray: var(--trazo-largo) var(
 path.ar-bloq { stroke: var(--c-coral); stroke-dasharray: var(--trazo-corto) var(--trazo-largo); }
 path.ar-sel { stroke: var(--c-papel); }
 path.ar-hit { stroke: transparent; fill: none; cursor: pointer; }
-path.ar-ruta { stroke: var(--c-ambar); stroke-linecap: round; fill: none; filter: drop-shadow(0 0 var(--trazo-corto) var(--c-ambar)); }
+path.ar-ruta { stroke: var(--c-ambar); stroke-linecap: round; fill: none; }
 path.ar-ruta.dibujando { animation: dibujar var(--t-media) ease-out both; }
 path.pierna-1 { stroke: var(--pierna-1); }
 path.pierna-2 { stroke: var(--pierna-2); }
@@ -517,8 +518,8 @@ path.pierna-6 { stroke: var(--pierna-6); }
 .paneles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--e-4); margin-top: var(--e-4); }
 .cifras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--e-3); }
 .cifra { padding: var(--e-3); border: var(--borde) solid var(--c-trazo); border-radius: var(--r-md); background: var(--c-carta-alta); min-width: 0; }
-.cifra-v { display: block; font-size: var(--t-cifra); line-height: 1.1; font-weight: 600; overflow-wrap: anywhere; }
-.cifra-v small { font-size: var(--t-xs); font-weight: 400; color: var(--c-papel-suave); margin-left: var(--e-1); }
+.cifra-v { display: block; font-size: var(--t-2xl); line-height: 1.1; font-weight: 600; overflow-wrap: anywhere; }
+.cifra-v small, .cifra-v .u { font-size: var(--t-xs); font-weight: 400; color: var(--c-papel-suave); margin-left: var(--e-1); }
 .cifra-e { display: block; font-size: var(--t-xs); color: var(--c-papel-suave); margin-top: var(--e-1); }
 .cifra-n { display: block; font-size: var(--t-xs); color: var(--c-papel-suave); }
 .cifra.acento .cifra-v { color: var(--c-ambar); }
