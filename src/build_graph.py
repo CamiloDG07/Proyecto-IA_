@@ -1,8 +1,8 @@
 """Construcción del grafo de la red de carga interurbana.
 
-Lee outputs/aristas_red.json y outputs/nodos_red.json (generados por
-construir_red.py), calcula el costo compuesto por arista y guarda el grafo en
-outputs/grafo_carga.gpickle.
+Lee outputs/datos/aristas_red.json y outputs/datos/nodos_red.json (generados
+por construir_red.py), calcula el costo compuesto por arista y guarda el grafo
+en outputs/datos/grafo_carga.gpickle.
 
 Costo compuesto, normalizado por el máximo de cada criterio:
 
@@ -42,14 +42,13 @@ Sectores críticos de mortalidad de la ANSV (solo sensibilidad, ver
 cruce_mortalidad.py): peso_mortalidad reemplaza el GiZScore por
 mortalidad_por_100km, normalizado por su máximo (faltante igual a 0).
 """
+from rutas import RAIZ, SALIDA
 import json
 import pickle
 from pathlib import Path
 
 import networkx as nx
 
-RAIZ = Path(__file__).resolve().parent.parent
-SALIDA = RAIZ / "outputs"
 
 # Sin criterio objetivo para ponderar los tres criterios: pesos iguales.
 PESOS = {"distancia": 1 / 3, "peaje": 1 / 3, "riesgo": 1 / 3}

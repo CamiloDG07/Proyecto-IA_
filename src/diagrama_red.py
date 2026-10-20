@@ -1,7 +1,8 @@
 """Diagrama esquemático de la red de carga, con el ciclo señalado.
 
 La posición de los nodos es esquemática (disposición automática), no
-geográfica. Guarda outputs/diagrama_red.png y outputs/diagrama_red.pdf.
+geográfica. Guarda outputs/figuras/diagrama_red.png y
+outputs/figuras/diagrama_red.pdf.
 """
 import matplotlib
 

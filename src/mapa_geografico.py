@@ -7,10 +7,12 @@ rotulada «tramo sin trazado en la fuente». El fondo son los límites
 departamentales del DANE (MGN 2020,
 data/carga/mgn2020_departamentos_dane.json); no se usan mosaicos.
 
-Escribe outputs/trazado_aristas.json (trazado simplificado, con tolerancia de
-unos 45 m; se regenera desde red_vial.csv si falta), outputs/mapa_red.{png,pdf}
-y outputs/mapa_caso_central.{png,pdf}.
+Escribe outputs/datos/trazado_aristas.json (trazado simplificado, con
+tolerancia de unos 45 m; se regenera desde red_vial.csv si falta),
+outputs/figuras/mapa_red.{png,pdf} y
+outputs/figuras/mapa_caso_central.{png,pdf}.
 """
+from rutas import CARGA
 import csv
 import json
 import re
@@ -29,7 +31,6 @@ from build_graph import SALIDA, cargar_grafo  # noqa: E402
 from construir_red import TRAMO_EXTRA_LONGITUD, TRAMOS  # noqa: E402
 from diagrama_red import aristas_del_ciclo  # noqa: E402
 from heuristica import cargar_coordenadas, haversine_km  # noqa: E402
-from obtener_coordenadas import DATOS  # noqa: E402
 
 UMBRAL_KM = 5.0
 ANCHO_IN = 5.906   # ancho de texto de los informes (15 cm)
@@ -106,7 +107,7 @@ def construir_trazado():
         sectores[(o, d)] = [sector] + ([extra] if extra else [])
     usados = {s for v in sectores.values() for s in v}
     por_sector = {}
-    with open(DATOS / "red_vial.csv", encoding="utf-8") as f:
+    with open(CARGA / "red_vial.csv", encoding="utf-8") as f:
         for r in csv.DictReader(f):
             s = r["sector"].strip()
             if s in usados:
@@ -152,7 +153,7 @@ def cargar_trazado():
 
 def departamentos():
     """Anillos (lon, lat) y nombre de cada departamento (DANE, MGN 2020)."""
-    with open(DATOS / "mgn2020_departamentos_dane.json",
+    with open(CARGA / "mgn2020_departamentos_dane.json",
               encoding="utf-8") as f:
         datos = json.load(f)
     res = []
@@ -328,7 +329,7 @@ def fuente(fig):
 # ------------------------------------------------- datos desde outputs/
 def algoritmos_por_via():
     """Algoritmos que devuelven cada ruta del caso central, con el criterio
-    distancia (outputs/resultados_corte2.json)."""
+    distancia (outputs/datos/resultados_corte2.json)."""
     with open(SALIDA / "resultados_corte2.json", encoding="utf-8") as f:
         celdas = json.load(f)["resultados"]
     por_bogota, por_santander = [], []
@@ -348,7 +349,7 @@ def unir(nombres):
 
 def trazado_disponible(origen, destino):
     """(km registrados del sector con trazado, km en línea recta) de una
-    arista, desde outputs/aristas_red.json y auditoria_aristas.csv.
+    arista, desde outputs/datos/aristas_red.json y auditoria_aristas.csv.
 
     Los km registrados son la longitud del sector en la Red Vial
     (distancia_registrada_km), que puede ser menor que la distancia de la

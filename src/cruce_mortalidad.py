@@ -9,9 +9,9 @@ extremos (xi, yi, xf, yf), la prioridad por actor vial (todos, moto,
 peatón y vehículo) y el código del segmento (cod). El cruce con la red es
 geométrico y determinista, sin emparejar por nombre: un segmento pertenece a
 una arista si sus dos extremos quedan a no más de UMBRAL_KM del trazado de la
-arista (outputs/trazado_aristas.json) y, si queda cerca de varias, se asigna a
-la de menor distancia máxima. Cada segmento (cod) cuenta una vez, sin importar
-en cuántas listas de actores figure.
+arista (outputs/datos/trazado_aristas.json) y, si queda cerca de varias, se
+asigna a la de menor distancia máxima. Cada segmento (cod) cuenta una vez, sin
+importar en cuántas listas de actores figure.
 
 Atributo de la arista: sectores_mortalidad (cantidad de segmentos) y
 mortalidad_por_100km (esa cantidad por cada 100 km de la arista). Que una
@@ -19,10 +19,11 @@ arista no figure no significa que no haya muertes: la lista solo trae los
 sectores de mayor prioridad, por lo que mortalidad_disponible es verdadero
 solo si figura al menos un segmento.
 
-Escribe outputs/riesgo_mortalidad_aristas.json (con el detalle por arista) y
-outputs/validacion_riesgo_mortalidad.json (validación retrospectiva contra
-las aristas que ya tienen GiZScore).
+Escribe outputs/datos/riesgo_mortalidad_aristas.json (con el detalle por
+arista) y outputs/datos/validacion_riesgo_mortalidad.json (validación
+retrospectiva contra las aristas que ya tienen GiZScore).
 """
+from rutas import CARGA
 import csv
 import json
 
@@ -30,8 +31,7 @@ import numpy as np
 
 from build_graph import SALIDA
 
-RAIZ = SALIDA.parent
-FUENTE = RAIZ / "data" / "carga" / "nuevas" / (
+FUENTE = CARGA / "nuevas" / (
     "sectores_criticos_mortalidad_2022_ybqk-8s42.csv")
 UMBRAL_KM = 0.3
 KM_POR_GRADO = 111.32

@@ -1,0 +1,313 @@
+archivo,origen,destino,motivo
+.gitattributes,.gitattributes,.gitattributes,sin cambio de lugar
+.gitignore,.gitignore,.gitignore,sin cambio de lugar
+EJECUTAR.md,EJECUTAR.md,EJECUTAR.md,sin cambio de lugar
+README.md,README.md,README.md,sin cambio de lugar
+config_costos.json,config_costos.json,config_costos.json,sin cambio de lugar
+Estacion_troncalT.csv,data/_archivo_transmilenio/Estacion_troncalT.csv,data/_archivo_transmilenio/Estacion_troncalT.csv,sin cambio de lugar
+Estaciones_Troncales_de_TRANSMILENIO.geojson,data/_archivo_transmilenio/Estaciones_Troncales_de_TRANSMILENIO.geojson,data/_archivo_transmilenio/Estaciones_Troncales_de_TRANSMILENIO.geojson,sin cambio de lugar
+Trazado_troncal.geojson,data/_archivo_transmilenio/Trazado_troncal.geojson,data/_archivo_transmilenio/Trazado_troncal.geojson,sin cambio de lugar
+Trazados_Troncales_de_TRANSMILENIO.csv,data/_archivo_transmilenio/Trazados_Troncales_de_TRANSMILENIO.csv,data/_archivo_transmilenio/Trazados_Troncales_de_TRANSMILENIO.csv,sin cambio de lugar
+diagrama_de_red.ipynb,data/_archivo_transmilenio/notebooks_data/diagrama_de_red.ipynb,data/_archivo_transmilenio/notebooks_data/diagrama_de_red.ipynb,sin cambio de lugar
+diagrama_de_red.ipynb,data/_archivo_transmilenio/notebooks_raiz/diagrama_de_red.ipynb,data/_archivo_transmilenio/notebooks_raiz/diagrama_de_red.ipynb,sin cambio de lugar
+aristas_final.csv,data/_archivo_transmilenio/processed/aristas_final.csv,data/_archivo_transmilenio/processed/aristas_final.csv,sin cambio de lugar
+nodos_final.csv,data/_archivo_transmilenio/processed/nodos_final.csv,data/_archivo_transmilenio/processed/nodos_final.csv,sin cambio de lugar
+FUENTES_NUEVAS.md,data/carga/FUENTES_NUEVAS.md,data/carga/FUENTES_NUEVAS.md,sin cambio de lugar
+VERIFICACION.md,data/carga/VERIFICACION.md,data/carga/VERIFICACION.md,sin cambio de lugar
+aristas_red_tarifas_previas.json,data/carga/_descarga_previa/aristas_red_tarifas_previas.json,data/carga/_descarga_previa/aristas_red_tarifas_previas.json,sin cambio de lugar
+nodos_red_previo.json,data/carga/_descarga_previa/nodos_red_previo.json,data/carga/_descarga_previa/nodos_red_previo.json,sin cambio de lugar
+peajes.csv,data/carga/_descarga_previa/peajes.csv,data/carga/_descarga_previa/peajes.csv,sin cambio de lugar
+red_vial.csv,data/carga/_descarga_previa/red_vial.csv,data/carga/_descarga_previa/red_vial.csv,sin cambio de lugar
+siniestralidad.csv,data/carga/_descarga_previa/siniestralidad.csv,data/carga/_descarga_previa/siniestralidad.csv,sin cambio de lugar
+coordenadas_nodos.csv,data/carga/coordenadas_nodos.csv,data/carga/coordenadas_nodos.csv,sin cambio de lugar
+divipola_centros_poblados_xaxy-8nri.csv,data/carga/divipola_centros_poblados_xaxy-8nri.csv,data/carga/divipola_centros_poblados_xaxy-8nri.csv,sin cambio de lugar
+divipola_municipios_gdxc-w37w.csv,data/carga/divipola_municipios_gdxc-w37w.csv,data/carga/divipola_municipios_gdxc-w37w.csv,sin cambio de lugar
+mgn2020_departamentos_dane.json,data/carga/mgn2020_departamentos_dane.json,data/carga/mgn2020_departamentos_dane.json,sin cambio de lugar
+postes_referencia_ufg7-is7r.csv,data/carga/nuevas/postes_referencia_ufg7-is7r.csv,data/carga/nuevas/postes_referencia_ufg7-is7r.csv,sin cambio de lugar
+sectores_criticos_mortalidad_2022_ybqk-8s42.csv,data/carga/nuevas/sectores_criticos_mortalidad_2022_ybqk-8s42.csv,data/carga/nuevas/sectores_criticos_mortalidad_2022_ybqk-8s42.csv,sin cambio de lugar
+peajes.csv,data/carga/peajes.csv,data/carga/peajes.csv,sin cambio de lugar
+siniestralidad.csv,data/carga/siniestralidad.csv,data/carga/siniestralidad.csv,sin cambio de lugar
+sergio_logo.png,data/sergio_logo.png,data/sergio_logo.png,sin cambio de lugar
+formulacion_corte1.pdf,formulacion_corte1.pdf,formulacion_corte1.pdf,sin cambio de lugar
+formulacion_corte1.tex,formulacion_corte1.tex,formulacion_corte1.tex,sin cambio de lugar
+guion_demostracion.md,guion_demostracion.md,guion_demostracion.md,sin cambio de lugar
+informe_corte2.pdf,informe_corte2.pdf,informe_corte2.pdf,sin cambio de lugar
+informe_corte2.tex,informe_corte2.tex,informe_corte2.tex,sin cambio de lugar
+LICENCIA_DATOS.md,outputs/LICENCIA_DATOS.md,outputs/reportes/LICENCIA_DATOS.md,salida de tipo reportes
+antes_de_corregir.json,outputs/_archivo_transmilenio/antes_de_corregir.json,outputs/_archivo_transmilenio/antes_de_corregir.json,sin cambio de lugar
+despues_de_corregir.json,outputs/_archivo_transmilenio/despues_de_corregir.json,outputs/_archivo_transmilenio/despues_de_corregir.json,sin cambio de lugar
+estadisticas_grafo.json,outputs/_archivo_transmilenio/estadisticas_grafo.json,outputs/_archivo_transmilenio/estadisticas_grafo.json,sin cambio de lugar
+grafo_con_pesos.png,outputs/_archivo_transmilenio/grafo_con_pesos.png,outputs/_archivo_transmilenio/grafo_con_pesos.png,sin cambio de lugar
+grafo_con_pesos_zoom_comuneros.png,outputs/_archivo_transmilenio/grafo_con_pesos_zoom_comuneros.png,outputs/_archivo_transmilenio/grafo_con_pesos_zoom_comuneros.png,sin cambio de lugar
+grafo_transmilenio.gpickle,outputs/_archivo_transmilenio/grafo_transmilenio.gpickle,outputs/_archivo_transmilenio/grafo_transmilenio.gpickle,sin cambio de lugar
+grafo_transmilenio.graphml,outputs/_archivo_transmilenio/grafo_transmilenio.graphml,outputs/_archivo_transmilenio/grafo_transmilenio.graphml,sin cambio de lugar
+pruebas_agente.json,outputs/_archivo_transmilenio/pruebas_agente.json,outputs/_archivo_transmilenio/pruebas_agente.json,sin cambio de lugar
+red_transmilenio_antes_bug.png,outputs/_archivo_transmilenio/red_transmilenio_antes_bug.png,outputs/_archivo_transmilenio/red_transmilenio_antes_bug.png,sin cambio de lugar
+red_transmilenio_corregida.png,outputs/_archivo_transmilenio/red_transmilenio_corregida.png,outputs/_archivo_transmilenio/red_transmilenio_corregida.png,sin cambio de lugar
+ruta_beta_museo_nacional_portal_americas.png,outputs/_archivo_transmilenio/ruta_beta_museo_nacional_portal_americas.png,outputs/_archivo_transmilenio/ruta_beta_museo_nacional_portal_americas.png,sin cambio de lugar
+ruta_beta_portal_norte_unicervantes_portal_usme.png,outputs/_archivo_transmilenio/ruta_beta_portal_norte_unicervantes_portal_usme.png,outputs/_archivo_transmilenio/ruta_beta_portal_norte_unicervantes_portal_usme.png,sin cambio de lugar
+ruta_beta_portal_suba_portal_tunal.png,outputs/_archivo_transmilenio/ruta_beta_portal_suba_portal_tunal.png,outputs/_archivo_transmilenio/ruta_beta_portal_suba_portal_tunal.png,sin cambio de lugar
+ruta_museo_nacional_portal_americas.png,outputs/_archivo_transmilenio/ruta_museo_nacional_portal_americas.png,outputs/_archivo_transmilenio/ruta_museo_nacional_portal_americas.png,sin cambio de lugar
+ruta_portal_norte_portal_usme.png,outputs/_archivo_transmilenio/ruta_portal_norte_portal_usme.png,outputs/_archivo_transmilenio/ruta_portal_norte_portal_usme.png,sin cambio de lugar
+ruta_portal_suba_portal_tunal.png,outputs/_archivo_transmilenio/ruta_portal_suba_portal_tunal.png,outputs/_archivo_transmilenio/ruta_portal_suba_portal_tunal.png,sin cambio de lugar
+analisis_heuristica.json,outputs/analisis_heuristica.json,outputs/datos/analisis_heuristica.json,salida de tipo datos
+aristas_piso_geodesico.csv,outputs/aristas_piso_geodesico.csv,outputs/datos/aristas_piso_geodesico.csv,salida de tipo datos
+aristas_red.json,outputs/aristas_red.json,outputs/datos/aristas_red.json,salida de tipo datos
+auditoria_aristas.csv,outputs/auditoria_aristas.csv,outputs/datos/auditoria_aristas.csv,salida de tipo datos
+auditoria_aristas.md,outputs/auditoria_aristas.md,outputs/reportes/auditoria_aristas.md,salida de tipo reportes
+auditoria_distancias.csv,outputs/auditoria_distancias.csv,outputs/datos/auditoria_distancias.csv,salida de tipo datos
+barrido_pesos.json,outputs/barrido_pesos.json,outputs/datos/barrido_pesos.json,salida de tipo datos
+barrido_pesos.pdf,outputs/barrido_pesos.pdf,outputs/figuras/barrido_pesos.pdf,salida de tipo figuras
+barrido_pesos.png,outputs/barrido_pesos.png,outputs/figuras/barrido_pesos.png,salida de tipo figuras
+barrido_pesos_base.pdf,outputs/barrido_pesos_base.pdf,outputs/figuras/barrido_pesos_base.pdf,salida de tipo figuras
+barrido_pesos_base.png,outputs/barrido_pesos_base.png,outputs/figuras/barrido_pesos_base.png,salida de tipo figuras
+barrido_total.json,outputs/barrido_total.json,outputs/datos/barrido_total.json,salida de tipo datos
+bitacora_concisa.md,outputs/bitacora_concisa.md,outputs/reportes/bitacora_concisa.md,salida de tipo reportes
+bitacora_heuristica.md,outputs/bitacora_heuristica.md,outputs/reportes/bitacora_heuristica.md,salida de tipo reportes
+bitacora_noche.md,outputs/bitacora_noche.md,outputs/reportes/bitacora_noche.md,salida de tipo reportes
+bitacora_organizar.md,outputs/bitacora_organizar.md,outputs/reportes/bitacora_organizar.md,salida de tipo reportes
+bitacora_piso.md,outputs/bitacora_piso.md,outputs/reportes/bitacora_piso.md,salida de tipo reportes
+bitacora_tablas.md,outputs/bitacora_tablas.md,outputs/reportes/bitacora_tablas.md,salida de tipo reportes
+candidatos_sensibilidad.csv,outputs/candidatos_sensibilidad.csv,outputs/reportes/candidatos_sensibilidad.csv,salida de tipo reportes
+candidatos_tablas.csv,outputs/candidatos_tablas.csv,outputs/reportes/candidatos_tablas.csv,salida de tipo reportes
+cifras_movidas.csv,outputs/cifras_movidas.csv,outputs/reportes/cifras_movidas.csv,salida de tipo reportes
+condiciones_medicion_noche.txt,outputs/condiciones_medicion_noche.txt,outputs/reportes/condiciones_medicion_noche.txt,salida de tipo reportes
+condiciones_medicion_piso.txt,outputs/condiciones_medicion_piso.txt,outputs/reportes/condiciones_medicion_piso.txt,salida de tipo reportes
+convergencia_aco.csv,outputs/convergencia_aco.csv,outputs/datos/convergencia_aco.csv,salida de tipo datos
+convergencia_aco.pdf,outputs/convergencia_aco.pdf,outputs/figuras/convergencia_aco.pdf,salida de tipo figuras
+convergencia_aco.png,outputs/convergencia_aco.png,outputs/figuras/convergencia_aco.png,salida de tipo figuras
+convergencia_aco_mayores.pdf,outputs/convergencia_aco_mayores.pdf,outputs/figuras/convergencia_aco_mayores.pdf,salida de tipo figuras
+convergencia_aco_mayores.png,outputs/convergencia_aco_mayores.png,outputs/figuras/convergencia_aco_mayores.png,salida de tipo figuras
+diagrama_red.pdf,outputs/diagrama_red.pdf,outputs/figuras/diagrama_red.pdf,salida de tipo figuras
+diagrama_red.png,outputs/diagrama_red.png,outputs/figuras/diagrama_red.png,salida de tipo figuras
+estadisticas_grafo.json,outputs/estadisticas_grafo.json,outputs/datos/estadisticas_grafo.json,salida de tipo datos
+evaluacion_progresivas.json,outputs/evaluacion_progresivas.json,outputs/datos/evaluacion_progresivas.json,salida de tipo datos
+fig_aco.pdf,outputs/fig_aco.pdf,outputs/figuras/fig_aco.pdf,salida de tipo figuras
+fig_aco.png,outputs/fig_aco.png,outputs/figuras/fig_aco.png,salida de tipo figuras
+fig_agente.pdf,outputs/fig_agente.pdf,outputs/figuras/fig_agente.pdf,salida de tipo figuras
+fig_agente.png,outputs/fig_agente.png,outputs/figuras/fig_agente.png,salida de tipo figuras
+fig_c1_casos.pdf,outputs/fig_c1_casos.pdf,outputs/figuras/fig_c1_casos.pdf,salida de tipo figuras
+fig_c1_casos.png,outputs/fig_c1_casos.png,outputs/figuras/fig_c1_casos.png,salida de tipo figuras
+fig_c1_coherencia.pdf,outputs/fig_c1_coherencia.pdf,outputs/figuras/fig_c1_coherencia.pdf,salida de tipo figuras
+fig_c1_coherencia.png,outputs/fig_c1_coherencia.png,outputs/figuras/fig_c1_coherencia.png,salida de tipo figuras
+fig_cobertura.pdf,outputs/fig_cobertura.pdf,outputs/figuras/fig_cobertura.pdf,salida de tipo figuras
+fig_cobertura.png,outputs/fig_cobertura.png,outputs/figuras/fig_cobertura.png,salida de tipo figuras
+fig_comparacion.pdf,outputs/fig_comparacion.pdf,outputs/figuras/fig_comparacion.pdf,salida de tipo figuras
+fig_comparacion.png,outputs/fig_comparacion.png,outputs/figuras/fig_comparacion.png,salida de tipo figuras
+fig_costo_km.pdf,outputs/fig_costo_km.pdf,outputs/figuras/fig_costo_km.pdf,salida de tipo figuras
+fig_costo_km.png,outputs/fig_costo_km.png,outputs/figuras/fig_costo_km.png,salida de tipo figuras
+fig_expansion.pdf,outputs/fig_expansion.pdf,outputs/figuras/fig_expansion.pdf,salida de tipo figuras
+fig_expansion.png,outputs/fig_expansion.png,outputs/figuras/fig_expansion.png,salida de tipo figuras
+fig_heuristica.pdf,outputs/fig_heuristica.pdf,outputs/figuras/fig_heuristica.pdf,salida de tipo figuras
+fig_heuristica.png,outputs/fig_heuristica.png,outputs/figuras/fig_heuristica.png,salida de tipo figuras
+fig_perfil.pdf,outputs/fig_perfil.pdf,outputs/figuras/fig_perfil.pdf,salida de tipo figuras
+fig_perfil.png,outputs/fig_perfil.png,outputs/figuras/fig_perfil.png,salida de tipo figuras
+fig_red.pdf,outputs/fig_red.pdf,outputs/figuras/fig_red.pdf,salida de tipo figuras
+fig_red.png,outputs/fig_red.png,outputs/figuras/fig_red.png,salida de tipo figuras
+fig_umbral.pdf,outputs/fig_umbral.pdf,outputs/figuras/fig_umbral.pdf,salida de tipo figuras
+fig_umbral.png,outputs/fig_umbral.png,outputs/figuras/fig_umbral.png,salida de tipo figuras
+grafo_carga.gpickle,outputs/grafo_carga.gpickle,outputs/datos/grafo_carga.gpickle,salida de tipo datos
+lectura_c1_auditoria.tex,outputs/lectura_c1_auditoria.tex,outputs/lecturas/lectura_c1_auditoria.tex,salida de tipo lecturas
+lectura_c1_criterios.tex,outputs/lectura_c1_criterios.tex,outputs/lecturas/lectura_c1_criterios.tex,salida de tipo lecturas
+lectura_c1_fig_casos.tex,outputs/lectura_c1_fig_casos.tex,outputs/lecturas/lectura_c1_fig_casos.tex,salida de tipo lecturas
+lectura_c1_fig_cobertura.tex,outputs/lectura_c1_fig_cobertura.tex,outputs/lecturas/lectura_c1_fig_cobertura.tex,salida de tipo lecturas
+lectura_c1_fig_coherencia.tex,outputs/lectura_c1_fig_coherencia.tex,outputs/lecturas/lectura_c1_fig_coherencia.tex,salida de tipo lecturas
+lectura_c1_mapa.tex,outputs/lectura_c1_mapa.tex,outputs/lecturas/lectura_c1_mapa.tex,salida de tipo lecturas
+lectura_c1_rutas.tex,outputs/lectura_c1_rutas.tex,outputs/lecturas/lectura_c1_rutas.tex,salida de tipo lecturas
+lectura_c2_barrido_base_figura.tex,outputs/lectura_c2_barrido_base_figura.tex,outputs/lecturas/lectura_c2_barrido_base_figura.tex,salida de tipo lecturas
+lectura_c2_barrido_figura.tex,outputs/lectura_c2_barrido_figura.tex,outputs/lecturas/lectura_c2_barrido_figura.tex,salida de tipo lecturas
+lectura_c2_barrido_tabla.tex,outputs/lectura_c2_barrido_tabla.tex,outputs/lecturas/lectura_c2_barrido_tabla.tex,salida de tipo lecturas
+lectura_c2_convergencia.tex,outputs/lectura_c2_convergencia.tex,outputs/lecturas/lectura_c2_convergencia.tex,salida de tipo lecturas
+lectura_c2_criterios_heuristica.tex,outputs/lectura_c2_criterios_heuristica.tex,outputs/lecturas/lectura_c2_criterios_heuristica.tex,salida de tipo lecturas
+lectura_c2_ejemplos.tex,outputs/lectura_c2_ejemplos.tex,outputs/lecturas/lectura_c2_ejemplos.tex,salida de tipo lecturas
+lectura_c2_fig_aco.tex,outputs/lectura_c2_fig_aco.tex,outputs/lecturas/lectura_c2_fig_aco.tex,salida de tipo lecturas
+lectura_c2_fig_agente.tex,outputs/lectura_c2_fig_agente.tex,outputs/lecturas/lectura_c2_fig_agente.tex,salida de tipo lecturas
+lectura_c2_fig_cobertura.tex,outputs/lectura_c2_fig_cobertura.tex,outputs/lecturas/lectura_c2_fig_cobertura.tex,salida de tipo lecturas
+lectura_c2_fig_comparacion.tex,outputs/lectura_c2_fig_comparacion.tex,outputs/lecturas/lectura_c2_fig_comparacion.tex,salida de tipo lecturas
+lectura_c2_fig_costo_km.tex,outputs/lectura_c2_fig_costo_km.tex,outputs/lecturas/lectura_c2_fig_costo_km.tex,salida de tipo lecturas
+lectura_c2_fig_expansion.tex,outputs/lectura_c2_fig_expansion.tex,outputs/lecturas/lectura_c2_fig_expansion.tex,salida de tipo lecturas
+lectura_c2_fig_heuristica.tex,outputs/lectura_c2_fig_heuristica.tex,outputs/lecturas/lectura_c2_fig_heuristica.tex,salida de tipo lecturas
+lectura_c2_fig_perfil.tex,outputs/lectura_c2_fig_perfil.tex,outputs/lecturas/lectura_c2_fig_perfil.tex,salida de tipo lecturas
+lectura_c2_fig_red.tex,outputs/lectura_c2_fig_red.tex,outputs/lecturas/lectura_c2_fig_red.tex,salida de tipo lecturas
+lectura_c2_fig_umbral.tex,outputs/lectura_c2_fig_umbral.tex,outputs/lecturas/lectura_c2_fig_umbral.tex,salida de tipo lecturas
+lectura_c2_heuristica.tex,outputs/lectura_c2_heuristica.tex,outputs/lecturas/lectura_c2_heuristica.tex,salida de tipo lecturas
+lectura_c2_mapa_caso.tex,outputs/lectura_c2_mapa_caso.tex,outputs/lecturas/lectura_c2_mapa_caso.tex,salida de tipo lecturas
+lectura_c2_rutas.tex,outputs/lectura_c2_rutas.tex,outputs/lecturas/lectura_c2_rutas.tex,salida de tipo lecturas
+lectura_c2_t_costo.tex,outputs/lectura_c2_t_costo.tex,outputs/lecturas/lectura_c2_t_costo.tex,salida de tipo lecturas
+lectura_c2_t_expandidos.tex,outputs/lectura_c2_t_expandidos.tex,outputs/lecturas/lectura_c2_t_expandidos.tex,salida de tipo lecturas
+lectura_c2_t_memoria.tex,outputs/lectura_c2_t_memoria.tex,outputs/lecturas/lectura_c2_t_memoria.tex,salida de tipo lecturas
+lectura_c2_t_optimalidad.tex,outputs/lectura_c2_t_optimalidad.tex,outputs/lecturas/lectura_c2_t_optimalidad.tex,salida de tipo lecturas
+lectura_c2_t_tiempo.tex,outputs/lectura_c2_t_tiempo.tex,outputs/lecturas/lectura_c2_t_tiempo.tex,salida de tipo lecturas
+lectura_c2_validacion.tex,outputs/lectura_c2_validacion.tex,outputs/lecturas/lectura_c2_validacion.tex,salida de tipo lecturas
+lectura_r_barrido_pesos.tex,outputs/lectura_r_barrido_pesos.tex,outputs/lecturas/lectura_r_barrido_pesos.tex,salida de tipo lecturas
+mapa_caso_central.pdf,outputs/mapa_caso_central.pdf,outputs/figuras/mapa_caso_central.pdf,salida de tipo figuras
+mapa_caso_central.png,outputs/mapa_caso_central.png,outputs/figuras/mapa_caso_central.png,salida de tipo figuras
+mapa_red.pdf,outputs/mapa_red.pdf,outputs/figuras/mapa_red.pdf,salida de tipo figuras
+mapa_red.png,outputs/mapa_red.png,outputs/figuras/mapa_red.png,salida de tipo figuras
+c1_p10-16.png,outputs/muestras_formato/c1_p10-16.png,outputs/figuras/muestras_formato/c1_p10-16.png,muestras de formato (imágenes)
+c1_p4-9.png,outputs/muestras_formato/c1_p4-9.png,outputs/figuras/muestras_formato/c1_p4-9.png,muestras de formato (imágenes)
+c2_p10-15.png,outputs/muestras_formato/c2_p10-15.png,outputs/figuras/muestras_formato/c2_p10-15.png,muestras de formato (imágenes)
+c2_p16-21.png,outputs/muestras_formato/c2_p16-21.png,outputs/figuras/muestras_formato/c2_p16-21.png,muestras de formato (imágenes)
+c2_p22-27.png,outputs/muestras_formato/c2_p22-27.png,outputs/figuras/muestras_formato/c2_p22-27.png,muestras de formato (imágenes)
+c2_p28-28.png,outputs/muestras_formato/c2_p28-28.png,outputs/figuras/muestras_formato/c2_p28-28.png,muestras de formato (imágenes)
+c2_p28-29.png,outputs/muestras_formato/c2_p28-29.png,outputs/figuras/muestras_formato/c2_p28-29.png,muestras de formato (imágenes)
+c2_p4-9.png,outputs/muestras_formato/c2_p4-9.png,outputs/figuras/muestras_formato/c2_p4-9.png,muestras de formato (imágenes)
+nodos_red.json,outputs/nodos_red.json,outputs/datos/nodos_red.json,salida de tipo datos
+perfil_topologico.json,outputs/perfil_topologico.json,outputs/datos/perfil_topologico.json,salida de tipo datos
+pruebas_agente.json,outputs/pruebas_agente.json,outputs/datos/pruebas_agente.json,salida de tipo datos
+resultados_corte2.json,outputs/resultados_corte2.json,outputs/datos/resultados_corte2.json,salida de tipo datos
+riesgo_mortalidad_aristas.json,outputs/riesgo_mortalidad_aristas.json,outputs/datos/riesgo_mortalidad_aristas.json,salida de tipo datos
+rutas_central_compuesto_sin_riesgo.pdf,outputs/rutas_central_compuesto_sin_riesgo.pdf,outputs/figuras/rutas_central_compuesto_sin_riesgo.pdf,salida de tipo figuras
+rutas_central_compuesto_sin_riesgo.png,outputs/rutas_central_compuesto_sin_riesgo.png,outputs/figuras/rutas_central_compuesto_sin_riesgo.png,salida de tipo figuras
+rutas_central_distancia.pdf,outputs/rutas_central_distancia.pdf,outputs/figuras/rutas_central_distancia.pdf,salida de tipo figuras
+rutas_central_distancia.png,outputs/rutas_central_distancia.png,outputs/figuras/rutas_central_distancia.png,salida de tipo figuras
+sensibilidad_corte2.json,outputs/sensibilidad_corte2.json,outputs/datos/sensibilidad_corte2.json,salida de tipo datos
+tabla_ag_ampliada.tex,outputs/tabla_ag_ampliada.tex,outputs/tablas/tabla_ag_ampliada.tex,salida de tipo tablas
+tabla_ag_costos.tex,outputs/tabla_ag_costos.tex,outputs/tablas/tabla_ag_costos.tex,salida de tipo tablas
+tabla_ag_estructura.tex,outputs/tabla_ag_estructura.tex,outputs/tablas/tabla_ag_estructura.tex,salida de tipo tablas
+tabla_ag_recursos.tex,outputs/tabla_ag_recursos.tex,outputs/tablas/tabla_ag_recursos.tex,salida de tipo tablas
+tabla_ag_resumen.tex,outputs/tabla_ag_resumen.tex,outputs/tablas/tabla_ag_resumen.tex,salida de tipo tablas
+tabla_ag_sin_2opt.tex,outputs/tabla_ag_sin_2opt.tex,outputs/tablas/tabla_ag_sin_2opt.tex,salida de tipo tablas
+tabla_ag_umbral.tex,outputs/tabla_ag_umbral.tex,outputs/tablas/tabla_ag_umbral.tex,salida de tipo tablas
+tabla_agente_ejemplos.tex,outputs/tabla_agente_ejemplos.tex,outputs/tablas/tabla_agente_ejemplos.tex,salida de tipo tablas
+tabla_aristas.tex,outputs/tabla_aristas.tex,outputs/tablas/tabla_aristas.tex,salida de tipo tablas
+tabla_auditoria.tex,outputs/tabla_auditoria.tex,outputs/tablas/tabla_auditoria.tex,salida de tipo tablas
+tabla_c1_piso.tex,outputs/tabla_c1_piso.tex,outputs/tablas/tabla_c1_piso.tex,salida de tipo tablas
+tabla_c2_barrido.tex,outputs/tabla_c2_barrido.tex,outputs/tablas/tabla_c2_barrido.tex,salida de tipo tablas
+tabla_c2_barrido_total.tex,outputs/tabla_c2_barrido_total.tex,outputs/tablas/tabla_c2_barrido_total.tex,salida de tipo tablas
+tabla_c2_compuesto_costo.tex,outputs/tabla_c2_compuesto_costo.tex,outputs/tablas/tabla_c2_compuesto_costo.tex,salida de tipo tablas
+tabla_c2_compuesto_expandidos.tex,outputs/tabla_c2_compuesto_expandidos.tex,outputs/tablas/tabla_c2_compuesto_expandidos.tex,salida de tipo tablas
+tabla_c2_compuesto_memoria.tex,outputs/tabla_c2_compuesto_memoria.tex,outputs/tablas/tabla_c2_compuesto_memoria.tex,salida de tipo tablas
+tabla_c2_compuesto_mortalidad_costo.tex,outputs/tabla_c2_compuesto_mortalidad_costo.tex,outputs/tablas/tabla_c2_compuesto_mortalidad_costo.tex,salida de tipo tablas
+tabla_c2_compuesto_mortalidad_expandidos.tex,outputs/tabla_c2_compuesto_mortalidad_expandidos.tex,outputs/tablas/tabla_c2_compuesto_mortalidad_expandidos.tex,salida de tipo tablas
+tabla_c2_compuesto_mortalidad_memoria.tex,outputs/tabla_c2_compuesto_mortalidad_memoria.tex,outputs/tablas/tabla_c2_compuesto_mortalidad_memoria.tex,salida de tipo tablas
+tabla_c2_compuesto_mortalidad_optimalidad.tex,outputs/tabla_c2_compuesto_mortalidad_optimalidad.tex,outputs/tablas/tabla_c2_compuesto_mortalidad_optimalidad.tex,salida de tipo tablas
+tabla_c2_compuesto_mortalidad_tiempo.tex,outputs/tabla_c2_compuesto_mortalidad_tiempo.tex,outputs/tablas/tabla_c2_compuesto_mortalidad_tiempo.tex,salida de tipo tablas
+tabla_c2_compuesto_optimalidad.tex,outputs/tabla_c2_compuesto_optimalidad.tex,outputs/tablas/tabla_c2_compuesto_optimalidad.tex,salida de tipo tablas
+tabla_c2_compuesto_sin_riesgo_costo.tex,outputs/tabla_c2_compuesto_sin_riesgo_costo.tex,outputs/tablas/tabla_c2_compuesto_sin_riesgo_costo.tex,salida de tipo tablas
+tabla_c2_compuesto_sin_riesgo_expandidos.tex,outputs/tabla_c2_compuesto_sin_riesgo_expandidos.tex,outputs/tablas/tabla_c2_compuesto_sin_riesgo_expandidos.tex,salida de tipo tablas
+tabla_c2_compuesto_sin_riesgo_memoria.tex,outputs/tabla_c2_compuesto_sin_riesgo_memoria.tex,outputs/tablas/tabla_c2_compuesto_sin_riesgo_memoria.tex,salida de tipo tablas
+tabla_c2_compuesto_sin_riesgo_optimalidad.tex,outputs/tabla_c2_compuesto_sin_riesgo_optimalidad.tex,outputs/tablas/tabla_c2_compuesto_sin_riesgo_optimalidad.tex,salida de tipo tablas
+tabla_c2_compuesto_sin_riesgo_tiempo.tex,outputs/tabla_c2_compuesto_sin_riesgo_tiempo.tex,outputs/tablas/tabla_c2_compuesto_sin_riesgo_tiempo.tex,salida de tipo tablas
+tabla_c2_compuesto_tiempo.tex,outputs/tabla_c2_compuesto_tiempo.tex,outputs/tablas/tabla_c2_compuesto_tiempo.tex,salida de tipo tablas
+tabla_c2_compuesto_total_costo.tex,outputs/tabla_c2_compuesto_total_costo.tex,outputs/tablas/tabla_c2_compuesto_total_costo.tex,salida de tipo tablas
+tabla_c2_compuesto_total_expandidos.tex,outputs/tabla_c2_compuesto_total_expandidos.tex,outputs/tablas/tabla_c2_compuesto_total_expandidos.tex,salida de tipo tablas
+tabla_c2_compuesto_total_memoria.tex,outputs/tabla_c2_compuesto_total_memoria.tex,outputs/tablas/tabla_c2_compuesto_total_memoria.tex,salida de tipo tablas
+tabla_c2_compuesto_total_optimalidad.tex,outputs/tabla_c2_compuesto_total_optimalidad.tex,outputs/tablas/tabla_c2_compuesto_total_optimalidad.tex,salida de tipo tablas
+tabla_c2_compuesto_total_sin_riesgo_costo.tex,outputs/tabla_c2_compuesto_total_sin_riesgo_costo.tex,outputs/tablas/tabla_c2_compuesto_total_sin_riesgo_costo.tex,salida de tipo tablas
+tabla_c2_compuesto_total_sin_riesgo_expandidos.tex,outputs/tabla_c2_compuesto_total_sin_riesgo_expandidos.tex,outputs/tablas/tabla_c2_compuesto_total_sin_riesgo_expandidos.tex,salida de tipo tablas
+tabla_c2_compuesto_total_sin_riesgo_memoria.tex,outputs/tabla_c2_compuesto_total_sin_riesgo_memoria.tex,outputs/tablas/tabla_c2_compuesto_total_sin_riesgo_memoria.tex,salida de tipo tablas
+tabla_c2_compuesto_total_sin_riesgo_optimalidad.tex,outputs/tabla_c2_compuesto_total_sin_riesgo_optimalidad.tex,outputs/tablas/tabla_c2_compuesto_total_sin_riesgo_optimalidad.tex,salida de tipo tablas
+tabla_c2_compuesto_total_sin_riesgo_tiempo.tex,outputs/tabla_c2_compuesto_total_sin_riesgo_tiempo.tex,outputs/tablas/tabla_c2_compuesto_total_sin_riesgo_tiempo.tex,salida de tipo tablas
+tabla_c2_compuesto_total_tiempo.tex,outputs/tabla_c2_compuesto_total_tiempo.tex,outputs/tablas/tabla_c2_compuesto_total_tiempo.tex,salida de tipo tablas
+tabla_c2_costo_operativo_costo.tex,outputs/tabla_c2_costo_operativo_costo.tex,outputs/tablas/tabla_c2_costo_operativo_costo.tex,salida de tipo tablas
+tabla_c2_costo_operativo_expandidos.tex,outputs/tabla_c2_costo_operativo_expandidos.tex,outputs/tablas/tabla_c2_costo_operativo_expandidos.tex,salida de tipo tablas
+tabla_c2_costo_operativo_memoria.tex,outputs/tabla_c2_costo_operativo_memoria.tex,outputs/tablas/tabla_c2_costo_operativo_memoria.tex,salida de tipo tablas
+tabla_c2_costo_operativo_optimalidad.tex,outputs/tabla_c2_costo_operativo_optimalidad.tex,outputs/tablas/tabla_c2_costo_operativo_optimalidad.tex,salida de tipo tablas
+tabla_c2_costo_operativo_tiempo.tex,outputs/tabla_c2_costo_operativo_tiempo.tex,outputs/tablas/tabla_c2_costo_operativo_tiempo.tex,salida de tipo tablas
+tabla_c2_distancia_costo.tex,outputs/tabla_c2_distancia_costo.tex,outputs/tablas/tabla_c2_distancia_costo.tex,salida de tipo tablas
+tabla_c2_distancia_expandidos.tex,outputs/tabla_c2_distancia_expandidos.tex,outputs/tablas/tabla_c2_distancia_expandidos.tex,salida de tipo tablas
+tabla_c2_distancia_memoria.tex,outputs/tabla_c2_distancia_memoria.tex,outputs/tablas/tabla_c2_distancia_memoria.tex,salida de tipo tablas
+tabla_c2_distancia_optimalidad.tex,outputs/tabla_c2_distancia_optimalidad.tex,outputs/tablas/tabla_c2_distancia_optimalidad.tex,salida de tipo tablas
+tabla_c2_distancia_tiempo.tex,outputs/tabla_c2_distancia_tiempo.tex,outputs/tablas/tabla_c2_distancia_tiempo.tex,salida de tipo tablas
+tabla_c2_escenarios.tex,outputs/tabla_c2_escenarios.tex,outputs/tablas/tabla_c2_escenarios.tex,salida de tipo tablas
+tabla_c2_heuristica.tex,outputs/tabla_c2_heuristica.tex,outputs/tablas/tabla_c2_heuristica.tex,salida de tipo tablas
+tabla_c2_limitados.tex,outputs/tabla_c2_limitados.tex,outputs/tablas/tabla_c2_limitados.tex,salida de tipo tablas
+tabla_c2_razones.tex,outputs/tabla_c2_razones.tex,outputs/tablas/tabla_c2_razones.tex,salida de tipo tablas
+tabla_c2_riesgo_costo.tex,outputs/tabla_c2_riesgo_costo.tex,outputs/tablas/tabla_c2_riesgo_costo.tex,salida de tipo tablas
+tabla_c2_riesgo_expandidos.tex,outputs/tabla_c2_riesgo_expandidos.tex,outputs/tablas/tabla_c2_riesgo_expandidos.tex,salida de tipo tablas
+tabla_c2_riesgo_memoria.tex,outputs/tabla_c2_riesgo_memoria.tex,outputs/tablas/tabla_c2_riesgo_memoria.tex,salida de tipo tablas
+tabla_c2_riesgo_optimalidad.tex,outputs/tabla_c2_riesgo_optimalidad.tex,outputs/tablas/tabla_c2_riesgo_optimalidad.tex,salida de tipo tablas
+tabla_c2_riesgo_tiempo.tex,outputs/tabla_c2_riesgo_tiempo.tex,outputs/tablas/tabla_c2_riesgo_tiempo.tex,salida de tipo tablas
+tabla_c2_sensibilidad_alfa.tex,outputs/tabla_c2_sensibilidad_alfa.tex,outputs/tablas/tabla_c2_sensibilidad_alfa.tex,salida de tipo tablas
+tabla_c2_sensibilidad_cruda.tex,outputs/tabla_c2_sensibilidad_cruda.tex,outputs/tablas/tabla_c2_sensibilidad_cruda.tex,salida de tipo tablas
+tabla_criterios.tex,outputs/tabla_criterios.tex,outputs/tablas/tabla_criterios.tex,salida de tipo tablas
+tabla_estadisticas.tex,outputs/tabla_estadisticas.tex,outputs/tablas/tabla_estadisticas.tex,salida de tipo tablas
+tabla_r_barrido_pesos.tex,outputs/tabla_r_barrido_pesos.tex,outputs/tablas/tabla_r_barrido_pesos.tex,salida de tipo tablas
+tabla_r_cambio_sin_riesgo.tex,outputs/tabla_r_cambio_sin_riesgo.tex,outputs/tablas/tabla_r_cambio_sin_riesgo.tex,salida de tipo tablas
+tabla_r_criterios_heuristica.tex,outputs/tabla_r_criterios_heuristica.tex,outputs/tablas/tabla_r_criterios_heuristica.tex,salida de tipo tablas
+tabla_r_distancia.tex,outputs/tabla_r_distancia.tex,outputs/tablas/tabla_r_distancia.tex,salida de tipo tablas
+tabla_r_no_optimos.tex,outputs/tabla_r_no_optimos.tex,outputs/tablas/tabla_r_no_optimos.tex,salida de tipo tablas
+tabla_r_nodos.tex,outputs/tabla_r_nodos.tex,outputs/tablas/tabla_r_nodos.tex,salida de tipo tablas
+tabla_r_pruebas_ciclo.tex,outputs/tabla_r_pruebas_ciclo.tex,outputs/tablas/tabla_r_pruebas_ciclo.tex,salida de tipo tablas
+tabla_r_sobrecosto.tex,outputs/tabla_r_sobrecosto.tex,outputs/tablas/tabla_r_sobrecosto.tex,salida de tipo tablas
+tabla_r_tiempos.tex,outputs/tabla_r_tiempos.tex,outputs/tablas/tabla_r_tiempos.tex,salida de tipo tablas
+tabla_r_umbral_costo.tex,outputs/tabla_r_umbral_costo.tex,outputs/tablas/tabla_r_umbral_costo.tex,salida de tipo tablas
+tabla_r_umbral_sesiones.tex,outputs/tabla_r_umbral_sesiones.tex,outputs/tablas/tabla_r_umbral_sesiones.tex,salida de tipo tablas
+tabla_rutas.tex,outputs/tabla_rutas.tex,outputs/tablas/tabla_rutas.tex,salida de tipo tablas
+texto_c1_cambio_sin_riesgo.tex,outputs/texto_c1_cambio_sin_riesgo.tex,outputs/lecturas/texto_c1_cambio_sin_riesgo.tex,salida de tipo lecturas
+texto_c1_caso_referencia.tex,outputs/texto_c1_caso_referencia.tex,outputs/lecturas/texto_c1_caso_referencia.tex,salida de tipo lecturas
+texto_c2_dinero.tex,outputs/texto_c2_dinero.tex,outputs/lecturas/texto_c2_dinero.tex,salida de tipo lecturas
+texto_cambio_sin_riesgo.tex,outputs/texto_cambio_sin_riesgo.tex,outputs/lecturas/texto_cambio_sin_riesgo.tex,salida de tipo lecturas
+texto_ejemplo_agente.tex,outputs/texto_ejemplo_agente.tex,outputs/lecturas/texto_ejemplo_agente.tex,salida de tipo lecturas
+texto_perfil_topologico.tex,outputs/texto_perfil_topologico.tex,outputs/lecturas/texto_perfil_topologico.tex,salida de tipo lecturas
+trazado_aristas.json,outputs/trazado_aristas.json,outputs/datos/trazado_aristas.json,salida de tipo datos
+umbral_held_karp.json,outputs/umbral_held_karp.json,outputs/datos/umbral_held_karp.json,salida de tipo datos
+umbral_sesion_1.json,outputs/umbral_sesion_1.json,outputs/datos/umbral_sesion_1.json,salida de tipo datos
+umbral_sesion_2.json,outputs/umbral_sesion_2.json,outputs/datos/umbral_sesion_2.json,salida de tipo datos
+umbral_sesion_3.json,outputs/umbral_sesion_3.json,outputs/datos/umbral_sesion_3.json,salida de tipo datos
+validacion_agente.csv,outputs/validacion_agente.csv,outputs/datos/validacion_agente.csv,salida de tipo datos
+validacion_agente.json,outputs/validacion_agente.json,outputs/datos/validacion_agente.json,salida de tipo datos
+validacion_riesgo_mortalidad.json,outputs/validacion_riesgo_mortalidad.json,outputs/datos/validacion_riesgo_mortalidad.json,salida de tipo datos
+verificacion_coordenadas.csv,outputs/verificacion_coordenadas.csv,outputs/datos/verificacion_coordenadas.csv,salida de tipo datos
+verificacion_estructura.json,outputs/verificacion_estructura.json,outputs/datos/verificacion_estructura.json,salida de tipo datos
+requirements.txt,requirements.txt,requirements.txt,sin cambio de lugar
+agente.py,src/_archivo_transmilenio/agente.py,src/_archivo_transmilenio/agente.py,sin cambio de lugar
+build_graph.py,src/_archivo_transmilenio/build_graph.py,src/_archivo_transmilenio/build_graph.py,sin cambio de lugar
+graficar_rutas_beta.py,src/_archivo_transmilenio/graficar_rutas_beta.py,src/_archivo_transmilenio/graficar_rutas_beta.py,sin cambio de lugar
+pruebas_agente.py,src/_archivo_transmilenio/pruebas_agente.py,src/_archivo_transmilenio/pruebas_agente.py,sin cambio de lugar
+visualizar_red.py,src/_archivo_transmilenio/visualizar_red.py,src/_archivo_transmilenio/visualizar_red.py,sin cambio de lugar
+visualizar_ruta.py,src/_archivo_transmilenio/visualizar_ruta.py,src/_archivo_transmilenio/visualizar_ruta.py,sin cambio de lugar
+aco_multiparada.py,src/aco_multiparada.py,src/aco_multiparada.py,núcleo: lo que importa el agente o construye la red
+agente.py,src/agente.py,src/agente.py,núcleo: lo que importa el agente o construye la red
+agente_rutas.py,src/agente_rutas.py,src/agente_rutas.py,núcleo: lo que importa el agente o construye la red
+auditar_aristas.py,src/auditar_aristas.py,experimentos/auditar_aristas.py,produce resultados (corridas y auditorías)
+auditar_distancias.py,src/auditar_distancias.py,experimentos/auditar_distancias.py,produce resultados (corridas y auditorías)
+build_graph.py,src/build_graph.py,src/build_graph.py,núcleo: lo que importa el agente o construye la red
+busquedas.py,src/busquedas.py,src/busquedas.py,núcleo: lo que importa el agente o construye la red
+candidatos_tablas.py,src/candidatos_tablas.py,informe/candidatos_tablas.py,"arma tablas, lecturas, figuras o formato de los informes"
+cifras_movidas.py,src/cifras_movidas.py,informe/cifras_movidas.py,"arma tablas, lecturas, figuras o formato de los informes"
+comparar_resultados.py,src/comparar_resultados.py,pruebas/comparar_resultados.py,prueba o verifica
+construir_red.py,src/construir_red.py,src/construir_red.py,núcleo: lo que importa el agente o construye la red
+cruce_mortalidad.py,src/cruce_mortalidad.py,src/cruce_mortalidad.py,núcleo: lo que importa el agente o construye la red
+demostracion.py,src/demostracion.py,src/demostracion.py,núcleo: lo que importa el agente o construye la red
+despachador.py,src/despachador.py,src/despachador.py,núcleo: lo que importa el agente o construye la red
+diagrama_red.py,src/diagrama_red.py,src/diagrama_red.py,"dibuja el diagrama de la red (informe), pero mapa_geografico.py importa aristas_del_ciclo y la construcción de la red importa mapa_geografico; se deja en src"
+empaquetar.py,src/empaquetar.py,src/empaquetar.py,utilidad de entrega; no es ni ejecución ni informe; se deja en src
+experimentos_corte2.py,src/experimentos_corte2.py,experimentos/experimentos_corte2.py,produce resultados (corridas y auditorías)
+exportar_latex.py,src/exportar_latex.py,informe/exportar_latex.py,"arma tablas, lecturas, figuras o formato de los informes"
+figuras_informe.py,src/figuras_informe.py,informe/figuras_informe.py,"arma tablas, lecturas, figuras o formato de los informes"
+formato_latex.py,src/formato_latex.py,informe/formato_latex.py,"arma tablas, lecturas, figuras o formato de los informes"
+held_karp.py,src/held_karp.py,src/held_karp.py,núcleo: lo que importa el agente o construye la red
+heuristica.py,src/heuristica.py,src/heuristica.py,núcleo: lo que importa el agente o construye la red
+lecturas_informe.py,src/lecturas_informe.py,informe/lecturas_informe.py,"arma tablas, lecturas, figuras o formato de los informes"
+mapa_geografico.py,src/mapa_geografico.py,src/mapa_geografico.py,"dibuja los mapas del informe, pero construir_red.py y cruce_mortalidad.py importan su trazado; se deja en src"
+matriz_costos.py,src/matriz_costos.py,src/matriz_costos.py,núcleo: lo que importa el agente o construye la red
+medir_umbral.py,src/medir_umbral.py,experimentos/medir_umbral.py,produce resultados (corridas y auditorías)
+obtener_coordenadas.py,src/obtener_coordenadas.py,src/obtener_coordenadas.py,núcleo: lo que importa el agente o construye la red
+perfil_topologico.py,src/perfil_topologico.py,experimentos/perfil_topologico.py,produce resultados (corridas y auditorías)
+piso_geodesico.py,src/piso_geodesico.py,src/piso_geodesico.py,núcleo: lo que importa el agente o construye la red
+pruebas_agente.py,src/pruebas_agente.py,pruebas/pruebas_agente.py,prueba o verifica
+pruebas_agente_rutas.py,src/pruebas_agente_rutas.py,pruebas/pruebas_agente_rutas.py,prueba o verifica
+pruebas_busquedas.py,src/pruebas_busquedas.py,pruebas/pruebas_busquedas.py,prueba o verifica
+pruebas_costos.py,src/pruebas_costos.py,pruebas/pruebas_costos.py,prueba o verifica
+pruebas_criterio.py,src/pruebas_criterio.py,pruebas/pruebas_criterio.py,prueba o verifica
+pruebas_despachador.py,src/pruebas_despachador.py,pruebas/pruebas_despachador.py,prueba o verifica
+pruebas_figuras.py,src/pruebas_figuras.py,pruebas/pruebas_figuras.py,prueba o verifica
+pruebas_formato.py,src/pruebas_formato.py,pruebas/pruebas_formato.py,prueba o verifica
+pruebas_mapa.py,src/pruebas_mapa.py,pruebas/pruebas_mapa.py,prueba o verifica
+pruebas_orden_libre.py,src/pruebas_orden_libre.py,pruebas/pruebas_orden_libre.py,prueba o verifica
+pruebas_perfil_topologico.py,src/pruebas_perfil_topologico.py,pruebas/pruebas_perfil_topologico.py,prueba o verifica
+pruebas_piso.py,src/pruebas_piso.py,pruebas/pruebas_piso.py,prueba o verifica
+pruebas_progresivas.py,src/pruebas_progresivas.py,pruebas/pruebas_progresivas.py,prueba o verifica
+pruebas_tabla_heuristica.py,src/pruebas_tabla_heuristica.py,pruebas/pruebas_tabla_heuristica.py,prueba o verifica
+pruebas_tablas_resumen.py,src/pruebas_tablas_resumen.py,pruebas/pruebas_tablas_resumen.py,prueba o verifica
+tablas_agente.py,src/tablas_agente.py,informe/tablas_agente.py,"arma tablas, lecturas, figuras o formato de los informes"
+tablas_corte2.py,src/tablas_corte2.py,informe/tablas_corte2.py,"arma tablas, lecturas, figuras o formato de los informes"
+tablas_resumen.py,src/tablas_resumen.py,informe/tablas_resumen.py,"arma tablas, lecturas, figuras o formato de los informes"
+umbral_costo.py,src/umbral_costo.py,src/umbral_costo.py,núcleo: lo que importa el agente o construye la red
+validacion_agente.py,src/validacion_agente.py,experimentos/validacion_agente.py,produce resultados (corridas y auditorías)
+verificar_cifras.py,src/verificar_cifras.py,pruebas/verificar_cifras.py,prueba o verifica
+verificar_estructura.py,src/verificar_estructura.py,experimentos/verificar_estructura.py,produce resultados (corridas y auditorías)
+visualizar_rutas.py,src/visualizar_rutas.py,informe/visualizar_rutas.py,"arma tablas, lecturas, figuras o formato de los informes"
+rutas.py,(nuevo),src/rutas.py,rutas centrales de entrada y salida

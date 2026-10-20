@@ -5,18 +5,18 @@ Uso:
 
 Incluye solo lo versionado (nada de .git ni venv, que no lo están) y excluye
 el material del dominio anterior (_archivo_transmilenio), las muestras del
-estilo de tablas (outputs/muestras_formato) y los documentos de terceros
+estilo de tablas (muestras_formato) y los documentos de terceros
 (PDF, Word y Excel fuera de outputs, como los de la CREG y la UPME, cuyas URL
 y SHA-256 están en data/carga/FUENTES_NUEVAS.md). Los PDF de los informes en
 la raíz y en outputs sí se incluyen. El contenido de cada archivo es el del
 árbol de trabajo, que debe coincidir con el último commit.
 """
+from rutas import RAIZ
 import subprocess
 import sys
 import zipfile
 from pathlib import Path
 
-RAIZ = Path(__file__).resolve().parent.parent
 PREFIJO = "ProyectoIA"
 DESTINO = RAIZ.parent / "Proyecto_IA_Corte2.zip"
 TERCEROS = (".docx", ".xlsx", ".doc", ".xls")
@@ -26,7 +26,7 @@ def excluido(ruta):
     partes = ruta.split("/")
     if "_archivo_transmilenio" in partes:
         return True
-    if ruta.startswith("outputs/muestras_formato"):
+    if "muestras_formato" in partes:
         return True
     if ruta.lower().endswith(TERCEROS):
         return True

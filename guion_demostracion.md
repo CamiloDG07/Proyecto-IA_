@@ -15,12 +15,12 @@ Mostrar: 32 nodos, 32 aristas, 1 ciclo; el agente devuelve, para Duitama a
 Puente Nacional, la ruta por Bogotá con `distancia` y `compuesto_sin_riesgo`
 (370.54 km) y la ruta por Santander con `peaje`, `riesgo` y `compuesto`
 (654.25 km). Los criterios nuevos `costo_operativo` y `compuesto_total_sin_riesgo`
-eligen Bogotá; `compuesto_total` elige Santander. Abrir `outputs\diagrama_red.png` para señalar el ciclo.
+eligen Bogotá; `compuesto_total` elige Santander. Abrir `outputs\figuras\diagrama_red.png` para señalar el ciclo.
 
 ## 2. Corrección de los algoritmos (1 min)
 
 ```
-python src/pruebas_busquedas.py
+python pruebas/pruebas_busquedas.py
 ```
 
 Mostrar que BFS, DFS, UCS, voraz y A* (programados desde cero) coinciden con
@@ -34,14 +34,14 @@ python src/heuristica.py
 ```
 
 Mostrar: con el piso geodésico (la distancia de cada arista no es menor que la
-recta entre sus nodos: 8 aristas se corrigen, `outputs\aristas_piso_geodesico.csv`)
+recta entre sus nodos: 8 aristas se corrigen, `outputs\datos\aristas_piso_geodesico.csv`)
 alfa = 1 por construcción; 0 violaciones de admisibilidad y de consistencia en las
 siete heurísticas y margen mínimo cero en la distancia (una arista con piso mide
 la propia recta). Sin el piso (sensibilidad), alfa = 0.310570, determinado
 por Chocontá a Tunja (sector truncado en la fuente, 17.69 km); con la geodésica
 pura (alfa = 1) y sin piso hay 66 violaciones de admisibilidad y
-141 de consistencia (`outputs\analisis_heuristica.json`). La
-prueba `python src/pruebas_piso.py` verifica el invariante y que A* con piso no
+141 de consistencia (`outputs\datos\analisis_heuristica.json`). La
+prueba `python pruebas/pruebas_piso.py` verifica el invariante y que A* con piso no
 hace ninguna reexpansión en los 992 pares.
 
 ## 4. Comparación en vivo (3 min)
@@ -69,7 +69,7 @@ diferencias de ruta entre algoritmos.
 
 ## 5. Rutas y barrido de pesos (1 min)
 
-Abrir `outputs\rutas_central_distancia.png` y `outputs\barrido_pesos_base.png`:
+Abrir `outputs\figuras\rutas_central_distancia.png` y `outputs\figuras\barrido_pesos_base.png`:
 la ruta de cada algoritmo sobre las coordenadas oficiales y la frontera
 exacta entre las dos rutas (17 de 66 puntos de la malla favorecen la ruta por
 Bogotá con el piso geodésico; la frontera con riesgo en cero está en
@@ -120,16 +120,16 @@ en pesos es un piso porque los otros costos por km valen 0 como supuesto.
 
 ## 7. Perfil de la red y casos por tipo de par (5 min)
 
-`python src/perfil_topologico.py` calcula, sobre los 496 pares, cuántos
+`python experimentos/perfil_topologico.py` calcula, sobre los 496 pares, cuántos
 tienen uno o dos caminos simples y cuántos son de paso obligatorio, de atajo
-o de camino único; escribe `outputs\perfil_topologico.json`. En la red de 32
+o de camino único; escribe `outputs\datos\perfil_topologico.json`. En la red de 32
 nodos: 111 pares con un camino y
 385 con dos;
 374 de paso obligatorio,
 105 con atajo y
 17 de camino único;
 10 puntos de articulación. La prueba
-`python src/pruebas_perfil_topologico.py` lo contrasta con una enumeración
+`python pruebas/pruebas_perfil_topologico.py` lo contrasta con una enumeración
 independiente.
 
 El margen es la diferencia porcentual del costo compuesto sin riesgo entre la
@@ -427,13 +427,13 @@ python src/demostracion.py despachador c Duitama --destino "Puente Nacional" --o
 | Tipo d con cinco paradas | Held-Karp, porque k = 5 es menor o igual que el umbral medido (K = 19); el motivo y las métricas salen en la respuesta |
 | Tipo c con obligatoria y tramo bloqueado | El orden queda determinado (una obligatoria) y el tramo bloqueado se excluye de todas las búsquedas |
 
-Umbral: `outputs\umbral_held_karp.json` combina las sesiones guardadas
-(`outputs\umbral_sesion_N.json`) y toma el mayor k dentro del presupuesto en
+Umbral: `outputs\datos\umbral_held_karp.json` combina las sesiones guardadas
+(`outputs\datos\umbral_sesion_N.json`) y toma el mayor k dentro del presupuesto en
 todas ellas. Aclarar que los tiempos dependen del estado de la máquina; la
 tabla del informe muestra la mediana de cada sesión.
 
 ACO: tipos d y e con más de 20 paradas libres, o con matriz asimétrica (sin
-2-opt). Validación en `outputs\validacion_agente.json`: en la red de carga
+2-opt). Validación en `outputs\datos\validacion_agente.json`: en la red de carga
 alcanza la referencia en las 130 semillas; en las euclidianas con n = 20
 (semillas 1 a 5), brecha media de 0.040 % con 2-opt (48 de 50 semillas) y de 0.357 %
 sin 2-opt (32 de 50); con la ciudad de salida fija, sin 2-opt, 2.212 % (1 de
@@ -452,8 +452,8 @@ instancias.
 ## 9. Resultados completos y limitaciones (1 min)
 
 ```
-python src/experimentos_corte2.py
-python src/tablas_corte2.py
+python experimentos/experimentos_corte2.py
+python informe/tablas_corte2.py
 ```
 
 (Tarda cerca de un minuto: 2000 repeticiones por celda.) Cerrar con las

@@ -22,7 +22,7 @@
 
 \geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
-\graphicspath{{data/}{outputs/}}
+\graphicspath{{data/}{outputs/figuras/}}
 
 % bloque "Cómo leerla" de figuras y tablas de resultados
 \newcommand{\comoleerla}[3]{%
@@ -103,7 +103,7 @@ La red modelada tiene 32 ciudades y 32 tramos (Tabla~\ref{tab:estadisticas}).
 Es un grafo no dirigido, conexo y con exactamente un ciclo independiente
 ($E-V+1=1$). Ese ciclo, que cierra por Santander, permite que algunos pares
 de ciudades tengan dos rutas reales distintas.
-\input{outputs/texto_c1_caso_referencia.tex}
+\input{outputs/lecturas/texto_c1_caso_referencia.tex}
 
 \section{Modelo PEAS}
 
@@ -302,7 +302,7 @@ Bucaramanga, San Gil, Puente Nacional, Ubaté y Zipaquirá.
 
 \textbf{Detalle de las aristas.} El detalle de las 32 aristas (distancia,
 peaje y riesgo de cada una) está en el archivo
-\texttt{outputs/aristas\_red.json}.
+\texttt{outputs/datos/aristas\_red.json}.
 
 \begin{figure}[H]
     \centering
@@ -311,7 +311,7 @@ peaje y riesgo de cada una) está en el archivo
     trazado de INVÍAS, los límites departamentales del DANE~\cite{mgn} y las
     coordenadas DIVIPOLA}
     \label{fig:red}
-    \input{outputs/lectura_c1_mapa.tex}
+    \input{outputs/lecturas/lectura_c1_mapa.tex}
 \end{figure}
 
 La Figura~\ref{fig:cobertura} muestra qué aristas tienen dato de riesgo, cuáles tienen peaje y cuáles marca la auditoría geométrica.
@@ -321,14 +321,14 @@ La Figura~\ref{fig:cobertura} muestra qué aristas tienen dato de riesgo, cuále
     \includegraphics[width=\textwidth]{fig_cobertura.pdf}
     \caption{Cobertura de riesgo y peaje por arista y aristas marcadas por la auditoría. Fuente: elaboración propia}
     \label{fig:cobertura}
-    \input{outputs/lectura_c1_fig_cobertura.tex}
+    \input{outputs/lecturas/lectura_c1_fig_cobertura.tex}
 \end{figure}
 
 \begin{table}[H]
 \centering
 \caption{Estadísticas del grafo}
 \label{tab:estadisticas}
-\input{outputs/tabla_estadisticas.tex}
+\input{outputs/tablas/tabla_estadisticas.tex}
 \end{table}
 
 \section{Costo compuesto}
@@ -446,7 +446,7 @@ archivo de insumos \texttt{config\_costos.json}:
 \texttt{aristas\_red.json} y \texttt{nodos\_red.json}; el cruce de mortalidad
 está en \texttt{cruce\_mortalidad.py}.
 \item \texttt{build\_graph.py}: construye el grafo, calcula los pesos y lo
-guarda en \texttt{outputs/grafo\_carga.gpickle}.
+guarda en \texttt{outputs/datos/grafo\_carga.gpickle}.
 \item \texttt{agente.py}: clase \texttt{AgenteRutas} con el método
 \texttt{calcular\_ruta(origen, destino, criterio, tramos\_bloqueados)}. Los
 criterios son \texttt{distancia}, \texttt{peaje}, \texttt{riesgo},
@@ -457,7 +457,7 @@ criterios son \texttt{distancia}, \texttt{peaje}, \texttt{riesgo},
 \texttt{networkx.shortest\_path} (Dijkstra) sobre el atributo del criterio,
 y mide el tiempo con \texttt{time.perf\_counter()} y la memoria pico con
 \texttt{tracemalloc}.
-\item \texttt{pruebas\_agente.py} y \texttt{pruebas\_costos.py}: pruebas sobre
+\item \texttt{pruebas/pruebas\_agente.py} y \texttt{pruebas/pruebas\_costos.py}: pruebas sobre
 los 32 nodos y sobre el costo monetario.
 \end{itemize}
 
@@ -466,7 +466,7 @@ disponible, que es la forma de obligar al agente a usar el desvío.
 
 \section{Pruebas}
 
-Las pruebas (\texttt{src/pruebas\_agente.py}) cubren tres grupos de casos y
+Las pruebas (\texttt{pruebas/pruebas\_agente.py}) cubren tres grupos de casos y
 todas pasan:
 
 \begin{itemize}
@@ -488,10 +488,10 @@ desconocido y destino aislado por un bloqueo producen un error explícito.
 \caption{Distancia de las rutas óptimas que cruzan el ciclo, con el modelo y con las distancias sin corregir (con el piso). Fuente: elaboración propia}
 \label{tab:pruebas-ciclo}
 \footnotesize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_r_pruebas_ciclo.tex}
+\input{outputs/tablas/tabla_r_pruebas_ciclo.tex}
 \end{table}
 
-Las pruebas del costo monetario (\texttt{src/pruebas\_costos.py}) comprueban
+Las pruebas del costo monetario (\texttt{pruebas/pruebas\_costos.py}) comprueban
 que el costo variable de cada ruta es la suma de sus aristas, que el umbral de
 248.8 COP por km separa exactamente las dos rutas (por encima gana Bogotá y
 por debajo el desvío) y que las opciones de consola con valores inválidos
@@ -506,8 +506,8 @@ memoria son de esa corrida única y se registran solo como referencia.
 \caption{Duitama a Puente Nacional según el criterio (una corrida)}
 \label{tab:criterios}
 \small\setlength{\tabcolsep}{2pt}
-\input{outputs/tabla_criterios.tex}
-\input{outputs/lectura_c1_criterios.tex}
+\input{outputs/tablas/tabla_criterios.tex}
+\input{outputs/lecturas/lectura_c1_criterios.tex}
 \end{table}
 
 Con la distancia, el costo compuesto sin riesgo, el costo operativo (peaje más
@@ -522,7 +522,7 @@ peaje; el combustible y el costo operativo de cada ruta están en la tabla.
 \item El criterio de riesgo lo prefiere porque los siete tramos del desvío no
 tienen dato de riesgo y valen 0, no porque se haya medido que es más seguro.
 Es el sesgo descrito en la sección del costo compuesto.
-\item \input{outputs/texto_c1_cambio_sin_riesgo.tex} La corrección de
+\item \input{outputs/lecturas/texto_c1_cambio_sin_riesgo.tex} La corrección de
 distancias cambia esa decisión.
 \end{itemize}
 
@@ -531,8 +531,8 @@ distancias cambia esa decisión.
 \caption{Las dos rutas reales de Duitama a Puente Nacional}
 \label{tab:rutas}
 \small
-\input{outputs/tabla_rutas.tex}
-\input{outputs/lectura_c1_rutas.tex}
+\input{outputs/tablas/tabla_rutas.tex}
+\input{outputs/lecturas/lectura_c1_rutas.tex}
 \end{table}
 
 La Figura~\ref{fig:casos} compara las dos rutas reales del caso anterior con las cifras de la Tabla~\ref{tab:rutas}.
@@ -542,7 +542,7 @@ La Figura~\ref{fig:casos} compara las dos rutas reales del caso anterior con las
     \includegraphics[width=\textwidth]{fig_c1_casos.pdf}
     \caption{Rutas de Duitama a Puente Nacional por Bogotá y por Santander, con distancia, peaje y tiempo. Fuente: elaboración propia}
     \label{fig:casos}
-    \input{outputs/lectura_c1_fig_casos.tex}
+    \input{outputs/lecturas/lectura_c1_fig_casos.tex}
 \end{figure}
 
 \section{Auditoría geométrica de las aristas}
@@ -622,7 +622,7 @@ con datos oficiales o con una cota física (la recta entre los nodos).
 distancia del modelo y causa}
 \label{tab:piso}
 \small\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_c1_piso.tex}
+\input{outputs/tablas/tabla_c1_piso.tex}
 \end{table}
 
 La Figura~\ref{fig:coherencia} contrasta, arista por arista, la distancia por carretera con la geodésica.
@@ -632,12 +632,12 @@ La Figura~\ref{fig:coherencia} contrasta, arista por arista, la distancia por ca
     \includegraphics[width=\textwidth]{fig_c1_coherencia.pdf}
     \caption{Distancia por carretera contra distancia geodésica de las 32 aristas, con el piso geodésico (el triángulo vacío es la distancia oficial de una arista con piso). Fuente: elaboración propia}
     \label{fig:coherencia}
-    \input{outputs/lectura_c1_fig_coherencia.tex}
+    \input{outputs/lecturas/lectura_c1_fig_coherencia.tex}
 \end{figure}
 
 \subsection{Aristas marcadas por la auditoría}
 
-Las 32 aristas auditadas están en \texttt{outputs/auditoria\_aristas.csv}; la
+Las 32 aristas auditadas están en \texttt{outputs/datos/auditoria\_aristas.csv}; la
 Tabla~\ref{tab:auditoria} lista las que tienen alguna marca, con la distancia
 por carretera del grafo, la geodésica, su razón y la mayor separación entre un
 extremo de la geometría del sector y su nodo (Ext.), todas en km. Marcas:
@@ -654,8 +654,8 @@ extremo de la geometría del sector y su nodo (Ext.), todas en km. Marcas:
 \caption{Aristas marcadas por la auditoría geométrica}
 \label{tab:auditoria}
 \small\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_auditoria.tex}
-\input{outputs/lectura_c1_auditoria.tex}
+\input{outputs/tablas/tabla_auditoria.tex}
+\input{outputs/lecturas/lectura_c1_auditoria.tex}
 \end{table}
 
 \section{Registro de decisiones de diseño}
