@@ -1193,7 +1193,126 @@ def fig_c1_casos(grafo, trazado):
     return fig
 
 
+FUENTE_RED = 7.0   # letra mínima del diagrama de la red
+
+
+def caja_texto(fig, ax, x, y, texto, tam, **kw):
+    """Crea un texto en (x, y) de datos y devuelve (texto, caja en px)."""
+    t = ax.text(x, y, texto, fontsize=tam, ha="center", va="center",
+                color=TINTA, zorder=8, **kw)
+    fig.canvas.draw()
+    bb = t.get_window_extent(fig.canvas.get_renderer())
+    return t, (bb.x0, bb.y0, bb.x1, bb.y1)
+
+
+def area_comun(a, b):
+    return (max(0, min(a[2], b[2]) - max(a[0], b[0]))
+            * max(0, min(a[3], b[3]) - max(a[1], b[1])))
+
+
+def fig_red(grafo, trazado):
+    """Diagrama esquemático de la red: 32 nodos y 32 aristas con su distancia
+    del modelo, el ciclo resaltado y las aristas con piso marcadas."""
+    pos = disposicion(grafo)
+    ciclo = nx.cycle_basis(grafo)[0]
+    en_ciclo = {frozenset(p) for p in zip(ciclo, ciclo[1:] + ciclo[:1])}
+    piso = {frozenset((u, v)) for u, v, d in grafo.edges(data=True)
+            if d["distancia_piso_aplicado"]}
+    xs = [p[0] for p in pos.values()]
+    ys = [p[1] for p in pos.values()]
+    fig = plt.figure(figsize=(ANCHO_IN, 6.9), facecolor=SUPERFICIE)
+    ax = fig.add_axes([0.0, 0.11, 1.0, 0.89])
+    ax.set_xlim(min(xs) - 0.35, max(xs) + 0.5)
+    ax.set_ylim(min(ys) - 0.12, max(ys) + 0.12)
+    ax.set_aspect(1)
+    ax.axis("off")
+    fig.fuente_minima = FUENTE_RED
+    fig.solapes, fig.cajas = 0, []
+    for u, v in grafo.edges:
+        marca = frozenset((u, v))
+        lw, color = (3.2, AZUL) if marca in en_ciclo else (1.2, GRIS_VIA)
+        ax.plot([pos[u][0], pos[v][0]], [pos[u][1], pos[v][1]],
+                color=color, lw=lw, zorder=2, solid_capstyle="round")
+        if marca in piso:
+            ax.plot([pos[u][0], pos[v][0]], [pos[u][1], pos[v][1]],
+                    color=NARANJA, lw=1.4, ls=(0, (2.5, 2)), zorder=3)
+    ax.scatter([p[0] for p in pos.values()], [p[1] for p in pos.values()],
+               s=26, color=SUPERFICIE, edgecolor=TINTA, lw=0.9, zorder=5)
+    fig.canvas.draw()
+    nodos_px = [ax.transData.transform(p) for p in pos.values()]
+    ocupados = [(p[0] - 4, p[1] - 4, p[0] + 4, p[1] + 4) for p in nodos_px]
+    # distancias de las aristas, sobre el punto medio y sin montarse
+    aristas = sorted(grafo.edges(data=True),
+                     key=lambda e: np.hypot(pos[e[0]][0] - pos[e[1]][0],
+                                            pos[e[0]][1] - pos[e[1]][1]))
+    for u, v, d in aristas:
+        con_piso = frozenset((u, v)) in piso
+        texto = f"{d['distancia_km']:.1f}" + ("†" if con_piso else "")
+        mejor = None
+        for t in (0.5, 0.4, 0.6, 0.3, 0.7, 0.2, 0.8):
+            x = pos[u][0] + t * (pos[v][0] - pos[u][0])
+            y = pos[u][1] + t * (pos[v][1] - pos[u][1])
+            obj, caja = caja_texto(
+                fig, ax, x, y, texto, FUENTE_RED,
+                fontweight="bold" if con_piso else "normal",
+                bbox=dict(boxstyle="round,pad=0.12", fc=SUPERFICIE,
+                          ec=NARANJA if con_piso else "none", lw=0.7))
+            sol = sum(area_comun(caja, o) for o in ocupados)
+            if mejor is None or sol < mejor[0]:
+                if mejor is not None:
+                    mejor[1].remove()
+                mejor = (sol, obj, caja)
+            else:
+                obj.remove()
+            if sol == 0:
+                break
+        ocupados.append(mejor[2])
+        if mejor[0] > 0:
+            fig.solapes += 1
+    fijos = list(ocupados[len(nodos_px):])
+    items = [(pos[n][0], pos[n][1], corto(n), n in ("Bogotá",))
+             for n in grafo]
+    s, c = rotular(ax, fig, items, fijos=fijos, tam=FUENTE_RED)
+    unir_cajas(fig, c, s)
+    entradas = [
+        Line2D([0], [0], color=AZUL, lw=3.2, label="Ciclo (anillo)"),
+        Line2D([0], [0], color=GRIS_VIA, lw=1.2, label="Resto de la red"),
+        Line2D([0], [0], color=NARANJA, lw=1.4, ls=(0, (2.5, 2)),
+               label="Arista con piso geodésico (†)"),
+        Line2D([0], [0], marker="o", color="none", mfc=SUPERFICIE,
+               mec=TINTA, ms=5, label="Ciudad (nodo)")]
+    leyenda = fig.legend(handles=entradas, loc="lower center", ncol=2,
+                         fontsize=FUENTE_RED, frameon=True,
+                         facecolor=SUPERFICIE, edgecolor=GRIS_LIMITE,
+                         title="Distancia del modelo de cada arista (km)",
+                         title_fontsize=FUENTE_RED, columnspacing=1.4,
+                         borderpad=0.5, labelspacing=0.4,
+                         bbox_to_anchor=(0.5, 0.0))
+    fig.canvas.draw()
+    caja = leyenda.get_window_extent(fig.canvas.get_renderer())
+    unir_cajas(fig, [("leyenda", (caja.x0, caja.y0, caja.x1, caja.y1))], 0)
+    km = sum(d["distancia_km"] for _, _, d in grafo.edges(data=True))
+    km_ciclo = sum(grafo[u][v]["distancia_km"]
+                   for u, v in zip(ciclo, ciclo[1:] + ciclo[:1]))
+    extra = sum(grafo[u][v]["distancia_piso_km"] for u, v in
+                grafo.edges if frozenset((u, v)) in piso)
+    bloque(
+        "c2_fig_red",
+        "ciclo como anillo y ramas hacia afuera, como en la figura de nodos "
+        "expandidos; círculo, ciudad; segmento, arista con su distancia del "
+        "modelo (km); trazo azul, el ciclo; naranja punteado y †, piso "
+        "geodésico.",
+        f"{grafo.number_of_nodes()} ciudades y {grafo.number_of_edges()} "
+        f"aristas, con {km:.2f} km en total; el ciclo tiene {len(ciclo)} "
+        f"aristas y {km_ciclo:.2f} km; {len(piso)} aristas tienen piso "
+        f"geodésico, que suma {extra:.2f} km a la distancia oficial.",
+        "Medido: distancias del modelo (con piso) leídas del grafo; el "
+        "esquema no conserva distancias.")
+    return fig
+
+
 FIGURAS = [
+    ("fig_red", fig_red),
     ("fig_expansion", fig_expansion),
     ("fig_agente", fig_agente),
     ("fig_heuristica", fig_heuristica),

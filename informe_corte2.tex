@@ -95,6 +95,7 @@ Camilo Andrés Díaz García}\\[1.2cm]
 \newpage
 
 \section{Formulación de continuidad}
+\label{sec:formulacion}
 
 La formulación del problema, los datos y su construcción están en el informe
 del Corte 1~\cite{formulacion}. La red corregida a la que se refiere este
@@ -180,116 +181,106 @@ heurística consistente no ocurre.
 tamaño máximo de la frontera.
 \end{itemize}
 
-\textbf{Pruebas de corrección} (\texttt{src/pruebas\_busquedas.py}): un grafo
-de juguete con resultado conocido; 600 pares en 25 grafos geométricos
-aleatorios con semilla fija; y los 992 pares de nodos de la red con los cinco
-criterios. En todos, UCS y A* igualan el costo de
-\texttt{nx.shortest\_path\_length}, BFS iguala su número de saltos, y DFS y la
-búsqueda voraz devuelven rutas válidas. Todas las pruebas pasan.
+\textbf{Corrección.} La garantiza el análisis de la Tabla~\ref{tab:algoritmos}:
+BFS minimiza los saltos, UCS es óptimo con costos no negativos y A* es óptimo con
+$h$ admisible y no reexpande con $h$ consistente
+(Sección~\ref{sec:heuristica}); las pruebas automáticas están en
+\texttt{src/pruebas\_busquedas.py}.
 
 \section{Heurística: admisibilidad y consistencia}
 \label{sec:heuristica}
 
-Para los criterios basados en distancia se usa
-\begin{equation}
-h(n) = \alpha\, d_{\mathrm{geo}}(n, \text{meta}), \qquad
-h(n) = \frac{w_1}{w_1 + w_2}\,\alpha\,\frac{d_{\mathrm{geo}}(n, \text{meta})}
-{d_{\max}}
-\end{equation}
-para \texttt{distancia} y \texttt{compuesto\_sin\_riesgo}, respectivamente.
-Para los criterios con costo monetario, con $c_{\mathrm{km}}$ el costo variable
-por km, $w_1$ y $w_4$ los pesos de la distancia y del costo variable del
-compuesto total y $w_2$ el del peaje:
-\begin{itemize}
-\item \texttt{costo\_operativo}: $h(n) = c_{\mathrm{km}}\,\alpha\,
-d_{\mathrm{geo}}(n, \text{meta})$.
-\item \texttt{compuesto\_total\_sin\_riesgo}: $h(n) = \frac{w_1 + w_4}{w_1 +
-w_2 + w_4}\,\alpha\,d_{\mathrm{geo}}(n, \text{meta})/d_{\max}$.
-\end{itemize}
-En ambos, $d_{\mathrm{geo}}$ es la distancia de Haversine entre las coordenadas
-oficiales (DANE, DIVIPOLA) y $\alpha = 1$ por construcción, como se muestra a
-continuación.
-
-\textbf{Garantía.} Con el piso geodésico, la distancia del modelo de toda
-arista es $c(u,v) = \max(d_{\mathrm{oficial}}(u,v), d_{\mathrm{geo}}(u,v))
-\ge d_{\mathrm{geo}}(u,v)$. Por la desigualdad triangular,
-\[
-h(u) = d_{\mathrm{geo}}(u, \text{meta}) \le d_{\mathrm{geo}}(u,v) +
-d_{\mathrm{geo}}(v, \text{meta}) \le c(u,v) + h(v),
-\]
-de modo que $h$ es consistente y, como $h(\text{meta}) = 0$, admisible en toda
-la red, para cualquier criterio con término de distancia. Los términos de peaje y
-de riesgo (no negativos) no se incluyen en $h$ y no la rompen. Sin el piso, la
-misma garantía exige que $\alpha$ sea el mínimo de la razón
-carretera/geodésica, redondeado hacia abajo a 6 decimales.
-
-\textbf{Valor de $\alpha$.} Con el piso la razón mínima carretera/geodésica
-es 1.0000000059 (el excedente sobre 1 es el redondeo hacia arriba de la
-geodésica) y $\alpha = 1$. Sin el piso, $\alpha$ es la razón mínima exacta
-(0.3105704113) redondeada hacia abajo, y la determina la arista de Chocontá a
-Tunja, cuyo sector está truncado en la fuente; su valor y el de las demás
-heurísticas están en la Tabla~\ref{tab:heuristica}. Las 8 aristas con piso están en la
-Tabla~\ref{tab:piso} y en la Figura~\ref{fig:heuristica}.
-
-\textbf{Verificación numérica} (Tabla~\ref{tab:heuristica}). La admisibilidad
-compara $h(n)$ con el costo óptimo real $h^*(n)$ de Dijkstra para los 992
-pares $(n, \text{meta})$; la consistencia comprueba $h(u) \le c(u,v) + h(v)$
-en cada arista, en ambos sentidos y para las 32 metas.
-\begin{itemize}
-\item Con el piso y $\alpha = 1$ no hay violaciones en ninguna de las siete
-heurísticas; el margen mínimo es cero porque en una arista con piso la
-distancia del modelo es la propia recta.
-\item En A* con $\alpha = 1$ no hay ninguna reexpansión de nodos en los 992
-pares y la ruta es la óptima en todos (\texttt{src/pruebas\_piso.py}).
-\item Sin el piso, $\alpha$ reducido no tiene violaciones; con la geodésica pura
-($\alpha = 1$) sí las tiene, en admisibilidad y en consistencia.
-\end{itemize}
-
-\begin{table}[H]
-\centering
-\caption{Verificación de admisibilidad y consistencia con piso y, para la
-distancia, sin piso (margen mínimo en las unidades del criterio)}
-\label{tab:heuristica}
-\small
-\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_c2_heuristica.tex}
-\input{outputs/lectura_c2_heuristica.tex}
-\end{table}
-
-\textbf{Aristas con piso.} Se reportan todas (Figura~\ref{fig:heuristica}); el
-piso es una regla fijada de antemano y no un ajuste para que la heurística
-cumpla, y la distancia oficial se conserva.
-\begin{itemize}
-\item Varias se explican por la entrada urbana a Bogotá, que la geometría de
-INVÍAS no cubre.
-\item Con $\alpha = 1$ la heurística es lo más informativa que permite la
-geodésica; sin el piso era poco informativa en los corredores donde la
-carretera es mucho más larga que la línea recta.
-\end{itemize}
+La Figura~\ref{fig:red} muestra la red con la que trabajan los algoritmos.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{fig_heuristica.pdf}
-    \caption{Distancia por carretera contra distancia geodésica de las 32 aristas con piso (triángulo lleno, distancia del modelo; vacío, distancia oficial) y la recta $y = \alpha x$ sin piso. Fuente: elaboración propia}
-    \label{fig:heuristica}
-    \input{outputs/lectura_c2_fig_heuristica.tex}
+    \includegraphics[width=\textwidth]{fig_red.pdf}
+    \caption{Red de carga interurbana: ciclo como anillo y ramas hacia afuera, con la distancia del modelo de cada arista (km) y las aristas con piso geodésico marcadas con †. Fuente: elaboración propia}
+    \label{fig:red}
+    \input{outputs/lectura_c2_fig_red.tex}
 \end{figure}
 
-\textbf{Criterios con heurística limitada.}
-\begin{itemize}
-\item En \texttt{compuesto} (riesgo faltante igual a 0) se usa solo el término
-de distancia, $w_1 \alpha d_{\mathrm{geo}}/d_{\max}$, y los resultados se
-reportan aparte, rotulados como limitados.
-\item Lo mismo vale para el compuesto total, con
-$(w_1 + w_4)\,\alpha\,d_{\mathrm{geo}}/d_{\max}$, y para el compuesto con
-mortalidad, que es solo sensibilidad.
-\item En \texttt{riesgo} y \texttt{peaje} no hay información geométrica: la
-heurística admisible es $h = 0$, y A* se reduce a costo uniforme.
-\end{itemize}
+\textbf{Costo calculado en cada nodo.} A* ordena la frontera por
+\begin{equation}\label{eq:f}
+f(n) = g(n) + h(n),
+\end{equation}
+con $g(n)$ la suma de los costos de las aristas del camino de origen a $n$ y
+$h(n)$ la estimación del costo restante hasta la meta. UCS ordena por $g(n)$ y
+la búsqueda voraz por $h(n)$.
+
+\textbf{Costo de una arista.} Todos los criterios con término de distancia
+tienen la forma
+\begin{equation}\label{eq:arista}
+c(u,v) = a\,d(u,v) + b(u,v),
+\end{equation}
+con $a \ge 0$ una constante (coeficiente de los kilómetros), $d(u,v)$ la
+distancia del modelo y $b(u,v) \ge 0$ la suma de los términos que no dependen
+de los kilómetros (peaje y riesgo; el riesgo faltante vale 0).
+
+\textbf{Heurística.} Se usa
+\begin{equation}\label{eq:h}
+h(n) = a\,d_{\mathrm{geo}}(n, \text{meta}),
+\end{equation}
+con $d_{\mathrm{geo}}$ la distancia geodésica (Haversine) entre las coordenadas
+oficiales (DANE, DIVIPOLA). Es la distancia mínima posible entre dos puntos de
+la superficie: ningún camino entre dos nodos puede ser más corto. Con el piso
+geodésico (Sección~\ref{sec:formulacion}), la distancia del modelo de toda
+arista cumple
+\begin{equation}\label{eq:piso}
+d(u,v) = \max\bigl(d_{\mathrm{oficial}}(u,v),\, d_{\mathrm{geo}}(u,v)\bigr)
+\ge d_{\mathrm{geo}}(u,v),
+\end{equation}
+y la heurística no necesita escalarse ($\alpha = 1$).
+
+\textbf{Consistencia.} Para toda arista $(u,v)$, por la desigualdad triangular
+de la geodésica, con $a \ge 0$, por~\eqref{eq:piso} y con $b \ge 0$:
+\begin{align}
+h(u) &= a\,d_{\mathrm{geo}}(u, \text{meta})
+  \le a\,\bigl[d_{\mathrm{geo}}(u,v) + d_{\mathrm{geo}}(v, \text{meta})\bigr]
+  \label{eq:triangular}\\
+ &\le a\,d(u,v) + h(v) \le a\,d(u,v) + b(u,v) + h(v) = c(u,v) + h(v).
+  \label{eq:consistencia}
+\end{align}
+
+\textbf{Admisibilidad.} Como $h(\text{meta}) = 0$, sumar~\eqref{eq:consistencia}
+a lo largo del camino óptimo $n = v_0, v_1, \dots, v_k = \text{meta}$ da
+\begin{equation}\label{eq:admisibilidad}
+h(n) \le \sum_{i=0}^{k-1} c(v_i, v_{i+1}) + h(\text{meta}) = h^{*}(n),
+\end{equation}
+con $h^{*}(n)$ el costo óptimo de $n$ a la meta.
+
+\textbf{Consecuencia.} Con $h$ consistente, UCS y A* no reexpanden nodos y A*
+devuelve la ruta óptima; la búsqueda voraz usa la misma $h$ sin esa garantía.
+La comprobación automática, que no forma parte del argumento, está en
+\texttt{src/pruebas\_piso.py} y \texttt{src/heuristica.py} (resultados en
+\nolinkurl{outputs/analisis_heuristica.json}).
+
+\textbf{Sin el piso.} Habría aristas con $d(u,v) < d_{\mathrm{geo}}(u,v)$ y la
+garantía exigiría que $\alpha$ fuera el mínimo de la razón
+carretera/geodésica (0.310570, la variante \emph{sin piso}): admisible, pero
+poco informativa. Con $\alpha = 1$ falla: en Chocontá a Tunja, $h$ = 56.96 km $>$ $c$ = 17.69 km.
+
+\textbf{Aristas con piso.} El piso es una regla fijada de antemano y no un
+ajuste para que la heurística cumpla; la distancia oficial se conserva y las 8
+aristas con piso están en la Tabla~\ref{tab:piso}; la dispersión carretera contra geodésica está en \nolinkurl{outputs/fig_heuristica.png}. Varias se explican por la
+entrada urbana a Bogotá, que la geometría de INVÍAS no cubre.
+
+\textbf{Heurística en cada criterio.} La Tabla~\ref{tab:criterios-h} da, por
+criterio, el costo de la arista, el coeficiente $a$ y la heurística
+resultante de~\eqref{eq:h}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Costo de la arista $c(u,v) = a\,d + b$ y heurística por criterio. Fuente: elaboración propia}
+\label{tab:criterios-h}
+\footnotesize\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_r_criterios_heuristica.tex}
+\input{outputs/lectura_c2_criterios_heuristica.tex}
+\end{table}
 
 \section{Escenarios}
 
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \caption{Escenarios origen-destino}
 \label{tab:escenarios}
@@ -493,7 +484,7 @@ una.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{rutas_central_distancia.png}
+    \includegraphics[width=0.85\textwidth]{rutas_central_distancia.png}
     \caption{Rutas de los cinco algoritmos, Duitama a Puente Nacional, criterio
     distancia. Fuente: elaboración propia con datos de INVÍAS y DANE}
     \label{fig:rutas}
@@ -502,7 +493,7 @@ una.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{mapa_caso_central.pdf}
+    \includegraphics[width=0.85\textwidth]{mapa_caso_central.pdf}
     \caption{Caso central sobre el mapa: ruta por Bogotá y desvío por
     Santander. Fuente: elaboración propia con el trazado de INVÍAS, los
     límites departamentales del DANE~\cite{mgn} y las coordenadas DIVIPOLA}
@@ -521,8 +512,8 @@ pesos, $w_1 D + w_2 P + w_3 R$, con $D$, $P$ y $R$ las sumas de los términos
 normalizados de la ruta.
 \item Gana la ruta por Bogotá si $w_1 \Delta D + w_2 \Delta P + w_3 \Delta R
 < 0$, con $\Delta$ igual a la ruta por Bogotá menos la ruta por Santander.
-\item En la malla, el ganador de cada punto coincide con el signo de esta
-frontera.
+\item La frontera es un resultado analítico; la malla solo la ilustra, y el
+ganador de cada punto coincide con su signo.
 \end{itemize}
 
 \begin{table}[H]
@@ -574,7 +565,7 @@ km.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.8\textwidth]{fig_costo_km.pdf}
+    \includegraphics[width=0.7\textwidth]{fig_costo_km.pdf}
     \caption{Costo total de las dos rutas de Duitama a Puente Nacional según el costo variable por km. Fuente: elaboración propia}
     \label{fig:costo-km}
     \input{outputs/lectura_c2_fig_costo_km.tex}
@@ -615,8 +606,9 @@ criterio (B, por Bogotá; S, por Santander) y sus km}
 
 Variante rotulada como sensibilidad: se quita el piso y se usan las distancias
 oficiales. Con el piso, A* usa $\alpha = 1$; sin él, $\alpha$ debe bajar a
-0.310570 para seguir siendo admisible, y con $\alpha = 1$ la
-heurística \emph{no es admisible} (Tabla~\ref{tab:heuristica}).
+0.310570 para seguir siendo admisible, porque con $\alpha = 1$ la heurística
+\emph{no es admisible}: en Chocontá a Tunja, $h$ = 56.96 km $>$ $c$ = 17.69 km
+(Sección~\ref{sec:heuristica}).
 
 \begin{table}[H]
 \centering
@@ -627,23 +619,10 @@ A* con $\alpha = 0.310570$ y A* con $\alpha = 1$), criterio distancia}
 \input{outputs/tabla_c2_sensibilidad_alfa.tex}
 \end{table}
 
-En los diez escenarios A* devuelve la ruta óptima con las tres heurísticas; la
-Tabla~\ref{tab:sens-alfa} da los nodos expandidos del caso central y la suma de
-los 992 pares.
-\begin{itemize}
-\item Sobre los 992 pares de nodos, A* con piso devuelve la ruta óptima en los
-992 y no hace ninguna reexpansión.
-\item Con $\alpha = 1$ sin piso devuelve la óptima en 989 y falla en 3, todos
-desde Bucaramanga (Tabla~\ref{tab:no-optimos}).
-\end{itemize}
-
-\begin{table}[!htbp]
-\centering
-\caption{Pares en que A* con $\alpha = 1$ y sin piso no devuelve la ruta óptima. Fuente: elaboración propia}
-\label{tab:no-optimos}
-\small
-\input{outputs/tabla_r_no_optimos.tex}
-\end{table}
+La Tabla~\ref{tab:sens-alfa} mide el rendimiento, no la corrección: da los
+nodos expandidos del caso central y la suma de los 992 pares con cada
+heurística. Los pares en que A* con $\alpha = 1$ y sin piso no devuelve la ruta
+óptima están en \nolinkurl{outputs/tabla_r_no_optimos.tex}.
 
 \section{Agente autónomo de rutas}
 \label{sec:agente}
@@ -803,7 +782,9 @@ La matriz con la clase de cada par está en \texttt{outputs/fig\_perfil.png}.
 \textbf{Regla fija.} Se usa un método exacto cuando es viable; la
 metaheurística solo cuando no lo es. En los tipos de orden libre, el exacto
 (Held-Karp, programación dinámica sobre subconjuntos de paradas) es viable si
-$k \le K_{\mathrm{exacto}}$.
+$k \le K_{\mathrm{exacto}}$. Held-Karp cuesta $O(2^k k^2)$ en tiempo y
+$O(2^k k)$ en memoria: cada parada libre más duplica el trabajo, de modo que el
+umbral lo fija la medición.
 
 \textbf{Umbral medido.} Ese umbral no se supuso: se midió Held-Karp en esta
 máquina (Figura~\ref{fig:umbral}; equipo en la Tabla~\ref{tab:equipo}) y se
@@ -944,8 +925,8 @@ exacto, con referencia \emph{mejor encontrada con 2-opt}
 ciudades no hay Held-Karp; la referencia es el óptimo por estructura de la red
 (un solo ciclo), $2(W - C) + \min(C, 2(C - w_{\max}))$, con $W$ la suma de las
 aristas, $C$ la longitud del ciclo y $w_{\max}$ su arista mayor. Es una
-derivación propia, verificada contra Held-Karp en 300 grafos aleatorios de un
-solo ciclo, con 0 discrepancias (Sección~\ref{sec:estructura}).
+derivación propia, comprobada con pruebas automáticas contra Held-Karp
+(Sección~\ref{sec:estructura}).
 
 \begin{table}[H]
 \centering
@@ -1010,10 +991,9 @@ visita todos los nodos cuesta $2(W - C) + \min(C, 2(C - w_{\max}))$:
 veces todo menos su arista mayor.
 \end{itemize}
 
-\textbf{Comprobación.} Es una derivación propia. Se comprobó contra Held-Karp, sobre la matriz de caminos
-mínimos, en 300 grafos aleatorios de un solo ciclo con semilla fija (5 a 12
-nodos): 300 coincidencias y 0 discrepancias, con una diferencia absoluta máxima
-de $4.26 \times 10^{-14}$ (\texttt{outputs/tabla\_ag\_estructura.tex}).
+\textbf{Comprobación.} Es una derivación propia, comprobada con pruebas
+automáticas contra Held-Karp (detalle en
+\nolinkurl{outputs/tabla_ag_estructura.tex}).
 
 \subsection{Validación ampliada: ACO con y sin 2-opt}
 
@@ -1045,7 +1025,7 @@ La convergencia de estas dos instancias está en
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.85\textwidth]{fig_aco.pdf}
+    \includegraphics[width=0.75\textwidth]{fig_aco.pdf}
     \caption{Convergencia del ACO con 2-opt (arriba) y brecha media por grupo con y sin 2-opt (abajo). Fuente: elaboración propia}
     \label{fig:aco}
     \input{outputs/lectura_c2_fig_aco.tex}
@@ -1122,7 +1102,8 @@ los nodos expandidos, el tiempo y la memoria.
 \item A* expande menos nodos que UCS (64 contra 139 en la suma de los diez
 escenarios con distancia); con el piso, $\alpha = 1$ y la ventaja es mayor
 (8\,584 contra 15\,872 nodos en los 992 pares) que sin piso con $\alpha = 0.310570$
-(13\,377), sin reexpansiones y con la ruta óptima en todos.
+(13\,377); con el piso $h$ es consistente, de modo que A* no reexpande
+nodos y es óptimo (Sección~\ref{sec:heuristica}).
 \item El riesgo tiene dato en 11 de las 32 aristas: \texttt{riesgo} y
 \texttt{compuesto} prefieren el desvío por falta de datos y no porque sea más
 seguro; los sectores críticos de mortalidad cubren 16 y no reproducen su

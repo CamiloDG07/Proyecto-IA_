@@ -1,0 +1,3 @@
+\comoleerla{filas: los nueve criterios; columnas: costo de la arista, coeficiente $a$ de los kilómetros y heurística resultante; $w_i$ son los pesos, $d_{\max}$, $p_{\max}$, $r_{\max}$ y $m_{\max}$ los máximos de la red y $c_{km}$ el costo variable por km.}
+{7 criterios tienen $a > 0$ y una heurística con la geodésica; 2 (peaje y riesgo) tienen $a = 0$ y $h = 0$, con lo que A* se reduce a UCS; 3 criterios con $a > 0$ son limitados (riesgo faltante igual a 0 o mortalidad) y se reportan rotulados.}
+{Medido: los coeficientes $a$ de la tabla coinciden con los del código de la heurística y el costo de cada arista del grafo es $a\,d + b$ con $b \ge 0$ (pruebas automáticas del repositorio).}

@@ -129,6 +129,7 @@ python src/pruebas_mapa.py
 python src/lecturas_informe.py       # bloques «Cómo leerla» y tabla de ejemplos
 python src/tablas_resumen.py         # tablas de resumen que reemplazan párrafos con varias cifras (tabla_r_*.tex)
 python src/pruebas_tablas_resumen.py # sus cifras contra outputs/ y el máximo de 6 columnas
+python src/pruebas_tabla_heuristica.py # la tabla de criterios de la heurística contra el código y el grafo
 python src/candidatos_tablas.py      # párrafos con cifras comparables (outputs/candidatos_tablas.csv)
 python src/cifras_movidas.py         # cifras antes y después contra master (outputs/cifras_movidas.csv)
 python src/figuras_informe.py      # figuras de los informes (PNG y PDF en outputs/)

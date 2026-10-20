@@ -9,9 +9,11 @@ está escrito a mano. Cada función devuelve las filas (encabezado y cuerpo) y
 """
 import networkx as nx
 
-from build_graph import cargar_grafo, construir_grafo
+import formato_latex
+from build_graph import SALIDA, cargar_grafo, construir_grafo
 from experimentos_corte2 import ALGORITMOS
-from lecturas_informe import cifras_dinero, costos_sin_riesgo
+from heuristica import CRITERIOS_LIMITADOS, Heuristica, cargar_coordenadas
+from lecturas_informe import bloque, cifras_dinero, costos_sin_riesgo
 from tablas_corte2 import NOMBRES_CRITERIO, escribir, leer, miles
 
 CENTRAL = ("Duitama", "Puente Nacional")
@@ -151,6 +153,78 @@ def filas_cambio_sin_riesgo():
     return filas
 
 
+# Costo de la arista c(u, v) = a d(u, v) + b(u, v) y heurística h = a d_geo,
+# por criterio (expresiones simbólicas; sus coeficientes se comprueban contra
+# el código en pruebas_tabla_heuristica.py).
+EXPRESIONES = [
+    ("distancia", "$d$", "$1$", "$d_{\\mathrm{geo}}$"),
+    ("compuesto sin riesgo",
+     "$\\dfrac{w_1\\,d/d_{\\max} + w_2\\,p/p_{\\max}}{w_1 + w_2}$",
+     "$\\dfrac{w_1}{(w_1 + w_2)\\,d_{\\max}}$", "$a\\,d_{\\mathrm{geo}}$"),
+    ("costo operativo", "$p + c_{km}\\,d$", "$c_{km}$",
+     "$c_{km}\\,d_{\\mathrm{geo}}$"),
+    ("compuesto total sin riesgo",
+     "$\\dfrac{w_1 d/d_{\\max} + w_2 p/p_{\\max} + w_4\\,d/d_{\\max}}"
+     "{w_1 + w_2 + w_4}$",
+     "$\\dfrac{w_1 + w_4}{(w_1 + w_2 + w_4)\\,d_{\\max}}$",
+     "$a\\,d_{\\mathrm{geo}}$"),
+    ("compuesto (limitado)",
+     "$w_1\\,d/d_{\\max} + w_2\\,p/p_{\\max} + w_3\\,r/r_{\\max}$",
+     "$w_1/d_{\\max}$", "$a\\,d_{\\mathrm{geo}}$"),
+    ("compuesto total (limitado)",
+     "$w_1 d/d_{\\max} + w_2 p/p_{\\max} + w_3 r/r_{\\max} + "
+     "w_4\\,d/d_{\\max}$",
+     "$(w_1 + w_4)/d_{\\max}$", "$a\\,d_{\\mathrm{geo}}$"),
+    ("compuesto con mortalidad (limitado)",
+     "$w_1\\,d/d_{\\max} + w_2\\,p/p_{\\max} + w_3\\,m/m_{\\max}$",
+     "$w_1/d_{\\max}$", "$a\\,d_{\\mathrm{geo}}$"),
+    ("peaje", "$p$", "$0$", "$0$"),
+    ("riesgo", "$r$", "$0$", "$0$")]
+CLAVES_EXPRESION = ["distancia", "compuesto_sin_riesgo", "costo_operativo",
+                    "compuesto_total_sin_riesgo", "compuesto",
+                    "compuesto_total", "compuesto_mortalidad", "peaje",
+                    "riesgo"]
+
+
+def tabla_criterios_heuristica():
+    """Costo de la arista, coeficiente a y heurística de cada criterio."""
+    spec = (">{\\raggedright\\arraybackslash}p{2.5cm}"
+            ">{\\raggedright\\arraybackslash}p{5.2cm}"
+            ">{\\raggedright\\arraybackslash}p{3.4cm}"
+            ">{\\raggedright\\arraybackslash}p{1.9cm}")
+    lineas = formato_latex.tabla(
+        spec, ["Criterio & Costo de la arista $c(u,v)$ & Coeficiente $a$ & "
+               "Heurística $h(n)$ \\\\"],
+        [f"{c} & {costo} & {a} & {h} \\\\"
+         for c, costo, a, h in EXPRESIONES])
+    with open(SALIDA / "tabla_r_criterios_heuristica.tex", "w",
+              encoding="utf-8") as f:
+        f.write("\n".join(lineas) + "\n")
+    grafo = cargar_grafo()
+    coord = cargar_coordenadas()
+    factores = {k: Heuristica(grafo, coord, k, 1.0).factor
+                for k in CLAVES_EXPRESION}
+    con = [k for k, v in factores.items() if v > 0]
+    sin = [k for k, v in factores.items() if v == 0]
+    limitados = [k for k in con if k in CRITERIOS_LIMITADOS]
+    bloque(
+        "c2_criterios_heuristica",
+        "filas: los nueve criterios; columnas: costo de la arista, "
+        "coeficiente $a$ de los kilómetros y heurística resultante; $w_i$ "
+        "son los pesos, $d_{\\max}$, $p_{\\max}$, $r_{\\max}$ y $m_{\\max}$ "
+        "los máximos de la red y $c_{km}$ el costo variable por km.",
+        f"{len(con)} criterios tienen $a > 0$ y una heurística con la "
+        f"geodésica; {len(sin)} ({' y '.join(sin)}) tienen $a = 0$ y $h = 0$, "
+        "con lo que A* se reduce a UCS; "
+        f"{len(limitados)} criterios con $a > 0$ son limitados "
+        "(riesgo faltante igual a 0 o mortalidad) y se reportan rotulados.",
+        "Medido: los coeficientes $a$ de la tabla coinciden con los del "
+        "código de la heurística y el costo de cada arista del grafo es "
+        "$a\\,d + b$ con $b \\ge 0$ (pruebas automáticas del "
+        "repositorio).")
+    return lineas
+
+
 def filas_pruebas_ciclo():
     """Corte 1: distancia de las dos rutas de los casos que cruzan el ciclo,
     con el modelo y con las distancias sin corregir (con piso)."""
@@ -196,6 +270,14 @@ def main():
         "rrrrrc", ["$k$", "S1 (s)", "S2 (s)", "S3 (s)", "Memoria (MiB)",
                    "Cabe en 5 s"],
         filas_umbral_sesiones(leer("umbral_held_karp.json"))))
+    escribir("tabla_r_cambio_sin_riesgo.tex", tabla(
+        "lrrc", ["Distancias", "Por Bogotá", "Por Santander", "Gana"],
+        filas_cambio_sin_riesgo()))
+    escribir("tabla_r_pruebas_ciclo.tex", tabla(
+        "lcrcr", ["Caso", "Modelo: vía", "Modelo: km", "Sin corregir: vía",
+                  "Sin corregir: km"],
+        filas_pruebas_ciclo()))
+    tabla_criterios_heuristica()
     escribir("tabla_r_tiempos.tex", tabla(
         "lrrr", ["Método", "$n$", "Tiempo (s)", "Memoria (MiB)"],
         filas_tiempos(leer("validacion_agente.json")["instancias"])))

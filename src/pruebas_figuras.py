@@ -183,6 +183,22 @@ def main():
         revisar(fig, nombre)
     for fig in figs.values():
         plt.close(fig)
+    # diagrama de la red: 32 nodos, 32 aristas con su distancia, 8 con piso
+    fig = figs["fig_red"]
+    rotulos = [t.get_text() for ax in fig.axes for t in ax.texts]
+    km = sorted(f"{d['distancia_km']:.1f}"
+                + ("\u2020" if d["distancia_piso_aplicado"] else "")
+                for _, _, d in grafo.edges(data=True))
+    ok(sorted(r for r in rotulos if r[0].isdigit()) == km,
+       "diagrama de la red: las 32 aristas rotulan su distancia del modelo "
+       "(las 8 con piso llevan \u2020)")
+    ok(sum(1 for r in rotulos if r.endswith("\u2020")) == 8,
+       "diagrama de la red: 8 aristas con piso marcadas")
+    nombres = {fi.corto(n) for n in grafo}
+    anotados = {t.get_text() for ax in fig.axes for t in ax.get_children()
+                if isinstance(t, Annotation)}
+    ok(nombres <= anotados and len(nombres) == grafo.number_of_nodes(),
+       "diagrama de la red: las 32 ciudades rotuladas")
     r = subprocess.run([sys.executable, "-m", "pycodestyle",
                         "--max-line-length=79",
                         str(RAIZ / "src" / "figuras_informe.py"),
