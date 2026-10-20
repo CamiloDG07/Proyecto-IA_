@@ -126,7 +126,7 @@ fuente, por la entrada urbana a Bogotá que la geometría de INVÍAS no cubre o
 por la coordenada del nodo en el centro del municipio. La distancia del modelo es
 el máximo entre la oficial y la recta (redondeada hacia arriba a 6 decimales),
 fijado de antemano; es una cota inferior física y no una medida. La distancia
-oficial se conserva y la sensibilidad «sin piso» la usa. Con el piso, la ruta
+oficial se conserva en los datos. Con el piso, la ruta
 por Bogotá pasa de 309.10 a 370.54 km y $\alpha = 1$
 (Sección~\ref{sec:heuristica}).
 
@@ -516,52 +516,22 @@ normalizados de la ruta.
 ganador de cada punto coincide con su signo.
 \end{itemize}
 
-\begin{table}[H]
-\centering
-\caption{Resultado del barrido de pesos}
-\label{tab:barrido}
-\small
-\input{outputs/tabla_c2_barrido.tex}
-\input{outputs/lectura_c2_barrido_tabla.tex}
-\end{table}
-
-\textbf{Variantes.} La Tabla~\ref{tab:barrido} da, para la red con piso (base),
-sin piso y con las progresivas (Chocontá a Tunja en 61.0 km, con piso), los
-puntos de la malla donde gana la ruta por Bogotá y la frontera sobre
-$w_3 = 0$.
-\begin{itemize}
-\item La variante \emph{sensibilidad sin piso} usa las distancias oficiales
-(Chocontá a Tunja en 17.69 km). Con el compuesto, el ganador cambia en
-$(0.5, 0.2, 0.3)$ y en $(0.5, 0.3, 0.2)$, que pasan a Bogotá; sin riesgo, en
-$(0.3, 0.4, 0.3)$ y en $(0.4, 0.5, 0.1)$.
-\item La variante \emph{sensibilidad con progresivas} usa 61.0 km para Chocontá a
-Tunja, con el hueco de 49.1 km sin sector, y con piso.
-\end{itemize}
-
 \textbf{Compuesto total (cuatro pesos).} El costo variable entra como cuarto
 peso, $w_4$, con $w_1 + w_2 + w_3 + w_4 = 1$; la malla de paso 0.1 tiene 286
-puntos y los resultados están en la Tabla~\ref{tab:barrido-total}.
-$\Delta C$ es igual a $\Delta D$ porque el costo variable es proporcional a los
-km.
+puntos. $\Delta C$ es igual a $\Delta D$ porque el costo variable es
+proporcional a los km. Los resultados de ambas mallas están en la
+Tabla~\ref{tab:barrido}.
 
-\begin{table}[!htbp]
+\begin{table}[H]
 \centering
-\caption{Resultado del barrido de los cuatro pesos; $\Delta$: ruta por Bogotá menos desvío por Santander. Fuente: elaboración propia}
-\label{tab:barrido-total}
+\caption{Resultado del barrido de pesos (red con piso geodésico); $\Delta$: ruta por Bogotá menos desvío por Santander. Fuente: elaboración propia}
+\label{tab:barrido}
 \small
-\input{outputs/tabla_c2_barrido_total.tex}
+\input{outputs/tabla_r_barrido_pesos.tex}
+\input{outputs/lectura_r_barrido_pesos.tex}
 \end{table}
 
 \textbf{Costo en dinero.} \input{outputs/texto_c2_dinero.tex}
-
-\begin{table}[!htbp]
-\centering
-\caption{Umbral del costo variable por km a partir del cual la ruta por Bogotá es la más barata en dinero, por variante; Veces: cuántas veces lo supera el combustible. Fuente: elaboración propia}
-\label{tab:umbral-costo}
-\footnotesize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_r_umbral_costo.tex}
-\end{table}
-
 
 \begin{figure}[!htbp]
     \centering
@@ -573,56 +543,12 @@ km.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{barrido_pesos.png}
-    \caption{Ruta ganadora en la malla de pesos, con piso geodésico (base), sin
-    piso y con Chocontá a Tunja en las progresivas de 61.0 km (con piso).
+    \includegraphics[width=\textwidth]{barrido_pesos_base.png}
+    \caption{Ruta ganadora en la malla de pesos de la red con piso geodésico.
     Fuente: elaboración propia}
     \label{fig:barrido}
-    \input{outputs/lectura_c2_barrido_figura.tex}
+    \input{outputs/lectura_c2_barrido_base_figura.tex}
 \end{figure}
-
-\subsection{Sensibilidad con distancias sin corregir}
-
-La Tabla~\ref{tab:sens-cruda} compara la red con piso geodésico (base) con tres
-variantes: sin piso (distancias oficiales), las progresivas (61.0 km para
-Chocontá a Tunja, con piso) y una construida con la longitud registrada de todos
-los sectores (\texttt{shape\_\_length}, con piso). Se generan con
-\texttt{construir\_grafo} (parámetros \texttt{piso\_geodesico},
-\texttt{reemplazos} y \texttt{distancia}) a partir del mismo
-\texttt{aristas\_red.json}. La tabla muestra la ruta óptima de Duitama a Puente
-Nacional por criterio y el resultado del barrido de pesos.
-
-\begin{table}[H]
-\centering
-\caption{Sensibilidad: red con piso (Piso), sin piso, progresivas (Progres.) y
-distancias sin corregir (Crudas); ruta óptima de Duitama a Puente Nacional por
-criterio (B, por Bogotá; S, por Santander) y sus km}
-\label{tab:sens-cruda}
-\footnotesize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_c2_sensibilidad_cruda.tex}
-\end{table}
-
-\section{Sensibilidad sin piso de A*}
-
-Variante rotulada como sensibilidad: se quita el piso y se usan las distancias
-oficiales. Con el piso, A* usa $\alpha = 1$; sin él, $\alpha$ debe bajar a
-0.310570 para seguir siendo admisible, porque con $\alpha = 1$ la heurística
-\emph{no es admisible}: en Chocontá a Tunja, $h$ = 56.96 km $>$ $c$ = 17.69 km
-(Sección~\ref{sec:heuristica}).
-
-\begin{table}[H]
-\centering
-\caption{Nodos expandidos con piso (UCS y A* con $\alpha = 1$) y sin piso (UCS,
-A* con $\alpha = 0.310570$ y A* con $\alpha = 1$), criterio distancia}
-\label{tab:sens-alfa}
-\footnotesize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_c2_sensibilidad_alfa.tex}
-\end{table}
-
-La Tabla~\ref{tab:sens-alfa} mide el rendimiento, no la corrección: da los
-nodos expandidos del caso central y la suma de los 992 pares con cada
-heurística. Los pares en que A* con $\alpha = 1$ y sin piso no devuelve la ruta
-óptima están en \nolinkurl{outputs/tabla_r_no_optimos.tex}.
 
 \section{Agente autónomo de rutas}
 \label{sec:agente}
@@ -1060,9 +986,8 @@ que la recta entre sus nodos; el modelo usa la recta como cota inferior
 (Tabla~\ref{tab:piso}), de modo que su distancia es un límite inferior y no una
 medida, y la ruta por Bogotá del caso central (370.54 km) también lo es. Chocontá
 a Tunja es la más extrema: el sector oficial cubre 17.69 km frente a 56.96 km de
-línea recta, y por progresivas mediría 61.0 km, pero esa cifra no se adopta
-porque hay un hueco de 49.1 km sin sector y el PR 120 queda a unos 11 km de
-Tunja.
+línea recta; hay un hueco de 49.1 km sin sector y el PR 120 queda a unos 11 km
+de Tunja, de modo que su distancia de modelo es una cota inferior.
 \item \textbf{Entrada urbana a Bogotá.} Las geometrías de INVÍAS que salen de
 Bogotá empiezan en el límite urbano; las distancias desde Bogotá excluyen ese
 tramo.
@@ -1073,7 +998,7 @@ registrada, salvo el piso geodésico.
 dato y el dato no distingue subtramos. Los sectores críticos de mortalidad de la
 ANSV (2022) cubren 16 de 32, pero no reproducen el orden del GiZScore
 (Spearman de $-0.033$ en las 11 aristas con ambos datos) y solo traen los
-sectores de mayor prioridad: entran como sensibilidad.
+sectores de mayor prioridad.
 \item \textbf{Costo monetario.} Los otros costos por km (llantas, lubricantes,
 mantenimiento y conductor) no tienen fuente descargable y valen 0 por supuesto
 del equipo; el precio del galón es el de la CREG del 2 de octubre de 2026 y el
@@ -1100,27 +1025,25 @@ ciclo: BFS y DFS pueden devolver el desvío, y UCS, A* y, en estos escenarios,
 la búsqueda voraz devuelven la de menor costo; en los demás pares solo cambian
 los nodos expandidos, el tiempo y la memoria.
 \item A* expande menos nodos que UCS (64 contra 139 en la suma de los diez
-escenarios con distancia); con el piso, $\alpha = 1$ y la ventaja es mayor
-(8\,584 contra 15\,872 nodos en los 992 pares) que sin piso con $\alpha = 0.310570$
-(13\,377); con el piso $h$ es consistente, de modo que A* no reexpande
+escenarios con distancia); con el piso, $\alpha = 1$ y en los 992 pares expande
+8\,584 nodos contra 15\,872 de UCS; $h$ es consistente, de modo que A* no reexpande
 nodos y es óptimo (Sección~\ref{sec:heuristica}).
 \item El riesgo tiene dato en 11 de las 32 aristas: \texttt{riesgo} y
 \texttt{compuesto} prefieren el desvío por falta de datos y no porque sea más
 seguro; los sectores críticos de mortalidad cubren 16 y no reproducen su
-orden, por lo que solo son sensibilidad.
+orden, por lo que no sustituyen al GiZScore.
 \item Corregir las distancias cambió la decisión del compuesto sin riesgo:
 con las distancias sin corregir ganaba el desvío (3.197 contra 3.415) y con
 las corregidas gana la ruta por Bogotá (3.367 contra 3.524)
-(Tabla~\ref{tab:sens-cruda}).
+(Tabla~\ref{tab:cambio-sin-riesgo}).
 \item El piso geodésico corrige 8 aristas con distancia oficial menor que la
-recta: la ruta por Bogotá pasa de 309.10 a 370.54 km, $\alpha$ de 0.310570 a 1 y la frontera
-del barrido de pesos de 0.4095 a 0.4576; las decisiones de los criterios sin
-término de distancia y los pares que no usan aristas con piso no cambian.
+recta: la ruta por Bogotá pasa de 309.10 a 370.54 km, $\alpha$ puede ser 1 y
+los pares que no usan aristas con piso no cambian.
 \item El agente decide solo el tipo, el criterio y el método, cubre varias
 paradas y la ida y vuelta, y recomienda la ruta de menor costo compuesto sin
 riesgo, porque los otros costos por km son un supuesto del equipo; con los
 insumos verificados (el combustible), la ruta por Bogotá es más barata en
-dinero desde 248.8 COP/km (204.5 sin piso y 252.4 con 61.0 km) y el
+dinero desde 248.8 COP/km y el
 combustible solo cuesta 1\,157.0 COP/km. El
 despachador usa el método exacto hasta $K_{\mathrm{exacto}} = 19$ y ACO
 después.

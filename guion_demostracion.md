@@ -69,11 +69,11 @@ diferencias de ruta entre algoritmos.
 
 ## 5. Rutas y barrido de pesos (1 min)
 
-Abrir `outputs\rutas_central_distancia.png` y `outputs\barrido_pesos.png`:
+Abrir `outputs\rutas_central_distancia.png` y `outputs\barrido_pesos_base.png`:
 la ruta de cada algoritmo sobre las coordenadas oficiales y la frontera
 exacta entre las dos rutas (17 de 66 puntos de la malla favorecen la ruta por
-Bogotá con el piso geodésico y 19 sin él; la frontera con riesgo en cero está
-en $w_1 = 0.4576$ con piso y 0.4095 sin él).
+Bogotá con el piso geodésico; la frontera con riesgo en cero está en
+$w_1 = 0.4576$).
 
 ## 6. Agente autónomo de rutas y costo monetario (5 min)
 

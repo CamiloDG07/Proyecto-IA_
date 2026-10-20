@@ -1,0 +1,107 @@
+archivo (master),línea,texto,decisión,motivo
+informe_corte2.tex,129,"oficial se conserva y la sensibilidad «sin piso» la usa. Con el piso, la ruta",quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,260,"carretera/geodésica (0.310570, la variante \emph{sin piso}): admisible, pero",conservar,frase analítica de la demostración o resultado de corregir datos
+informe_corte2.tex,428,"\caption{Costo compuesto sin riesgo de las dos rutas de Duitama a Puente Nacional, con las distancias sin corregir y con las corregidas. Fue",conservar,frase analítica de la demostración o resultado de corregir datos
+informe_corte2.tex,529,"sin piso y con las progresivas (Chocontá a Tunja en 61.0 km, con piso), los",quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,533,\item La variante \emph{sensibilidad sin piso} usa las distancias oficiales,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,537,\item La variante \emph{sensibilidad con progresivas} usa 61.0 km para Chocontá a,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,578,piso y con Chocontá a Tunja en las progresivas de 61.0 km (con piso).,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,584,\subsection{Sensibilidad con distancias sin corregir},conservar,frase analítica de la demostración o resultado de corregir datos
+informe_corte2.tex,586,La Tabla~\ref{tab:sens-cruda} compara la red con piso geodésico (base) con tres,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,587,"variantes: sin piso (distancias oficiales), las progresivas (61.0 km para",quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,597,"\caption{Sensibilidad: red con piso (Piso), sin piso, progresivas (Progres.) y",quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,598,distancias sin corregir (Crudas); ruta óptima de Duitama a Puente Nacional por,conservar,frase analítica de la demostración o resultado de corregir datos
+informe_corte2.tex,600,\label{tab:sens-cruda},quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,602,\input{outputs/tabla_c2_sensibilidad_cruda.tex},quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,605,\section{Sensibilidad sin piso de A*},quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,607,Variante rotulada como sensibilidad: se quita el piso y se usan las distancias,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,615,"\caption{Nodos expandidos con piso (UCS y A* con $\alpha = 1$) y sin piso (UCS,",quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,619,\input{outputs/tabla_c2_sensibilidad_alfa.tex},quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,624,heurística. Los pares en que A* con $\alpha = 1$ y sin piso no devuelve la ruta,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,1063,"línea recta, y por progresivas mediría 61.0 km, pero esa cifra no se adopta",quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,1076,sectores de mayor prioridad: entran como sensibilidad.,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,1104,"(8\,584 contra 15\,872 nodos en los 992 pares) que sin piso con $\alpha = 0.310570$",quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,1110,"orden, por lo que solo son sensibilidad.",quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,1112,con las distancias sin corregir ganaba el desvío (3.197 contra 3.415) y con,conservar,frase analítica de la demostración o resultado de corregir datos
+informe_corte2.tex,1114,(Tabla~\ref{tab:sens-cruda}).,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+informe_corte2.tex,1123,dinero desde 248.8 COP/km (204.5 sin piso y 252.4 con 61.0 km) y el,quitar,"sensibilidades fuera del cuerpo del informe (tablas, subsección, sección, umbral, figura, conclusiones, limitaciones)"
+src/tablas_corte2.py,4,sensibilidad_corte2.json (escritos por experimentos_corte2.py) y escribe en,conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,24,"""compuesto_mortalidad"": ""compuesto con mortalidad (sensibilidad)"",",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,99,"""""""Con piso (base), sin piso y progresivas (61.0 km).""""""",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,118,"""\\textbf{Sin piso} & \\textbf{Progres. 61.0} \\\\"",",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,124,def tabla_sensibilidad_alfa(sens):,conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,125,"""""""Nodos expandidos con piso y sin piso (criterio distancia).""""""",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,147,"escribir(""tabla_c2_sensibilidad_alfa.tex"", lineas)",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,150,"def tabla_sensibilidad_cruda(sens, barridos):",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,152,"vs = (rutas[""base""], rutas[""sin_piso""], rutas[""progresivas""],",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,153,"rutas[""crudas""])",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,164,"""\\textbf{Sin piso} & \\textbf{Progres.} & """,conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,165,"""\\textbf{Crudas} \\\\"", ""\\midrule""]",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,188,"escribir(""tabla_c2_sensibilidad_cruda.tex"", lineas)",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,192,"""""""Barrido de los cuatro pesos: con piso, sin piso y progresivas.""""""",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,208,"""\\textbf{Sin piso} & \\textbf{Progres. 61.0} \\\\"",",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,231,"filas.append((""sin piso"", f""{sp['alfa']:.6f}"",",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,237,"filas.append((""sin piso, geodésica pura"", ""1"",",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,312,"for variante in (""cruda"", ""corregida""):",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,320,"(ab, as_), (db, ds) = salida[""cruda""], salida[""corregida""]",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,326,"f""Con las distancias sin corregir, el costo compuesto sin riesgo era """,conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,335,"sens = leer(""sensibilidad_corte2.json"")",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,339,tabla_sensibilidad_alfa(sens),conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_corte2.py,340,"tabla_sensibilidad_cruda(sens, barridos)",conservar,calcula tablas de sensibilidad que quedan en outputs/; no se toca
+src/tablas_resumen.py,5,"outputs/ (resultados_corte2.json, sensibilidad_corte2.json,",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,83,"""""""Umbral exacto del costo variable por km: con piso, sin piso y con las",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,84,"progresivas.""""""",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,87,"nombres = {""piso"": ""Con piso (base)"", ""sin_piso"": ""Sin piso"",",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,88,"""progresivas"": ""Progresivas (61.0 km)""}",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,100,"""""""Pares que A* con alfa = 1 y sin piso no resuelve de forma óptima.""""""",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,148,"for nombre, variante in ((""Sin corregir"", ""cruda""),",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,230,"con el modelo y con las distancias sin corregir (con piso).""""""",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,231,"modelo, cruda = cargar_grafo(), construir_grafo(distancia=""cruda"")",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,237,"for g in (modelo, cruda):",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,251,"sens = leer(""sensibilidad_corte2.json"")",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,277,"""lcrcr"", [""Caso"", ""Modelo: vía"", ""Modelo: km"", ""Sin corregir: vía"",",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/tablas_resumen.py,278,"""Sin corregir: km""],",conservar,umbral en tres variantes sigue en outputs/tabla_r_umbral_costo.tex; se añade la tabla única del barrido
+src/lecturas_informe.py,182,"(ab, as_), (db, ds) = (costos_sin_riesgo(""cruda""),",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,189,"f""Sin el término de riesgo, con las distancias sin corregir el """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,286,"""tres paneles (con piso geodésico, sin piso y con Chocontá a Tunja """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,287,"""en las progresivas de 61.0 km); cada punto es un """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,293,"f""{b1['ganan_bogota_compuesto']} sin piso y en """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,294,"f""{bar[3]['ganan_bogota_compuesto']} con las progresivas; la """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,306,"""(base), sin piso y con Chocontá a Tunja en las progresivas """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,307,"""(61.0 km)."",",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,308,"f""sin piso Bogotá gana en """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,312,"f""{b1['w1_umbral_sobre_w3_cero']:.4f} (con las progresivas, """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,316,"f""{d1[0]:.4f} (sin piso); $\\Delta P$ ({d1[1]:.4f}) y $\\Delta R$ """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,327,"""distancia sin piso, con su $\\alpha$ y con la geodésica pura """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,332,"f""{'' if todos_cero else ', revisar'}); sin piso, con """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,338,"""propia recta); sin piso, $\\alpha$ es """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,570,"f""({u1:.4f} sin piso geodésico).\n""",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,592,"r = leer(""sensibilidad_corte2.json"")",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,596,"bogota_c = r[""crudas""][""distancia""][""distancia_km""]",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,597,"santander_c = r[""crudas""][""peaje""][""distancia_km""]",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,603,"f""(con las distancias sin corregir, {bogota_c:.2f} y """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,615,"(base), sin piso (distancias oficiales) y con Chocontá a Tunja en las",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,616,"progresivas (61.0 km, con piso).""""""",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,620,"""progresivas"": construir_grafo(",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,621,"reemplazos={(""Chocontá"", ""Tunja""): 61.0})}",reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/lecturas_informe.py,642,"""variantes sin piso y con las progresivas). Con el costo variable """,reescribir,texto del dinero y del ejemplo del agente solo con la base; bloques nuevos del barrido
+src/figuras_informe.py,559,"mec=TINTA, label=""arista sin piso""),",conservar,sin relación con el informe reducido
+src/figuras_informe.py,567,"label=f""sin piso: y = {alfa:.6f} x""))",conservar,sin relación con el informe reducido
+src/figuras_informe.py,583,"""continua es y = x y la discontinua es y = alfa x sin piso; el """,conservar,sin relación con el informe reducido
+src/figuras_informe.py,589,"f""{minimo[1]}); sin piso alfa = {alfa:.6f}."",",conservar,sin relación con el informe reducido
+src/visualizar_rutas.py,121,"(barridos[1], ""Sin piso (distancias oficiales)""),",reescribir,figura de un solo panel (barrido_pesos_base); la de tres paneles queda en outputs/
+src/visualizar_rutas.py,122,"(barridos[3], ""Con piso y Chocontá a Tunja 61.0 km""))",reescribir,figura de un solo panel (barrido_pesos_base); la de tres paneles queda en outputs/
+guion_demostracion.md,40,"la propia recta). Sin el piso (sensibilidad), alfa = 0.310570, determinado",reescribir,solo la sección 5; el resto describe el código y la demostración
+guion_demostracion.md,42,pura (alfa = 1) y sin piso hay 66 violaciones de admisibilidad y,reescribir,solo la sección 5; el resto describe el código y la demostración
+guion_demostracion.md,62,"| Duitama a Puente Nacional, compuesto sin riesgo | Con la corrección de distancias gana la ruta por Bogotá; con las distancias sin corregir",reescribir,solo la sección 5; el resto describe el código y la demostración
+guion_demostracion.md,108,"Con `--criterio {distancia,peaje,riesgo,compuesto,compuesto_sin_riesgo,costo_operativo,compuesto_total,compuesto_total_sin_riesgo,compuesto_",reescribir,solo la sección 5; el resto describe el código y la demostración
+guion_demostracion.md,113,| Umbral de costo | La recomendación por costo operativo cambia en 248.8 COP por km (ahorro de peaje de 70 600 COP entre 283.71 km extra; 20,reescribir,solo la sección 5; el resto describe el código y la demostración
+guion_demostracion.md,464,"como sensibilidad, otros costos por km como supuesto del equipo (el costo en pesos es",reescribir,solo la sección 5; el resto describe el código y la demostración
+README.md,13,"sensibilidad). El grafo tiene 32 nodos, 32 aristas y un único ciclo (desvío",conservar,describe el código; se añaden dos notas
+README.md,23,alfa = 1; la variante «sin piso» (distancias oficiales) es una sensibilidad.,conservar,describe el código; se añaden dos notas
+README.md,71,"trae la geometría ni las progresivas). Se conserva solo como evidencia, con",conservar,describe el código; se añaden dos notas
+README.md,99,"python src/experimentos_corte2.py  # escenarios, barrido y sensibilidad",conservar,describe el código; se añaden dos notas
+README.md,118,python src/pruebas_progresivas.py    # regla de adopción de distancias por progresivas,conservar,describe el código; se añaden dos notas
+README.md,121,python src/comparar_resultados.py    # identidad con corte2-entrega-8 en los pares sin piso,conservar,describe el código; se añaden dos notas
+informe_corte2.tex,,sin piso: frase analítica Chocontá a Tunja (h = 56.96 km > c = 17.69 km) en la sección de heurística,conservar,es parte de la demostración; sin la palabra «sensibilidad»
+informe_corte2.tex,,sin corregir: Tabla del efecto de corregir las distancias y conclusión 4,conservar,"es el resultado de la corrección de datos, no una sensibilidad; la conclusión cita ahora la Tabla del efecto de corregir"
