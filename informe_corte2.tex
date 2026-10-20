@@ -185,7 +185,7 @@ tamaño máximo de la frontera.
 BFS minimiza los saltos, UCS es óptimo con costos no negativos y A* es óptimo con
 $h$ admisible y no reexpande con $h$ consistente
 (Sección~\ref{sec:heuristica}); las pruebas automáticas están en
-\texttt{pruebas/pruebas\_busquedas.py}.
+\texttt{pruebas/\allowbreak pruebas\_busquedas.py}.
 
 \section{Heurística: admisibilidad y consistencia}
 \label{sec:heuristica}
@@ -326,7 +326,7 @@ algoritmos en los diez escenarios, con el criterio \texttt{distancia}; el
 asterisco marca los pares que cruzan el ciclo.
 \begin{itemize}
 \item Las tablas completas de nodos expandidos, tiempo y memoria están en
-\nolinkurl{outputs/tabla_c2_distancia_*}.
+\nolinkurl{outputs/tablas/tabla_c2_distancia_*}.
 \item Las Tablas~\ref{tab:dist-costo} y~\ref{tab:dist-opt} conservan lo que la
 figura no puede dar: el costo y la optimalidad.
 \item La Figura~\ref{fig:expansion} muestra, en el caso central, qué nodos
@@ -397,7 +397,7 @@ mide aparte.
 
 Las Tablas~\ref{tab:sobrecosto} y~\ref{tab:nodos-criterios} comparan los
 cuatro criterios con heurística admisible; las tablas por escenario están en
-\nolinkurl{outputs/tabla_c2_<criterio>_*}.
+\nolinkurl{outputs/tablas/tabla_c2_<criterio>_*}.
 
 \begin{table}[!htbp]
 \centering
@@ -440,8 +440,8 @@ El costo variable por km sale de \texttt{config\_costos.json}
 (Sección~\ref{sec:agente}). Los criterios con costo monetario son el costo
 operativo (peaje más costo variable) y el compuesto total sin riesgo; sus
 resultados están en las Tablas~\ref{tab:sobrecosto} y~\ref{tab:nodos-criterios},
-y las tablas por escenario en \nolinkurl{outputs/tabla_c2_costo_operativo_*} y
-\nolinkurl{outputs/tabla_c2_compuesto_total_sin_riesgo_*}.
+y las tablas por escenario en \nolinkurl{outputs/tablas/tabla_c2_costo_operativo_*} y
+\nolinkurl{outputs/tablas/tabla_c2_compuesto_total_sin_riesgo_*}.
 
 \subsection{Criterios con heurística limitada}
 
@@ -466,7 +466,7 @@ diez escenarios / escenarios con ruta óptima}
 \end{table}
 
 El mapa de cobertura de riesgo y peaje, con las aristas marcadas por la auditoría, está en
-\texttt{outputs/fig\_cobertura.png}.
+\texttt{outputs/figuras/fig\_cobertura.png}.
 
 
 \subsection{Rutas}
@@ -677,7 +677,7 @@ el ciclo, (b) un par de ruta única y (c) varios destinos con regreso}
 \input{outputs/lecturas/texto_ejemplo_agente.tex}
 
 \textbf{Perfil de la red.} \input{outputs/lecturas/texto_perfil_topologico.tex}
-La matriz con la clase de cada par está en \texttt{outputs/fig\_perfil.png}.
+La matriz con la clase de cada par está en \texttt{outputs/figuras/fig\_perfil.png}.
 
 
 \subsection{Despachador y criterio de selección}
@@ -796,7 +796,7 @@ asimétrica sintética).
     \label{fig:umbral}
     \input{outputs/lecturas/lectura_c2_fig_umbral.tex}
 \end{figure}
-La tabla con la mediana de cada sesión está en \texttt{outputs/tabla\_ag\_umbral.tex}.
+La tabla con la mediana de cada sesión está en \texttt{outputs/tablas/tabla\_ag\_umbral.tex}.
 
 \subsection{ACO con búsqueda local 2-opt}
 
@@ -868,7 +868,7 @@ Igualan: semillas que alcanzan la referencia; tiempos medios}
 
 Las curvas de convergencia del ACO con 2-opt (brecha de la media de 10
 semillas respecto de la referencia) están en
-\texttt{outputs/convergencia\_aco.png}. Las brechas con y sin 2-opt y con el
+\texttt{outputs/figuras/convergencia\_aco.png}. Las brechas con y sin 2-opt y con el
 inicio fijo de las hormigas (contraste) están en la
 Tabla~\ref{tab:ampliada}, y los tiempos en la Tabla~\ref{tab:tiempos-aco}.
 

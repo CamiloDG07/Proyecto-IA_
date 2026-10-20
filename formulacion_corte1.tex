@@ -302,7 +302,7 @@ Bucaramanga, San Gil, Puente Nacional, Ubaté y Zipaquirá.
 
 \textbf{Detalle de las aristas.} El detalle de las 32 aristas (distancia,
 peaje y riesgo de cada una) está en el archivo
-\texttt{outputs/aristas\_red.json}.
+\texttt{outputs/datos/aristas\_red.json}.
 
 \begin{figure}[H]
     \centering
@@ -446,7 +446,7 @@ archivo de insumos \texttt{config\_costos.json}:
 \texttt{aristas\_red.json} y \texttt{nodos\_red.json}; el cruce de mortalidad
 está en \texttt{cruce\_mortalidad.py}.
 \item \texttt{build\_graph.py}: construye el grafo, calcula los pesos y lo
-guarda en \texttt{outputs/grafo\_carga.gpickle}.
+guarda en \texttt{outputs/datos/grafo\_carga.gpickle}.
 \item \texttt{agente.py}: clase \texttt{AgenteRutas} con el método
 \texttt{calcular\_ruta(origen, destino, criterio, tramos\_bloqueados)}. Los
 criterios son \texttt{distancia}, \texttt{peaje}, \texttt{riesgo},
@@ -457,7 +457,7 @@ criterios son \texttt{distancia}, \texttt{peaje}, \texttt{riesgo},
 \texttt{networkx.shortest\_path} (Dijkstra) sobre el atributo del criterio,
 y mide el tiempo con \texttt{time.perf\_counter()} y la memoria pico con
 \texttt{tracemalloc}.
-\item \texttt{pruebas\_agente.py} y \texttt{pruebas\_costos.py}: pruebas sobre
+\item \texttt{pruebas/pruebas\_agente.py} y \texttt{pruebas/pruebas\_costos.py}: pruebas sobre
 los 32 nodos y sobre el costo monetario.
 \end{itemize}
 
@@ -637,7 +637,7 @@ La Figura~\ref{fig:coherencia} contrasta, arista por arista, la distancia por ca
 
 \subsection{Aristas marcadas por la auditoría}
 
-Las 32 aristas auditadas están en \texttt{outputs/auditoria\_aristas.csv}; la
+Las 32 aristas auditadas están en \texttt{outputs/datos/auditoria\_aristas.csv}; la
 Tabla~\ref{tab:auditoria} lista las que tienen alguna marca, con la distancia
 por carretera del grafo, la geodésica, su razón y la mayor separación entre un
 extremo de la geometría del sector y su nodo (Ext.), todas en km. Marcas:
