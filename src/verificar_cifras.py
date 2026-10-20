@@ -339,9 +339,19 @@ cambia2 = [(f["w1"], f["w2"], f["w3"]) for f, k in zip(
 chequear("puntos que cambian sin piso (sin riesgo)",
          [(0.3, 0.4, 0.3), (0.4, 0.5, 0.1)], cambia2)
 citas("Corte 2", c2, [("umbral con piso", "0.4576"),
-                      ("umbral sin piso", "0.4095"),
-                      ("umbral progresivas", "0.4611"),
-                      ("sin riesgo", "35 de 65")])
+                      ("sin riesgo", "35 de 65"),
+                      ("cuatro pesos", "137 de 286")])
+citas("tabla del barrido de pesos",
+      leer("outputs/tabla_r_barrido_pesos.tex"),
+      [("con riesgo", "17 de 66 & 137 de 286"),
+       ("sin riesgo", "35 de 65 & 215 de 285"),
+       ("frontera", "0.4576"), ("delta C", "-2.0120")])
+# las sensibilidades salen del informe: quedan en outputs/ y en el código
+for ausente in ("0.4095", "0.4611", "ensibilidad", "Progres", "61.0 km",
+                "204.5", "252.4", "13\\,377", "tab:sens-", "tab:umbral-costo",
+                "tab:barrido-total"):
+    chequear(f"Corte 2 no incluye «{ausente}»", False,
+             ausente in " ".join(c2.split()))
 tot = cargar("barrido_total.json")
 chequear("barrido de cuatro pesos: con piso, sin piso y progresivas",
          ((137, 215), (149, 224), (137, 215)), tuple(
@@ -378,10 +388,6 @@ chequear("A* contra UCS en distancia (64 y 139)", (64, 139), (sum(
     if c["criterio"] == "distancia" and c["algoritmo"] == "A*"), sum(
     c["nodos_expandidos"] for c in res
     if c["criterio"] == "distancia" and c["algoritmo"] == "UCS")))
-citas("tabla de sensibilidad de A*",
-      leer("outputs/tabla_c2_sensibilidad_alfa.tex"),
-      [("A* piso", "8584"), ("A* sin piso", "13377"),
-       ("A* alfa=1 sin piso", "8321")])
 
 # ---- 7. Umbral de Held-Karp y máquina --------------------------------------
 chequear("RAM (GiB)", 15.88, round(umb["maquina"]["memoria_instalada_gib"], 2),
@@ -608,7 +614,7 @@ citas("tabla de pruebas del ciclo", leer("outputs/tabla_r_pruebas_ciclo.tex"),
        ("sin corregir bloqueado", "668.14")])
 citas("Corte 2", c2, [("combustible", "1\\,157.0"), ("precio", "11\\,320"),
                       ("rendimiento", "9.784"), ("consumo", "38.69"),
-                      ("progresivas", "61.0"), ("hueco", "49.1")])
+                      ("hueco", "49.1")])
 
 # ---- 11. Corte 1: frases narrativas ----------------------------------------
 vigentes = {("Bogotá", 370.54), ("Santander", 654.25)}

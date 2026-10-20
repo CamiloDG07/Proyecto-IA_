@@ -199,6 +199,21 @@ def main():
                 if isinstance(t, Annotation)}
     ok(nombres <= anotados and len(nombres) == grafo.number_of_nodes(),
        "diagrama de la red: las 32 ciudades rotuladas")
+    # figura del barrido (un solo panel, la base): ancho de texto y letra
+    # mínima de 8 pt, con marcas distintas por ruta
+    import visualizar_rutas as vr
+    vr.figura_barrido_base()
+    png = plt.imread(str(RAIZ / "outputs" / "barrido_pesos_base.png"))
+    ok(abs(png.shape[1] / 200 - fi.ANCHO_IN) < 0.01,
+       "barrido: la figura mide el ancho de texto")
+    codigo = (RAIZ / "src" / "visualizar_rutas.py").read_text(
+        encoding="utf-8")
+    cuerpo = codigo.split("def figura_barrido_base")[1].split("def main")[0]
+    tam = [float(x) for x in re.findall(r"(?:fontsize|labelsize)=([\d.]+)",
+                                        cuerpo)]
+    ok(tam and min(tam) >= 8, "barrido: letra mínima de 8 pt")
+    ok('marker=marca' in cuerpo and '"o"' in cuerpo and '"^"' in cuerpo,
+       "barrido: círculo y triángulo, no solo color")
     r = subprocess.run([sys.executable, "-m", "pycodestyle",
                         "--max-line-length=79",
                         str(RAIZ / "src" / "figuras_informe.py"),

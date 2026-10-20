@@ -315,6 +315,33 @@ def lecturas_corte2():
         f"Medido: $\\Delta D$ cambia de {d0[0]:.4f} (con piso) a "
         f"{d1[0]:.4f} (sin piso); $\\Delta P$ ({d1[1]:.4f}) y $\\Delta R$ "
         f"({d1[2]:.4f}) no cambian, porque el piso solo toca distancias.")
+    # --- figura y tabla del barrido de la base (con piso)
+    t0 = leer("barrido_total.json")[0]
+    bloque(
+        "c2_barrido_base_figura",
+        "cada punto es un $(w_1, w_2)$ de la malla con "
+        "$w_3 = 1 - w_1 - w_2$; círculo azul, gana Bogotá; triángulo "
+        "naranja, gana Santander; la línea es la frontera exacta.",
+        f"Bogotá gana en {b0['ganan_bogota_compuesto']} de "
+        f"{len(b0['puntos'])} puntos y la frontera corta $w_3=0$ en "
+        f"$w_1 = {b0['w1_umbral_sobre_w3_cero']:.4f}$.",
+        f"Medido: Bogotá es más corta ($\\Delta D = {d0[0]:.4f}$) pero más "
+        f"cara en peaje ($\\Delta P = {d0[1]:.4f}$) y en riesgo "
+        f"($\\Delta R = {d0[2]:.4f}$); la frontera es el lugar donde esos "
+        "tres términos se compensan.")
+    bloque(
+        "r_barrido_pesos",
+        "filas: medidas del barrido; columnas: la malla de tres pesos y la "
+        "de cuatro; el guion indica que la medida no se define en esa malla.",
+        f"con riesgo Bogotá gana en {b0['ganan_bogota_compuesto']} de "
+        f"{len(b0['puntos'])} puntos de la malla de tres pesos y en "
+        f"{t0['ganan_bogota_total']} de {len(t0['puntos'])} de la de "
+        f"cuatro; la frontera sobre $w_3=0$ está en "
+        f"$w_1 = {b0['w1_umbral_sobre_w3_cero']:.4f}$.",
+        f"Medido: $\\Delta D = {d0[0]:.4f}$, $\\Delta P = {d0[1]:.4f}$ y "
+        f"$\\Delta R = {d0[2]:.4f}$ son los mismos en ambas mallas, y "
+        f"$\\Delta C = {t0['delta_corta_menos_desvio'][3]:.4f}$ es igual a "
+        "$\\Delta D$.")
     # --- tabla de heurística
     adm = heur["criterios"]["distancia"]["admisibilidad"]
     pura = heur["sin_piso"]["geodesica_pura_distancia"]
@@ -566,8 +593,7 @@ def ejemplo_agente():
             f"recomendada y en el {alt['cobertura_riesgo_pct']:.0f}\\,\\% "
             "de los del desvío.\n"
             "\\item La recomendación se mantiene mientras el "
-            f"peso de la distancia, $w_d/(w_d+w_p)$, sea mayor que {u0:.4f} "
-            f"({u1:.4f} sin piso geodésico).\n"
+            f"peso de la distancia, $w_d/(w_d+w_p)$, sea mayor que {u0:.4f}.\n"
             "\\item Por costo operativo, la ruta por Bogotá es la más barata "
             f"si el costo variable supera {um['cop_por_km']:.1f} COP por km; "
             "el combustible solo, con los insumos verificados, cuesta "
@@ -637,12 +663,14 @@ def texto_c2_dinero():
             "ruta por Bogotá es más barata en dinero si el costo variable por "
             "km supera el ahorro dividido entre los km extra, "
             "$c_{km}^{*} = (P_{\\mathrm{Bog}} - P_{\\mathrm{San}}) / "
-            "(d_{\\mathrm{San}} - d_{\\mathrm{Bog}})$ (umbral de la "
-            "Tabla~\\ref{tab:umbral-costo}, con el piso geodésico y en las "
-            "variantes sin piso y con las progresivas). Con el costo variable "
+            "(d_{\\mathrm{San}} - d_{\\mathrm{Bog}})$ (en el caso central, "
+            f"{b['km_extra']:.2f} km extra, el ahorro de "
+            f"{miles(b['ahorro_peaje_cop'])} COP da un umbral de "
+            f"{b['cop_por_km']:.1f} COP/km). Con el costo variable "
             f"vigente, {miles_1(comb)} COP/km (combustible con el precio de "
-            "la CREG y el consumo de la UPME, insumos verificados), la ruta "
-            "por Bogotá es la más barata en dinero en los tres casos. Los "
+            "la CREG y el consumo de la UPME, insumos verificados), que "
+            f"supera {comb / b['cop_por_km']:.1f} veces el umbral, la ruta "
+            "por Bogotá es la más barata en dinero. Los "
             "otros costos por km (llantas, lubricantes, mantenimiento y "
             "conductor) no tienen fuente y se toman iguales a 0 (supuesto del "
             "equipo), de modo que el costo variable real no es menor que el "

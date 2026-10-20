@@ -164,6 +164,49 @@ def figura_barrido():
     plt.close(fig)
 
 
+def figura_barrido_base():
+    """Un solo panel (la base, con piso geodésico) a ancho de texto."""
+    with open(SALIDA / "barrido_pesos.json", encoding="utf-8") as f:
+        b = json.load(f)[0]
+    fig, ax = plt.subplots(figsize=(5.906, 4.6), facecolor=SUPERFICIE)
+    ax.set_facecolor(SUPERFICIE)
+    cuentas = {}
+    for via, color, marca in (("Bogotá", AZUL, "o"),
+                              ("Santander", NARANJA, "^")):
+        pts = [p for p in b["puntos"] if p["compuesto"] == via]
+        cuentas[via] = len(pts)
+        ax.scatter([p["w1"] for p in pts], [p["w2"] for p in pts],
+                   s=46, color=color, marker=marca, edgecolors=SUPERFICIE,
+                   linewidths=0.6, zorder=3,
+                   label=f"Gana la ruta por {via} ({len(pts)} puntos)")
+    dd, dp, dr = b["delta_corta_menos_desvio"]
+    w1 = [i / 100 for i in range(101)]
+    frontera = [(-(x * (dd - dr) + dr) / (dp - dr)) for x in w1]
+    pares = [(x, y) for x, y in zip(w1, frontera) if 0 <= y <= 1 - x]
+    ax.plot([p[0] for p in pares], [p[1] for p in pares], color=TINTA_2,
+            lw=1.6, zorder=2, label="Frontera exacta")
+    ax.plot([0, 1], [1, 0], color=GRIS_RED, lw=0.8, zorder=1,
+            label="Límite $w_3 = 0$")
+    ax.set_xlabel("$w_1$ (distancia)", color=TINTA, fontsize=9)
+    ax.set_ylabel("$w_2$ (peaje); $w_3 = 1 - w_1 - w_2$ (riesgo)",
+                  color=TINTA, fontsize=9)
+    ax.set_xlim(-0.04, 1.04)
+    ax.set_ylim(-0.04, 1.04)
+    ax.tick_params(labelsize=8)
+    ax.grid(color="#e6e5e1", lw=0.6)
+    ax.set_axisbelow(True)
+    for lado in ("top", "right"):
+        ax.spines[lado].set_visible(False)
+    manijas, rotulos = ax.get_legend_handles_labels()
+    fig.legend(manijas, rotulos, loc="lower center", ncol=2, fontsize=8,
+               frameon=False)
+    fig.tight_layout(rect=(0, 0.12, 1, 1))
+    for ext in ("png", "pdf"):
+        fig.savefig(SALIDA / f"barrido_pesos_base.{ext}", dpi=200,
+                    facecolor=SUPERFICIE)
+    plt.close(fig)
+
+
 def main():
     grafo = cargar_grafo()
     coordenadas = cargar_coordenadas()
@@ -173,6 +216,7 @@ def main():
     figura_rutas(grafo, coordenadas, alfa, "compuesto_sin_riesgo",
                  "rutas_central_compuesto_sin_riesgo")
     figura_barrido()
+    figura_barrido_base()
     print("Figuras escritas en", SALIDA)
 
 

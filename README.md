@@ -96,9 +96,9 @@ python src/auditar_aristas.py    # auditoría geométrica (requiere red_vial.csv
 python src/auditar_distancias.py # distancias por registro (requiere red_vial.csv)
 python src/exportar_latex.py     # tablas del informe
 
-python src/experimentos_corte2.py  # escenarios, barrido y sensibilidad
+python src/experimentos_corte2.py  # escenarios, barrido y sensibilidad (esta, fuera del informe)
 python src/tablas_corte2.py       # tablas del informe del Corte 2
-python src/visualizar_rutas.py    # figuras de rutas y barrido
+python src/visualizar_rutas.py    # figuras de rutas y barrido (barrido_pesos_base.png va en el informe)
 python src/demostracion.py Duitama "Puente Nacional" distancia
 python src/pruebas_despachador.py  # agente multifuncional
 python src/pruebas_orden_libre.py  # Held-Karp, 2-opt y ACO

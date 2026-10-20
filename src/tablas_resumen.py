@@ -141,6 +141,29 @@ def filas_tiempos(val):
     return filas
 
 
+def filas_barrido_pesos():
+    """Barrido de pesos de la base (con piso): malla de tres pesos y malla
+    de cuatro, con la ruta ganadora y los Δ (Bogotá menos desvío)."""
+    b = leer("barrido_pesos.json")[0]
+    t = leer("barrido_total.json")[0]
+    d3, d4 = b["delta_corta_menos_desvio"], t["delta_corta_menos_desvio"]
+    return [
+        ["Bogotá gana, con riesgo",
+         f"{b['ganan_bogota_compuesto']} de {len(b['puntos'])}",
+         f"{t['ganan_bogota_total']} de {len(t['puntos'])}"],
+        ["Bogotá gana, sin riesgo",
+         f"{b['ganan_bogota_sin_riesgo']} de "
+         f"{b['puntos_sin_riesgo_definidos']}",
+         f"{t['ganan_bogota_sin_riesgo']} de "
+         f"{t['puntos_sin_riesgo_definidos']}"],
+        ["$w_1$ de cambio sobre $w_3=0$",
+         f"{b['w1_umbral_sobre_w3_cero']:.4f}", "---"],
+        ["$\\Delta D$", f"{d3[0]:.4f}", f"{d4[0]:.4f}"],
+        ["$\\Delta P$", f"{d3[1]:.4f}", f"{d4[1]:.4f}"],
+        ["$\\Delta R$", f"{d3[2]:.4f}", f"{d4[2]:.4f}"],
+        ["$\\Delta C$", "---", f"{d4[3]:.4f}"]]
+
+
 def filas_cambio_sin_riesgo():
     """Costo compuesto sin riesgo de las dos rutas, con las distancias sin
     corregir y con las corregidas."""
@@ -263,6 +286,9 @@ def main():
         "lrrrr", ["Variante", "Km extra", "Ahorro peaje (COP)",
                   "Umbral (COP/km)", "Veces"],
         filas_umbral_costo()))
+    escribir("tabla_r_barrido_pesos.tex", tabla(
+        "lrr", ["Medida", "Tres pesos", "Cuatro pesos"],
+        filas_barrido_pesos()))
     escribir("tabla_r_no_optimos.tex", tabla(
         "lrrr", ["Par", "A* devuelve (km)", "Óptimo (km)", "Exceso (km)"],
         filas_no_optimos(sens)))
