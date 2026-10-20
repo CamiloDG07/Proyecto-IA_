@@ -33,7 +33,8 @@ BLOQUE = re.compile(r"```(powershell|powershell-manual|text)\n(.*?)```",
 SALIDA_MARCA = re.compile(r"\{\{salida (\d+)\}\}")
 TIEMPOS = [(re.compile(r"\d+(?:\.\d+)? us"), "<t> us"),
            (re.compile(r"(tiempo\w*: )[\d.e+-]+"), r"\1<t>"),
-           (re.compile(r"\(\d+ s\)"), "(<t> s)")]
+           (re.compile(r"\(\d+ s\)"), "(<t> s)"),
+           (re.compile(r"(reescriben): .*"), r"\1: <archivos>")]
 
 
 def normalizar(texto):
@@ -162,7 +163,9 @@ def en_linea(t):
     salida = []
     for p in partes:
         if p.startswith("`"):
-            salida.append(r"\texttt{" + escapar(p[1:-1]) + "}")
+            codigo = escapar(p[1:-1]).replace(r"\_", r"\_\allowbreak{}")
+            codigo = codigo.replace("/", r"/\allowbreak{}")
+            salida.append(r"\texttt{" + codigo + "}")
         elif p.startswith("**"):
             salida.append(r"\textbf{" + escapar(p[2:-2]) + "}")
         else:
@@ -190,6 +193,27 @@ def tabla_tex(lineas):
     return out
 
 
+def condensar(md, maximo=5):
+    """Versión impresa: salidas de `maximo` líneas y sin las salidas de los
+    comandos adicionales del guion (el .md las trae completas)."""
+    salida, omitir = [], False
+    for parte in re.split(r"(```text\n.*?```)", md, flags=re.S):
+        if parte.startswith("```text\n"):
+            if omitir:
+                continue
+            lineas = parte[8:-3].rstrip("\n").split("\n")
+            if len(lineas) > maximo:
+                lineas = lineas[:maximo] + ["…"]
+            parte = "```text\n" + "\n".join(lineas) + "\n```"
+        else:
+            if "**Otros comandos del guion" in parte:
+                omitir = True
+            if "\n## 4." in parte:
+                omitir = False
+        salida.append(parte)
+    return "".join(salida)
+
+
 def a_tex(md):
     cuerpo, lineas, i = [], md.split("\n"), 0
     while i < len(lineas):
@@ -204,8 +228,8 @@ def a_tex(md):
                    else r"\fontsize{6.2}{7.2}\selectfont")
             cuerpo.append("{" + tam)
             cuerpo.append(r"\begin{Verbatim}[breaklines=true,"
-                          r"breakanywhere=true,frame=single,"
-                          r"framesep=1.5mm,rulecolor=\color{gray}]")
+                          r"breakanywhere=true,frame=leftline,"
+                          r"framesep=1mm,rulecolor=\color{gray}]")
             cuerpo.append(codigo)
             cuerpo.append(r"\end{Verbatim}}")
             i = j + 1
@@ -242,13 +266,13 @@ def a_tex(md):
     return "\n".join(cuerpo)
 
 
-ENCABEZADO = r"""\documentclass[10pt,a4paper]{article}
+ENCABEZADO = r"""\documentclass[9pt,a4paper]{extarticle}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[spanish,es-tabla]{babel}
 \usepackage{geometry}
-\geometry{margin=1.4cm}
-\usepackage{fancyvrb}
+\geometry{margin=1.2cm}
+\usepackage{fvextra}
 \usepackage{array}
 \usepackage[table]{xcolor}
 \usepackage{mathptmx}
@@ -268,7 +292,7 @@ def pdf(args):
     carpeta = salida.parent / "_guia_tmp"
     carpeta.mkdir(exist_ok=True)
     tex = carpeta / "GUIA_DE_COMANDOS.tex"
-    tex.write_text(ENCABEZADO + a_tex(md) + "\n\\end{document}\n",
+    tex.write_text(ENCABEZADO + a_tex(condensar(md)) + "\n\\end{document}\n",
                    encoding="utf-8")
     for _ in range(2):
         r = subprocess.run(["pdflatex", "-interaction=nonstopmode",
