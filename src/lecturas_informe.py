@@ -628,33 +628,23 @@ def cifras_dinero():
 def texto_c2_dinero():
     """Umbral exacto del costo variable por km (outputs/), caso central."""
     d = cifras_dinero()
-    b, g, p = (d["umbrales"][k] for k in ("piso", "sin_piso",
-                                          "progresivas"))
-    c = d["modelo"]
-    comb = c["combustible_cop_km"]
-    veces = ", ".join(f"{comb / x['cop_por_km']:.1f}" for x in (b, g, p))
+    b = d["umbrales"]["piso"]
+    comb = d["modelo"]["combustible_cop_km"]
     with open(SALIDA / "texto_c2_dinero.tex", "w", encoding="utf-8") as f:
         f.write(
-            "Con el piso geodésico (distancia del modelo no menor que la "
-            "línea recta entre los nodos), el desvío por Santander ahorra "
-            f"{miles(b['ahorro_peaje_cop'])} COP de peaje y suma "
-            f"{b['km_extra']:.2f} km. La ruta por Bogotá es más barata en "
-            "dinero si el costo variable por km supera el ahorro dividido "
-            f"entre los km extra, {b['cop_por_km']:.1f} COP/km. Sin piso "
-            "(distancias oficiales, con Chocontá a Tunja en 17.69 km) el "
-            f"desvío suma {g['km_extra']:.2f} km y el umbral es "
-            f"{g['cop_por_km']:.1f} COP/km; con Chocontá a Tunja en las "
-            f"progresivas (61.0 km, con un hueco de 49.1 km sin sector "
-            f"registrado) suma {p['km_extra']:.2f} km y el umbral es "
-            f"{p['cop_por_km']:.1f} COP/km. Con el costo variable vigente, "
-            f"{miles_1(comb)} COP/km (combustible con el precio de la CREG "
-            "y el consumo de la UPME, insumos verificados), la ruta por "
-            "Bogotá es la más barata en dinero en los tres casos, y lo "
-            f"supera {veces} veces, respectivamente. Los otros costos por "
-            "km (llantas, lubricantes, mantenimiento y conductor) no tienen "
-            "fuente y se toman iguales a 0 (supuesto del equipo), de modo "
-            "que el costo variable real no es menor que el calculado. No se "
-            "incluyen tiempo ni riesgo.\n")
+            "El desvío por Santander ahorra "
+            f"{miles(b['ahorro_peaje_cop'])} COP de peaje y suma km extra. La "
+            "ruta por Bogotá es más barata en dinero si el costo variable por "
+            "km supera el ahorro dividido entre los km extra (umbral de la "
+            "Tabla~\\ref{tab:umbral-costo}, con el piso geodésico y en las "
+            "variantes sin piso y con las progresivas). Con el costo variable "
+            f"vigente, {miles_1(comb)} COP/km (combustible con el precio de "
+            "la CREG y el consumo de la UPME, insumos verificados), la ruta "
+            "por Bogotá es la más barata en dinero en los tres casos. Los "
+            "otros costos por km (llantas, lubricantes, mantenimiento y "
+            "conductor) no tienen fuente y se toman iguales a 0 (supuesto del "
+            "equipo), de modo que el costo variable real no es menor que el "
+            "calculado. No se incluyen tiempo ni riesgo.\n")
 
 
 def main():

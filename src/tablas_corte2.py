@@ -192,14 +192,14 @@ def tabla_barrido_total(totales):
     """Barrido de los cuatro pesos: con piso, sin piso y progresivas."""
     vs = totales
     filas = [
-        ("Puntos con ruta por Bogotá (compuesto total)",
+        ("Bogotá gana (total)",
          [f"{v['ganan_bogota_total']} de {len(v['puntos'])}" for v in vs]),
-        ("Puntos con ruta por Bogotá (sin riesgo)",
+        ("Bogotá gana (sin riesgo)",
          [f"{v['ganan_bogota_sin_riesgo']} de "
           f"{v['puntos_sin_riesgo_definidos']}" for v in vs])]
     nombres = ["$\\Delta D$", "$\\Delta P$", "$\\Delta R$", "$\\Delta C$"]
     for i, nombre in enumerate(nombres):
-        filas.append((f"{nombre} (Bogotá menos Santander)",
+        filas.append((f"{nombre}",
                       [f"{v['delta_corta_menos_desvio'][i]:.4f}"
                        for v in vs]))
     escribir("tabla_c2_barrido_total.tex",

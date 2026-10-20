@@ -17,6 +17,12 @@
 \usepackage{enumitem}
 \setlist{itemsep=0pt,topsep=2pt,parsep=0pt}
 \setlength{\belowcaptionskip}{4pt}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.7}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{5}
 \usepackage{setspace}
 \usepackage{xurl}
 \usepackage{verbatim}
@@ -217,26 +223,27 @@ de riesgo (no negativos) no se incluyen en $h$ y no la rompen. Sin el piso, la
 misma garantía exige que $\alpha$ sea el mínimo de la razón
 carretera/geodésica, redondeado hacia abajo a 6 decimales.
 
-\textbf{Valor de $\alpha$.} Con el piso la razón mínima es
-1.0000000059 (el excedente sobre 1 es el redondeo hacia arriba
-de la geodésica) y $\alpha = 1$. Sin el piso, $\alpha = 0.310570$ (razón
-mínima exacta 0.3105704113), determinada por la arista de Chocontá a
-Tunja, cuyo sector está truncado en la fuente. Las 8 aristas con piso están en la
+\textbf{Valor de $\alpha$.} Con el piso la razón mínima carretera/geodésica
+es 1.0000000059 (el excedente sobre 1 es el redondeo hacia arriba de la
+geodésica) y $\alpha = 1$. Sin el piso, $\alpha$ es la razón mínima exacta
+(0.3105704113) redondeada hacia abajo, y la determina la arista de Chocontá a
+Tunja, cuyo sector está truncado en la fuente; su valor y el de las demás
+heurísticas están en la Tabla~\ref{tab:heuristica}. Las 8 aristas con piso están en la
 Tabla~\ref{tab:piso} y en la Figura~\ref{fig:heuristica}.
 
 \textbf{Verificación numérica} (Tabla~\ref{tab:heuristica}). La admisibilidad
 compara $h(n)$ con el costo óptimo real $h^*(n)$ de Dijkstra para los 992
 pares $(n, \text{meta})$; la consistencia comprueba $h(u) \le c(u,v) + h(v)$
-en cada arista, en ambos sentidos y para las 32 metas. Con el piso y
-$\alpha = 1$ no hay violaciones en ninguna de las siete heurísticas; el margen
-mínimo de la distancia es de 1.2e-07 km, es decir, cero: en
-una arista con piso la distancia del modelo es la propia recta. En A* con
-$\alpha = 1$ no hay ninguna reexpansión de nodos en los 992 pares y la ruta es la
-óptima en todos (\texttt{src/pruebas\_piso.py}). Sin el piso, con
-$\alpha = 0.310570$ tampoco hay violaciones (margen mínimo
-0.000023 km, en Chocontá a Tunja), y con la geodésica pura
-($\alpha = 1$) hay 66 violaciones de admisibilidad y 141 de
-consistencia: el peor margen es $-56.51$ km.
+en cada arista, en ambos sentidos y para las 32 metas.
+\begin{itemize}
+\item Con el piso y $\alpha = 1$ no hay violaciones en ninguna de las siete
+heurísticas; el margen mínimo es cero porque en una arista con piso la
+distancia del modelo es la propia recta.
+\item En A* con $\alpha = 1$ no hay ninguna reexpansión de nodos en los 992
+pares y la ruta es la óptima en todos (\texttt{src/pruebas\_piso.py}).
+\item Sin el piso, $\alpha$ reducido no tiene violaciones; con la geodésica pura
+($\alpha = 1$) sí las tiene, en admisibilidad y en consistencia.
+\end{itemize}
 
 \begin{table}[H]
 \centering
@@ -262,7 +269,7 @@ carretera es mucho más larga que la línea recta.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{fig_heuristica.pdf}
+    \includegraphics[width=0.9\textwidth]{fig_heuristica.pdf}
     \caption{Distancia por carretera contra distancia geodésica de las 32 aristas con piso (triángulo lleno, distancia del modelo; vacío, distancia oficial) y la recta $y = \alpha x$ sin piso. Fuente: elaboración propia}
     \label{fig:heuristica}
     \input{outputs/lectura_c2_fig_heuristica.tex}
@@ -337,7 +344,7 @@ expandió y cuáles solo generó cada búsqueda.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{fig_comparacion.pdf}
+    \includegraphics[width=0.9\textwidth]{fig_comparacion.pdf}
     \caption{Nodos expandidos, tiempo medio con su desviación y memoria pico de los cinco algoritmos en los diez escenarios, criterio distancia. Fuente: elaboración propia}
     \label{fig:comparacion}
     \input{outputs/lectura_c2_fig_comparacion.tex}
@@ -345,7 +352,7 @@ expandió y cuáles solo generó cada búsqueda.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{fig_expansion.pdf}
+    \includegraphics[width=0.9\textwidth]{fig_expansion.pdf}
     \caption{Nodos expandidos, generados sin expandir y no visitados de cada búsqueda en un esquema de la red (el ciclo como anillo), caso central, criterio distancia. Fuente: elaboración propia}
     \label{fig:expansion}
     \input{outputs/lectura_c2_fig_expansion.tex}
@@ -369,35 +376,69 @@ expandió y cuáles solo generó cada búsqueda.
 \input{outputs/lectura_c2_t_optimalidad.tex}
 \end{table}
 
-Lo que muestran las corridas:
+La Tabla~\ref{tab:resumen-dist} resume el caso central; el sobrecosto de cada
+algoritmo y los nodos expandidos en los diez escenarios están en las
+Tablas~\ref{tab:sobrecosto} y~\ref{tab:nodos-criterios}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Criterio distancia en el caso central (Duitama a Puente Nacional). Fuente: elaboración propia}
+\label{tab:resumen-dist}
+\small
+\input{outputs/tabla_r_distancia.tex}
+\end{table}
 
 \begin{itemize}
-\item En el caso central, BFS y DFS devuelven la ruta por Santander
-(654.25 km, 76.6\,\% más cara que el óptimo): BFS porque tiene un salto menos
-(7 contra 8), y DFS por su orden de exploración. UCS, la búsqueda voraz y A*
-devuelven la ruta óptima por Bogotá (370.54 km). En Bucaramanga a Bogotá, DFS
-devuelve una ruta 49.0\,\% más cara.
+\item BFS minimiza el número de saltos y DFS sigue su orden de exploración: por
+eso ambos devuelven el desvío por Santander.
 \item En los seis pares de ruta única, los cinco algoritmos devuelven la misma
 ruta y el mismo costo.
-\item Sumados los diez escenarios, los nodos expandidos fueron: BFS 143,
-DFS 142, UCS 139, voraz 50 y A* 64. A* expande menos nodos que UCS en cada
-escenario o igual, y la búsqueda voraz es la que menos expande y devuelve la
-ruta óptima en los diez escenarios, aunque no lo garantiza.
-\item En el caso central A* tarda $56 \pm 7$ $\mu$s contra $89 \pm 5$
-$\mu$s de UCS, con 14 nodos contra 27. En un escenario (Chiquinquirá a Tunja) A* tarda más que UCS, con el mismo
+\item A* expande menos nodos que UCS en cada escenario o igual; la búsqueda
+voraz es la que menos expande y devuelve la ruta óptima en los diez escenarios,
+aunque no lo garantiza.
+\item En un escenario (Chiquinquirá a Tunja) A* tarda más que UCS, con el mismo
 número de nodos; con estas desviaciones las diferencias de tiempo son
-indicativas. Esos tiempos excluyen la construcción de la tabla de $h$, que se mide aparte.
+indicativas. Esos tiempos excluyen la construcción de la tabla de $h$, que se
+mide aparte.
 \end{itemize}
 
 \subsection{Criterio compuesto sin riesgo}
 
-Las tablas de nodos expandidos y de optimalidad con este criterio están
-en \nolinkurl{outputs/tabla_c2_compuesto_sin_riesgo_*}. BFS y DFS
-vuelven a elegir el desvío en el caso central
-(4.7\,\% más caro), y DFS es 8.7\,\% más caro en Bucaramanga a Bogotá. UCS,
-la búsqueda voraz y A* son óptimos. Sumados los diez escenarios, los nodos
-expandidos fueron 143 (BFS), 142 (DFS), 138 (UCS), 50 (voraz) y 99 (A*).
-\input{outputs/texto_cambio_sin_riesgo.tex}
+Las Tablas~\ref{tab:sobrecosto} y~\ref{tab:nodos-criterios} comparan los
+cuatro criterios con heurística admisible; las tablas por escenario están en
+\nolinkurl{outputs/tabla_c2_<criterio>_*}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Sobrecosto (\%) respecto del óptimo, en el caso central y en Bucaramanga a Bogotá (Buc.); Óptimos: máximo de UCS, voraz y A*. Fuente: elaboración propia}
+\label{tab:sobrecosto}
+\footnotesize\setlength{\tabcolsep}{4.5pt}
+\input{outputs/tabla_r_sobrecosto.tex}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Nodos expandidos sumados en los diez escenarios, por criterio y algoritmo. Fuente: elaboración propia}
+\label{tab:nodos-criterios}
+\small
+\input{outputs/tabla_r_nodos.tex}
+\end{table}
+
+\begin{itemize}
+\item Con los cuatro criterios BFS y DFS eligen el desvío por Santander en el
+caso central, y UCS, la búsqueda voraz y A* son óptimos.
+\end{itemize}
+
+La Tabla~\ref{tab:cambio-sin-riesgo} muestra el efecto de corregir las
+distancias en este criterio.
+
+\begin{table}[!htbp]
+\centering
+\caption{Costo compuesto sin riesgo de las dos rutas de Duitama a Puente Nacional, con las distancias sin corregir y con las corregidas. Fuente: elaboración propia}
+\label{tab:cambio-sin-riesgo}
+\small
+\input{outputs/tabla_r_cambio_sin_riesgo.tex}
+\end{table}
 
 El tiempo y la memoria de los ocho criterios están en el archivo de
 resultados del Corte 2 de la carpeta \texttt{outputs}.
@@ -405,21 +446,11 @@ resultados del Corte 2 de la carpeta \texttt{outputs}.
 \subsection{Criterios con costo monetario}
 
 El costo variable por km sale de \texttt{config\_costos.json}
-(Sección~\ref{sec:agente}). Las tablas completas están en
-\nolinkurl{outputs/tabla_c2_costo_operativo_*} y
+(Sección~\ref{sec:agente}). Los criterios con costo monetario son el costo
+operativo (peaje más costo variable) y el compuesto total sin riesgo; sus
+resultados están en las Tablas~\ref{tab:sobrecosto} y~\ref{tab:nodos-criterios},
+y las tablas por escenario en \nolinkurl{outputs/tabla_c2_costo_operativo_*} y
 \nolinkurl{outputs/tabla_c2_compuesto_total_sin_riesgo_*}.
-\begin{itemize}
-\item \textbf{Costo operativo} (peaje más costo variable). En el caso central
-BFS y DFS devuelven el desvío por Santander (43.0\,\% más caro) y DFS es
-31.4\,\% más caro en Bucaramanga a Bogotá; UCS, la búsqueda voraz y A* son
-óptimos. Sumados los diez escenarios, los nodos expandidos fueron 143 (BFS),
-142 (DFS), 138 (UCS), 50 (voraz) y 75 (A*).
-\item \textbf{Compuesto total sin riesgo.} En el caso central BFS y DFS
-devuelven el desvío (24.9\,\% más caro) y DFS es 21.1\,\% más caro en
-Bucaramanga a Bogotá; UCS, voraz y A* son óptimos. Sumados los diez escenarios,
-los nodos expandidos fueron 143 (BFS), 142 (DFS), 141 (UCS), 50 (voraz) y 86
-(A*).
-\end{itemize}
 
 \subsection{Criterios con heurística limitada}
 
@@ -503,48 +534,47 @@ frontera.
 \input{outputs/lectura_c2_barrido_tabla.tex}
 \end{table}
 
-\textbf{Con piso (base).}
+\textbf{Variantes.} La Tabla~\ref{tab:barrido} da, para la red con piso (base),
+sin piso y con las progresivas (Chocontá a Tunja en 61.0 km, con piso), los
+puntos de la malla donde gana la ruta por Bogotá y la frontera sobre
+$w_3 = 0$.
 \begin{itemize}
-\item La ruta por Bogotá gana en 17 de los 66 puntos y la frontera corta la
-recta $w_3 = 0$ en $w_1 = 0.4576$.
-\item Sin el término de riesgo gana en 35 de los 65 puntos donde esa variante
-está definida (en $w_1 = w_2 = 0$ no lo está).
+\item La variante \emph{sensibilidad sin piso} usa las distancias oficiales
+(Chocontá a Tunja en 17.69 km). Con el compuesto, el ganador cambia en
+$(0.5, 0.2, 0.3)$ y en $(0.5, 0.3, 0.2)$, que pasan a Bogotá; sin riesgo, en
+$(0.3, 0.4, 0.3)$ y en $(0.4, 0.5, 0.1)$.
+\item La variante \emph{sensibilidad con progresivas} usa 61.0 km para Chocontá a
+Tunja, con el hueco de 49.1 km sin sector, y con piso.
 \end{itemize}
-
-\textbf{Sin piso.} La variante \emph{sensibilidad sin piso} usa las distancias
-oficiales (Chocontá a Tunja en 17.69 km):
-\begin{itemize}
-\item La frontera se desplaza a $w_1 = 0.4095$ y la ruta por Bogotá gana en 19
-puntos.
-\item El ganador cambia en dos puntos de la malla, $(0.5, 0.2, 0.3)$ y $(0.5, 0.3, 0.2)$, que pasan a Bogotá.
-\item Sin riesgo cambia en dos puntos, $(0.3, 0.4, 0.3)$ y $(0.4, 0.5, 0.1)$.
-\end{itemize}
-
-\textbf{Progresivas.} La variante \emph{sensibilidad con progresivas} usa
-61.0 km para Chocontá a Tunja, con el hueco de 49.1 km sin sector (y con
-piso): la frontera queda en $w_1 = 0.4611$, la ruta por Bogotá gana en 17 puntos
-y, sin riesgo, en 35 de 65.
 
 \textbf{Compuesto total (cuatro pesos).} El costo variable entra como cuarto
-peso, $w_4$, con $w_1 + w_2 + w_3 + w_4 = 1$; la tabla completa está en
-\nolinkurl{outputs/tabla_c2_barrido_total.tex}.
-\begin{itemize}
-\item La malla de paso 0.1 tiene 286 puntos; la ruta por Bogotá gana en 137, y
-sin el término de riesgo en 215 de los 285 puntos donde esa variante está
-definida.
-\item Sin piso gana en 149 y en 224; con las progresivas (61.0
-km), en 137 y en 215.
-\item Las diferencias entre la ruta por Bogotá y el desvío son
-$\Delta D = -2.0120$, $\Delta P = 1.6971$, $\Delta R = 2.8788$ y
-$\Delta C = -2.0120$; $\Delta C$ es igual a $\Delta D$ porque el costo variable
-es proporcional a los km.
-\end{itemize}
+peso, $w_4$, con $w_1 + w_2 + w_3 + w_4 = 1$; la malla de paso 0.1 tiene 286
+puntos y los resultados están en la Tabla~\ref{tab:barrido-total}.
+$\Delta C$ es igual a $\Delta D$ porque el costo variable es proporcional a los
+km.
+
+\begin{table}[!htbp]
+\centering
+\caption{Resultado del barrido de los cuatro pesos; $\Delta$: ruta por Bogotá menos desvío por Santander. Fuente: elaboración propia}
+\label{tab:barrido-total}
+\small
+\input{outputs/tabla_c2_barrido_total.tex}
+\end{table}
 
 \textbf{Costo en dinero.} \input{outputs/texto_c2_dinero.tex}
 
+\begin{table}[!htbp]
+\centering
+\caption{Umbral del costo variable por km a partir del cual la ruta por Bogotá es la más barata en dinero, por variante; Veces: cuántas veces lo supera el combustible. Fuente: elaboración propia}
+\label{tab:umbral-costo}
+\footnotesize\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_r_umbral_costo.tex}
+\end{table}
+
+
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{fig_costo_km.pdf}
+    \includegraphics[width=0.8\textwidth]{fig_costo_km.pdf}
     \caption{Costo total de las dos rutas de Duitama a Puente Nacional según el costo variable por km. Fuente: elaboración propia}
     \label{fig:costo-km}
     \input{outputs/lectura_c2_fig_costo_km.tex}
@@ -552,7 +582,7 @@ es proporcional a los km.
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{barrido_pesos.png}
+    \includegraphics[width=0.9\textwidth]{barrido_pesos.png}
     \caption{Ruta ganadora en la malla de pesos, con piso geodésico (base), sin
     piso y con Chocontá a Tunja en las progresivas de 61.0 km (con piso).
     Fuente: elaboración propia}
@@ -565,12 +595,11 @@ es proporcional a los km.
 La Tabla~\ref{tab:sens-cruda} compara la red con piso geodésico (base) con tres
 variantes: sin piso (distancias oficiales), las progresivas (61.0 km para
 Chocontá a Tunja, con piso) y una construida con la longitud registrada de todos
-los sectores (\texttt{shape\_\_length}, con piso). Se generan con la función
-\texttt{construir\_grafo}, con el parámetro \texttt{piso\_geodesico}, con
-\texttt{reemplazos} o dando el valor \texttt{cruda} al parámetro
-\texttt{distancia}, a partir del mismo \texttt{aristas\_red.json}. La tabla
-muestra la ruta óptima de Duitama a Puente Nacional por criterio y el resultado
-del barrido de pesos.
+los sectores (\texttt{shape\_\_length}, con piso). Se generan con
+\texttt{construir\_grafo} (parámetros \texttt{piso\_geodesico},
+\texttt{reemplazos} y \texttt{distancia}) a partir del mismo
+\texttt{aristas\_red.json}. La tabla muestra la ruta óptima de Duitama a Puente
+Nacional por criterio y el resultado del barrido de pesos.
 
 \begin{table}[H]
 \centering
@@ -598,17 +627,23 @@ A* con $\alpha = 0.310570$ y A* con $\alpha = 1$), criterio distancia}
 \input{outputs/tabla_c2_sensibilidad_alfa.tex}
 \end{table}
 
-En los diez escenarios A* devuelve la ruta óptima con las tres heurísticas; en el
-caso central expande 14 nodos con piso, contra 27 de UCS, y sin piso
-20 con $\alpha = 0.310570$, 14 con $\alpha = 1$ y 25 de UCS.
+En los diez escenarios A* devuelve la ruta óptima con las tres heurísticas; la
+Tabla~\ref{tab:sens-alfa} da los nodos expandidos del caso central y la suma de
+los 992 pares.
 \begin{itemize}
-\item Sobre los 992 pares de nodos, A* con piso devuelve la ruta óptima en los 992 y no hace
-ninguna reexpansión; con $\alpha = 1$ sin piso devuelve la óptima en 989 y falla en
-3: de Bucaramanga a Barbosa devuelve 544.84 km frente a un óptimo de 544.17 km; de Bucaramanga a Sáchica devuelve 517.16 km frente a un óptimo de 516.49 km; de Bucaramanga a Tunja devuelve 482.01 km frente a un óptimo de 481.34 km.
-\item Sumados los 992 pares, UCS expande 15\,872 nodos con piso y 15\,872 sin piso;
-A* con piso, 8\,584; sin piso, 13\,377 con $\alpha = 0.310570$ y
-8\,321 con $\alpha = 1$ (no admisible).
+\item Sobre los 992 pares de nodos, A* con piso devuelve la ruta óptima en los
+992 y no hace ninguna reexpansión.
+\item Con $\alpha = 1$ sin piso devuelve la óptima en 989 y falla en 3, todos
+desde Bucaramanga (Tabla~\ref{tab:no-optimos}).
 \end{itemize}
+
+\begin{table}[!htbp]
+\centering
+\caption{Pares en que A* con $\alpha = 1$ y sin piso no devuelve la ruta óptima. Fuente: elaboración propia}
+\label{tab:no-optimos}
+\small
+\input{outputs/tabla_r_no_optimos.tex}
+\end{table}
 
 \section{Agente autónomo de rutas}
 \label{sec:agente}
@@ -727,7 +762,7 @@ el ciclo, (b) un par de ruta única y (c) varios destinos con regreso}
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{fig_agente.pdf}
+    \includegraphics[width=0.9\textwidth]{fig_agente.pdf}
     \caption{Rutas del agente autónomo en tres solicitudes de la Tabla~\ref{tab:ejemplos-agente}. Fuente: elaboración propia}
     \label{fig:agente}
     \input{outputs/lectura_c2_fig_agente.tex}
@@ -805,14 +840,20 @@ todas las sesiones.
 \end{table}
 
 \textbf{Resultado por sesión} (las tres sesiones de la
-Figura~\ref{fig:umbral}):
+Figura~\ref{fig:umbral}; Tabla~\ref{tab:umbral-sesiones}).
 \begin{itemize}
-\item $k = 19$ cabe en las tres (2.735, 1.227 y 1.694 s).
-\item $k = 20$ no cabe (5.986 s en la sesión 1; 2.475 y 3.676 s en la 2 y la
-3).
-\item La memoria no limita hasta $k = 22$, el mayor medido (1009.8 MiB).
+\item $k = 19$ cabe en las tres y $k = 20$ no cabe.
+\item La memoria no limita hasta $k = 22$, el mayor medido.
 \item Por tanto $K_{\mathrm{exacto}} = 19$, fijado por el tiempo.
 \end{itemize}
+
+\begin{table}[!htbp]
+\centering
+\caption{Held-Karp: mediana de cada sesión (S1 a S3) y memoria pico para los $k$ que fijan el umbral. Fuente: elaboración propia}
+\label{tab:umbral-sesiones}
+\small
+\input{outputs/tabla_r_umbral_sesiones.tex}
+\end{table}
 
 \textbf{Variación entre sesiones.} Los tiempos de una sesión a otra difieren
 hasta 2.75 veces ($k = 17$) con $k$ entre 16 y 20 y hasta 1.70 veces con
@@ -843,7 +884,7 @@ asimétrica sintética).
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{fig_umbral.pdf}
+    \includegraphics[width=0.85\textwidth]{fig_umbral.pdf}
     \caption{Medición de Held-Karp en esta máquina: peor tiempo mediano de las sesiones contra $k$, con el presupuesto de 5 s y $K_{\mathrm{exacto}}$. Fuente: elaboración propia}
     \label{fig:umbral}
     \input{outputs/lectura_c2_fig_umbral.tex}
@@ -920,37 +961,42 @@ Igualan: semillas que alcanzan la referencia; tiempos medios}
 
 Las curvas de convergencia del ACO con 2-opt (brecha de la media de 10
 semillas respecto de la referencia) están en
-\texttt{outputs/convergencia\_aco.png}. Lo que muestran las corridas:
+\texttt{outputs/convergencia\_aco.png}. Las brechas con y sin 2-opt y con el
+inicio fijo de las hormigas (contraste) están en la
+Tabla~\ref{tab:ampliada}, y los tiempos en la Tabla~\ref{tab:tiempos-aco}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Brecha media (\%) del ACO respecto de la referencia y semillas que la igualan, con 2-opt, sin 2-opt (inicio aleatorio) y sin 2-opt con inicio fijo. Fuente: elaboración propia}
+\label{tab:ampliada}
+\scriptsize\setlength{\tabcolsep}{3pt}
+\input{outputs/tabla_ag_ampliada.tex}
+\end{table}
+
+\begin{table}[!htbp]
+\centering
+\caption{Tiempo y memoria de Held-Karp y del ACO por tamaño de instancia. Fuente: elaboración propia}
+\label{tab:tiempos-aco}
+\small
+\input{outputs/tabla_r_tiempos.tex}
+\end{table}
 
 \begin{itemize}
 \item \textbf{Red de carga.} El ACO con 2-opt alcanza el costo de Held-Karp en
-las 12 instancias con exacto (120 de 120 semillas) y el óptimo por estructura
-en las 32 ciudades (2895.49 km, 10 de 10). En la red de carga, casi un árbol,
-el exacto y el ACO coinciden. Con inicio aleatorio de las hormigas el ACO sin
-2-opt también alcanza la referencia en las 130 semillas de la red.
-\item \textbf{Euclidianas $n = 20$ (semillas 1 a 5).} El ACO con 2-opt
-alcanza el óptimo con su mejor corrida en las 5; la brecha media es 0.040\,\%
-(48 de 50 semillas lo alcanzan; la semilla 1 con 8 de 10). Sin 2-opt, con
-inicio aleatorio, la brecha media sube a 0.357\,\% y 32 de 50 semillas lo
-alcanzan: el aporte del 2-opt es nulo en la red y pequeño en las euclidianas
-($n = 20$), con una brecha media de 0.357\,\% sin 2-opt contra 0.040\,\% con
-él.
-\item \textbf{Efecto del inicio de las hormigas.} Con la ciudad de salida
-fija (contraste, «inicio fijo»), el ACO sin 2-opt tenía una brecha media de
-2.212\,\% en las euclidianas de $n = 20$ (1 de 50 semillas), de 2.012\,\%
-con $n = 15$ (22 de 30) y de 1.832\,\% con $n = 20$ (19 de 30) en la red. Esa brecha se debía al inicio
-fijo de las hormigas y no a la ausencia de 2-opt: con el inicio aleatorio, sin
-cambiar nada más, es 0.357\,\% en las euclidianas de $n = 20$ y 0 en la red
-(Figura~\ref{fig:aco}). El aporte del 2-opt se reporta con inicio
-aleatorio y crece con $n$: nulo en la red, pequeño con $n = 20$ y grande con
-$n = 100$ y 200.
-\item \textbf{Tiempo.} Con $n = 20$ ($k = 19$), Held-Karp tarda entre 1.12 s y
-1.19 s y 111.8 MiB; el ACO, entre 0.06 s y 0.07 s. Con pocas paradas el exacto es más rápido
-(milisegundos hasta $n = 10$). La regla fija elige el exacto siempre que es
-viable, aunque el ACO resulte más rápido. Con $n = 100$ y 200 el ACO con 2-opt
-tarda $1.07 \pm 0.03$ s y $6.05 \pm 0.07$ s, y sin 2-opt $0.89 \pm 0.03$ s y
-$4.84 \pm 0.15$ s. Los tiempos de una sesión a otra cambian con el estado de la máquina (Hipótesis), por lo que
-se leen como orden de magnitud.
+las instancias con exacto y el óptimo por estructura en las 32 ciudades
+(2895.49 km). En una red casi un árbol el exacto y el ACO coinciden, y con el
+inicio aleatorio de las hormigas el ACO sin 2-opt también alcanza la
+referencia.
+\item \textbf{Euclidianas $n = 20$.} El aporte del 2-opt es nulo en la red y
+pequeño en estas instancias, y crece con $n$: es grande con $n = 100$ y 200.
+\item \textbf{Efecto del inicio de las hormigas.} La brecha con inicio fijo se
+debía al inicio y no a la ausencia de 2-opt: con el inicio aleatorio, sin
+cambiar nada más, desaparece en la red y baja en las euclidianas
+(Figura~\ref{fig:aco}).
+\item \textbf{Tiempo.} Con pocas paradas el exacto es más rápido (milisegundos
+hasta $n = 10$). La regla fija elige el exacto siempre que es viable, aunque el
+ACO resulte más rápido. Los tiempos de una sesión a otra cambian con el estado
+de la máquina (Hipótesis), por lo que se leen como orden de magnitud.
 \end{itemize}
 
 \subsection{Referencia por estructura}
@@ -980,32 +1026,26 @@ inicios aleatorios), que no es un óptimo.
 \textbf{Con búsqueda local.}
 \begin{itemize}
 \item Con $n = 100$ el ACO con 2-opt obtiene $-0.315$\,\% en la mejor corrida y
-$-0.171$\,\% en la media respecto de esa referencia; con $n = 200$,
-$-1.937$\,\% y $-1.400$\,\%, sin que ninguna semilla la iguale.
+con $n = 200$, $-1.937$\,\%, respecto de esa referencia (las medias, en la
+Tabla~\ref{tab:ampliada}), sin que ninguna semilla la iguale.
 \item Las brechas negativas solo indican que el ACO supera a esa búsqueda local
 desde inicios múltiples: no se conoce la distancia al óptimo.
 \end{itemize}
 
 \textbf{Sin 2-opt, con inicio aleatorio.}
 \begin{itemize}
-\item La brecha media respecto de la misma referencia es $5.599$\,\% con
-$n = 100$ y $6.209$\,\% con $n = 200$, y ninguna semilla la iguala: el aporte
-del 2-opt es grande (sin él la brecha es de 5--6\,\%; con él el ACO supera la
-referencia).
+\item Ninguna semilla iguala la referencia (Tabla~\ref{tab:ampliada}): el
+aporte del 2-opt es grande, pues sin él la brecha es de 5--6\,\% y con él el
+ACO supera la referencia.
 \item No se corrió el ACO sin 2-opt con inicio fijo en ellas.
 \end{itemize}
 
-\textbf{Material de apoyo.}
-\begin{itemize}
-\item La convergencia de estas dos instancias está en
+La convergencia de estas dos instancias está en
 \nolinkurl{outputs/convergencia_aco_mayores.png}.
-\item La tabla completa (brechas, semillas que igualan, tiempos y memoria) está
-en \nolinkurl{outputs/tabla_ag_ampliada.tex}.
-\end{itemize}
 
 \begin{figure}[!htbp]
     \centering
-    \includegraphics[width=\textwidth]{fig_aco.pdf}
+    \includegraphics[width=0.85\textwidth]{fig_aco.pdf}
     \caption{Convergencia del ACO con 2-opt (arriba) y brecha media por grupo con y sin 2-opt (abajo). Fuente: elaboración propia}
     \label{fig:aco}
     \input{outputs/lectura_c2_fig_aco.tex}
