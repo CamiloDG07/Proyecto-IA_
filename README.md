@@ -43,6 +43,27 @@ supuesto del equipo, no un dato. Por eso el criterio por defecto sigue siendo
 | `formulacion_corte1.tex` | Informe del Corte 1 |
 | `informe_corte2.tex`, `guion_demostracion.md` | Informe del Corte 2 y guion de la demostración |
 
+## Mapa de carpetas
+
+Cada línea indica qué contiene la carpeta y de qué tipo es. Para ejecutar el
+proyecto paso a paso, ver `EJECUTAR.md`.
+
+| Carpeta | Contenido | Tipo |
+|---|---|---|
+| (raíz) | `README.md`, `EJECUTAR.md`, `requirements.txt`, `config_costos.json`, los dos informes (`.tex` y `.pdf`) y el guion de la demostración | documentación e informe |
+| `data/` | Datos de entrada | datos |
+| `data/carga/` | Datos oficiales de la red (INVÍAS, ANSV, DANE), coordenadas, `VERIFICACION.md` y `FUENTES_NUEVAS.md`; `red_vial.csv` no está versionado | datos |
+| `data/carga/nuevas/` | Mortalidad ANSV y postes de INVÍAS (CC BY-SA 4.0) | datos |
+| `data/carga/_descarga_previa/` | Descarga anterior, conservada como evidencia | datos |
+| `data/_archivo_transmilenio/` | Material del dominio anterior (TransMilenio) | datos (archivo) |
+| `src/` | Código: construcción de la red y del grafo, búsquedas, heurística, agente, despachador, Held-Karp, ACO, experimentos, generadores de tablas y figuras, pruebas y verificador | ejecución, medición, informe y pruebas |
+| `src/_archivo_transmilenio/` | Código del dominio anterior | archivo |
+| `outputs/` | Resultados guardados (JSON, CSV, grafo), tablas y lecturas `.tex`, figuras y mapas, bitácoras | resultados e informe |
+| `outputs/_archivo_transmilenio/` | Resultados del dominio anterior | archivo |
+| `outputs/muestras_formato/` | Muestras del estilo único de tablas | informe |
+| `notebooks/`, `data/notebooks/` | Carpetas locales sin archivos versionados | (vacías) |
+| `venv/` | Entorno virtual local, no versionado | local |
+
 ## Datos
 
 Versión de los datos: descarga oficial del 6 de octubre de 2026 (API Socrata
@@ -79,6 +100,9 @@ Si el pickle no se puede leer (otra versión de Python o networkx),
 `build_graph.py` reconstruye el grafo desde los JSON.
 
 ## Reproducción
+
+La guía completa, con los comandos probados, los tiempos y el orden de la
+regeneración, está en `EJECUTAR.md`. Resumen:
 
 ```
 python -m venv venv
