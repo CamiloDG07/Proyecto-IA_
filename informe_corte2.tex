@@ -29,7 +29,7 @@
 
 \geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
 \hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
-\graphicspath{{data/}{outputs/}}
+\graphicspath{{data/}{outputs/figuras/}}
 
 % bloque "Cómo leerla" de figuras y tablas de resultados
 \newcommand{\comoleerla}[3]{%
@@ -136,7 +136,7 @@ por Bogotá pasa de 309.10 a 370.54 km y $\alpha = 1$
 distancia del modelo (con piso)}
 \label{tab:piso}
 \small
-\input{outputs/tabla_c2_razones.tex}
+\input{outputs/tablas/tabla_c2_razones.tex}
 \end{table}
 
 \section{Implementación de los cinco algoritmos}
@@ -185,7 +185,7 @@ tamaño máximo de la frontera.
 BFS minimiza los saltos, UCS es óptimo con costos no negativos y A* es óptimo con
 $h$ admisible y no reexpande con $h$ consistente
 (Sección~\ref{sec:heuristica}); las pruebas automáticas están en
-\texttt{src/pruebas\_busquedas.py}.
+\texttt{pruebas/pruebas\_busquedas.py}.
 
 \section{Heurística: admisibilidad y consistencia}
 \label{sec:heuristica}
@@ -197,7 +197,7 @@ La Figura~\ref{fig:red} muestra la red con la que trabajan los algoritmos.
     \includegraphics[width=\textwidth]{fig_red.pdf}
     \caption{Red de carga interurbana: ciclo como anillo y ramas hacia afuera, con la distancia del modelo de cada arista (km) y las aristas con piso geodésico marcadas con †. Fuente: elaboración propia}
     \label{fig:red}
-    \input{outputs/lectura_c2_fig_red.tex}
+    \input{outputs/lecturas/lectura_c2_fig_red.tex}
 \end{figure}
 
 \textbf{Costo calculado en cada nodo.} A* ordena la frontera por
@@ -252,8 +252,8 @@ con $h^{*}(n)$ el costo óptimo de $n$ a la meta.
 \textbf{Consecuencia.} Con $h$ consistente, UCS y A* no reexpanden nodos y A*
 devuelve la ruta óptima; la búsqueda voraz usa la misma $h$ sin esa garantía.
 La comprobación automática, que no forma parte del argumento, está en
-\texttt{src/pruebas\_piso.py} y \texttt{src/heuristica.py} (resultados en
-\nolinkurl{outputs/analisis_heuristica.json}).
+\texttt{pruebas/pruebas\_piso.py} y \texttt{src/heuristica.py} (resultados en
+\nolinkurl{outputs/datos/analisis_heuristica.json}).
 
 \textbf{Sin el piso.} Habría aristas con $d(u,v) < d_{\mathrm{geo}}(u,v)$ y la
 garantía exigiría que $\alpha$ fuera el mínimo de la razón
@@ -262,7 +262,7 @@ poco informativa. Con $\alpha = 1$ falla: en Chocontá a Tunja, $h$ = 56.96 km $
 
 \textbf{Aristas con piso.} El piso es una regla fijada de antemano y no un
 ajuste para que la heurística cumpla; la distancia oficial se conserva y las 8
-aristas con piso están en la Tabla~\ref{tab:piso}; la dispersión carretera contra geodésica está en \nolinkurl{outputs/fig_heuristica.png}. Varias se explican por la
+aristas con piso están en la Tabla~\ref{tab:piso}; la dispersión carretera contra geodésica está en \nolinkurl{outputs/figuras/fig_heuristica.png}. Varias se explican por la
 entrada urbana a Bogotá, que la geometría de INVÍAS no cubre.
 
 \textbf{Heurística en cada criterio.} La Tabla~\ref{tab:criterios-h} da, por
@@ -274,8 +274,8 @@ resultante de~\eqref{eq:h}.
 \caption{Costo de la arista $c(u,v) = a\,d + b$ y heurística por criterio. Fuente: elaboración propia}
 \label{tab:criterios-h}
 \footnotesize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_r_criterios_heuristica.tex}
-\input{outputs/lectura_c2_criterios_heuristica.tex}
+\input{outputs/tablas/tabla_r_criterios_heuristica.tex}
+\input{outputs/lecturas/lectura_c2_criterios_heuristica.tex}
 \end{table}
 
 \section{Escenarios}
@@ -286,7 +286,7 @@ resultante de~\eqref{eq:h}.
 \label{tab:escenarios}
 \small
 \setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_escenarios.tex}
+\input{outputs/tablas/tabla_c2_escenarios.tex}
 \end{table}
 
 Los cuatro primeros pares cruzan el ciclo y tienen dos rutas simples
@@ -338,7 +338,7 @@ expandió y cuáles solo generó cada búsqueda.
     \includegraphics[width=0.9\textwidth]{fig_comparacion.pdf}
     \caption{Nodos expandidos, tiempo medio con su desviación y memoria pico de los cinco algoritmos en los diez escenarios, criterio distancia. Fuente: elaboración propia}
     \label{fig:comparacion}
-    \input{outputs/lectura_c2_fig_comparacion.tex}
+    \input{outputs/lecturas/lectura_c2_fig_comparacion.tex}
 \end{figure}
 
 \begin{figure}[!htbp]
@@ -346,7 +346,7 @@ expandió y cuáles solo generó cada búsqueda.
     \includegraphics[width=0.9\textwidth]{fig_expansion.pdf}
     \caption{Nodos expandidos, generados sin expandir y no visitados de cada búsqueda en un esquema de la red (el ciclo como anillo), caso central, criterio distancia. Fuente: elaboración propia}
     \label{fig:expansion}
-    \input{outputs/lectura_c2_fig_expansion.tex}
+    \input{outputs/lecturas/lectura_c2_fig_expansion.tex}
 \end{figure}
 
 \begin{table}[H]
@@ -354,8 +354,8 @@ expandió y cuáles solo generó cada búsqueda.
 \caption{Costo de la ruta (km), criterio distancia}
 \label{tab:dist-costo}
 \small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_distancia_costo.tex}
-\input{outputs/lectura_c2_t_costo.tex}
+\input{outputs/tablas/tabla_c2_distancia_costo.tex}
+\input{outputs/lecturas/lectura_c2_t_costo.tex}
 \end{table}
 
 \begin{table}[H]
@@ -363,8 +363,8 @@ expandió y cuáles solo generó cada búsqueda.
 \caption{Optimalidad respecto de UCS, criterio distancia}
 \label{tab:dist-opt}
 \small\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_c2_distancia_optimalidad.tex}
-\input{outputs/lectura_c2_t_optimalidad.tex}
+\input{outputs/tablas/tabla_c2_distancia_optimalidad.tex}
+\input{outputs/lecturas/lectura_c2_t_optimalidad.tex}
 \end{table}
 
 La Tabla~\ref{tab:resumen-dist} resume el caso central; el sobrecosto de cada
@@ -376,7 +376,7 @@ Tablas~\ref{tab:sobrecosto} y~\ref{tab:nodos-criterios}.
 \caption{Criterio distancia en el caso central (Duitama a Puente Nacional). Fuente: elaboración propia}
 \label{tab:resumen-dist}
 \small
-\input{outputs/tabla_r_distancia.tex}
+\input{outputs/tablas/tabla_r_distancia.tex}
 \end{table}
 
 \begin{itemize}
@@ -404,7 +404,7 @@ cuatro criterios con heurística admisible; las tablas por escenario están en
 \caption{Sobrecosto (\%) respecto del óptimo, en el caso central y en Bucaramanga a Bogotá (Buc.); Óptimos: máximo de UCS, voraz y A*. Fuente: elaboración propia}
 \label{tab:sobrecosto}
 \footnotesize\setlength{\tabcolsep}{4.5pt}
-\input{outputs/tabla_r_sobrecosto.tex}
+\input{outputs/tablas/tabla_r_sobrecosto.tex}
 \end{table}
 
 \begin{table}[!htbp]
@@ -412,7 +412,7 @@ cuatro criterios con heurística admisible; las tablas por escenario están en
 \caption{Nodos expandidos sumados en los diez escenarios, por criterio y algoritmo. Fuente: elaboración propia}
 \label{tab:nodos-criterios}
 \small
-\input{outputs/tabla_r_nodos.tex}
+\input{outputs/tablas/tabla_r_nodos.tex}
 \end{table}
 
 \begin{itemize}
@@ -428,7 +428,7 @@ distancias en este criterio.
 \caption{Costo compuesto sin riesgo de las dos rutas de Duitama a Puente Nacional, con las distancias sin corregir y con las corregidas. Fuente: elaboración propia}
 \label{tab:cambio-sin-riesgo}
 \small
-\input{outputs/tabla_r_cambio_sin_riesgo.tex}
+\input{outputs/tablas/tabla_r_cambio_sin_riesgo.tex}
 \end{table}
 
 El tiempo y la memoria de los ocho criterios están en el archivo de
@@ -462,7 +462,7 @@ que el algoritmo devuelve la ruta óptima.
 diez escenarios / escenarios con ruta óptima}
 \label{tab:limitados}
 \small\setlength{\tabcolsep}{4pt}
-\input{outputs/tabla_c2_limitados.tex}
+\input{outputs/tablas/tabla_c2_limitados.tex}
 \end{table}
 
 El mapa de cobertura de riesgo y peaje, con las aristas marcadas por la auditoría, está en
@@ -476,7 +476,7 @@ El mapa de cobertura de riesgo y peaje, con las aristas marcadas por la auditor�
 central con el criterio distancia, sobre las coordenadas oficiales y con el
 ciclo señalado; el algoritmo cambia el color y el trazo, no solo el color.
 \item La misma figura con el criterio compuesto sin riesgo está en
-\nolinkurl{outputs/rutas_central_compuesto_sin_riesgo.png}.
+\nolinkurl{outputs/figuras/rutas_central_compuesto_sin_riesgo.png}.
 \item La Figura~\ref{fig:mapa-caso} sitúa las dos rutas sobre el mapa, con el
 trazado de INVÍAS, sus km y su peaje, y rotula qué algoritmos devuelve cada
 una.
@@ -488,7 +488,7 @@ una.
     \caption{Rutas de los cinco algoritmos, Duitama a Puente Nacional, criterio
     distancia. Fuente: elaboración propia con datos de INVÍAS y DANE}
     \label{fig:rutas}
-    \input{outputs/lectura_c2_rutas.tex}
+    \input{outputs/lecturas/lectura_c2_rutas.tex}
 \end{figure}
 
 \begin{figure}[!htbp]
@@ -498,7 +498,7 @@ una.
     Santander. Fuente: elaboración propia con el trazado de INVÍAS, los
     límites departamentales del DANE~\cite{mgn} y las coordenadas DIVIPOLA}
     \label{fig:mapa-caso}
-    \input{outputs/lectura_c2_mapa_caso.tex}
+    \input{outputs/lecturas/lectura_c2_mapa_caso.tex}
 \end{figure}
 
 \section{Barrido de pesos}
@@ -527,18 +527,18 @@ Tabla~\ref{tab:barrido}.
 \caption{Resultado del barrido de pesos (red con piso geodésico); $\Delta$: ruta por Bogotá menos desvío por Santander. Fuente: elaboración propia}
 \label{tab:barrido}
 \small
-\input{outputs/tabla_r_barrido_pesos.tex}
-\input{outputs/lectura_r_barrido_pesos.tex}
+\input{outputs/tablas/tabla_r_barrido_pesos.tex}
+\input{outputs/lecturas/lectura_r_barrido_pesos.tex}
 \end{table}
 
-\textbf{Costo en dinero.} \input{outputs/texto_c2_dinero.tex}
+\textbf{Costo en dinero.} \input{outputs/lecturas/texto_c2_dinero.tex}
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{fig_costo_km.pdf}
     \caption{Costo total de las dos rutas de Duitama a Puente Nacional según el costo variable por km. Fuente: elaboración propia}
     \label{fig:costo-km}
-    \input{outputs/lectura_c2_fig_costo_km.tex}
+    \input{outputs/lecturas/lectura_c2_fig_costo_km.tex}
 \end{figure}
 
 \begin{figure}[!htbp]
@@ -547,7 +547,7 @@ Tabla~\ref{tab:barrido}.
     \caption{Ruta ganadora en la malla de pesos de la red con piso geodésico.
     Fuente: elaboración propia}
     \label{fig:barrido}
-    \input{outputs/lectura_c2_barrido_base_figura.tex}
+    \input{outputs/lecturas/lectura_c2_barrido_base_figura.tex}
 \end{figure}
 
 \section{Agente autónomo de rutas}
@@ -661,8 +661,8 @@ solicitudes; la ruta de (a) está en la Figura~\ref{fig:rutas}.
 el ciclo, (b) un par de ruta única y (c) varios destinos con regreso}
 \label{tab:ejemplos-agente}
 \scriptsize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_agente_ejemplos.tex}
-\input{outputs/lectura_c2_ejemplos.tex}
+\input{outputs/tablas/tabla_agente_ejemplos.tex}
+\input{outputs/lecturas/lectura_c2_ejemplos.tex}
 \end{table}
 
 \begin{figure}[!htbp]
@@ -670,13 +670,13 @@ el ciclo, (b) un par de ruta única y (c) varios destinos con regreso}
     \includegraphics[width=0.9\textwidth]{fig_agente.pdf}
     \caption{Rutas del agente autónomo en tres solicitudes de la Tabla~\ref{tab:ejemplos-agente}. Fuente: elaboración propia}
     \label{fig:agente}
-    \input{outputs/lectura_c2_fig_agente.tex}
+    \input{outputs/lecturas/lectura_c2_fig_agente.tex}
 \end{figure}
 
 
-\input{outputs/texto_ejemplo_agente.tex}
+\input{outputs/lecturas/texto_ejemplo_agente.tex}
 
-\textbf{Perfil de la red.} \input{outputs/texto_perfil_topologico.tex}
+\textbf{Perfil de la red.} \input{outputs/lecturas/texto_perfil_topologico.tex}
 La matriz con la clase de cada par está en \texttt{outputs/fig\_perfil.png}.
 
 
@@ -759,7 +759,7 @@ Figura~\ref{fig:umbral}; Tabla~\ref{tab:umbral-sesiones}).
 \caption{Held-Karp: mediana de cada sesión (S1 a S3) y memoria pico para los $k$ que fijan el umbral. Fuente: elaboración propia}
 \label{tab:umbral-sesiones}
 \small
-\input{outputs/tabla_r_umbral_sesiones.tex}
+\input{outputs/tablas/tabla_r_umbral_sesiones.tex}
 \end{table}
 
 \textbf{Variación entre sesiones.} Los tiempos de una sesión a otra difieren
@@ -794,7 +794,7 @@ asimétrica sintética).
     \includegraphics[width=0.85\textwidth]{fig_umbral.pdf}
     \caption{Medición de Held-Karp en esta máquina: peor tiempo mediano de las sesiones contra $k$, con el presupuesto de 5 s y $K_{\mathrm{exacto}}$. Fuente: elaboración propia}
     \label{fig:umbral}
-    \input{outputs/lectura_c2_fig_umbral.tex}
+    \input{outputs/lecturas/lectura_c2_fig_umbral.tex}
 \end{figure}
 La tabla con la mediana de cada sesión está en \texttt{outputs/tabla\_ag\_umbral.tex}.
 
@@ -862,8 +862,8 @@ instancias del grupo; Br. mejor, máx.: mayor brecha de la mejor corrida;
 Igualan: semillas que alcanzan la referencia; tiempos medios}
 \label{tab:val-resumen}
 \scriptsize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_ag_resumen.tex}
-\input{outputs/lectura_c2_validacion.tex}
+\input{outputs/tablas/tabla_ag_resumen.tex}
+\input{outputs/lecturas/lectura_c2_validacion.tex}
 \end{table}
 
 Las curvas de convergencia del ACO con 2-opt (brecha de la media de 10
@@ -877,7 +877,7 @@ Tabla~\ref{tab:ampliada}, y los tiempos en la Tabla~\ref{tab:tiempos-aco}.
 \caption{Brecha media (\%) del ACO respecto de la referencia y semillas que la igualan, con 2-opt, sin 2-opt (inicio aleatorio) y sin 2-opt con inicio fijo. Fuente: elaboración propia}
 \label{tab:ampliada}
 \scriptsize\setlength{\tabcolsep}{3pt}
-\input{outputs/tabla_ag_ampliada.tex}
+\input{outputs/tablas/tabla_ag_ampliada.tex}
 \end{table}
 
 \begin{table}[!htbp]
@@ -885,7 +885,7 @@ Tabla~\ref{tab:ampliada}, y los tiempos en la Tabla~\ref{tab:tiempos-aco}.
 \caption{Tiempo y memoria de Held-Karp y del ACO por tamaño de instancia. Fuente: elaboración propia}
 \label{tab:tiempos-aco}
 \small
-\input{outputs/tabla_r_tiempos.tex}
+\input{outputs/tablas/tabla_r_tiempos.tex}
 \end{table}
 
 \begin{itemize}
@@ -919,7 +919,7 @@ veces todo menos su arista mayor.
 
 \textbf{Comprobación.} Es una derivación propia, comprobada con pruebas
 automáticas contra Held-Karp (detalle en
-\nolinkurl{outputs/tabla_ag_estructura.tex}).
+\nolinkurl{outputs/tablas/tabla_ag_estructura.tex}).
 
 \subsection{Validación ampliada: ACO con y sin 2-opt}
 
@@ -947,14 +947,14 @@ ACO supera la referencia.
 \end{itemize}
 
 La convergencia de estas dos instancias está en
-\nolinkurl{outputs/convergencia_aco_mayores.png}.
+\nolinkurl{outputs/figuras/convergencia_aco_mayores.png}.
 
 \begin{figure}[!htbp]
     \centering
     \includegraphics[width=0.75\textwidth]{fig_aco.pdf}
     \caption{Convergencia del ACO con 2-opt (arriba) y brecha media por grupo con y sin 2-opt (abajo). Fuente: elaboración propia}
     \label{fig:aco}
-    \input{outputs/lectura_c2_fig_aco.tex}
+    \input{outputs/lecturas/lectura_c2_fig_aco.tex}
 \end{figure}
 
 \subsection{Limitaciones del agente}

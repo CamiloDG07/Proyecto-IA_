@@ -36,10 +36,11 @@ construcción, de modo que h(n) = geodésica(n, meta) es admisible y
 consistente en toda la red. Sin el piso (variante de sensibilidad), alfa es el
 mínimo de la razón con las distancias oficiales.
 
-El script escribe outputs/analisis_heuristica.json con alfa, las aristas que
-lo determinan y la verificación numérica de admisibilidad y consistencia, y
+El script escribe outputs/datos/analisis_heuristica.json con alfa, las aristas
+que lo determinan y la verificación numérica de admisibilidad y consistencia, y
 la misma verificación para la variante sin piso.
 """
+from rutas import CARGA
 import csv
 import json
 from math import asin, cos, floor, radians, sin, sqrt
@@ -49,7 +50,7 @@ import networkx as nx
 from build_graph import (RAIZ, SALIDA, cargar_grafo, construir_grafo,
                          verificar_invariante_geodesico)
 
-COORDENADAS_CSV = RAIZ / "data" / "carga" / "coordenadas_nodos.csv"
+COORDENADAS_CSV = CARGA / "coordenadas_nodos.csv"
 ATRIBUTOS = {
     "distancia": "distancia_km",
     "peaje": "peaje_cop_camion",

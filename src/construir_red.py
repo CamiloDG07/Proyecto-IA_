@@ -91,8 +91,8 @@ corregidos, |B_tot - camino de la geometría| / camino es a lo sumo 0.123
 distancia_cruda_km, para el análisis de sensibilidad. Los registros fuera de
 la banda con A / B_tot menor que 0.8 o mayor que 1.2 (Bogotá - Cajicá,
 Chocontá - Tunja, El Espinal - Girardot y el registro del Río Ocoa) se marcan
-"patrón no estándar" en outputs/auditoria_distancias.csv y conservan A. El
-valor de 167.67 km de Bogotá - Villeta es un artefacto de esta doble calzada
+"patrón no estándar" en outputs/datos/auditoria_distancias.csv y conservan A.
+El valor de 167.67 km de Bogotá - Villeta es un artefacto de esta doble calzada
 digitalizada y queda en 81.00 km.
 
 Piso geodésico (ver piso_geodesico.py): una carretera no puede ser más corta
@@ -105,8 +105,8 @@ cuya distancia oficial es menor que la recta quedan marcadas; las demás
 conservan su distancia oficial exacta.
 
 Regla de adopción de una distancia por progresivas (fijada de antemano y
-probada en src/pruebas_progresivas.py): la diferencia de progresivas de la Red
-Vial solo reemplaza al valor registrado como base si se cumplen TODAS estas
+probada en pruebas/pruebas_progresivas.py): la diferencia de progresivas de la
+Red Vial solo reemplaza al valor registrado como base si se cumplen TODAS estas
 condiciones: (a) el sector y el sector anterior son del mismo corredor y
 tramo; (b) las progresivas son continuas, sin hueco ni solape (a lo sumo 0.1
 km), hasta el nodo; (c) cada extremo de la progresiva queda a menos de 2 km
@@ -115,7 +115,7 @@ razón entre la longitud de la geometría del sector y su propio tramo entre
 progresivas está entre 0.85 y 1.15, o en la banda de doble calzada (1.7 a
 2.3) verificada; (e) la distancia por progresivas no es menor que la
 geodésica entre los nodos. Cada medición queda en
-outputs/evaluacion_progresivas.json.
+outputs/datos/evaluacion_progresivas.json.
 
 Solo Chocontá - Tunja es candidata (el sector registra 17.69 km, PR 108.096 a
 120.0; Tocancipá - Chocontá termina en el PR 59.0, ruta 55, tramo 5501) y
@@ -126,7 +126,7 @@ marca truncada; los 61.0 km (PR 120.0 menos PR 59.0) solo se usan como
 sensibilidad, junto con 56.96 km (la geodésica).
 
 Limitaciones de la fuente detectadas en la auditoría geométrica (ver
-data/carga/VERIFICACION.md y outputs/auditoria_aristas.csv):
+data/carga/VERIFICACION.md y outputs/datos/auditoria_aristas.csv):
   - Las geometrías de INVÍAS de los sectores que salen de Bogotá empiezan en
     el límite urbano (entre 8 y 19 km de la coordenada DANE de Bogotá): la
     distancia por carretera excluye la entrada urbana. No se corrige: no hay
@@ -144,6 +144,7 @@ por lo que se excluyó el nodo y su arista, con el mismo criterio que la rama
 Villavicencio - Barranca de Upía - Yopal. La red queda en 32 nodos, 32
 aristas y un ciclo independiente.
 """
+from rutas import CARGA, SALIDA
 import csv
 import json
 import sys
@@ -155,12 +156,9 @@ from piso_geodesico import distancia_modelo, geodesica_arista
 csv.field_size_limit(sys.maxsize)
 
 # banda de A / B_tot que identifica la doble calzada digitalizada (fijada de
-# antemano; ver largo_corregido y src/auditar_distancias.py)
+# antemano; ver largo_corregido y experimentos/auditar_distancias.py)
 REGLA_BANDA = (1.7, 2.3)
 
-RAIZ = Path(__file__).resolve().parent.parent
-DATOS = RAIZ / "data" / "carga"
-SALIDA = RAIZ / "outputs"
 
 # sector truncado en la fuente -> sector anterior del mismo tramo (candidato a
 # la regla de adopción por progresivas, ver docstring)
@@ -273,7 +271,7 @@ def normaliza(txt):
 
 
 def carga_csv(nombre):
-    with open(DATOS / nombre, encoding="utf-8") as f:
+    with open(CARGA / nombre, encoding="utf-8") as f:
         return list(csv.DictReader(f))
 
 
@@ -339,7 +337,7 @@ def pr_inicial_km(red_vial, sector):
 def cargar_postes(tramo):
     """{PR entero: [(lat, lon)]} de los postes de INVÍAS de un tramo."""
     postes = {}
-    with open(DATOS / "nuevas" / "postes_referencia_ufg7-is7r.csv",
+    with open(CARGA / "nuevas" / "postes_referencia_ufg7-is7r.csv",
               encoding="utf-8", newline="") as f:
         for r in csv.DictReader(f):
             if (r["codigotramo"] == tramo and r["latitud"]

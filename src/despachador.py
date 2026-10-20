@@ -16,8 +16,8 @@ restricciones) y elige el método. Regla fija:
      viable: k mayor que UMBRAL_K.
 
 UMBRAL_K no se supone: lo fija la medición real de Held-Karp en esta máquina
-(src/medir_umbral.py escribe outputs/umbral_held_karp.json) con un
-presupuesto de tiempo por solicitud declarado en ese archivo.
+(experimentos/medir_umbral.py escribe outputs/datos/umbral_held_karp.json) con
+un presupuesto de tiempo por solicitud declarado en ese archivo.
 
 Tipos de solicitud:
   a  origen_destino              origen a destino
@@ -65,8 +65,8 @@ def cargar_medicion_umbral():
     """Medición de Held-Karp en esta máquina (outputs/umbral_held_karp)."""
     if not ARCHIVO_UMBRAL.exists():
         raise FileNotFoundError(
-            "Falta outputs/umbral_held_karp.json: ejecute "
-            "python src/medir_umbral.py")
+            "Falta outputs/datos/umbral_held_karp.json: ejecute "
+            "python experimentos/medir_umbral.py")
     with open(ARCHIVO_UMBRAL, encoding="utf-8") as f:
         return json.load(f)
 

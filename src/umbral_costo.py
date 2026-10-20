@@ -6,7 +6,7 @@ con c el costo variable por km. A es más barata si
 
     c > (peaje_A - peaje_B) / (km_B - km_A)
 
-y B si c es menor. La fórmula es cerrada; src/pruebas_costos.py la verifica
+y B si c es menor. La fórmula es cerrada; pruebas/pruebas_costos.py la verifica
 contra la enumeración de todos los caminos simples y contra la inversión de
 la recomendación a ambos lados del umbral.
 """

@@ -11,10 +11,11 @@ centro poblado con coordenada DANE verificable se estiman como el punto de
 unión de los dos tramos de INVÍAS (geometría multiline de red_vial.csv)
 que llegan al nodo. Cada punto DANE se compara contra los extremos de los
 tramos de INVÍAS adyacentes y la distancia queda en
-outputs/verificacion_coordenadas.csv.
+outputs/datos/verificacion_coordenadas.csv.
 
 Escribe data/carga/coordenadas_nodos.csv.
 """
+from rutas import CARGA
 import csv
 import json
 import re
@@ -24,9 +25,8 @@ from build_graph import RAIZ, SALIDA
 from construir_red import TRAMO_EXTRA_LONGITUD, TRAMOS
 from heuristica import haversine_km
 
-DATOS = RAIZ / "data" / "carga"
-MUNICIPIOS_CSV = DATOS / "divipola_municipios_gdxc-w37w.csv"
-CENTROS_CSV = DATOS / "divipola_centros_poblados_xaxy-8nri.csv"
+MUNICIPIOS_CSV = CARGA / "divipola_municipios_gdxc-w37w.csv"
+CENTROS_CSV = CARGA / "divipola_centros_poblados_xaxy-8nri.csv"
 FUENTE_MUN = ("DANE, DIVIPOLA Códigos municipios (datos.gov.co/resource/"
               "gdxc-w37w), corte 30-12-2024, descargado 7-10-2026")
 FUENTE_CP = ("DANE, DIVIPOLA Códigos cabeceras y centros poblados "
@@ -95,7 +95,7 @@ def extremos_invias():
     sectores = {t[0] for t in TRAMOS}
     sectores |= set(TRAMO_EXTRA_LONGITUD.values())
     res = {}
-    with open(DATOS / "red_vial.csv", encoding="utf-8") as f:
+    with open(CARGA / "red_vial.csv", encoding="utf-8") as f:
         for r in csv.DictReader(f):
             s = r["sector"].strip()
             if s not in sectores:
@@ -168,7 +168,7 @@ def main():
                    f"(separación de extremos {sep:.3f} km)")
             verif.append((nodo, "INVÍAS", f"{sep:.3f}"))
         filas.append((nodo, f"{lat:.6f}", f"{lon:.6f}", fuente, obs))
-    with open(DATOS / "coordenadas_nodos.csv", "w", encoding="utf-8",
+    with open(CARGA / "coordenadas_nodos.csv", "w", encoding="utf-8",
               newline="") as f:
         w = csv.writer(f)
         w.writerow(["nodo", "latitud", "longitud", "fuente", "observacion"])

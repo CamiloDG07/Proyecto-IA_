@@ -16,7 +16,7 @@ se conserva. Con el piso, el costo de distancia de toda arista es mayor o
 igual que su geodésica y, por la desigualdad triangular, h(n) = geodésica(n,
 meta) es consistente y admisible en toda la red (alfa = 1).
 
-Este módulo escribe outputs/aristas_piso_geodesico.csv: las aristas cuya
+Este módulo escribe outputs/datos/aristas_piso_geodesico.csv: las aristas cuya
 distancia oficial es menor que la geodésica, con su causa documentada.
 """
 import csv

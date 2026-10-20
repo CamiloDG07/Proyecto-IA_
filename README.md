@@ -18,7 +18,7 @@ sus nodos. En 8 aristas la distancia oficial es menor que la recta (sector
 truncado, entrada urbana a Bogotá o coordenada del nodo en el centro del
 municipio); la distancia del modelo es `max(oficial, geodésica)` y la oficial se
 conserva (`distancia_oficial_km`, `distancia_piso_km`; ver `src/piso_geodesico.py`
-y `outputs/aristas_piso_geodesico.csv`). El piso es una cota inferior, no una
+y `outputs/datos/aristas_piso_geodesico.csv`). El piso es una cota inferior, no una
 medida. Con él, `h = geodésica` es admisible y consistente en toda la red con
 alfa = 1; la variante «sin piso» (distancias oficiales) es una sensibilidad.
 
@@ -38,8 +38,8 @@ supuesto del equipo, no un dato. Por eso el criterio por defecto sigue siendo
 | `data/carga/_descarga_previa/` | Descarga anterior (esquema reducido), conservada con su hash; **no es la fuente oficial vigente** |
 | `data/carga/mgn2020_departamentos_dane.json` | Límites departamentales del DANE (MGN 2020), fondo de los mapas |
 | `data/_archivo_transmilenio/`, `src/_archivo_transmilenio/`, `outputs/_archivo_transmilenio/` | Material del dominio anterior (TransMilenio) |
-| `src/` | Código fuente |
-| `outputs/` | JSON del grafo, grafo persistido, figuras y tablas |
+| `src/`, `experimentos/`, `informe/`, `pruebas/` | Código (ver el mapa de carpetas) |
+| `outputs/` | Resultados por tipo: `datos/`, `tablas/`, `lecturas/`, `figuras/` y `reportes/` |
 | `formulacion_corte1.tex` | Informe del Corte 1 |
 | `informe_corte2.tex`, `guion_demostracion.md` | Informe del Corte 2 y guion de la demostración |
 
@@ -56,11 +56,18 @@ proyecto paso a paso, ver `EJECUTAR.md`.
 | `data/carga/nuevas/` | Mortalidad ANSV y postes de INVÍAS (CC BY-SA 4.0) | datos |
 | `data/carga/_descarga_previa/` | Descarga anterior, conservada como evidencia | datos |
 | `data/_archivo_transmilenio/` | Material del dominio anterior (TransMilenio) | datos (archivo) |
-| `src/` | Código: construcción de la red y del grafo, búsquedas, heurística, agente, despachador, Held-Karp, ACO, experimentos, generadores de tablas y figuras, pruebas y verificador | ejecución, medición, informe y pruebas |
+| `src/` | Núcleo que se ejecuta para resolver rutas y construir la red: construcción de la red y del grafo, búsquedas, heurística, piso geodésico, costos, agente, despachador, Held-Karp, ACO y demostración; `rutas.py` define las rutas de entrada y de salida; `mapa_geografico.py` (trazado que usa la construcción de la red) y `empaquetar.py` quedan aquí por ambiguos | ejecución |
 | `src/_archivo_transmilenio/` | Código del dominio anterior | archivo |
-| `outputs/` | Resultados guardados (JSON, CSV, grafo), tablas y lecturas `.tex`, figuras y mapas, bitácoras | resultados e informe |
+| `experimentos/` | Corridas que producen resultados: experimentos del Corte 2, validación del agente, umbral de Held-Karp, perfil topológico, auditorías de aristas y de distancias, verificación de estructura | medición |
+| `informe/` | Código que arma las tablas, las lecturas, las figuras, los diagramas y el estilo de los informes | informe |
+| `pruebas/` | Pruebas (`pruebas_*.py`), `verificar_cifras.py` y `comparar_resultados.py` | pruebas |
+| `outputs/` | Resultados guardados, ordenados por tipo en las subcarpetas siguientes | resultados e informe |
+| `outputs/datos/` | JSON, CSV, grafo persistido, trazados y evaluaciones | resultados |
+| `outputs/tablas/` | `tabla_*.tex` que incluyen los informes | informe |
+| `outputs/lecturas/` | `lectura_*.tex` («Cómo leerla») y `texto_*.tex` | informe |
+| `outputs/figuras/` | Figuras, mapas y diagramas (PNG y PDF) y `muestras_formato/` | informe |
+| `outputs/reportes/` | Bitácoras, licencias, condiciones de medición, listas de candidatos, `mapa_archivos.csv` y `reemplazos_rutas.csv` | documentación |
 | `outputs/_archivo_transmilenio/` | Resultados del dominio anterior | archivo |
-| `outputs/muestras_formato/` | Muestras del estilo único de tablas | informe |
 | `notebooks/`, `data/notebooks/` | Carpetas locales sin archivos versionados | (vacías) |
 | `venv/` | Entorno virtual local, no versionado | local |
 
@@ -94,8 +101,8 @@ sus hashes en la sección «Descarga previa» de `VERIFICACION.md`; **no es la
 fuente oficial vigente**. La fuente oficial vigente es la descarga del 6 de
 octubre de 2026 indicada arriba.
 
-No hace falta ese archivo para usar el grafo: `outputs/aristas_red.json`,
-`outputs/nodos_red.json` y `outputs/grafo_carga.gpickle` están versionados.
+No hace falta ese archivo para usar el grafo: `outputs/datos/aristas_red.json`,
+`outputs/datos/nodos_red.json` y `outputs/datos/grafo_carga.gpickle` están versionados.
 Si el pickle no se puede leer (otra versión de Python o networkx),
 `build_graph.py` reconstruye el grafo desde los JSON.
 
@@ -112,24 +119,24 @@ pip install -r requirements.txt
 python src/construir_red.py      # requiere data/carga/red_vial.csv
 python src/build_graph.py        # grafo y estadísticas
 python src/agente.py             # demostración del agente
-python src/pruebas_agente.py     # pruebas
-python src/diagrama_red.py       # figura de la red
+python pruebas/pruebas_agente.py     # pruebas
+python informe/diagrama_red.py       # figura de la red
 python src/heuristica.py         # alfa y verificación de h
-python src/pruebas_busquedas.py  # BFS, DFS, UCS, voraz y A*
-python src/auditar_aristas.py    # auditoría geométrica (requiere red_vial.csv)
-python src/auditar_distancias.py # distancias por registro (requiere red_vial.csv)
-python src/exportar_latex.py     # tablas del informe
+python pruebas/pruebas_busquedas.py  # BFS, DFS, UCS, voraz y A*
+python experimentos/auditar_aristas.py    # auditoría geométrica (requiere red_vial.csv)
+python experimentos/auditar_distancias.py # distancias por registro (requiere red_vial.csv)
+python informe/exportar_latex.py     # tablas del informe
 
-python src/experimentos_corte2.py  # escenarios, barrido y sensibilidad (esta, fuera del informe)
-python src/tablas_corte2.py       # tablas del informe del Corte 2
-python src/visualizar_rutas.py    # figuras de rutas y barrido (barrido_pesos_base.png va en el informe)
+python experimentos/experimentos_corte2.py  # escenarios, barrido y sensibilidad (esta, fuera del informe)
+python informe/tablas_corte2.py       # tablas del informe del Corte 2
+python informe/visualizar_rutas.py    # figuras de rutas y barrido (barrido_pesos_base.png va en el informe)
 python src/demostracion.py Duitama "Puente Nacional" distancia
-python src/pruebas_despachador.py  # agente multifuncional
-python src/pruebas_orden_libre.py  # Held-Karp, 2-opt y ACO
-python src/medir_umbral.py         # umbral de Held-Karp (varios minutos)
-python src/verificar_estructura.py  # formula unicíclica contra Held-Karp
-python src/validacion_agente.py    # validacion del agente (varios minutos)
-python src/tablas_agente.py        # tablas y figura del agente
+python pruebas/pruebas_despachador.py  # agente multifuncional
+python pruebas/pruebas_orden_libre.py  # Held-Karp, 2-opt y ACO
+python experimentos/medir_umbral.py         # umbral de Held-Karp (varios minutos)
+python experimentos/verificar_estructura.py  # formula unicíclica contra Held-Karp
+python experimentos/validacion_agente.py    # validacion del agente (varios minutos)
+python informe/tablas_agente.py        # tablas y figura del agente
 
 python src/agente_rutas.py Bogotá Granada         # agente autónomo
 python src/agente_rutas.py Duitama "Puente Nacional" --regreso
@@ -137,29 +144,29 @@ python src/agente_rutas.py Duitama "Puente Nacional" --regreso --bloquear-regres
 python src/agente_rutas.py Duitama "Puente Nacional" --criterio peaje
 python src/agente_rutas.py Duitama "Puente Nacional" --criterio costo_operativo
 python src/agente_rutas.py Duitama "Puente Nacional" --precio-galon 14000 --rendimiento 8 --costo-otros-km 500
-python src/pruebas_agente_rutas.py   # pruebas del agente autónomo
-python src/pruebas_costos.py         # costo monetario, umbral y heurísticas nuevas
-python src/pruebas_progresivas.py    # regla de adopción de distancias por progresivas
+python pruebas/pruebas_agente_rutas.py   # pruebas del agente autónomo
+python pruebas/pruebas_costos.py         # costo monetario, umbral y heurísticas nuevas
+python pruebas/pruebas_progresivas.py    # regla de adopción de distancias por progresivas
 python src/piso_geodesico.py         # aristas con piso geodésico (tras auditar_aristas.py)
-python src/pruebas_piso.py           # invariante geodésico, admisibilidad y consistencia
-python src/comparar_resultados.py    # identidad con corte2-entrega-8 en los pares sin piso
+python pruebas/pruebas_piso.py           # invariante geodésico, admisibilidad y consistencia
+python pruebas/comparar_resultados.py    # identidad con corte2-entrega-8 en los pares sin piso
 python src/cruce_mortalidad.py       # cruce de la mortalidad ANSV (lo llama construir_red.py)
-python src/verificar_cifras.py       # contrasta las cifras de los informes y del guion con los datos
-python src/pruebas_criterio.py       # pruebas de --criterio
-python src/perfil_topologico.py      # perfil topológico de los 496 pares
-python src/pruebas_perfil_topologico.py
-python src/mapa_geografico.py        # mapas (desde outputs/trazado_aristas.json)
-python src/pruebas_mapa.py
-python src/lecturas_informe.py       # bloques «Cómo leerla» y tabla de ejemplos
-python src/tablas_resumen.py         # tablas de resumen que reemplazan párrafos con varias cifras (tabla_r_*.tex)
-python src/pruebas_tablas_resumen.py # sus cifras contra outputs/ y el máximo de 6 columnas
-python src/pruebas_tabla_heuristica.py # la tabla de criterios de la heurística contra el código y el grafo
-python src/candidatos_tablas.py      # párrafos con cifras comparables (outputs/candidatos_tablas.csv)
-python src/cifras_movidas.py         # cifras antes y después contra master (outputs/cifras_movidas.csv)
-python src/figuras_informe.py      # figuras de los informes (PNG y PDF en outputs/)
-python src/pruebas_figuras.py
-python src/formato_latex.py outputs/tabla_*.tex  # estilo único de tablas (cuadrícula, encabezado gris)
-python src/pruebas_formato.py
+python pruebas/verificar_cifras.py       # contrasta las cifras de los informes y del guion con los datos
+python pruebas/pruebas_criterio.py       # pruebas de --criterio
+python experimentos/perfil_topologico.py      # perfil topológico de los 496 pares
+python pruebas/pruebas_perfil_topologico.py
+python src/mapa_geografico.py        # mapas (desde outputs/datos/trazado_aristas.json)
+python pruebas/pruebas_mapa.py
+python informe/lecturas_informe.py       # bloques «Cómo leerla» y tabla de ejemplos
+python informe/tablas_resumen.py         # tablas de resumen que reemplazan párrafos con varias cifras (tabla_r_*.tex)
+python pruebas/pruebas_tablas_resumen.py # sus cifras contra outputs/ y el máximo de 6 columnas
+python pruebas/pruebas_tabla_heuristica.py # la tabla de criterios de la heurística contra el código y el grafo
+python informe/candidatos_tablas.py      # párrafos con cifras comparables (outputs/reportes/candidatos_tablas.csv)
+python informe/cifras_movidas.py         # cifras antes y después contra master (outputs/reportes/cifras_movidas.csv)
+python informe/figuras_informe.py      # figuras de los informes (PNG y PDF en outputs/)
+python pruebas/pruebas_figuras.py
+python informe/formato_latex.py outputs/tablas/tabla_*.tex  # estilo único de tablas (cuadrícula, encabezado gris)
+python pruebas/pruebas_formato.py
 
 pdflatex formulacion_corte1.tex  # tres pasadas
 pdflatex formulacion_corte1.tex
@@ -169,7 +176,7 @@ pdflatex informe_corte2.tex
 pdflatex informe_corte2.tex
 ```
 
-Estilo del código: `pycodestyle src/*.py` (PEP 8, máximo 79 caracteres).
+Estilo del código: `python -m pycodestyle --max-line-length=79 --exclude=_archivo_transmilenio src experimentos informe pruebas` (PEP 8).
 
 ## Licencias y atribución
 
@@ -178,9 +185,9 @@ Los datos de INVÍAS (Red Vial, Peajes, Postes de Referencia), de la ANSV
 (DIVIPOLA) provienen del portal de datos abiertos datos.gov.co y se usan bajo
 la licencia Creative Commons Atribución-CompartirIgual 4.0 Internacional
 (CC BY-SA 4.0, https://creativecommons.org/licenses/by-sa/4.0/deed.es). Los
-datos derivados que contiene este repositorio (`outputs/aristas_red.json`,
-`outputs/nodos_red.json`, `outputs/trazado_aristas.json`,
-`outputs/riesgo_mortalidad_aristas.json`, las auditorías y las tablas que salen
+datos derivados que contiene este repositorio (`outputs/datos/aristas_red.json`,
+`outputs/datos/nodos_red.json`, `outputs/datos/trazado_aristas.json`,
+`outputs/datos/riesgo_mortalidad_aristas.json`, las auditorías y las tablas que salen
 de ellos) fueron cruzados, corregidos y transformados por el equipo y se
 comparten bajo la misma licencia, con atribución a INVÍAS, la ANSV y el DANE.
 
