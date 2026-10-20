@@ -10,6 +10,7 @@ Proyecto integrador de inteligencia artificial, Universidad Sergio Arboleda: enr
 | `experimentos/` | Corridas que producen los resultados del informe (escenarios, validación, umbral de Held-Karp) |
 | `informe/` | Código que arma las tablas, las lecturas y las figuras del informe |
 | `pruebas/` | Pruebas automáticas (`pruebas_*.py`) y `ejecutar_pruebas.py`, que las corre todas |
+| `visualizador/` | Aplicación web local: servidor FastAPI e interfaz con Leaflet y fuentes propias (sección 8) |
 | `outputs/` | Resultados guardados (`datos/`), tablas, lecturas y figuras del informe |
 | `data/carga/` | Datos livianos de entrada: coordenadas, peajes, siniestralidad y mapa departamental |
 | raíz | `config_costos.json`, `requirements.txt`, `README.md`, `EJECUTAR.md`, `guion_demostracion.md` y esta guía |
@@ -27,7 +28,7 @@ python -m pip install -r requirements.txt
 $env:PYTHONIOENCODING = "utf-8"
 ```
 
-`requirements.txt` lista `numpy`, `scipy`, `networkx`, `matplotlib` y `pycodestyle`. La variable `PYTHONIOENCODING` evita errores con las tildes en la consola. Si PowerShell bloquea la activación del entorno, ejecutar antes `Set-ExecutionPolicy -Scope Process Bypass`. En lo que sigue, `python` es el del entorno virtual y los comandos se dan desde la raíz del paquete (también funcionan desde otro directorio con la ruta completa del script).
+`requirements.txt` lista `numpy`, `scipy`, `networkx`, `matplotlib`, `pycodestyle` y, para el visualizador web, `fastapi` y `uvicorn` (con versión fijada). La variable `PYTHONIOENCODING` evita errores con las tildes en la consola. Si PowerShell bloquea la activación del entorno, ejecutar antes `Set-ExecutionPolicy -Scope Process Bypass`. En lo que sigue, `python` es el del entorno virtual y los comandos se dan desde la raíz del paquete (también funcionan desde otro directorio con la ruta completa del script).
 
 ## 3. Demostración del agente
 
@@ -406,15 +407,15 @@ python src/demostracion.py Duitama "Puente Nacional" distancia
 
 ```text
 Duitama a Puente Nacional, criterio distancia
-BFS    costo   654.250  expandidos  25  generados  32  frontera  7    266.8 us  7 saltos
+BFS    costo   654.250  expandidos  25  generados  32  frontera  7    294.3 us  7 saltos
        Duitama > La Palmera > Presidente > Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional  [Santander]
-DFS    costo   654.250  expandidos   7  generados   9  frontera  2     92.0 us  7 saltos
+DFS    costo   654.250  expandidos   7  generados   9  frontera  2    120.2 us  7 saltos
        Duitama > La Palmera > Presidente > Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional  [Santander]
-UCS    costo   370.537  expandidos  27  generados  31  frontera  7    329.2 us  8 saltos
+UCS    costo   370.537  expandidos  27  generados  31  frontera  7    301.1 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
-Voraz  costo   370.537  expandidos  12  generados  19  frontera  7    218.8 us  8 saltos
+Voraz  costo   370.537  expandidos  12  generados  19  frontera  7    128.0 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
-A*     costo   370.537  expandidos  14  generados  19  frontera  7    375.1 us  8 saltos
+A*     costo   370.537  expandidos  14  generados  19  frontera  7    193.2 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
 ```
 
@@ -426,15 +427,15 @@ python src/demostracion.py Duitama "Puente Nacional" compuesto_sin_riesgo
 
 ```text
 Duitama a Puente Nacional, criterio compuesto_sin_riesgo
-BFS    costo     3.524  expandidos  25  generados  32  frontera  7    341.4 us  7 saltos
+BFS    costo     3.524  expandidos  25  generados  32  frontera  7    120.3 us  7 saltos
        Duitama > La Palmera > Presidente > Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional  [Santander]
-DFS    costo     3.524  expandidos   7  generados   9  frontera  2     91.9 us  7 saltos
+DFS    costo     3.524  expandidos   7  generados   9  frontera  2     42.6 us  7 saltos
        Duitama > La Palmera > Presidente > Pamplona > Cuestaboba > Bucaramanga > San Gil > Puente Nacional  [Santander]
-UCS    costo     3.367  expandidos  29  generados  32  frontera  7    629.3 us  8 saltos
+UCS    costo     3.367  expandidos  29  generados  32  frontera  7    468.3 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
-Voraz  costo     3.367  expandidos  12  generados  19  frontera  7    331.2 us  8 saltos
+Voraz  costo     3.367  expandidos  12  generados  19  frontera  7    131.8 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
-A*     costo     3.367  expandidos  22  generados  27  frontera  7    313.1 us  8 saltos
+A*     costo     3.367  expandidos  22  generados  27  frontera  7    358.1 us  8 saltos
        Duitama > Tunja > Chocontá > Tocancipá > Bogotá > Cajicá > Zipaquirá > Ubaté > Puente Nacional  [Bogotá]
 ```
 
@@ -444,15 +445,15 @@ python src/demostracion.py Bucaramanga Bogotá distancia
 
 ```text
 Bucaramanga a Bogotá, criterio distancia
-BFS    costo   411.536  expandidos  12  generados  16  frontera  4     87.1 us  6 saltos
+BFS    costo   411.536  expandidos  12  generados  16  frontera  4     53.5 us  6 saltos
        Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá  [Santander]
-DFS    costo   613.251  expandidos  10  generados  13  frontera  4     69.9 us  9 saltos
+DFS    costo   613.251  expandidos  10  generados  13  frontera  4     68.9 us  9 saltos
        Bucaramanga > Cuestaboba > Pamplona > Presidente > La Palmera > Duitama > Tunja > Chocontá > Tocancipá > Bogotá  [Santander]
-UCS    costo   411.536  expandidos  10  generados  12  frontera  2    120.4 us  6 saltos
+UCS    costo   411.536  expandidos  10  generados  12  frontera  2    144.8 us  6 saltos
        Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá  [Santander]
-Voraz  costo   411.536  expandidos   6  generados   8  frontera  2     91.8 us  6 saltos
+Voraz  costo   411.536  expandidos   6  generados   8  frontera  2    214.2 us  6 saltos
        Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá  [Santander]
-A*     costo   411.536  expandidos   7  generados   9  frontera  2    150.3 us  6 saltos
+A*     costo   411.536  expandidos   7  generados   9  frontera  2    319.6 us  6 saltos
        Bucaramanga > San Gil > Puente Nacional > Ubaté > Zipaquirá > Cajicá > Bogotá  [Santander]
 ```
 
@@ -471,8 +472,8 @@ Método: A* por tramo
 Motivo: exacto: A* con heurística admisible, disponible para el criterio distancia
   paradas: 2
   nodos_expandidos: 14
-  tiempo_matriz_s: 0.0003179999766871333
-  tiempo_s: 0.00039900001138448715
+  tiempo_matriz_s: 0.0009750999997777399
+  tiempo_s: 0.0011188999997102655
 ```
 
 ```powershell
@@ -488,13 +489,13 @@ Método: Held-Karp
 Motivo: exacto viable: k = 5 paradas libres <= 19 (umbral medido en esta máquina para un presupuesto de 5.0 s)
   paradas: 6
   nodos_expandidos: 77
-  tiempo_matriz_s: 0.0022068000107537955
+  tiempo_matriz_s: 0.004573700000037206
   k: 5
   umbral_k: 19
   modo: ciclo
   presupuesto_s: 5.0
-  tiempo_orden_s: 0.0016094000020530075
-  tiempo_s: 0.006540700007462874
+  tiempo_orden_s: 0.002734200000304554
+  tiempo_s: 0.0105174000000261
 ```
 
 Con cinco paradas libres el despachador usa Held-Karp (método exacto) porque k = 5 no supera el umbral medido (K = 19).
@@ -512,8 +513,8 @@ Método: A* por tramo
 Motivo: una parada obligatoria intermedia: orden determinado; 1 tramo(s) bloqueado(s) excluidos de todas las búsquedas; exacto: A* con heurística admisible, disponible para el criterio distancia
   paradas: 3
   nodos_expandidos: 23
-  tiempo_matriz_s: 0.0016733999946154654
-  tiempo_s: 0.0018934999825432897
+  tiempo_matriz_s: 0.0029752999998891028
+  tiempo_s: 0.0033637999999882595
 ```
 
 ## 5. Pruebas y verificación
@@ -526,30 +527,32 @@ python pruebas/ejecutar_pruebas.py
 
 ```text
 OK    pruebas_agente.py (2 s)
-OK    pruebas_agente_rutas.py (3 s)
-OK    pruebas_busquedas.py (18 s)
-OK    pruebas_costos.py (24 s)
+OK    pruebas_agente_rutas.py (5 s)
+OK    pruebas_busquedas.py (17 s)
+OK    pruebas_costos.py (21 s)
 OK    pruebas_criterio.py (6 s)
-OK    pruebas_despachador.py (6 s)
-OK    pruebas_figuras.py (78 s)
-OK    pruebas_formato.py (3 s)
-OK    pruebas_mapa.py (24 s)
-OK    pruebas_orden_libre.py (2 s)
+OK    pruebas_despachador.py (7 s)
+OK    pruebas_figuras.py (113 s)
+OK    pruebas_formato.py (2 s)
+OK    pruebas_mapa.py (27 s)
+OK    pruebas_orden_libre.py (5 s)
 OK    pruebas_perfil_topologico.py (3 s)
-OK    pruebas_piso.py (2 s)
-OK    pruebas_progresivas.py (1 s)
-OK    pruebas_tabla_heuristica.py (4 s)
+OK    pruebas_piso.py (4 s)
+OK    pruebas_progresivas.py (2 s)
+OK    pruebas_tabla_heuristica.py (6 s)
 OK    pruebas_tablas_resumen.py (5 s)
+OK    pruebas_trazas.py (38 s)
+OK    pruebas_visualizador.py (15 s)
 Se restauraron archivos de outputs/ que las pruebas reescriben: barrido_pesos_base.pdf, barrido_pesos_base.png, pruebas_agente.json
-15 de 15 suites pasan
+17 de 17 suites pasan
 ```
 
-Resultado esperado: todas las suites en `OK` y la última línea «15 de 15 suites pasan» (código de salida 0). Para una sola suite: `python pruebas/pruebas_busquedas.py`.
+Resultado esperado: todas las suites en `OK` y la última línea «17 de 17 suites pasan» (código de salida 0). Para una sola suite: `python pruebas/pruebas_busquedas.py`.
 
 El estilo del código (PEP 8) se comprueba con pycodestyle; no imprime nada si todo está bien.
 
 ```powershell
-python -m pycodestyle --max-line-length=79 src pruebas experimentos informe
+python -m pycodestyle --max-line-length=79 src pruebas experimentos informe visualizador
 ```
 
 ```text
@@ -611,3 +614,38 @@ La construcción de la red desde cero (`src/construir_red.py`) requiere `data/ca
 | `FileNotFoundError` con una ruta relativa | Ejecutar desde la raíz del paquete o usar la ruta completa del script |
 | `FileNotFoundError: ... red_vial.csv` | Solo `construir_red.py` lo necesita; ver la sección 6 |
 | Una prueba reescribió un archivo de `outputs/` | Usar `python pruebas/ejecutar_pruebas.py`, que lo restaura |
+
+## 8. Visualizador web
+
+La aplicación local dibuja, sobre la red real, la animación paso a paso de los cinco algoritmos con su árbol de búsqueda, la construcción de la ruta con las métricas acumuladas, la comparación de algoritmos y de criterios, y el despachador. El comando levanta el servidor en `http://127.0.0.1:8000` y abre el navegador (se detiene con Ctrl+C); la documentación de la API está en `/docs`.
+
+```powershell-manual
+python visualizador/servidor.py
+```
+
+La verificación de arranque levanta el servidor en un puerto libre, pide `/`, `/api/red` y una búsqueda, comprueba los valores conocidos del caso central (370.54 km por Bogotá, 654.25 km por Santander, A* con 14 expandidos) y lo apaga. Tarda unos 15 segundos.
+
+```powershell
+python pruebas/pruebas_visualizador.py
+```
+
+```text
+GET /api/red
+GET /api/busqueda: caso central
+  coincide con busquedas.py en los cinco algoritmos
+Las métricas son la suma de las aristas de la ruta
+GET /api/comparar
+GET /api/criterios: el compromiso entre criterios
+Errores con código HTTP y mensaje en español
+POST /api/despachador
+  tipo c con una obligatoria y un tramo bloqueado
+  ida y vuelta con un tramo bloqueado solo en el regreso
+Held-Karp con k = 19 y ACO con k = 20 (instancias de demostración)
+  k = 19: Held-Karp, el límite del método exacto
+Interfaz y documentación de la API
+Arranque del servidor en un puerto libre
+  / , /api/red y /api/busqueda responden en un puerto libre
+Pruebas del visualizador: todas pasan
+```
+
+Límite: el proyecto no tiene datos de tiempo de viaje; el «tiempo estimado» de la aplicación es la distancia dividida por una velocidad supuesta (50 km/h, supuesto del equipo, editable) y no entra a ningún costo ni resultado. Las instancias de 19 y 20 paradas de los casos de ejemplo son de demostración, no casos de las pruebas del informe.
