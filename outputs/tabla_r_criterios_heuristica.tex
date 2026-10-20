@@ -1,0 +1,24 @@
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{5.2cm}|>{\raggedright\arraybackslash}p{3.4cm}|>{\raggedright\arraybackslash}p{1.9cm}|}
+\hline
+\rowcolor{gray!20} \textbf{Criterio} & \textbf{Costo de la arista $c(u,v)$} & \textbf{Coeficiente $a$} & \textbf{Heurística $h(n)$} \\
+\hline
+\textbf{distancia} & $d$ & $1$ & $d_{\mathrm{geo}}$ \\
+\hline
+\textbf{compuesto sin riesgo} & $\dfrac{w_1\,d/d_{\max} + w_2\,p/p_{\max}}{w_1 + w_2}$ & $\dfrac{w_1}{(w_1 + w_2)\,d_{\max}}$ & $a\,d_{\mathrm{geo}}$ \\
+\hline
+\textbf{costo operativo} & $p + c_{km}\,d$ & $c_{km}$ & $c_{km}\,d_{\mathrm{geo}}$ \\
+\hline
+\textbf{compuesto total sin riesgo} & $\dfrac{w_1 d/d_{\max} + w_2 p/p_{\max} + w_4\,d/d_{\max}}{w_1 + w_2 + w_4}$ & $\dfrac{w_1 + w_4}{(w_1 + w_2 + w_4)\,d_{\max}}$ & $a\,d_{\mathrm{geo}}$ \\
+\hline
+\textbf{compuesto (limitado)} & $w_1\,d/d_{\max} + w_2\,p/p_{\max} + w_3\,r/r_{\max}$ & $w_1/d_{\max}$ & $a\,d_{\mathrm{geo}}$ \\
+\hline
+\textbf{compuesto total (limitado)} & $w_1 d/d_{\max} + w_2 p/p_{\max} + w_3 r/r_{\max} + w_4\,d/d_{\max}$ & $(w_1 + w_4)/d_{\max}$ & $a\,d_{\mathrm{geo}}$ \\
+\hline
+\textbf{compuesto con mortalidad (limitado)} & $w_1\,d/d_{\max} + w_2\,p/p_{\max} + w_3\,m/m_{\max}$ & $w_1/d_{\max}$ & $a\,d_{\mathrm{geo}}$ \\
+\hline
+\textbf{peaje} & $p$ & $0$ & $0$ \\
+\hline
+\textbf{riesgo} & $r$ & $0$ & $0$ \\
+\hline
+\end{tabular}

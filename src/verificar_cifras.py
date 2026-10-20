@@ -234,10 +234,19 @@ chequear("violaciones cons. sin piso con alfa=1", 141,
          p["consistencia"]["violaciones"])
 chequear("peor margen sin piso con alfa=1", -56.51,
          round(p["admisibilidad"]["margen_minimo"], 2))
+chequear("razón mínima con piso", 1.0000000059,
+         round(heur["razon_minima_exacta"], 10), 1e-10)
 citas("Corte 2", c2, [("alfa sin piso", "0.310570"),
-                      ("razón mínima", "1.0000000059")])
-citas("tabla de heurísticas", leer("outputs/tabla_c2_heuristica.tex"),
-      [("violaciones", "& 66 &"), ("peor margen", "-56.51")])
+                      ("contraejemplo sin piso", "56.96")])
+# la verificación empírica sale del informe: queda en el repositorio
+for ausente in ("Verificación numérica", "violaciones", "$-56.51$"):
+    chequear(f"Corte 2 no incluye «{ausente}»", False,
+             ausente in " ".join(c2.split()))
+# demostración analítica y tabla de criterios
+citas("Corte 2", c2, [("consistencia", "eq:consistencia"),
+                      ("admisibilidad", "eq:admisibilidad"),
+                      ("tabla de criterios", "tab:criterios-h"),
+                      ("diagrama de la red", "fig:red")])
 
 # ---- 4. Escenarios ---------------------------------------------------------
 saltos = sorted({c["saltos"] for c in res if c["criterio"] == "distancia"
