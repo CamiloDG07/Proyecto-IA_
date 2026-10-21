@@ -1,0 +1,31 @@
+# Lo que la función no necesita en tiempo de ejecución. Sí se conservan src/,
+# visualizador/, outputs/datos/, data/carga/coordenadas_nodos.csv y
+# config_costos.json.
+.git
+venv
+__pycache__
+notebooks
+informe
+experimentos
+pruebas
+outputs/figuras
+outputs/tablas
+outputs/lecturas
+outputs/reportes
+outputs/_archivo_transmilenio
+src/_archivo_transmilenio
+data/_archivo_transmilenio
+data/carga/_descarga_previa
+data/carga/nuevas
+data/carga/red_vial.csv
+data/carga/divipola_centros_poblados_xaxy-8nri.csv
+data/carga/divipola_municipios_gdxc-w37w.csv
+data/carga/mgn2020_departamentos_dane.json
+data/sergio_logo.png
+*.pdf
+*.tex
+*.aux
+*.log
+*.toc
+*.out
+*.md

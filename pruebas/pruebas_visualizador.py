@@ -157,6 +157,95 @@ def prueba_coordenadas():
               "Villavicencio al sureste de Bogotá")
 
 
+def prueba_salud_y_limites():
+    print("GET /api/salud y límites de la entrada")
+    estado, r = get("/api/salud")
+    verificar(estado == 200 and r == {"estado": "ok"}, "/api/salud")
+    nombres = sorted(servidor.GRAFO)
+    libres = [n for n in nombres if n != "Bogotá"]
+    estado, r = despachar(tipo="d", origen="Bogotá", paradas=libres[:21])
+    verificar(estado == 422 and "máximo 20 paradas" in r["detail"],
+              "21 paradas libres se rechazan con 422 en español")
+    estado, r = despachar(tipo="c", origen="Bogotá", destino="Tunja",
+                          obligatorias=libres[:21])
+    verificar(estado == 422 and "máximo 20 paradas" in r["detail"],
+              "21 obligatorias se rechazan")
+    aristas = [list(par) for par in servidor.GRAFO.edges()]
+    estado, r = despachar(tipo="a", origen="Bogotá", destino="Tunja",
+                          bloqueados=aristas * 3)
+    verificar(estado == 422 and "aristas bloqueadas" in r["detail"],
+              "demasiados bloqueos se rechazan")
+    grande = json.dumps({"tipo": "d", "origen": "Bogotá",
+                         "paradas": ["x" * 100] * 1000}).encode()
+    verificar(len(grande) > servidor.MAX_CUERPO, "cuerpo de prueba grande")
+    alcance = {"type": "http", "method": "POST",
+               "path": "/api/despachador", "raw_path": b"",
+               "query_string": b"", "server": ("prueba", 80),
+               "scheme": "http", "http_version": "1.1",
+               "client": ("c", 1), "root_path": "",
+               "headers": [(b"content-type", b"application/json"),
+                           (b"content-length", str(len(grande)).encode())]}
+    salida = {}
+
+    async def llamar():
+        enviado = False
+
+        async def recibir():
+            nonlocal enviado
+            if not enviado:
+                enviado = True
+                return {"type": "http.request", "body": grande,
+                        "more_body": False}
+            await asyncio.sleep(3600)
+
+        async def enviar(mensaje):
+            if mensaje["type"] == "http.response.start":
+                salida["estado"] = mensaje["status"]
+            elif mensaje["type"] == "http.response.body":
+                salida["cuerpo"] = salida.get("cuerpo", b"") + mensaje.get(
+                    "body", b"")
+        await servidor.app(alcance, recibir, enviar)
+
+    asyncio.run(llamar())
+    verificar(salida["estado"] == 413 and "demasiado grande"
+              in json.loads(salida["cuerpo"])["detail"],
+              "cuerpo de más de 64 KiB: 413")
+    estado, r = despachar(tipo="d", origen="Bogotá", paradas=libres[:20])
+    verificar(estado == 200 and r["k"] == 20, "20 paradas siguen válidas")
+
+
+def prueba_solo_lectura():
+    print("El servidor no escribe en disco (sistema de archivos de solo "
+          "lectura)")
+    import builtins
+    original = builtins.open
+    escrituras = []
+
+    def vigilado(archivo, modo="r", *args, **kwargs):
+        if any(c in str(modo) for c in "wax+"):
+            escrituras.append(str(archivo))
+            raise PermissionError(f"solo lectura: {archivo}")
+        return original(archivo, modo, *args, **kwargs)
+
+    builtins.open = vigilado
+    try:
+        ok("/api/salud")
+        ok("/api/red")
+        ok("/api/busqueda", **CENTRAL, criterio="distancia",
+           algoritmo="astar")
+        ok("/api/comparar", **CENTRAL, criterio="peaje")
+        ok("/api/criterios", **CENTRAL)
+        estado, d = despachar(tipo="d", origen="Bogotá",
+                              paradas=["Tunja", "Villeta", "Girardot"])
+        verificar(estado == 200, f"despachador: {d}")
+        for ruta in ("/", "/static/app.js", "/docs"):
+            estado, _ = asyncio.run(_llamar("GET", ruta))
+            verificar(estado == 200, ruta)
+    finally:
+        builtins.open = original
+    verificar(not escrituras, f"intentó escribir: {escrituras}")
+
+
 def prueba_busqueda():
     print("GET /api/busqueda: caso central")
     b = ok("/api/busqueda", **CENTRAL, criterio="distancia",
@@ -431,6 +520,15 @@ def prueba_estaticos():
         estado, cuerpo = asyncio.run(_llamar("GET", ruta))
         verificar(estado == 200 and texto in cuerpo,
                   f"{ruta}: estado {estado}")
+    for ruta, tipo in (("/static/app.js", "text/javascript"),
+                       ("/static/estilos.css", "text/css"),
+                       ("/static/vendor/fuentes/"
+                        "ibm-plex-mono-latin-400-normal.woff2", "font/woff2"),
+                       ("/static/vendor/leaflet/leaflet.css", "text/css")):
+        cabeceras = {}
+        asyncio.run(_llamar("GET", ruta, cabeceras=cabeceras))
+        verificar(cabeceras.get("content-type", "").startswith(tipo),
+                  f"{ruta}: tipo {cabeceras.get('content-type')}")
     for archivo in ("fraunces-latin-600-normal.woff2",
                     "public-sans-latin-400-normal.woff2",
                     "ibm-plex-mono-latin-400-normal.woff2"):
@@ -489,6 +587,8 @@ def prueba_arranque():
 def main():
     prueba_red()
     prueba_coordenadas()
+    prueba_salud_y_limites()
+    prueba_solo_lectura()
     prueba_busqueda()
     prueba_metricas_coherentes()
     prueba_comparar()
