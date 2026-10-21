@@ -1,4 +1,19 @@
-# Configuración de despliegue en Vercel. Las dependencias siguen en
-# requirements.txt; este archivo solo indica dónde está la aplicación FastAPI.
+# Configuración de despliegue en Vercel. Vercel instala las dependencias de
+# este archivo con uv, así que [project] declara solo lo que importa el
+# servidor (fastapi, networkx y numpy; starlette y pydantic llegan con
+# fastapi), con las mismas versiones que requirements.txt, que sigue siendo
+# el archivo de la guía del paquete. [tool.vercel] indica dónde está la
+# aplicación FastAPI.
+[project]
+name = "rutas-de-carga-visualizador"
+version = "0.1.0"
+description = "Visualizador web de la búsqueda y del despachador de rutas de carga"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi==0.156.2",
+    "networkx",
+    "numpy",
+]
+
 [tool.vercel]
 entrypoint = "visualizador.servidor:app"

@@ -21,6 +21,7 @@ import asyncio
 import json
 import socket
 import subprocess
+import tomllib
 import time
 import urllib.parse
 import urllib.request
@@ -155,6 +156,45 @@ def prueba_coordenadas():
     verificar(nodos["Villavicencio"]["latitud"] < bogota["latitud"]
               and nodos["Villavicencio"]["longitud"] > bogota["longitud"],
               "Villavicencio al sureste de Bogotá")
+
+
+def prueba_despliegue():
+    print("Despliegue: pyproject.toml, requirements.txt y .vercelignore")
+    if not (RAIZ / "pyproject.toml").exists():
+        return  # el paquete del entregable no lleva los archivos de Vercel
+    with open(RAIZ / "pyproject.toml", "rb") as f:
+        proyecto = tomllib.load(f)
+    verificar("project" in proyecto, "falta la tabla [project] que uv exige")
+    verificar(proyecto["tool"]["vercel"]["entrypoint"]
+              == "visualizador.servidor:app", "entrypoint de Vercel")
+    pedidos = proyecto["project"]["dependencies"]
+    with open(RAIZ / "requirements.txt", encoding="utf-8") as f:
+        requisitos = [x.strip() for x in f if x.strip()]
+    for dependencia in pedidos:
+        verificar(dependencia in requisitos,
+                  f"{dependencia} no está igual en requirements.txt")
+    nombres = {d.split("=")[0].strip().lower() for d in pedidos}
+    verificar({"fastapi", "networkx", "numpy"} <= nombres
+              and not nombres & {"scipy", "matplotlib", "pycodestyle"},
+              "solo las dependencias que el servidor importa")
+    version = (RAIZ / ".python-version").read_text().strip()
+    verificar(proyecto["project"]["requires-python"] == f">={version}",
+              "requires-python coherente con .python-version")
+    ignorados = [x.strip() for x in (RAIZ / ".vercelignore").read_text(
+        encoding="utf-8").splitlines() if x.strip()
+        and not x.startswith("#")]
+    for necesario in ("pyproject.toml", "vercel.json", "src", "visualizador",
+                      "outputs/datos", "config_costos.json",
+                      "data/carga/coordenadas_nodos.csv"):
+        verificar(necesario not in ignorados, f"{necesario} está excluido")
+    codigo = subprocess.run(
+        [sys.executable, "-B", "-c",
+         "import sys; sys.path[:0] = ['visualizador']; import servidor; "
+         "raise SystemExit(any(m in sys.modules for m in "
+         "('scipy', 'matplotlib', 'pycodestyle')))"],
+        cwd=RAIZ).returncode
+    verificar(codigo == 0, "el servidor importa scipy, matplotlib o "
+              "pycodestyle")
 
 
 def prueba_salud_y_limites():
@@ -587,6 +627,7 @@ def prueba_arranque():
 def main():
     prueba_red()
     prueba_coordenadas()
+    prueba_despliegue()
     prueba_salud_y_limites()
     prueba_solo_lectura()
     prueba_busqueda()
