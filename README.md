@@ -196,6 +196,16 @@ Abre `http://127.0.0.1:8000` (la documentación de la API queda en `/docs`) y fu
 
 Límite: el proyecto no tiene datos de tiempo de viaje. La aplicación muestra un «tiempo estimado» igual a la distancia dividida por una velocidad supuesta (50 km/h, supuesto del equipo, editable de 20 a 90 km/h y rotulado como estimación); no es un criterio de búsqueda y no entra a ningún costo ni resultado. Las instancias de 19 y 20 paradas son de demostración, no casos de las pruebas del informe.
 
+## Despliegue en Vercel
+
+El visualizador se puede publicar en Vercel directamente desde este repositorio, sin cambiar la lógica ni los resultados. Los archivos de despliegue están en la raíz: `pyproject.toml` (`[tool.vercel]` con `entrypoint = "visualizador.servidor:app"`), `vercel.json` (`maxDuration` de 60 s para la función), `.vercelignore` (deja fuera del paquete lo que la función no lee: informe, experimentos, pruebas, figuras, tablas, lecturas, archivo de TransMilenio y datos pesados) y `.python-version` (3.14, la versión con que se probó). Las dependencias siguen en `requirements.txt`. Pasos, en el panel de Vercel:
+
+1. Add New > Project, importar `CamiloDG07/Proyecto-IA_` y elegir la rama `master` como rama de producción.
+2. Framework Preset: FastAPI (Vercel lo detecta solo). No hay variables de entorno ni comando de compilación.
+3. Deploy. Al terminar, abrir `https://<proyecto>.vercel.app/api/salud` (debe responder `{"estado":"ok"}`), luego `/` y pulsar «Caso central» (370.54 km por Bogotá con A*, 14 expandidos).
+
+Límites: el sistema de archivos de la función es de solo lectura y el servidor no escribe en disco. Para que un despliegue público no se use mal, el despachador acepta como máximo 20 paradas libres u obligatorias (422 con mensaje en español si se excede) y el cuerpo de una solicitud no pasa de 64 KiB. Si una solicitud agota el tiempo (el peor caso medido es de unos 3.5 s en un portátil con Intel Core i7-8750H; en la plataforma puede ser más lento), subir `maxDuration` en `vercel.json` o pedir menos paradas.
+
 ## Licencias y atribución
 
 Los datos de INVÍAS (Red Vial, Peajes, Postes de Referencia), de la ANSV
