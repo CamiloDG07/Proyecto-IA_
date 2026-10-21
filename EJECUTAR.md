@@ -284,7 +284,7 @@ Límite: el proyecto no tiene datos de tiempo de viaje. El «tiempo estimado» e
 
 ## 10. Despliegue en Vercel
 
-Solo del repositorio (el zip del entregable no incluye `vercel.json`, `.vercelignore`, `pyproject.toml` ni `.python-version`, que no sirven para ejecutar el paquete). Archivos: `pyproject.toml` (entrada de la aplicación: `visualizador.servidor:app`), `vercel.json` (`maxDuration` de 60 s), `.vercelignore` y `.python-version` (3.14). Las dependencias se instalan desde `requirements.txt` (unos 295 MB de paquete, bajo el límite de 500 MB).
+Solo del repositorio (el zip del entregable no incluye `vercel.json`, `.vercelignore`, `pyproject.toml` ni `.python-version`, que no sirven para ejecutar el paquete). Archivos: `pyproject.toml` (entrada de la aplicación: `visualizador.servidor:app`), `vercel.json` (`maxDuration` de 60 s), `.vercelignore` y `.python-version` (3.14). Vercel instala con uv las dependencias de la tabla `[project]` de `pyproject.toml` (`fastapi==0.156.2`, `networkx` y `numpy`, las únicas que el servidor importa; unos 58 MB de paquete, muy por debajo del límite de 500 MB). `requirements.txt` no cambia y es el de uso local; `uv.lock` no se versiona (Vercel lo genera).
 
 En el panel de Vercel: Add New > Project, importar `CamiloDG07/Proyecto-IA_`, rama `master`, preajuste FastAPI, sin variables de entorno ni comando de compilación, Deploy. Comprobar `/api/salud` (`{"estado":"ok"}`), `/` y el caso central (370.54 km por Bogotá con A*, 14 expandidos; 654.25 km por Santander con peaje). Si una solicitud del despachador agota el tiempo, subir `maxDuration` en `vercel.json` (el peor caso medido, 19 paradas con Held-Karp, tarda unos 3.5 s en un portátil Intel Core i7-8750H) o pedir menos paradas.
 

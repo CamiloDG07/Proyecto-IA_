@@ -198,7 +198,7 @@ Límite: el proyecto no tiene datos de tiempo de viaje. La aplicación muestra u
 
 ## Despliegue en Vercel
 
-El visualizador se puede publicar en Vercel directamente desde este repositorio, sin cambiar la lógica ni los resultados. Los archivos de despliegue están en la raíz: `pyproject.toml` (`[tool.vercel]` con `entrypoint = "visualizador.servidor:app"`), `vercel.json` (`maxDuration` de 60 s para la función), `.vercelignore` (deja fuera del paquete lo que la función no lee: informe, experimentos, pruebas, figuras, tablas, lecturas, archivo de TransMilenio y datos pesados) y `.python-version` (3.14, la versión con que se probó). Las dependencias siguen en `requirements.txt`. Pasos, en el panel de Vercel:
+El visualizador se puede publicar en Vercel directamente desde este repositorio, sin cambiar la lógica ni los resultados. Los archivos de despliegue están en la raíz: `pyproject.toml` (`[project]` con las dependencias mínimas del servidor, `fastapi`, `networkx` y `numpy`, que Vercel instala con uv; y `[tool.vercel]` con `entrypoint = "visualizador.servidor:app"`), `vercel.json` (`maxDuration` de 60 s para la función), `.vercelignore` (deja fuera del paquete lo que la función no lee: informe, experimentos, pruebas, figuras, tablas, lecturas, archivo de TransMilenio y datos pesados) y `.python-version` (3.14, la versión con que se probó). `requirements.txt` sigue siendo el de uso local y de la guía (una prueba comprueba que las dependencias de `pyproject.toml` están en él con la misma versión). Pasos, en el panel de Vercel:
 
 1. Add New > Project, importar `CamiloDG07/Proyecto-IA_` y elegir la rama `master` como rama de producción.
 2. Framework Preset: FastAPI (Vercel lo detecta solo). No hay variables de entorno ni comando de compilación.

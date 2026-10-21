@@ -15,3 +15,7 @@ data/carga/red_vial.csv
 *.log
 *.toc
 *.out
+
+# uv genera el bloqueo en cada despliegue (uv lock); no se versiona
+uv.lock
+.venv/

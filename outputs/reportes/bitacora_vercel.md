@@ -109,3 +109,25 @@ CLI ni se inició sesión en Vercel, y no se creó ningún proyecto.
   de los tipos de contenido y de que el servidor no escribe en disco (se
   sustituye `open` por una versión que falla ante cualquier escritura).
 - Todas las suites, el verificador de cifras y pycodestyle: ver el reporte.
+
+## 4. Corrección (rama `corrige-vercel`, etiqueta `corte2-vercel-2`)
+
+La primera compilación en Vercel (commit `f33123e`) falló con `No project
+table found in pyproject.toml`: Vercel instala desde `pyproject.toml` con uv y
+el archivo solo tenía `[tool.vercel]`. La decisión 2 de la sección 2 (dejar las
+dependencias solo en `requirements.txt`) quedó sin efecto: `pyproject.toml`
+tiene ahora `[project]` (nombre, versión, `requires-python = ">=3.14"`,
+coherente con `.python-version`) con `fastapi==0.156.2`, `networkx` y `numpy`,
+las mismas especificaciones que `requirements.txt`, que no cambia. Se excluyen
+`uvicorn` (solo se importa al arrancar en local; Vercel trae su propio
+servidor), `scipy`, `matplotlib` y `pycodestyle`. Verificado con uv 0.13.4 en un
+entorno temporal: `uv lock` resuelve 14 paquetes y `uv sync` instala 13
+(fastapi, starlette, pydantic, anyio, networkx 3.7, numpy 2.5.4, etc.; hay
+ruedas para Python 3.14); `site-packages` pesa 58 MB (con uvicorn solo para
+la prueba) y el proyecto 2.0 MB, contra los 293 MB anteriores. Arranque en
+frío con esas dependencias: 2.8 s. `uv.lock` y `.venv/` se agregaron a
+`.gitignore`. Nueva comprobación en `pruebas_visualizador.py`: dependencias de
+`pyproject.toml` presentes con la misma versión en `requirements.txt`, sin
+scipy, matplotlib ni pycodestyle, `requires-python` coherente con
+`.python-version`, `.vercelignore` sin excluir lo que el servidor lee, y el
+servidor sin importar los módulos excluidos.
