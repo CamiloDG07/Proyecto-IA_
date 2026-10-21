@@ -28,13 +28,12 @@ if True:  # carpetas de código en el path
     sys.path[:0] = [str(Path(__file__).resolve().parents[1] / "src")]
 import argparse
 import json
+import mimetypes
 import os
 import platform
 import threading
-import webbrowser
 from datetime import date
 
-import uvicorn
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse
@@ -42,7 +41,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from agente import CRITERIOS
-from build_graph import cargar_grafo
+from build_graph import construir_grafo
 from busquedas import a_estrella, bfs, dfs, medir, ucs, voraz
 from demostracion import REPETICIONES
 from despachador import (CRITERIOS_CON_HEURISTICA, TIPOS, Despachador,
@@ -53,6 +52,15 @@ from trazas import ALGORITMOS as TRAZAS
 
 CARPETA = Path(__file__).resolve().parent
 ESTATICOS = CARPETA / "static"
+# Límites de la entrada (el servidor puede estar publicado): el máximo de
+# paradas libres es el que el propio proyecto ya maneja (Held-Karp hasta el
+# umbral y ACO hasta 20), y el cuerpo de una petición no pasa de 64 KiB.
+MAX_PARADAS = 20
+MAX_BLOQUEADOS = 64
+MAX_CUERPO = 64 * 1024
+for _ext, _tipo in ((".js", "text/javascript"), (".css", "text/css"),
+                    (".woff2", "font/woff2"), (".html", "text/html")):
+    mimetypes.add_type(_tipo, _ext)
 NOMBRES = {"bfs": "BFS", "dfs": "DFS", "ucs": "UCS", "voraz": "Voraz",
            "astar": "A*"}
 BASE = {"bfs": bfs, "dfs": dfs, "ucs": ucs, "voraz": voraz,
@@ -92,7 +100,9 @@ MENSAJE_LIMITADO = ("Criterio «limitado»: h solo incluye el término de "
                     "distancia; los demás términos, no negativos, quedan "
                     "fuera. Sigue siendo admisible, pero informa menos.")
 
-GRAFO = cargar_grafo()
+# El grafo se arma desde los JSON de la red (no desde el pickle, que depende
+# de las versiones de Python y de networkx del entorno donde corre).
+GRAFO = construir_grafo()
 COORDENADAS = cargar_coordenadas()
 ALFA = alfa_minimo(GRAFO, COORDENADAS)
 HEURISTICAS = {c: Heuristica(GRAFO, COORDENADAS, c, ALFA)
@@ -289,11 +299,26 @@ async def validacion(_peticion: Request, excepcion: RequestValidationError):
 
 @app.middleware("http")
 async def sin_cache(peticion: Request, siguiente):
-    """La interfaz se revalida siempre: no queda una hoja de estilos vieja."""
+    """La interfaz se revalida siempre: no queda una hoja de estilos vieja.
+
+    También rechaza los cuerpos de más de 64 KiB (413).
+    """
+    largo = peticion.headers.get("content-length", "0")
+    if largo.isdigit() and int(largo) > MAX_CUERPO:
+        return JSONResponse(
+            status_code=413,
+            content={"detail": "El cuerpo de la solicitud es demasiado "
+                               "grande."})
     respuesta = await siguiente(peticion)
     if not peticion.url.path.startswith("/api"):
         respuesta.headers["Cache-Control"] = "no-cache"
     return respuesta
+
+
+@app.get("/api/salud")
+def api_salud():
+    """Comprobación del despliegue: no calcula nada."""
+    return {"estado": "ok"}
 
 
 @app.get("/api/red")
@@ -497,6 +522,12 @@ def api_despachador(p: PeticionDespachador):
     if p.tipo not in TIPOS:
         raise error(400, f"Tipo de problema desconocido: {p.tipo}")
     validar_criterio(p.criterio)
+    if len(p.paradas) > MAX_PARADAS or len(p.obligatorias) > MAX_PARADAS:
+        raise error(422, f"Se admiten como máximo {MAX_PARADAS} paradas "
+                         "libres u obligatorias por solicitud.")
+    if len(p.bloqueados) > MAX_BLOQUEADOS:
+        raise error(422, f"Se admiten como máximo {MAX_BLOQUEADOS} aristas "
+                         "bloqueadas por solicitud.")
     # cada tipo usa solo los campos que su definición contempla
     paradas = p.paradas if p.tipo in ("b", "d", "e") else []
     obligatorias = p.obligatorias if p.tipo == "c" else []
@@ -526,6 +557,8 @@ def main(argumentos):
     lector.add_argument("--puerto", type=int, default=8000)
     lector.add_argument("--sin-navegador", action="store_true")
     a = lector.parse_args(argumentos)
+    import uvicorn  # solo al arrancar localmente: acorta el inicio en frío
+    import webbrowser
     direccion = f"http://127.0.0.1:{a.puerto}"
     if not a.sin_navegador:
         threading.Timer(1.5, webbrowser.open, args=(direccion,)).start()

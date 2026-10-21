@@ -1,0 +1,4 @@
+# Configuración de despliegue en Vercel. Las dependencias siguen en
+# requirements.txt; este archivo solo indica dónde está la aplicación FastAPI.
+[tool.vercel]
+entrypoint = "visualizador.servidor:app"
