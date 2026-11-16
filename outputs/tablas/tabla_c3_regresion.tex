@@ -1,0 +1,18 @@
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|>{\raggedright\arraybackslash}p{4.6cm}|r|r|r|r|r|}
+\hline
+\rowcolor{gray!20} \textbf{Método} & \textbf{MAE val.} & \textbf{MAE} & \textbf{RMSE} & \textbf{$R^2$} & \textbf{EPM (\%)} \\
+\hline
+\textbf{Persistencia (mes anterior)} & 579.6 & 554.4 & 994.5 & 0.9735 & 5.97 \\
+\hline
+\textbf{Estacional (mismo mes del año anterior)} & 526.9 & 605.6 & 1\,297.3 & 0.9550 & 6.29 \\
+\hline
+\textbf{Regresión lineal} & 433.9 & 419.9 & 722.3 & 0.9860 & 4.78 \\
+\hline
+\textbf{Árbol de decisión} & 496.0 & 476.5 & 859.3 & 0.9803 & 5.57 \\
+\hline
+\textbf{Bosque aleatorio (elegido)} & 377.1 & 358.8 & 669.3 & 0.9880 & 3.94 \\
+\hline
+\textbf{Potenciación del gradiente} & 401.2 & 407.6 & 724.0 & 0.9860 & 4.67 \\
+\hline
+\end{tabular}

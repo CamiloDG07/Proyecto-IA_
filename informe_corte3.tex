@@ -1,0 +1,819 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-tabla]{babel}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage[table]{xcolor}
+\usepackage{mathptmx}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\setlist{itemsep=0pt,topsep=2pt,parsep=0pt}
+\setlength{\belowcaptionskip}{4pt}
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.7}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{5}
+\usepackage{setspace}
+\usepackage{xurl}
+\usepackage{verbatim}
+
+\geometry{top=2.5cm, bottom=2.5cm, left=3cm, right=3cm}
+\hypersetup{colorlinks=true, linkcolor=black, urlcolor=blue, citecolor=black}
+\graphicspath{{data/}{outputs/figuras/}}
+
+% bloque "Cómo leerla" de figuras y tablas de resultados
+\newcommand{\comoleerla}[3]{%
+  \begin{center}\footnotesize
+  \begin{minipage}{0.94\linewidth}
+  \begin{itemize}\setlength{\itemsep}{0pt}\setlength{\topsep}{2pt}%
+    \setlength{\parsep}{0pt}
+  \item \textbf{Estructura:} #1
+  \item \textbf{Qué se ve:} #2
+  \item \textbf{Por qué:} #3
+  \end{itemize}
+  \end{minipage}
+  \end{center}}
+
+% cifras del informe, generadas por informe/tablas_corte3.py
+\input{outputs/lecturas/texto_c3_cifras.tex}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Corte 3: aprendizaje automático e integración}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14.5pt}
+\setlength{\emergencystretch}{3em}
+
+\titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
+
+\begin{document}
+
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+
+\vspace*{0.5cm}
+\includegraphics[width=0.30\textwidth]{sergio_logo.png}\\[0.4cm]
+
+{\fontsize{13}{15}\selectfont\textbf{UNIVERSIDAD SERGIO ARBOLEDA}}\\[2.0cm]
+
+{\fontsize{14}{17}\selectfont\textbf{APRENDIZAJE AUTOMÁTICO E INTEGRACIÓN EN UNA\\
+RED DE CARGA INTERURBANA: REGRESIÓN,\\
+CLASIFICACIÓN Y AGRUPAMIENTO DEL TRÁNSITO}}\\[0.6cm]
+{\fontsize{12}{14}\selectfont Proyecto Integrador, Corte 3 (informe final)}\\[2.2cm]
+
+{\fontsize{12}{14}\selectfont\textbf{Inteligencia Artificial (SIST5036)}}\\[1.5cm]
+
+{\fontsize{12}{14}\selectfont
+Juan David Andradé Gómez\\[0.2cm]
+Mario Jiménez López\\[0.2cm]
+Camilo Andrés Díaz García}\\[1.2cm]
+
+{\fontsize{12}{14}\selectfont Profesor: Joaquín F. Sánchez}
+
+\vfill
+
+\begin{center}
+    \textit{Universidad Sergio Arboleda}\\
+    \textit{Facultad de Sistemas e Ingeniería}\\
+    \textit{Bogotá D.C., 2026}
+\end{center}
+
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Alcance y continuidad}
+\label{sec:alcance}
+
+El Corte 1 formuló el problema y construyó la red de 32 nodos y 32
+aristas~\cite{formulacion}. El Corte 2 implementó y comparó los cinco
+algoritmos de búsqueda sobre esa red~\cite{cortedos}. Este corte agrega los
+tres modelos de aprendizaje automático que pide el proyecto y los integra con
+el agente y con la aplicación web.
+
+\textbf{Qué pide el corte y cómo se resolvió.}
+\begin{itemize}
+\item \textbf{Regresión del tiempo de desplazamiento.} Se predice el tránsito
+diario de cada peaje y, con él, el tiempo de recorrido de cada tramo.
+\item \textbf{Clasificación de la congestión.} Se predice el nivel de
+tránsito del mes: bajo, medio o alto.
+\item \textbf{Agrupamiento.} Se agrupan los peajes por su perfil de tránsito
+con K-medias y con agrupamiento jerárquico.
+\item \textbf{Integración.} Un agente predictivo usa los pronósticos para
+buscar con A* la ruta de menor tiempo estimado, y la aplicación web lo
+muestra sobre el mapa.
+\end{itemize}
+
+\textbf{Limitación de partida.} Los datos de los cortes anteriores (INVÍAS y
+ANSV) traen distancia, peaje y riesgo. No traen tiempos, velocidades ni
+congestión. Se tomaron dos decisiones:
+\begin{itemize}
+\item \textbf{Dato real de tránsito.} Se incorporó el conjunto Tráfico
+Vehicular de la ANI~\cite{ani}, que el equipo había evaluado como fuente
+válida en el Corte 2 sin integrarla. Es el dato de todos los modelos.
+\item \textbf{Tiempo estimado, no medido.} El tiempo de un tramo sale de la
+función BPR~\cite{bpr} alimentada con ese tránsito. La velocidad libre, la
+capacidad y los parámetros de la función son supuestos del equipo y van
+rotulados así en el código, en la aplicación y en este informe
+(Sección~\ref{sec:tiempo}).
+\end{itemize}
+
+\section{Datos}
+\label{sec:datos}
+
+\subsection{Fuente}
+
+\begin{itemize}
+\item \textbf{Conjunto:} ANI, Tráfico Vehicular (\texttt{8yi9-t44c}), licencia
+CC BY-SA 4.0, descargado el 16 de noviembre de 2026.
+\item \textbf{Contenido:} \ctFilasCrudas{} filas. Cada fila es el tránsito de
+un mes en un peaje y una categoría de tarifa, con la tarifa, los evasores y
+los exentos.
+\item \textbf{Cobertura:} \ctPeajesCrudos{} peajes, \ctCategorias{} códigos de
+categoría, de \ctPrimerMes{} a \ctUltimoMes.
+\item \textbf{Reproducción:} el archivo está en
+\nolinkurl{data/carga/nuevas/} y su SHA-256 se comprueba antes de leerlo.
+\end{itemize}
+
+\subsection{Depuración}
+
+La depuración está en \texttt{src/datos\_trafico.py}. La
+Tabla~\ref{tab:depuracion} da el conteo de cada paso.
+
+\begin{enumerate}
+\item \textbf{Revisión de calidad.} Todas las filas cubren un mes calendario
+completo. No hay valores faltantes ni filas duplicadas.
+\item \textbf{Grupo vehicular.} La fuente no trae diccionario de categorías.
+El grupo sale del número romano del código: I, livianos; II, buses; III en
+adelante, carga. Es la clasificación de peajes que el proyecto ya usa
+(categoría III, camión de dos ejes). Los códigos sin número romano (EA, EC,
+EG, ER y POLCA) no tienen clase vehicular identificable y se excluyen: son
+\ctFilasSinClase{} filas con el \ctTransitoSinClase\,\% del tránsito.
+\item \textbf{Agregación.} Una fila por peaje y mes, con el tránsito total,
+el de cada grupo, los evasores, los exentos y la tarifa de la categoría I.
+\item \textbf{Meses sin operación.} Se quitan los meses sin tránsito y los
+meses con tránsito diario menor que el \ctUmbralAnomalo\,\% de la mediana del
+peaje.
+\item \textbf{Meses parciales.} Se quitan los meses de borde (el inicio o el
+final de una serie o de una interrupción) con tránsito menor que el
+\ctUmbralParcial\,\% de la mediana del peaje. Son meses de apertura, cierre o
+reapertura.
+\item \textbf{Rezagos.} Se agrega el tránsito diario de 1, 2, 3, 12 y 13
+meses antes y la participación de la carga del mes anterior. Solo las filas
+con todos los rezagos entran a los modelos.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Filas en cada paso de la depuración}
+\label{tab:depuracion}
+\small
+\input{outputs/tablas/tabla_c3_depuracion.tex}
+\end{table}
+
+El conjunto depurado (\nolinkurl{outputs/datos/trafico_peaje_mes.csv}) tiene
+\ctFilasDepuradas{} filas. De ellas, \ctFilasModelables{} tienen todos los
+rezagos, en \ctPeajesModelables{} peajes. La Tabla~\ref{tab:variables}
+describe sus variables.
+
+\begin{table}[H]
+\centering
+\caption{Variables del conjunto depurado}
+\label{tab:variables}
+\small
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|>{\raggedright\arraybackslash}p{6.2cm}|l|}
+\hline
+\rowcolor{gray!20} \textbf{Variable} & \textbf{Descripción} & \textbf{Uso} \\
+\hline
+\textbf{Tránsito diario} & Vehículos del mes divididos por los días del mes & Objetivo \\
+\hline
+\textbf{Rezagos 1, 2 y 3} & Tránsito diario de los tres meses anteriores & Predictor \\
+\hline
+\textbf{Rezagos 12 y 13} & Tránsito diario del mismo mes del año anterior y del mes previo a ese & Predictor \\
+\hline
+\textbf{Participación de la carga} & Fracción de vehículos de carga, del mes anterior & Predictor \\
+\hline
+\textbf{Mes del año y días del mes} & Calendario del mes que se predice & Predictor \\
+\hline
+\textbf{Participación de buses} & Fracción de buses en el tránsito & Agrupamiento \\
+\hline
+\textbf{Evasores, exentos y tarifa} & Conteos y tarifa de la categoría I & Exploración \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Cruce con la red}
+
+Cada arista de la red tiene el nombre de su peaje desde el Corte 1. El cruce
+compara ese nombre con el de la ANI, ambos en mayúsculas y sin tildes
+(\texttt{src/modelo\_tiempo.py}). El tránsito del peaje se toma como el del
+tramo completo.
+
+\begin{itemize}
+\item De las 32 aristas, \ctTramosConPeaje{} tienen peaje y
+\ctTramosConSerie{} de esos peajes están en la ANI.
+\item \ctTramosVigentes{} series llegan a \ctUltimoMes{} y
+\ctTramosHistoricos{} terminan antes, porque el peaje salió de la fuente.
+\item \ctTramosSinDato{} tramos no tienen dato de tránsito: 8 no tienen peaje
+y 3 tienen un peaje que la ANI no reporta.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.86\textwidth]{c3_mapa_cobertura.pdf}
+    \caption{Cobertura del dato de tránsito en la red. Fuente: elaboración propia}
+    \label{fig:cobertura}
+    \input{outputs/lecturas/lectura_c3_mapa_cobertura.tex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_series_red.pdf}
+    \caption{Tránsito diario mensual de los peajes de la red. Fuente: elaboración propia}
+    \label{fig:seriesred}
+    \input{outputs/lecturas/lectura_c3_series_red.tex}
+\end{figure}
+
+\section{Análisis exploratorio}
+\label{sec:exploratorio}
+
+El análisis usa las \ctFilasDepuradas{} filas depuradas. El tránsito diario
+tiene una mediana de \ctTransitoMediano{} vehículos y un máximo de
+\ctTransitoMaximo.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{c3_serie.pdf}
+    \caption{Tránsito diario total y peajes que reportan, por mes. Fuente: elaboración propia}
+    \label{fig:serie}
+    \input{outputs/lecturas/lectura_c3_serie.tex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_distribucion.pdf}
+    \caption{Distribución del tránsito diario y estacionalidad. Fuente: elaboración propia}
+    \label{fig:distribucion}
+    \input{outputs/lecturas/lectura_c3_distribucion.tex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_composicion.pdf}
+    \caption{Composición vehicular por año y por peaje. Fuente: elaboración propia}
+    \label{fig:composicion}
+    \input{outputs/lecturas/lectura_c3_composicion.tex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.74\textwidth]{c3_correlacion.pdf}
+    \caption{Correlación entre las variables del conjunto modelable. Fuente: elaboración propia}
+    \label{fig:correlacion}
+    \input{outputs/lecturas/lectura_c3_correlacion.tex}
+\end{figure}
+
+\textbf{Lo que el análisis decide para los modelos.}
+\begin{itemize}
+\item El tránsito varía más de dos órdenes de magnitud entre peajes. El
+objetivo de la regresión es su logaritmo.
+\item El tránsito es persistente y estacional. Los predictores son rezagos
+recientes, rezagos de un año y el mes.
+\item La caída de \ctMesMinimo{} se conserva en los datos: es tránsito real.
+Solo se excluye 2020 del perfil del agrupamiento, porque deforma la
+estacionalidad.
+\end{itemize}
+
+\section{Diseño de los modelos}
+\label{sec:diseno}
+
+Los modelos están en \texttt{src/aprendizaje.py} y se ejecutan con
+\texttt{experimentos/experimentos\_corte3.py}. Se usó
+scikit-learn~\cite{sklearn} con la semilla 42.
+
+\begin{itemize}
+\item \textbf{Unidad de análisis:} un peaje en un mes.
+\item \textbf{Pregunta:} con lo que se conoce al cierre de un mes, cuál será
+el tránsito del mes siguiente.
+\item \textbf{Predictores:} 19 columnas. Cinco rezagos en logaritmo, la
+participación de la carga del mes anterior, los días del mes y doce
+indicadores del mes del año.
+\item \textbf{Partición:} temporal y sin barajar (Tabla~\ref{tab:particion}).
+Barajar pondría meses futuros en el entrenamiento.
+\item \textbf{Selección:} cada modelo se ajusta con el entrenamiento para
+cada combinación de hiperparámetros y se elige la mejor en la validación.
+Después se ajusta con entrenamiento más validación y se evalúa una sola vez
+en la prueba.
+\item \textbf{Referencias sin aprendizaje:} la persistencia (el valor del mes
+anterior) y la estacional (el valor del mismo mes del año anterior). Un
+modelo solo aporta si las supera.
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\caption{Partición temporal de las filas modelables}
+\label{tab:particion}
+\small
+\input{outputs/tablas/tabla_c3_particion.tex}
+\end{table}
+
+\section{Regresión}
+\label{sec:regresion}
+
+Se compararon cuatro modelos: regresión lineal, árbol de decisión, bosque
+aleatorio y potenciación del gradiente. El objetivo es el logaritmo del
+tránsito diario; las métricas se calculan sobre el tránsito, en vehículos por
+día.
+
+\begin{table}[H]
+\centering
+\caption{Regresión del tránsito diario: referencias y modelos}
+\label{tab:regresion}
+\small\setlength{\tabcolsep}{4pt}
+\input{outputs/tablas/tabla_c3_regresion.tex}
+\input{outputs/lecturas/lectura_c3_t_regresion.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Hiperparámetros elegidos en la validación, regresión}
+\label{tab:hiperreg}
+\small
+\input{outputs/tablas/tabla_c3_hiper_regresion.tex}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_regresion.pdf}
+    \caption{Error por método y tránsito real contra predicho en la prueba. Fuente: elaboración propia}
+    \label{fig:regresion}
+    \input{outputs/lecturas/lectura_c3_regresion.tex}
+\end{figure}
+
+\textbf{Resultado.}
+\begin{itemize}
+\item El \MakeLowercase{\ctMejorRegresor} tiene un MAE de \ctMaeMejor{}
+vehículos por día y un error porcentual mediano de \ctEpmMejor\,\%.
+\item La persistencia tiene \ctMaePersistencia{} y la estacional
+\ctMaeEstacional. El modelo reduce el error un \ctMejoraMae\,\% frente a la
+mejor referencia de la prueba.
+\item La regresión lineal (\ctMaeLineal) queda por delante del árbol
+(\ctMaeArbol): con rezagos en logaritmo, la relación es casi lineal.
+\end{itemize}
+
+\textbf{Pronóstico a varios meses.} Para los meses posteriores al último dato
+no hay rezagos observados. El pronóstico es recursivo: cada mes predicho
+entra como rezago del siguiente. Se midió lanzándolo al inicio de la prueba
+y comparándolo con lo que pasó después (Figura~\ref{fig:horizonte}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_horizonte.pdf}
+    \caption{Error del pronóstico recursivo por horizonte e importancia de las variables. Fuente: elaboración propia}
+    \label{fig:horizonte}
+    \input{outputs/lecturas/lectura_c3_horizonte.tex}
+\end{figure}
+
+\section{Clasificación}
+\label{sec:clasificacion}
+
+\textbf{Definición del nivel.} La fuente no mide congestión. El indicador del
+proyecto es el nivel de tránsito diario del mes, en tres clases:
+\begin{itemize}
+\item \textbf{Bajo:} hasta \ctCorteBajo{} vehículos por día.
+\item \textbf{Medio:} hasta \ctCorteAlto.
+\item \textbf{Alto:} por encima de \ctCorteAlto.
+\end{itemize}
+Los cortes son los terciles del entrenamiento y quedan fijos. Mide la demanda
+del tramo, no su saturación; la saturación se trata en la
+Sección~\ref{sec:tiempo}.
+
+Se compararon regresión logística, árbol de decisión y bosque aleatorio, con
+los mismos predictores y la misma partición. La selección usa el F1 macro en
+la validación.
+
+\begin{table}[H]
+\centering
+\caption{Clasificación del nivel de tránsito: referencia y modelos}
+\label{tab:clasificacion}
+\small
+\input{outputs/tablas/tabla_c3_clasificacion.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Hiperparámetros elegidos en la validación, clasificación}
+\label{tab:hipercla}
+\small
+\input{outputs/tablas/tabla_c3_hiper_clasificacion.tex}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_clasificacion.pdf}
+    \caption{Exactitud por método y matriz de confusión del clasificador elegido. Fuente: elaboración propia}
+    \label{fig:clasificacion}
+    \input{outputs/lecturas/lectura_c3_clasificacion.tex}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Métricas por nivel del clasificador elegido, en la prueba}
+\label{tab:porclase}
+\small
+\input{outputs/tablas/tabla_c3_por_clase.tex}
+\end{table}
+
+\textbf{Resultado.}
+\begin{itemize}
+\item El \MakeLowercase{\ctMejorClasificador} acierta el
+\ctExactitudMejor\,\% de los \ctFilasPrueba{} casos de la prueba, con F1
+macro de \ctFunoMejor\,\%.
+\item La persistencia acierta el \ctExactitudPersistencia\,\%. La ventaja del
+modelo es de pocos puntos porque el nivel de un peaje cambia poco de un mes a
+otro.
+\item Convertir en clase la predicción de la regresión da
+\ctExactitudDerivada\,\%, casi lo mismo. Los dos caminos son coherentes.
+\item Ningún error confunde bajo con alto (\ctErroresExtremos{} casos).
+\end{itemize}
+
+\section{Agrupamiento}
+\label{sec:agrupamiento}
+
+\textbf{Perfil de cada peaje.} Entran los \ctPeajesAgrupados{} peajes con al
+menos 24 meses depurados y dos años calendario completos. Cada uno se
+describe con cuatro variables estandarizadas:
+\begin{itemize}
+\item logaritmo del tránsito diario medio;
+\item participación de la carga;
+\item participación de los buses;
+\item amplitud estacional: diferencia entre el mes más alto y el más bajo,
+cada uno relativo a la media de su año.
+\end{itemize}
+Se calcularon dos variables más, el índice de diciembre y enero y el
+crecimiento anual, y no entraron: la primera repite la amplitud estacional y
+la segunda la dominan las series cortas.
+
+\textbf{Métodos.} K-medias y agrupamiento jerárquico con enlace de Ward. El
+número de grupos es el de mayor silueta de K-medias entre 2 y 8.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{c3_silueta.pdf}
+    \caption{Silueta e inercia según el número de grupos. Fuente: elaboración propia}
+    \label{fig:silueta}
+    \input{outputs/lecturas/lectura_c3_silueta.tex}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_grupos.pdf}
+    \caption{Grupos de K-medias en el plano principal y dendrograma de Ward. Fuente: elaboración propia}
+    \label{fig:grupos}
+    \input{outputs/lecturas/lectura_c3_grupos.tex}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Perfil medio de los grupos de K-medias}
+\label{tab:grupos}
+\small
+\input{outputs/tablas/tabla_c3_grupos.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Peajes de la red en cada grupo}
+\label{tab:gruposred}
+\small
+\input{outputs/tablas/tabla_c3_grupos_red.tex}
+\end{table}
+
+\textbf{Resultado.}
+\begin{itemize}
+\item Con $k = \ctKGrupos$ la silueta es \ctSiluetaKmedias{} en K-medias y
+\ctSiluetaJerarquico{} en el jerárquico. Son valores bajos: los peajes forman
+un continuo.
+\item Los dos métodos coinciden con un índice de Rand ajustado de
+\ctRandAjustado.
+\item El grupo \ctGrupoMayor{} reúne los corredores de mayor tránsito
+(\ctGrupoMayorTransito{} vehículos por día en promedio) y contiene
+\ctGrupoMayorEnRed{} peajes de la red, los de los accesos a Bogotá.
+\item El grupo \ctGrupoEstacional{} es el más estacional (amplitud
+\ctGrupoEstacionalAmplitud) y el de menor tránsito.
+\end{itemize}
+
+\section{Tiempo de recorrido}
+\label{sec:tiempo}
+
+El tiempo de un tramo se estima con la función BPR~\cite{bpr}:
+\[
+t = t_{\text{libre}}\left(1 + \alpha\left(\frac{v}{c}\right)^{\beta}\right),
+\qquad t_{\text{libre}} = \frac{d}{v_{\text{libre}}},
+\qquad v = K \cdot \text{tránsito diario}
+\]
+donde $d$ es la distancia del tramo, $c$ la capacidad de la calzada y $K$ el
+factor de hora pico. Está en \texttt{src/modelo\_tiempo.py} y sus insumos en
+\texttt{config\_tiempo.json} (Tabla~\ref{tab:supuestos}).
+
+\begin{table}[H]
+\centering
+\caption{Insumos del tiempo estimado y su estado}
+\label{tab:supuestos}
+\small
+\input{outputs/tablas/tabla_c3_supuestos.tex}
+\end{table}
+
+\textbf{Qué es dato y qué es supuesto.}
+\begin{itemize}
+\item \textbf{Datos:} la distancia (INVÍAS, con el piso geodésico del
+Corte 2), el tránsito (ANI) y el tipo de calzada. La doble calzada sale de
+los datos del proyecto: INVÍAS digitaliza las dos calzadas y la razón entre
+la longitud digitalizada y la registrada queda en la banda que el Corte 1
+verificó. Hay \ctTramosDobleCalzada{} tramos de doble calzada.
+\item \textbf{Supuestos:} la velocidad libre de \ctVelocidadLibre{} km/h (la
+misma del visualizador del Corte 2), $\alpha$, $\beta$, el factor de hora
+pico y las dos capacidades.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{c3_saturacion.pdf}
+    \caption{Saturación en la hora pico de los tramos de la red. Fuente: elaboración propia}
+    \label{fig:saturacion}
+    \input{outputs/lecturas/lectura_c3_saturacion.tex}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Saturación, demora y error del tiempo estimado}
+\label{tab:tiempo}
+\small
+\input{outputs/tablas/tabla_c3_tiempo.tex}
+\end{table}
+
+\textbf{Resultado.}
+\begin{itemize}
+\item La mayor demora de un tramo en un mes es de \ctDemoraMaxima{} minutos,
+en \ctTramoDemoraMaxima{} en \ctMesDemoraMaxima.
+\item En los \ctCasosTiempo{} casos tramo-mes de la prueba, el tiempo
+calculado con el tránsito predicho difiere del calculado con el tránsito
+observado en \ctMaeTiempo{} minutos en promedio y \ctErrorMaximoTiempo{} como
+máximo.
+\item El error es pequeño porque el tiempo depende poco del tránsito en este
+rango de saturación, no porque la predicción del tiempo sea difícil de
+fallar. Con promedios mensuales, el tiempo estimado es casi el tiempo libre.
+\end{itemize}
+
+\section{Integración}
+\label{sec:integracion}
+
+\subsection{Agente predictivo}
+
+El agente está en \texttt{src/agente\_predictivo.py}. No entrena ni carga
+modelos: lee \nolinkurl{outputs/datos/pronostico_red.json}, que el
+experimento escribe con el tránsito, el nivel y el tiempo de cada tramo para
+24 meses (los 12 de la prueba y los 12 siguientes al último dato).
+
+\textbf{Funcionamiento.}
+\begin{enumerate}
+\item \textbf{Percepción.} Recibe origen, destino y mes. Pone en cada arista
+del grafo el tiempo estimado, el nivel de tránsito y el origen del dato.
+\item \textbf{Búsqueda.} Ejecuta el A* del Corte 2
+(\texttt{src/busquedas.py}) con el tiempo como costo.
+\item \textbf{Comparación.} Evalúa las demás rutas simples entre el origen y
+el destino. La red tiene un solo ciclo, de modo que hay una o dos.
+\item \textbf{Avisos.} Informa los tramos con tránsito alto, los tramos sin
+dato y los que usan una serie terminada.
+\end{enumerate}
+
+\textbf{Origen del dato de cada tramo.}
+\begin{itemize}
+\item \textbf{Predicción a un mes:} meses de la prueba, con rezagos
+observados.
+\item \textbf{Pronóstico recursivo:} meses posteriores a \ctUltimoMes, con el
+modelo reajustado con todos los datos y los mismos hiperparámetros.
+\item \textbf{Histórico:} series terminadas; se usa el mismo mes de su último
+año.
+\item \textbf{Sin dato:} el tramo usa el tiempo libre.
+\end{itemize}
+
+\textbf{Heurística.} Para el criterio de tiempo,
+$h(n) = 60\, d_{\text{geo}}(n, \text{meta}) / v_{\text{libre}}$, en minutos.
+\begin{itemize}
+\item El tiempo de un tramo no es menor que su tiempo libre, porque el factor
+de la BPR es mayor o igual que 1.
+\item La distancia de un tramo no es menor que la geodésica entre sus nodos,
+por el piso geodésico del Corte 2.
+\item Por tanto $h(u) \le t(u, v) + h(v)$ en toda arista: $h$ es consistente
+y admisible, y A* no reexpande nodos.
+\end{itemize}
+Las pruebas lo comprueban en los 24 meses, y comparan A* con Dijkstra en los
+992 pares ordenados de dos meses.
+
+\subsection{Caso central}
+
+En \ctMesEjemplo, de Duitama a Puente Nacional, A* expande
+\ctCasoExpandidos{} nodos y devuelve la ruta por Bogotá
+(Figura~\ref{fig:mapanivel}, Tabla~\ref{tab:caso}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.86\textwidth]{c3_mapa_nivel.pdf}
+    \caption{Nivel de tránsito previsto y ruta recomendada en el caso central. Fuente: elaboración propia}
+    \label{fig:mapanivel}
+    \input{outputs/lecturas/lectura_c3_mapa_nivel.tex}
+\end{figure}
+
+\begin{table}[H]
+\centering
+\caption{Ruta recomendada y alternativa en el caso central}
+\label{tab:caso}
+\small
+\input{outputs/tablas/tabla_c3_caso.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{El caso central en los 12 meses del pronóstico}
+\label{tab:casomeses}
+\small
+\input{outputs/tablas/tabla_c3_caso_meses.tex}
+\input{outputs/lecturas/lectura_c3_t_caso_meses.tex}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Tránsito y nivel previstos por tramo con peaje}
+\label{tab:red}
+\footnotesize\setlength{\tabcolsep}{3pt}
+\input{outputs/tablas/tabla_c3_red.tex}
+\end{table}
+
+La Tabla~\ref{tab:red} corresponde a \ctMesEjemplo. La
+Figura~\ref{fig:pronosticored} muestra el pronóstico de los
+\ctTramosVigentes{} tramos con serie vigente.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_pronostico_red.pdf}
+    \caption{Tránsito observado, predicho y pronosticado en los peajes vigentes de la red. Fuente: elaboración propia}
+    \label{fig:pronosticored}
+    \input{outputs/lecturas/lectura_c3_pronostico_red.tex}
+\end{figure}
+
+\subsection{Aplicación web}
+
+El visualizador del Corte 2 (FastAPI y Leaflet) tiene una página nueva,
+\texttt{/aprendizaje}, enlazada desde la cabecera
+(Figura~\ref{fig:interfaz}).
+
+\begin{itemize}
+\item \textbf{Entrada:} mes, origen y destino.
+\item \textbf{Mapa:} cada tramo con el color de su nivel de tránsito y la
+ruta recomendada en trazo grueso.
+\item \textbf{Ruta:} tiempo estimado, demora, distancia, detalle por tramo,
+alternativa y avisos.
+\item \textbf{Modelos:} cuatro pestañas con las métricas de la regresión, la
+clasificación y el agrupamiento, y los supuestos del tiempo.
+\item \textbf{Servidor:} tres rutas nuevas bajo
+\texttt{/api/aprendizaje/}. El servidor lee los resultados guardados y no
+importa scikit-learn, de modo que el despliegue no cambia de dependencias.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{c3_interfaz.png}
+    \caption{Página de aprendizaje automático de la aplicación, caso central. Fuente: elaboración propia}
+    \label{fig:interfaz}
+    \comoleerla{a la izquierda, el mapa de la red con el nivel previsto de
+    cada tramo; a la derecha, la ruta recomendada con sus cifras y su
+    detalle.}
+    {las mismas cifras de la Tabla~\ref{tab:caso}: \ctCasoKm{} km,
+    \ctCasoTiempo{} y \ctCasoAlto{} de \ctCasoTramos{} tramos con tránsito
+    alto.}
+    {la página no calcula nada: dibuja lo que devuelve el agente
+    predictivo.}
+\end{figure}
+
+\subsection{Reproducción y pruebas}
+
+\begin{verbatim}
+pip install -r requirements.txt
+python src/datos_trafico.py
+python experimentos/experimentos_corte3.py
+python informe/figuras_corte3.py
+python informe/tablas_corte3.py
+python pruebas/pruebas_corte3.py
+python src/agente_predictivo.py Duitama "Puente Nacional" --mes 2026-12
+python visualizador/servidor.py
+\end{verbatim}
+
+\begin{itemize}
+\item \texttt{pruebas/pruebas\_corte3.py} recalcula las métricas desde las
+predicciones guardadas, comprueba la partición temporal, la función BPR, la
+heurística, la coincidencia de la API con el agente y que cada cifra citada
+en este informe sale de \texttt{informe/tablas\_corte3.py}.
+\item Las suites de los cortes anteriores siguen pasando: el Corte 3 no
+modifica los algoritmos de búsqueda ni los nueve criterios.
+\end{itemize}
+
+\section{Limitaciones}
+\label{sec:limitaciones}
+
+\begin{itemize}
+\item \textbf{El tiempo no es medido.} Sale de una fórmula con cinco
+supuestos sin calibrar. Sirve para ordenar rutas, no para prometer una hora
+de llegada.
+\item \textbf{Promedios mensuales.} La fuente no trae horas ni días. La
+saturación de la hora pico se aproxima con un factor fijo; los picos de
+puentes festivos y de fines de semana quedan diluidos.
+\item \textbf{Nivel de tránsito y congestión.} El nivel mide demanda, no
+saturación: un tramo de doble calzada puede estar en nivel alto con
+saturación baja.
+\item \textbf{Cobertura de la red.} \ctTramosSinDato{} tramos no tienen dato y
+\ctTramosHistoricos{} usan una serie terminada. El desvío por Santander no
+tiene ningún tramo con serie vigente.
+\item \textbf{Un peaje por tramo.} El tránsito medido en el peaje se asigna
+al tramo completo.
+\item \textbf{Categorías sin diccionario.} El grupo vehicular se deduce del
+código de la categoría.
+\item \textbf{Pronóstico recursivo.} Su error crece con el horizonte y a
+varios meses no supera a la referencia estacional. No anticipa cierres de
+peajes.
+\item \textbf{Agrupamiento.} La silueta es baja; los grupos describen, no
+separan.
+\end{itemize}
+
+\section{Conclusiones}
+\label{sec:conclusiones}
+
+\begin{enumerate}
+\item El proyecto no tenía datos de tiempo ni de congestión. Se resolvió con
+un dato real de tránsito (ANI, \ctFilasCrudas{} filas) y una estimación de
+tiempo con supuestos declarados, en lugar de datos simulados.
+\item La regresión predice el tránsito del mes siguiente con un MAE de
+\ctMaeMejor{} vehículos por día, un \ctMejoraMae\,\% menos que la
+persistencia. Los cuatro modelos superan a las dos referencias.
+\item La clasificación del nivel de tránsito acierta el
+\ctExactitudMejor\,\% frente al \ctExactitudPersistencia\,\% de la
+persistencia. La ganancia es corta porque el nivel de un corredor es estable.
+\item El agrupamiento da \ctKGrupos{} grupos coherentes entre K-medias y el
+jerárquico (Rand ajustado de \ctRandAjustado), con silueta baja
+(\ctSiluetaKmedias).
+\item Con promedios mensuales la saturación máxima es \ctSaturacionMaxima{} y
+la demora no pasa de \ctDemoraMaxima{} minutos por tramo. La ruta de menor
+tiempo coincide con la de menor distancia; el aporte del aprendizaje al
+agente es el nivel de tránsito esperado en cada tramo y sus avisos.
+\item La integración reutiliza el A* del Corte 2 con una heurística de tiempo
+admisible y consistente, y la aplicación web muestra en una sola página el
+pronóstico, la ruta y las métricas de los modelos.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+
+\bibitem{formulacion}
+Andradé Gómez, J. D., Jiménez López, M., y Díaz García, C. A. (2026).
+\textit{Formulación del problema y agente de rutas para una red de carga
+interurbana} (Proyecto Integrador, Corte 1) [Documento del equipo].
+Universidad Sergio Arboleda.
+
+\bibitem{cortedos}
+Andradé Gómez, J. D., Jiménez López, M., y Díaz García, C. A. (2026).
+\textit{Algoritmos de búsqueda sobre una red de carga interurbana: BFS, DFS,
+costo uniforme, voraz y A*} (Proyecto Integrador, Corte 2) [Documento del
+equipo]. Universidad Sergio Arboleda.
+
+\bibitem{ani}
+Agencia Nacional de Infraestructura. (2026). \textit{Tráfico Vehicular ANI}.
+Datos Abiertos Colombia (descargado el 16 de noviembre de 2026). Licencia
+CC BY-SA 4.0. \url{https://www.datos.gov.co/resource/8yi9-t44c}
+
+\bibitem{bpr}
+Bureau of Public Roads. (1964). \textit{Traffic Assignment Manual}. U.S.
+Department of Commerce, Urban Planning Division.
+
+\bibitem{sklearn}
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel,
+O., y otros. (2011). Scikit-learn: Machine learning in Python. \textit{Journal
+of Machine Learning Research, 12}, 2825--2830.
+
+\end{thebibliography}
+
+\end{document}
