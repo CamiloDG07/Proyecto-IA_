@@ -1,0 +1,44 @@
+{
+ "filas_crudas": 149944,
+ "peajes_crudos": 162,
+ "categorias_crudas": 55,
+ "primer_mes": "2014-01",
+ "ultimo_mes": "2026-05",
+ "filas_que_no_cubren_un_mes": 0,
+ "valores_faltantes": 0,
+ "filas_duplicadas": 0,
+ "filas_sin_clase_vehicular": 23300,
+ "transito_sin_clase_pct": 0.2651,
+ "codigos_sin_clase": [
+  "EA",
+  "EC",
+  "EG",
+  "ER",
+  "POLCA"
+ ],
+ "transito_por_grupo_pct": {
+  "livianos": 67.21,
+  "buses": 14.14,
+  "carga": 17.82,
+  "unica": 0.83
+ },
+ "filas_peaje_mes": 16779,
+ "meses_sin_transito": 32,
+ "umbral_anomalo": 0.1,
+ "meses_anomalos": 25,
+ "umbral_parcial": 0.5,
+ "meses_parciales_de_borde": 57,
+ "filas_depuradas": 16665,
+ "peajes_depurados": 162,
+ "filas_modelables": 14297,
+ "peajes_modelables": 158,
+ "rezagos_meses": [
+  1,
+  2,
+  3,
+  12,
+  13
+ ],
+ "sha256": "c9a4dc7a7fc6da90bb2c21ebefbc99353cb80b7493c8eb87df7de5a74b5fb362",
+ "archivo": "trafico_vehicular_ani_8yi9-t44c.csv"
+}
