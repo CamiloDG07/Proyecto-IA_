@@ -22,6 +22,9 @@ data/carga/divipola_centros_poblados_xaxy-8nri.csv
 data/carga/divipola_municipios_gdxc-w37w.csv
 data/carga/mgn2020_departamentos_dane.json
 data/sergio_logo.png
+outputs/datos/trafico_peaje_mes.csv
+outputs/datos/tiempo_tramo_mes.csv
+outputs/datos/predicciones_prueba.csv
 *.pdf
 *.tex
 *.aux

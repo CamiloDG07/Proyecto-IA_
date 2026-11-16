@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es" data-tema="oscuro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rutas de carga, aprendizaje automático</title>
+<meta name="description" content="Tránsito previsto, nivel de congestión y tiempo estimado sobre la red de carga de 32 nodos y 32 aristas.">
+<script>
+  try {
+    var t = localStorage.getItem("tema");
+    if (t === "claro" || t === "oscuro") document.documentElement.dataset.tema = t;
+  } catch (e) {}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b1420'/%3E%3Cpath d='M6 24 L13 11 L19 19 L26 7' fill='none' stroke='%23f4ac3d' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='6' cy='24' r='3' fill='%2362b6d9'/%3E%3Ccircle cx='26' cy='7' r='3' fill='%2362d3a2'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/static/estilos.css">
+<link rel="stylesheet" href="/static/aprendizaje.css">
+</head>
+<body>
+<a class="saltar" href="#mapa">Saltar al mapa</a>
+
+<header class="cabecera">
+  <div class="marca">
+    <svg class="marca-signo" viewBox="0 0 32 32" aria-hidden="true">
+      <path d="M5 25 L13 11 L19 19 L27 6" class="marca-ruta"/>
+      <circle cx="5" cy="25" r="3" class="marca-origen"/>
+      <circle cx="27" cy="6" r="3" class="marca-meta"/>
+    </svg>
+    <div>
+      <h1>Rutas de carga</h1>
+      <p class="subtitulo">Aprendizaje automático: tránsito previsto y tiempo estimado</p>
+    </div>
+  </div>
+  <p class="caso-activo" id="caso-activo" aria-live="polite">Cargando los modelos…</p>
+  <a class="boton boton-tenue" href="/">Búsqueda y despachador</a>
+  <button type="button" class="boton boton-tenue" id="btn-tema" aria-pressed="false">
+    <span id="btn-tema-txt">Modo claro</span>
+  </button>
+</header>
+
+<main id="contenido">
+  <section class="controles" aria-label="Controles de la consulta">
+    <div class="grupo">
+      <div class="campo">
+        <label for="sel-mes">Mes</label>
+        <select id="sel-mes"></select>
+      </div>
+    </div>
+    <div class="grupo grupo-par">
+      <div class="campo">
+        <label for="sel-origen">Origen</label>
+        <select id="sel-origen"></select>
+      </div>
+      <div class="campo">
+        <label for="sel-destino">Destino</label>
+        <select id="sel-destino"></select>
+      </div>
+    </div>
+    <div class="grupo grupo-accion">
+      <button type="button" class="boton boton-primario" id="btn-calcular">Calcular</button>
+    </div>
+    <p class="ayuda nota-mes" id="nota-mes"></p>
+  </section>
+
+  <div id="aviso" class="aviso" role="alert" hidden></div>
+
+  <div class="lienzos">
+    <section class="tarjeta tarjeta-mapa" aria-labelledby="t-mapa">
+      <div class="tarjeta-cab">
+        <h2 id="t-mapa">Nivel de tránsito previsto por tramo</h2>
+        <div class="interruptores">
+          <label class="casilla"><input type="checkbox" id="chk-sinfondo"> <span>Sin fondo</span></label>
+        </div>
+      </div>
+      <div class="mapa-caja">
+        <div id="mapa" tabindex="0" aria-label="Mapa de la red con el nivel de tránsito de cada tramo"></div>
+        <div class="leyenda" id="leyenda" aria-label="Leyenda del mapa"></div>
+      </div>
+    </section>
+
+    <section class="tarjeta" aria-labelledby="t-ruta">
+      <div class="tarjeta-cab">
+        <h2 id="t-ruta">Ruta de menor tiempo estimado</h2>
+      </div>
+      <div id="panel-ruta"><p class="vacio">Elija origen, destino y mes.</p></div>
+    </section>
+  </div>
+
+  <section class="tarjeta tarjeta-tablas" aria-label="Modelos">
+    <div class="pestanas" role="tablist" aria-label="Modelos">
+      <button type="button" role="tab" id="tab-b-regresion" aria-controls="tab-regresion" aria-selected="true" class="pestana">Regresión</button>
+      <button type="button" role="tab" id="tab-b-clasificacion" aria-controls="tab-clasificacion" aria-selected="false" class="pestana" tabindex="-1">Clasificación</button>
+      <button type="button" role="tab" id="tab-b-agrupamiento" aria-controls="tab-agrupamiento" aria-selected="false" class="pestana" tabindex="-1">Agrupamiento</button>
+      <button type="button" role="tab" id="tab-b-supuestos" aria-controls="tab-supuestos" aria-selected="false" class="pestana" tabindex="-1">Supuestos del tiempo</button>
+    </div>
+    <div role="tabpanel" id="tab-regresion" aria-labelledby="tab-b-regresion" class="panel-tab"></div>
+    <div role="tabpanel" id="tab-clasificacion" aria-labelledby="tab-b-clasificacion" class="panel-tab" hidden></div>
+    <div role="tabpanel" id="tab-agrupamiento" aria-labelledby="tab-b-agrupamiento" class="panel-tab" hidden></div>
+    <div role="tabpanel" id="tab-supuestos" aria-labelledby="tab-b-supuestos" class="panel-tab" hidden></div>
+  </section>
+
+  <footer class="pie">
+    <p>Los modelos se entrenan con el tránsito mensual de los peajes de la ANI (<code>experimentos\experimentos_corte3.py</code>); la ruta la calcula <code>src\agente_predictivo.py</code> con el A* del proyecto. El tiempo es una estimación con la función BPR y supuestos declarados, no una medición.</p>
+  </footer>
+</main>
+
+<script src="/static/vendor/leaflet/leaflet.js"></script>
+<script src="/static/aprendizaje.js"></script>
+</body>
+</html>

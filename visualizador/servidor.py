@@ -21,12 +21,20 @@ Endpoints:
     GET  /api/comparar     los cinco algoritmos para un origen y un destino
     GET  /api/criterios    la ruta bajo cada uno de los nueve criterios
     POST /api/despachador  ruta con varias paradas, método y matriz
+
+Aprendizaje automático (página /aprendizaje). El servidor no entrena ni
+importa scikit-learn: lee los resultados que escribe
+experimentos/experimentos_corte3.py en outputs/datos/.
+    GET  /api/aprendizaje/resumen  métricas de los modelos, meses y grupos
+    GET  /api/aprendizaje/red      tránsito, nivel y tiempo de cada tramo
+    GET  /api/aprendizaje/ruta     ruta de menor tiempo estimado en un mes
 """
 import sys
 from pathlib import Path
 if True:  # carpetas de código en el path
     sys.path[:0] = [str(Path(__file__).resolve().parents[1] / "src")]
 import argparse
+import csv
 import json
 import mimetypes
 import os
@@ -40,14 +48,16 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
+import agente_predictivo
 from agente import CRITERIOS
-from build_graph import construir_grafo
+from build_graph import SALIDA, construir_grafo
 from busquedas import a_estrella, bfs, dfs, medir, ucs, voraz
 from demostracion import REPETICIONES
 from despachador import (CRITERIOS_CON_HEURISTICA, TIPOS, Despachador,
                          Solicitud, cargar_umbral)
 from heuristica import Heuristica, alfa_minimo, cargar_coordenadas
 from matriz_costos import MatrizCostos
+from modelo_tiempo import normalizar
 from trazas import ALGORITMOS as TRAZAS
 
 CARPETA = Path(__file__).resolve().parent
@@ -544,9 +554,109 @@ def api_despachador(p: PeticionDespachador):
     return respuesta
 
 
+# ---- aprendizaje automático ----------------------------------------------
+def _leer_json(nombre):
+    ruta = SALIDA / nombre
+    if not ruta.exists():
+        return None
+    with open(ruta, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def _leer_grupos():
+    ruta = SALIDA / "agrupamiento_peajes.csv"
+    if not ruta.exists():
+        return []
+    numericas = ("transito_diario_medio", "participacion_carga",
+                 "participacion_buses", "amplitud_estacional",
+                 "componente_1", "componente_2")
+    with open(ruta, encoding="utf-8", newline="") as f:
+        return [{"peaje": fila["peaje"],
+                 "grupo": int(fila["grupo_k_medias"]),
+                 "grupo_jerarquico": int(fila["grupo_jerarquico"]),
+                 **{c: float(fila[c]) for c in numericas}}
+                for fila in csv.DictReader(f)]
+
+
+PRONOSTICO = _leer_json(agente_predictivo.ARCHIVO)
+RESULTADOS_ML = _leer_json("resultados_corte3.json")
+GRUPOS_PEAJES = _leer_grupos()
+
+
+def exigir_aprendizaje():
+    if PRONOSTICO is None or RESULTADOS_ML is None:
+        raise error(503, "Faltan los resultados del aprendizaje automático: "
+                         "ejecute experimentos/experimentos_corte3.py.")
+
+
+def validar_mes(mes):
+    if mes not in agente_predictivo.meses_disponibles(PRONOSTICO):
+        raise error(422, f"Mes fuera del pronóstico: {mes}")
+
+
+@app.get("/api/aprendizaje/resumen")
+def api_aprendizaje_resumen():
+    exigir_aprendizaje()
+    r = RESULTADOS_ML
+    agrupamiento = {c: v for c, v in r["agrupamiento"].items()
+                    if c != "enlace_ward"}
+    peajes_red = sorted({normalizar(t["peaje"])
+                         for t in PRONOSTICO["tramos"] if t["id_peaje"]})
+    return {
+        "meses_prueba": PRONOSTICO["meses_prueba"],
+        "meses_pronostico": PRONOSTICO["meses_pronostico"],
+        "cortes_clase": PRONOSTICO["cortes_clase"],
+        "clases": PRONOSTICO["clases"],
+        "config_tiempo": PRONOSTICO["config_tiempo"],
+        "particion": r["particion"],
+        "regresion": {c: r["regresion"][c] for c in (
+            "mejor", "modelos", "importancias", "error_por_horizonte")},
+        "clasificacion": {c: r["clasificacion"][c]
+                          for c in ("mejor", "modelos")},
+        "agrupamiento": agrupamiento, "tiempo": r["tiempo"],
+        "red": r["red"], "grupos": GRUPOS_PEAJES,
+        "peajes_red": peajes_red,
+    }
+
+
+@app.get("/api/aprendizaje/red")
+def api_aprendizaje_red(mes: str):
+    exigir_aprendizaje()
+    validar_mes(mes)
+    tramos = []
+    for t in PRONOSTICO["tramos"]:
+        dato = t["meses"].get(mes)
+        tramos.append({
+            "u": t["origen"], "v": t["destino"], "peaje": t["peaje"],
+            "estado": t["estado"], "ultimo_mes": t["ultimo_mes"],
+            "doble_calzada": t["doble_calzada"],
+            "distancia_km": t["distancia_km"],
+            "tiempo_libre_min": t["tiempo_libre_min"],
+            "capacidad_veh_h": t["capacidad_veh_h"],
+            "dato": dato})
+    nodos = [{"nombre": n, "latitud": COORDENADAS[n][0],
+              "longitud": COORDENADAS[n][1]} for n in sorted(GRAFO)]
+    return {"mes": mes, "nodos": nodos, "tramos": tramos,
+            "es_pronostico": mes in PRONOSTICO["meses_pronostico"]}
+
+
+@app.get("/api/aprendizaje/ruta")
+def api_aprendizaje_ruta(origen: str, destino: str, mes: str):
+    exigir_aprendizaje()
+    validar_par(origen, destino)
+    validar_mes(mes)
+    return agente_predictivo.recomendar(origen, destino, mes, PRONOSTICO,
+                                        GRAFO)
+
+
 @app.get("/", include_in_schema=False)
 def inicio():
     return FileResponse(ESTATICOS / "index.html")
+
+
+@app.get("/aprendizaje", include_in_schema=False)
+def pagina_aprendizaje():
+    return FileResponse(ESTATICOS / "aprendizaje.html")
 
 
 app.mount("/static", StaticFiles(directory=ESTATICOS), name="static")

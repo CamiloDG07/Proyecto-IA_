@@ -1,0 +1,90 @@
+/* Página de aprendizaje automático. Usa las variables de estilos.css; aquí
+   solo se agregan los componentes propios de esta página. */
+
+.nota-mes { flex: 1 1 22rem; align-self: center; }
+
+/* tramos del mapa por nivel de tránsito */
+path.tr { stroke-linecap: round; fill: none; stroke: var(--c-arista); stroke-width: 4; }
+path.tr.n-bajo { stroke: var(--c-alga); }
+path.tr.n-medio { stroke: var(--c-ambar); }
+path.tr.n-alto { stroke: var(--c-coral); }
+path.tr.n-sin { stroke: var(--c-arista); stroke-dasharray: var(--trazo-corto) var(--trazo-largo); }
+path.tr.en-ruta { stroke-width: 9; }
+path.tr.fuera-ruta { opacity: 0.45; }
+path.tr-hit { stroke: transparent; fill: none; }
+.nd-ml { margin: calc(var(--nodo) / -2) 0 0 calc(var(--nodo) / -2); }
+.nd-ml .punto {
+  display: block; width: var(--nodo); height: var(--nodo); border-radius: 50%;
+  background: var(--c-carta); border: var(--borde-fuerte) solid var(--c-papel-suave);
+}
+.nd-ml.extremo .punto { background: var(--c-ambar); border-color: var(--c-papel); }
+.nd-ml .nombre {
+  position: absolute; left: 100%; top: 50%; transform: translate(var(--e-1), -50%);
+  font-size: var(--t-xs); white-space: nowrap; color: var(--c-papel);
+  text-shadow: 0 0 0.2rem var(--c-halo), 0 0 0.2rem var(--c-halo), 0 0 0.2rem var(--c-halo);
+  pointer-events: none;
+}
+
+.ley-linea { display: inline-block; width: var(--e-8); height: var(--trazo-corto); border-radius: var(--r-pill); }
+.ley-linea.n-bajo { background: var(--c-alga); }
+.ley-linea.n-medio { background: var(--c-ambar); }
+.ley-linea.n-alto { background: var(--c-coral); }
+.ley-linea.n-sin { background: repeating-linear-gradient(90deg, var(--c-arista) 0 var(--trazo-corto), transparent var(--trazo-corto) var(--trazo-largo)); }
+
+.nivel { text-transform: capitalize; }
+.insignia.n-bajo { color: var(--c-alga); border-color: var(--c-alga); background: var(--t-alga); }
+.insignia.n-medio { color: var(--c-ambar); border-color: var(--c-ambar); background: var(--t-ambar); }
+.insignia.n-alto { color: var(--c-coral); border-color: var(--c-coral); background: var(--t-coral); }
+
+.cifras-4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--e-3); }
+.lista-avisos { margin: var(--e-3) 0 0; padding-left: var(--e-5); font-size: var(--t-sm); color: var(--c-papel-suave); }
+.lista-avisos li + li { margin-top: var(--e-1); }
+.ruta-texto { font-size: var(--t-sm); overflow-wrap: anywhere; margin-bottom: var(--e-3); }
+.subtitulo-bloque { font-family: var(--f-titulo); font-weight: 600; font-size: var(--t-md); margin: var(--e-4) 0 var(--e-2); }
+.dos-col { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--e-6); align-items: start; }
+.parrafo { font-size: var(--t-sm); color: var(--c-papel-suave); margin-bottom: var(--e-3); max-width: 70ch; }
+tr.mejor td { background: var(--t-alga); }
+tr.referencia td { color: var(--c-papel-suave); }
+
+/* gráficas en SVG */
+.grafica { width: 100%; height: auto; display: block; }
+.grafica .eje { stroke: var(--c-trazo); stroke-width: 1; }
+.grafica .guia { stroke: var(--c-trazo); stroke-width: 1; stroke-dasharray: 2 4; }
+.grafica text { fill: var(--c-papel-suave); font-family: var(--f-mono); font-size: 12px; }
+.grafica .s-modelo { stroke: var(--c-ambar); fill: none; stroke-width: 2.5; }
+.grafica .s-persistencia { stroke: var(--c-hielo); fill: none; stroke-width: 2; stroke-dasharray: 6 4; }
+.grafica .s-estacional { stroke: var(--c-alga); fill: none; stroke-width: 2; stroke-dasharray: 2 4; }
+.grafica .g-1 { fill: var(--pierna-1); }
+.grafica .g-2 { fill: var(--pierna-2); }
+.grafica .g-3 { fill: var(--pierna-3); }
+.grafica .g-4 { fill: var(--pierna-4); }
+.grafica .g-5 { fill: var(--pierna-5); }
+.grafica .g-6 { fill: var(--pierna-6); }
+.grafica .g-7 { fill: var(--c-papel); }
+.grafica .g-8 { fill: var(--c-papel-suave); }
+.grafica .pt { opacity: 0.7; }
+.grafica .pt.de-red { opacity: 1; stroke: var(--c-papel); stroke-width: 2; }
+.muestra { display: inline-block; width: var(--e-3); height: var(--e-3); border-radius: 50%; margin-right: var(--e-1); vertical-align: middle; }
+.muestra.g-1 { background: var(--pierna-1); }
+.muestra.g-2 { background: var(--pierna-2); }
+.muestra.g-3 { background: var(--pierna-3); }
+.muestra.g-4 { background: var(--pierna-4); }
+.muestra.g-5 { background: var(--pierna-5); }
+.muestra.g-6 { background: var(--pierna-6); }
+.muestra.g-7 { background: var(--c-papel); }
+.muestra.g-8 { background: var(--c-papel-suave); }
+.confusion td.celda-c { text-align: right; font-family: var(--f-mono); background: color-mix(in srgb, var(--c-hielo) calc(var(--v) * 1%), var(--c-carta)); }
+.confusion td.celda-c.diagonal { background: color-mix(in srgb, var(--c-alga) calc(var(--v) * 1%), var(--c-carta)); }
+
+@media (max-width: 75em) {
+  .dos-col { grid-template-columns: minmax(0, 1fr); }
+}
+.tabla-libre { max-height: none; }
+.sin-corte { white-space: nowrap; }
+.grafica-caja { max-width: 42rem; margin-top: var(--e-4); }
+.lienzos { grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+.tarjeta-mapa #mapa { height: 100%; min-height: var(--alto-mapa); }
+#panel-ruta td, #panel-ruta th { padding: var(--e-2); }
+@media (max-width: 75em) {
+  .lienzos { grid-template-columns: minmax(0, 1fr); }
+}
