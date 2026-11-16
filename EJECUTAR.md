@@ -289,3 +289,28 @@ Solo del repositorio (el zip del entregable no incluye `vercel.json`, `.vercelig
 En el panel de Vercel: Add New > Project, importar `CamiloDG07/Proyecto-IA_`, rama `master`, preajuste FastAPI, sin variables de entorno ni comando de compilación, Deploy. Comprobar `/api/salud` (`{"estado":"ok"}`), `/` y el caso central (370.54 km por Bogotá con A*, 14 expandidos; 654.25 km por Santander con peaje). Si una solicitud del despachador agota el tiempo, subir `maxDuration` en `vercel.json` (el peor caso medido, 19 paradas con Held-Karp, tarda unos 3.5 s en un portátil Intel Core i7-8750H) o pedir menos paradas.
 
 El servidor no escribe en disco (el sistema de archivos de la función es de solo lectura), arma el grafo desde los JSON de la red (no desde el pickle) y limita la entrada: como máximo 20 paradas libres u obligatorias y 64 aristas bloqueadas (422 con mensaje en español) y 64 KiB de cuerpo (413). Sin Vercel CLI, la prueba local equivalente es `python -m uvicorn visualizador.servidor:app --port 8000` desde la raíz.
+
+## 11. Corte 3: aprendizaje automático
+
+Necesita `pandas` y `scikit-learn` (ya están en `requirements.txt`). El CSV de la ANI está en `data/carga/nuevas/` y `src/datos_trafico.py` comprueba su SHA-256 antes de leerlo.
+
+```powershell
+python src/datos_trafico.py
+python experimentos/experimentos_corte3.py
+python informe/figuras_corte3.py
+python informe/tablas_corte3.py
+python pruebas/pruebas_corte3.py
+python src/agente_predictivo.py Duitama "Puente Nacional" --mes 2026-12
+```
+
+Orden: la depuración escribe `outputs/datos/trafico_peaje_mes.csv`; los experimentos entrenan los modelos (semilla 42) y escriben `resultados_corte3.json`, `pronostico_red.json`, `predicciones_prueba.csv`, `agrupamiento_peajes.csv` y `tiempo_tramo_mes.csv`; las figuras y las tablas salen de esos archivos. El agente y el visualizador solo leen `pronostico_red.json`.
+
+La página del visualizador queda en `http://127.0.0.1:8000/aprendizaje` (botón «Aprendizaje automático» de la página principal): mes, origen y destino; mapa con el nivel de tránsito previsto por tramo; ruta de menor tiempo estimado con su alternativa y sus avisos; y las métricas de los tres modelos.
+
+Informe final:
+
+```powershell
+pdflatex informe_corte3.tex
+pdflatex informe_corte3.tex
+pdflatex informe_corte3.tex
+```

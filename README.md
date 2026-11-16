@@ -46,6 +46,7 @@ supuesto del equipo, no un dato. Por eso el criterio por defecto sigue siendo
 | `outputs/` | Resultados por tipo: `datos/`, `tablas/`, `lecturas/`, `figuras/` y `reportes/` |
 | `formulacion_corte1.tex` | Informe del Corte 1 |
 | `informe_corte2.tex`, `guion_demostracion.md` | Informe del Corte 2 y guion de la demostración |
+| `informe_corte3.tex`, `config_tiempo.json` | Informe final (Corte 3) e insumos del tiempo estimado, cada uno con su estado |
 
 ## Mapa de carpetas
 
@@ -182,6 +183,34 @@ pdflatex informe_corte2.tex
 ```
 
 Estilo del código: `python -m pycodestyle --max-line-length=79 --exclude=_archivo_transmilenio src experimentos informe pruebas` (PEP 8).
+
+## Corte 3: aprendizaje automático e integración
+
+El Corte 3 agrega el tránsito real de los peajes (ANI, Tráfico Vehicular, conjunto `8yi9-t44c`, 149 944 filas, CC BY-SA 4.0, en `data/carga/nuevas/` con su SHA-256) y tres modelos sobre él. El informe es `informe_corte3.pdf`.
+
+| Parte | Qué hace | Archivo |
+|---|---|---|
+| Depuración | Deja una fila por peaje y mes, quita meses sin operación y parciales, y agrega los rezagos | `src/datos_trafico.py` |
+| Regresión | Predice el tránsito diario del mes siguiente (regresión lineal, árbol, bosque aleatorio y potenciación del gradiente, contra dos referencias) | `src/aprendizaje.py` |
+| Clasificación | Predice el nivel de tránsito del mes: bajo, medio o alto (regresión logística, árbol y bosque aleatorio, contra la persistencia) | `src/aprendizaje.py` |
+| Agrupamiento | Agrupa los peajes por su perfil con K-medias y con agrupamiento jerárquico | `src/aprendizaje.py` |
+| Tiempo estimado | Función BPR alimentada con el tránsito; sus insumos están en `config_tiempo.json` | `src/modelo_tiempo.py` |
+| Integración | Agente que busca con A* la ruta de menor tiempo estimado en un mes y avisa los tramos con tránsito alto | `src/agente_predictivo.py` |
+| Aplicación web | Página «Aprendizaje automático» del visualizador (`/aprendizaje`) | `visualizador/` |
+
+Límite: el tiempo no es medido. La velocidad libre (50 km/h), los parámetros de la función BPR, el factor de hora pico y las capacidades son supuestos del equipo, rotulados así en `config_tiempo.json`, en la aplicación y en el informe. De las 32 aristas, 21 tienen serie de tránsito (14 vigentes y 7 terminadas) y 11 no tienen dato: en esas se usa el tiempo libre.
+
+```
+python src/datos_trafico.py                 # depuración (comprueba el SHA-256 del CSV)
+python experimentos/experimentos_corte3.py  # entrena, evalúa y guarda los pronósticos
+python informe/figuras_corte3.py            # figuras c3_*
+python informe/tablas_corte3.py             # tablas, lecturas y cifras del informe
+python pruebas/pruebas_corte3.py            # pruebas del Corte 3
+python src/agente_predictivo.py Duitama "Puente Nacional" --mes 2026-12
+pdflatex informe_corte3.tex                 # tres pasadas
+```
+
+El servidor del visualizador no necesita `pandas` ni `scikit-learn`: lee los pronósticos ya calculados de `outputs/datos/pronostico_red.json`. Por eso `pyproject.toml` (despliegue en Vercel) no cambia.
 
 ## Visualizador web
 
