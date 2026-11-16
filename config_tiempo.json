@@ -1,0 +1,48 @@
+{
+  "version": "2026-11-16",
+  "descripcion": "Insumos del tiempo de recorrido estimado de cada tramo. El proyecto no tiene tiempos ni velocidades medidos: el tiempo sale de la función BPR alimentada con el tránsito real de los peajes de la ANI. Cada insumo lleva su estado: «verificada» (sale de una fuente oficial descargada) o «supuesto del equipo» (sin fuente verificable para estos tramos).",
+  "insumos": {
+    "velocidad_libre_kmh": {
+      "valor": 50,
+      "unidad": "km/h",
+      "fuente": "ninguna: es la misma velocidad supuesta del visualizador (visualizador/config_visualizador.json)",
+      "estado": "supuesto del equipo"
+    },
+    "bpr_alfa": {
+      "valor": 0.15,
+      "unidad": "adimensional",
+      "fuente": "valor habitual de la función BPR (Bureau of Public Roads, 1964); no está calibrado para estos tramos",
+      "estado": "supuesto del equipo"
+    },
+    "bpr_beta": {
+      "valor": 4,
+      "unidad": "adimensional",
+      "fuente": "valor habitual de la función BPR (Bureau of Public Roads, 1964); no está calibrado para estos tramos",
+      "estado": "supuesto del equipo"
+    },
+    "factor_hora_pico": {
+      "valor": 0.10,
+      "unidad": "fracción del tránsito diario que pasa en la hora de mayor demanda",
+      "fuente": "ninguna: la fuente solo trae totales mensuales, sin distribución por horas",
+      "estado": "supuesto del equipo"
+    },
+    "capacidad_calzada_sencilla_veh_h": {
+      "valor": 3200,
+      "unidad": "vehículos por hora, ambos sentidos (dos carriles)",
+      "fuente": "orden de magnitud de una carretera de dos carriles en condiciones ideales; no hay aforo de capacidad por tramo",
+      "estado": "supuesto del equipo"
+    },
+    "capacidad_doble_calzada_veh_h": {
+      "valor": 8800,
+      "unidad": "vehículos por hora, ambos sentidos (cuatro carriles)",
+      "fuente": "orden de magnitud de una carretera de cuatro carriles en condiciones ideales; no hay aforo de capacidad por tramo",
+      "estado": "supuesto del equipo"
+    },
+    "banda_doble_calzada": {
+      "valor": [1.7, 2.3],
+      "unidad": "razón entre la longitud digitalizada y la registrada del tramo",
+      "fuente": "banda verificada de doble calzada del proyecto (regla de adopción de distancias, src/construir_red.py): la fuente de INVÍAS digitaliza las dos calzadas",
+      "estado": "verificada"
+    }
+  }
+}

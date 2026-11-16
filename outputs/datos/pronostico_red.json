@@ -1,0 +1,4475 @@
+{
+ "descripcion": "Tránsito diario, nivel de tránsito y tiempo BPR de cada tramo de la red por mes. origen_dato: «prueba» (predicción a un mes con rezagos observados), «pronostico» (recursivo, modelo final) o «historico» (serie terminada: mismo mes de su último año).",
+ "meses_prueba": [
+  "2025-06",
+  "2025-07",
+  "2025-08",
+  "2025-09",
+  "2025-10",
+  "2025-11",
+  "2025-12",
+  "2026-01",
+  "2026-02",
+  "2026-03",
+  "2026-04",
+  "2026-05"
+ ],
+ "meses_pronostico": [
+  "2026-06",
+  "2026-07",
+  "2026-08",
+  "2026-09",
+  "2026-10",
+  "2026-11",
+  "2026-12",
+  "2027-01",
+  "2027-02",
+  "2027-03",
+  "2027-04",
+  "2027-05"
+ ],
+ "cortes_clase": [
+  3283.7,
+  6564.0
+ ],
+ "clases": [
+  "bajo",
+  "medio",
+  "alto"
+ ],
+ "config_tiempo": {
+  "velocidad_libre_kmh": 50,
+  "bpr_alfa": 0.15,
+  "bpr_beta": 4,
+  "factor_hora_pico": 0.1,
+  "capacidad_calzada_sencilla_veh_h": 3200,
+  "capacidad_doble_calzada_veh_h": 8800,
+  "banda_doble_calzada": [
+   1.7,
+   2.3
+  ]
+ },
+ "tramos": [
+  {
+   "origen": "Bogotá",
+   "destino": "Tocancipá",
+   "peaje": "EL ROBLE",
+   "id_peaje": 23,
+   "doble_calzada": true,
+   "distancia_km": 41.187015,
+   "tiempo_libre_min": 49.424,
+   "capacidad_veh_h": 8800,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 23300.2,
+     "transito_observado": 24160.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2648,
+     "tiempo_min": 49.461
+    },
+    "2025-07": {
+     "transito_usado": 22296.2,
+     "transito_observado": 21669.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2534,
+     "tiempo_min": 49.455
+    },
+    "2025-08": {
+     "transito_usado": 22776.4,
+     "transito_observado": 21485.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2588,
+     "tiempo_min": 49.458
+    },
+    "2025-09": {
+     "transito_usado": 20665.6,
+     "transito_observado": 21899.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2348,
+     "tiempo_min": 49.447
+    },
+    "2025-10": {
+     "transito_usado": 23702.4,
+     "transito_observado": 23713.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2693,
+     "tiempo_min": 49.463
+    },
+    "2025-11": {
+     "transito_usado": 23052.1,
+     "transito_observado": 24003.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.262,
+     "tiempo_min": 49.459
+    },
+    "2025-12": {
+     "transito_usado": 27769.8,
+     "transito_observado": 30477.7,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3156,
+     "tiempo_min": 49.498
+    },
+    "2026-01": {
+     "transito_usado": 26098.8,
+     "transito_observado": 26801.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2966,
+     "tiempo_min": 49.482
+    },
+    "2026-02": {
+     "transito_usado": 21906.1,
+     "transito_observado": 21160.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2489,
+     "tiempo_min": 49.453
+    },
+    "2026-03": {
+     "transito_usado": 22682.4,
+     "transito_observado": 22472.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2578,
+     "tiempo_min": 49.457
+    },
+    "2026-04": {
+     "transito_usado": 23433.6,
+     "transito_observado": 22983.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2663,
+     "tiempo_min": 49.462
+    },
+    "2026-05": {
+     "transito_usado": 21897.3,
+     "transito_observado": 22538.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2488,
+     "tiempo_min": 49.453
+    },
+    "2026-06": {
+     "transito_usado": 21974.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2497,
+     "tiempo_min": 49.453
+    },
+    "2026-07": {
+     "transito_usado": 22440.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.255,
+     "tiempo_min": 49.456
+    },
+    "2026-08": {
+     "transito_usado": 22424.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2548,
+     "tiempo_min": 49.456
+    },
+    "2026-09": {
+     "transito_usado": 21692.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2465,
+     "tiempo_min": 49.452
+    },
+    "2026-10": {
+     "transito_usado": 23450.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2665,
+     "tiempo_min": 49.462
+    },
+    "2026-11": {
+     "transito_usado": 23373.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2656,
+     "tiempo_min": 49.461
+    },
+    "2026-12": {
+     "transito_usado": 28981.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3293,
+     "tiempo_min": 49.512
+    },
+    "2027-01": {
+     "transito_usado": 26642.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3028,
+     "tiempo_min": 49.487
+    },
+    "2027-02": {
+     "transito_usado": 21124.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2401,
+     "tiempo_min": 49.449
+    },
+    "2027-03": {
+     "transito_usado": 22697.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2579,
+     "tiempo_min": 49.457
+    },
+    "2027-04": {
+     "transito_usado": 23295.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2647,
+     "tiempo_min": 49.461
+    },
+    "2027-05": {
+     "transito_usado": 22788.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.259,
+     "tiempo_min": 49.458
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Tocancipá",
+   "destino": "Chocontá",
+   "peaje": null,
+   "id_peaje": null,
+   "doble_calzada": true,
+   "distancia_km": 33.04,
+   "tiempo_libre_min": 39.648,
+   "capacidad_veh_h": 8800,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Chocontá",
+   "destino": "Tunja",
+   "peaje": "ALBARRACÍN",
+   "id_peaje": 25,
+   "doble_calzada": false,
+   "distancia_km": 56.959709,
+   "tiempo_libre_min": 68.352,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 14798.3,
+     "transito_observado": 15820.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.4624,
+     "tiempo_min": 68.821
+    },
+    "2025-07": {
+     "transito_usado": 14944.3,
+     "transito_observado": 14443.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.467,
+     "tiempo_min": 68.839
+    },
+    "2025-08": {
+     "transito_usado": 15294.1,
+     "transito_observado": 13395.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.4779,
+     "tiempo_min": 68.887
+    },
+    "2025-09": {
+     "transito_usado": 14057.1,
+     "transito_observado": 13414.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.4393,
+     "tiempo_min": 68.733
+    },
+    "2025-10": {
+     "transito_usado": 14567.0,
+     "transito_observado": 15143.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.4552,
+     "tiempo_min": 68.792
+    },
+    "2025-11": {
+     "transito_usado": 15029.4,
+     "transito_observado": 15274.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.4697,
+     "tiempo_min": 68.851
+    },
+    "2025-12": {
+     "transito_usado": 19189.6,
+     "transito_observado": 21453.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.5997,
+     "tiempo_min": 69.678
+    },
+    "2026-01": {
+     "transito_usado": 18376.1,
+     "transito_observado": 18075.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.5743,
+     "tiempo_min": 69.467
+    },
+    "2026-02": {
+     "transito_usado": 14327.7,
+     "transito_observado": 13176.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.4477,
+     "tiempo_min": 68.764
+    },
+    "2026-03": {
+     "transito_usado": 13990.5,
+     "transito_observado": 14191.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.4372,
+     "tiempo_min": 68.726
+    },
+    "2026-04": {
+     "transito_usado": 14817.5,
+     "transito_observado": 14615.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.463,
+     "tiempo_min": 68.823
+    },
+    "2026-05": {
+     "transito_usado": 13641.8,
+     "transito_observado": 14212.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.4263,
+     "tiempo_min": 68.69
+    },
+    "2026-06": {
+     "transito_usado": 16085.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.5027,
+     "tiempo_min": 69.006
+    },
+    "2026-07": {
+     "transito_usado": 15021.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4694,
+     "tiempo_min": 68.849
+    },
+    "2026-08": {
+     "transito_usado": 14668.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4584,
+     "tiempo_min": 68.804
+    },
+    "2026-09": {
+     "transito_usado": 14381.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4494,
+     "tiempo_min": 68.77
+    },
+    "2026-10": {
+     "transito_usado": 15287.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4777,
+     "tiempo_min": 68.886
+    },
+    "2026-11": {
+     "transito_usado": 15164.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4739,
+     "tiempo_min": 68.869
+    },
+    "2026-12": {
+     "transito_usado": 20198.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.6312,
+     "tiempo_min": 69.979
+    },
+    "2027-01": {
+     "transito_usado": 17747.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.5546,
+     "tiempo_min": 69.322
+    },
+    "2027-02": {
+     "transito_usado": 13563.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4239,
+     "tiempo_min": 68.683
+    },
+    "2027-03": {
+     "transito_usado": 14468.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4522,
+     "tiempo_min": 68.78
+    },
+    "2027-04": {
+     "transito_usado": 15390.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.481,
+     "tiempo_min": 68.9
+    },
+    "2027-05": {
+     "transito_usado": 14809.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4628,
+     "tiempo_min": 68.822
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Tunja",
+   "destino": "Duitama",
+   "peaje": "TUTA",
+   "id_peaje": 83,
+   "doble_calzada": true,
+   "distancia_km": 47.783827,
+   "tiempo_libre_min": 57.341,
+   "capacidad_veh_h": 8800,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 15803.2,
+     "transito_observado": 16388.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.1796,
+     "tiempo_min": 57.35
+    },
+    "2025-07": {
+     "transito_usado": 16012.0,
+     "transito_observado": 15891.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.182,
+     "tiempo_min": 57.35
+    },
+    "2025-08": {
+     "transito_usado": 16054.7,
+     "transito_observado": 14770.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.1824,
+     "tiempo_min": 57.35
+    },
+    "2025-09": {
+     "transito_usado": 14171.8,
+     "transito_observado": 15364.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.161,
+     "tiempo_min": 57.346
+    },
+    "2025-10": {
+     "transito_usado": 15416.3,
+     "transito_observado": 16438.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.1752,
+     "tiempo_min": 57.349
+    },
+    "2025-11": {
+     "transito_usado": 15922.2,
+     "transito_observado": 16296.7,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.1809,
+     "tiempo_min": 57.35
+    },
+    "2025-12": {
+     "transito_usado": 19098.9,
+     "transito_observado": 20196.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.217,
+     "tiempo_min": 57.36
+    },
+    "2026-01": {
+     "transito_usado": 18235.6,
+     "transito_observado": 17783.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2072,
+     "tiempo_min": 57.356
+    },
+    "2026-02": {
+     "transito_usado": 15285.3,
+     "transito_observado": 15340.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.1737,
+     "tiempo_min": 57.348
+    },
+    "2026-03": {
+     "transito_usado": 16133.7,
+     "transito_observado": 15841.4,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.1833,
+     "tiempo_min": 57.35
+    },
+    "2026-04": {
+     "transito_usado": 15877.1,
+     "transito_observado": 15608.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.1804,
+     "tiempo_min": 57.35
+    },
+    "2026-05": {
+     "transito_usado": 15139.8,
+     "transito_observado": 15704.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.172,
+     "tiempo_min": 57.348
+    },
+    "2026-06": {
+     "transito_usado": 16375.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1861,
+     "tiempo_min": 57.351
+    },
+    "2026-07": {
+     "transito_usado": 16151.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1835,
+     "tiempo_min": 57.35
+    },
+    "2026-08": {
+     "transito_usado": 15966.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1814,
+     "tiempo_min": 57.35
+    },
+    "2026-09": {
+     "transito_usado": 15414.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1752,
+     "tiempo_min": 57.349
+    },
+    "2026-10": {
+     "transito_usado": 16406.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1864,
+     "tiempo_min": 57.351
+    },
+    "2026-11": {
+     "transito_usado": 16241.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1846,
+     "tiempo_min": 57.351
+    },
+    "2026-12": {
+     "transito_usado": 19709.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.224,
+     "tiempo_min": 57.362
+    },
+    "2027-01": {
+     "transito_usado": 17971.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2042,
+     "tiempo_min": 57.356
+    },
+    "2027-02": {
+     "transito_usado": 15098.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1716,
+     "tiempo_min": 57.348
+    },
+    "2027-03": {
+     "transito_usado": 15763.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1791,
+     "tiempo_min": 57.349
+    },
+    "2027-04": {
+     "transito_usado": 15581.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1771,
+     "tiempo_min": 57.349
+    },
+    "2027-05": {
+     "transito_usado": 15682.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.1782,
+     "tiempo_min": 57.349
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Barbosa",
+   "destino": "Tunja",
+   "peaje": "ARCABUCO",
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 62.83,
+   "tiempo_libre_min": 75.396,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Chiquinquirá",
+   "destino": "Sáchica",
+   "peaje": null,
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 37.46,
+   "tiempo_libre_min": 44.952,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Sáchica",
+   "destino": "Tunja",
+   "peaje": "SÁCHICA",
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 35.15,
+   "tiempo_libre_min": 42.18,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Bogotá",
+   "destino": "Cajicá",
+   "peaje": "FUSCA",
+   "id_peaje": 17,
+   "doble_calzada": false,
+   "distancia_km": 37.18,
+   "tiempo_libre_min": 44.616,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 4838.6,
+     "transito_observado": 4594.3,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1512,
+     "tiempo_min": 44.619
+    },
+    "2025-07": {
+     "transito_usado": 4397.2,
+     "transito_observado": 3989.1,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1374,
+     "tiempo_min": 44.618
+    },
+    "2025-08": {
+     "transito_usado": 4455.8,
+     "transito_observado": 5171.4,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1392,
+     "tiempo_min": 44.619
+    },
+    "2025-09": {
+     "transito_usado": 4506.8,
+     "transito_observado": 5216.1,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1408,
+     "tiempo_min": 44.619
+    },
+    "2025-10": {
+     "transito_usado": 4864.5,
+     "transito_observado": 4764.4,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.152,
+     "tiempo_min": 44.62
+    },
+    "2025-11": {
+     "transito_usado": 5024.0,
+     "transito_observado": 5295.4,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.157,
+     "tiempo_min": 44.62
+    },
+    "2025-12": {
+     "transito_usado": 4933.7,
+     "transito_observado": 5156.4,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1542,
+     "tiempo_min": 44.62
+    },
+    "2026-01": {
+     "transito_usado": 4709.7,
+     "transito_observado": 4132.8,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1472,
+     "tiempo_min": 44.619
+    },
+    "2026-02": {
+     "transito_usado": 4478.4,
+     "transito_observado": 5070.4,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1399,
+     "tiempo_min": 44.619
+    },
+    "2026-03": {
+     "transito_usado": 4827.2,
+     "transito_observado": 5252.3,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1509,
+     "tiempo_min": 44.619
+    },
+    "2026-04": {
+     "transito_usado": 4915.2,
+     "transito_observado": 5110.8,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1536,
+     "tiempo_min": 44.62
+    },
+    "2026-05": {
+     "transito_usado": 4949.1,
+     "transito_observado": 5606.9,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1547,
+     "tiempo_min": 44.62
+    },
+    "2026-06": {
+     "transito_usado": 5271.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1647,
+     "tiempo_min": 44.621
+    },
+    "2026-07": {
+     "transito_usado": 4803.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1501,
+     "tiempo_min": 44.619
+    },
+    "2026-08": {
+     "transito_usado": 5097.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1593,
+     "tiempo_min": 44.62
+    },
+    "2026-09": {
+     "transito_usado": 4990.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.156,
+     "tiempo_min": 44.62
+    },
+    "2026-10": {
+     "transito_usado": 4793.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1498,
+     "tiempo_min": 44.619
+    },
+    "2026-11": {
+     "transito_usado": 5147.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1609,
+     "tiempo_min": 44.62
+    },
+    "2026-12": {
+     "transito_usado": 5192.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1623,
+     "tiempo_min": 44.621
+    },
+    "2027-01": {
+     "transito_usado": 4706.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1471,
+     "tiempo_min": 44.619
+    },
+    "2027-02": {
+     "transito_usado": 5029.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1572,
+     "tiempo_min": 44.62
+    },
+    "2027-03": {
+     "transito_usado": 4956.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1549,
+     "tiempo_min": 44.62
+    },
+    "2027-04": {
+     "transito_usado": 4908.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1534,
+     "tiempo_min": 44.62
+    },
+    "2027-05": {
+     "transito_usado": 5300.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1656,
+     "tiempo_min": 44.621
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Cajicá",
+   "destino": "Zipaquirá",
+   "peaje": null,
+   "id_peaje": null,
+   "doble_calzada": true,
+   "distancia_km": 12.146089,
+   "tiempo_libre_min": 14.575,
+   "capacidad_veh_h": 8800,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Zipaquirá",
+   "destino": "Ubaté",
+   "peaje": "CASABLANCA",
+   "id_peaje": 165,
+   "doble_calzada": false,
+   "distancia_km": 47.76,
+   "tiempo_libre_min": 57.312,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 9103.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2845,
+     "tiempo_min": 57.368
+    },
+    "2025-07": {
+     "transito_usado": 8915.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2786,
+     "tiempo_min": 57.364
+    },
+    "2025-08": {
+     "transito_usado": 9176.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2868,
+     "tiempo_min": 57.37
+    },
+    "2025-09": {
+     "transito_usado": 8391.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2622,
+     "tiempo_min": 57.353
+    },
+    "2025-10": {
+     "transito_usado": 9428.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2946,
+     "tiempo_min": 57.377
+    },
+    "2025-11": {
+     "transito_usado": 9158.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2862,
+     "tiempo_min": 57.37
+    },
+    "2025-12": {
+     "transito_usado": 10322.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.3226,
+     "tiempo_min": 57.405
+    },
+    "2026-01": {
+     "transito_usado": 10418.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.3256,
+     "tiempo_min": 57.409
+    },
+    "2026-02": {
+     "transito_usado": 8345.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2608,
+     "tiempo_min": 57.352
+    },
+    "2026-03": {
+     "transito_usado": 8329.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2603,
+     "tiempo_min": 57.351
+    },
+    "2026-04": {
+     "transito_usado": 9723.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.3039,
+     "tiempo_min": 57.385
+    },
+    "2026-05": {
+     "transito_usado": 8288.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.259,
+     "tiempo_min": 57.351
+    },
+    "2026-06": {
+     "transito_usado": 9103.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2845,
+     "tiempo_min": 57.368
+    },
+    "2026-07": {
+     "transito_usado": 8915.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2786,
+     "tiempo_min": 57.364
+    },
+    "2026-08": {
+     "transito_usado": 9176.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2868,
+     "tiempo_min": 57.37
+    },
+    "2026-09": {
+     "transito_usado": 8391.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2622,
+     "tiempo_min": 57.353
+    },
+    "2026-10": {
+     "transito_usado": 9428.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2946,
+     "tiempo_min": 57.377
+    },
+    "2026-11": {
+     "transito_usado": 9158.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2862,
+     "tiempo_min": 57.37
+    },
+    "2026-12": {
+     "transito_usado": 10322.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.3226,
+     "tiempo_min": 57.405
+    },
+    "2027-01": {
+     "transito_usado": 10418.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.3256,
+     "tiempo_min": 57.409
+    },
+    "2027-02": {
+     "transito_usado": 8345.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2608,
+     "tiempo_min": 57.352
+    },
+    "2027-03": {
+     "transito_usado": 8329.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2603,
+     "tiempo_min": 57.351
+    },
+    "2027-04": {
+     "transito_usado": 9723.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.3039,
+     "tiempo_min": 57.385
+    },
+    "2027-05": {
+     "transito_usado": 8288.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.259,
+     "tiempo_min": 57.351
+    }
+   },
+   "ultimo_mes": "2017-06",
+   "estado": "historico"
+  },
+  {
+   "origen": "Ubaté",
+   "destino": "Puente Nacional",
+   "peaje": "SABOYÁ",
+   "id_peaje": 163,
+   "doble_calzada": false,
+   "distancia_km": 94.48,
+   "tiempo_libre_min": 113.376,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 3278.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.1025,
+     "tiempo_min": 113.378
+    },
+    "2025-07": {
+     "transito_usado": 3197.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0999,
+     "tiempo_min": 113.378
+    },
+    "2025-08": {
+     "transito_usado": 3160.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0988,
+     "tiempo_min": 113.378
+    },
+    "2025-09": {
+     "transito_usado": 2756.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0861,
+     "tiempo_min": 113.377
+    },
+    "2025-10": {
+     "transito_usado": 3349.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1047,
+     "tiempo_min": 113.378
+    },
+    "2025-11": {
+     "transito_usado": 3228.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.1009,
+     "tiempo_min": 113.378
+    },
+    "2025-12": {
+     "transito_usado": 3955.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1236,
+     "tiempo_min": 113.38
+    },
+    "2026-01": {
+     "transito_usado": 4523.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1413,
+     "tiempo_min": 113.383
+    },
+    "2026-02": {
+     "transito_usado": 2778.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0868,
+     "tiempo_min": 113.377
+    },
+    "2026-03": {
+     "transito_usado": 2825.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0883,
+     "tiempo_min": 113.377
+    },
+    "2026-04": {
+     "transito_usado": 3616.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.113,
+     "tiempo_min": 113.379
+    },
+    "2026-05": {
+     "transito_usado": 2795.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0874,
+     "tiempo_min": 113.377
+    },
+    "2026-06": {
+     "transito_usado": 3278.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.1025,
+     "tiempo_min": 113.378
+    },
+    "2026-07": {
+     "transito_usado": 3197.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0999,
+     "tiempo_min": 113.378
+    },
+    "2026-08": {
+     "transito_usado": 3160.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0988,
+     "tiempo_min": 113.378
+    },
+    "2026-09": {
+     "transito_usado": 2756.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0861,
+     "tiempo_min": 113.377
+    },
+    "2026-10": {
+     "transito_usado": 3349.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1047,
+     "tiempo_min": 113.378
+    },
+    "2026-11": {
+     "transito_usado": 3228.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.1009,
+     "tiempo_min": 113.378
+    },
+    "2026-12": {
+     "transito_usado": 3955.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1236,
+     "tiempo_min": 113.38
+    },
+    "2027-01": {
+     "transito_usado": 4523.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1413,
+     "tiempo_min": 113.383
+    },
+    "2027-02": {
+     "transito_usado": 2778.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0868,
+     "tiempo_min": 113.377
+    },
+    "2027-03": {
+     "transito_usado": 2825.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0883,
+     "tiempo_min": 113.377
+    },
+    "2027-04": {
+     "transito_usado": 3616.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.113,
+     "tiempo_min": 113.379
+    },
+    "2027-05": {
+     "transito_usado": 2795.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0874,
+     "tiempo_min": 113.377
+    }
+   },
+   "ultimo_mes": "2017-06",
+   "estado": "historico"
+  },
+  {
+   "origen": "Madrid",
+   "destino": "Bogotá",
+   "peaje": "RÍO BOGOTÁ",
+   "id_peaje": 11,
+   "doble_calzada": true,
+   "distancia_km": 19.905866,
+   "tiempo_libre_min": 23.887,
+   "capacidad_veh_h": 8800,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 25742.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2925,
+     "tiempo_min": 23.913
+    },
+    "2025-07": {
+     "transito_usado": 25255.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.287,
+     "tiempo_min": 23.911
+    },
+    "2025-08": {
+     "transito_usado": 25082.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.285,
+     "tiempo_min": 23.911
+    },
+    "2025-09": {
+     "transito_usado": 24661.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2802,
+     "tiempo_min": 23.909
+    },
+    "2025-10": {
+     "transito_usado": 24787.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2817,
+     "tiempo_min": 23.91
+    },
+    "2025-11": {
+     "transito_usado": 25294.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2874,
+     "tiempo_min": 23.911
+    },
+    "2025-12": {
+     "transito_usado": 27566.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.3133,
+     "tiempo_min": 23.922
+    },
+    "2026-01": {
+     "transito_usado": 22934.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2606,
+     "tiempo_min": 23.904
+    },
+    "2026-02": {
+     "transito_usado": 23800.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2705,
+     "tiempo_min": 23.906
+    },
+    "2026-03": {
+     "transito_usado": 21358.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2427,
+     "tiempo_min": 23.899
+    },
+    "2026-04": {
+     "transito_usado": 25561.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2905,
+     "tiempo_min": 23.913
+    },
+    "2026-05": {
+     "transito_usado": 24893.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2829,
+     "tiempo_min": 23.91
+    },
+    "2026-06": {
+     "transito_usado": 25742.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2925,
+     "tiempo_min": 23.913
+    },
+    "2026-07": {
+     "transito_usado": 25255.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.287,
+     "tiempo_min": 23.911
+    },
+    "2026-08": {
+     "transito_usado": 25082.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.285,
+     "tiempo_min": 23.911
+    },
+    "2026-09": {
+     "transito_usado": 24661.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2802,
+     "tiempo_min": 23.909
+    },
+    "2026-10": {
+     "transito_usado": 24787.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2817,
+     "tiempo_min": 23.91
+    },
+    "2026-11": {
+     "transito_usado": 25294.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2874,
+     "tiempo_min": 23.911
+    },
+    "2026-12": {
+     "transito_usado": 27566.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.3133,
+     "tiempo_min": 23.922
+    },
+    "2027-01": {
+     "transito_usado": 22934.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2606,
+     "tiempo_min": 23.904
+    },
+    "2027-02": {
+     "transito_usado": 23800.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2705,
+     "tiempo_min": 23.906
+    },
+    "2027-03": {
+     "transito_usado": 21358.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2427,
+     "tiempo_min": 23.899
+    },
+    "2027-04": {
+     "transito_usado": 25561.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2905,
+     "tiempo_min": 23.913
+    },
+    "2027-05": {
+     "transito_usado": 24893.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "alto",
+     "saturacion": 0.2829,
+     "tiempo_min": 23.91
+    }
+   },
+   "ultimo_mes": "2024-03",
+   "estado": "historico"
+  },
+  {
+   "origen": "Bogotá",
+   "destino": "Guasca",
+   "peaje": "LOS PATIOS",
+   "id_peaje": 12,
+   "doble_calzada": false,
+   "distancia_km": 35.120636,
+   "tiempo_libre_min": 42.145,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 4950.7,
+     "transito_observado": 4888.3,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1547,
+     "tiempo_min": 42.148
+    },
+    "2025-07": {
+     "transito_usado": 4641.1,
+     "transito_observado": 4531.6,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.145,
+     "tiempo_min": 42.148
+    },
+    "2025-08": {
+     "transito_usado": 4859.0,
+     "transito_observado": 4830.0,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1518,
+     "tiempo_min": 42.148
+    },
+    "2025-09": {
+     "transito_usado": 4588.7,
+     "transito_observado": 4951.3,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1434,
+     "tiempo_min": 42.147
+    },
+    "2025-10": {
+     "transito_usado": 4877.6,
+     "transito_observado": 4843.9,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1524,
+     "tiempo_min": 42.148
+    },
+    "2025-11": {
+     "transito_usado": 4812.7,
+     "transito_observado": 5038.9,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1504,
+     "tiempo_min": 42.148
+    },
+    "2025-12": {
+     "transito_usado": 4998.1,
+     "transito_observado": 4972.6,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1562,
+     "tiempo_min": 42.149
+    },
+    "2026-01": {
+     "transito_usado": 4689.5,
+     "transito_observado": 4611.2,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1465,
+     "tiempo_min": 42.148
+    },
+    "2026-02": {
+     "transito_usado": 4689.5,
+     "transito_observado": 4945.8,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1465,
+     "tiempo_min": 42.148
+    },
+    "2026-03": {
+     "transito_usado": 4629.3,
+     "transito_observado": 4989.2,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1447,
+     "tiempo_min": 42.148
+    },
+    "2026-04": {
+     "transito_usado": 4817.2,
+     "transito_observado": 4775.4,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1505,
+     "tiempo_min": 42.148
+    },
+    "2026-05": {
+     "transito_usado": 4787.2,
+     "transito_observado": 5107.3,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1496,
+     "tiempo_min": 42.148
+    },
+    "2026-06": {
+     "transito_usado": 5034.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1573,
+     "tiempo_min": 42.149
+    },
+    "2026-07": {
+     "transito_usado": 4799.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.15,
+     "tiempo_min": 42.148
+    },
+    "2026-08": {
+     "transito_usado": 5005.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1564,
+     "tiempo_min": 42.149
+    },
+    "2026-09": {
+     "transito_usado": 4935.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1542,
+     "tiempo_min": 42.148
+    },
+    "2026-10": {
+     "transito_usado": 4863.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.152,
+     "tiempo_min": 42.148
+    },
+    "2026-11": {
+     "transito_usado": 4897.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.153,
+     "tiempo_min": 42.148
+    },
+    "2026-12": {
+     "transito_usado": 4942.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1544,
+     "tiempo_min": 42.148
+    },
+    "2027-01": {
+     "transito_usado": 4648.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1453,
+     "tiempo_min": 42.148
+    },
+    "2027-02": {
+     "transito_usado": 4831.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.151,
+     "tiempo_min": 42.148
+    },
+    "2027-03": {
+     "transito_usado": 4852.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1516,
+     "tiempo_min": 42.148
+    },
+    "2027-04": {
+     "transito_usado": 4731.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1479,
+     "tiempo_min": 42.148
+    },
+    "2027-05": {
+     "transito_usado": 4847.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1515,
+     "tiempo_min": 42.148
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Bogotá",
+   "destino": "Villavicencio",
+   "peaje": "NARANJAL",
+   "id_peaje": 20,
+   "doble_calzada": false,
+   "distancia_km": 93.72,
+   "tiempo_libre_min": 112.464,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 10372.0,
+     "transito_observado": 10428.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3241,
+     "tiempo_min": 112.65
+    },
+    "2025-07": {
+     "transito_usado": 9825.8,
+     "transito_observado": 8460.4,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3071,
+     "tiempo_min": 112.614
+    },
+    "2025-08": {
+     "transito_usado": 9259.7,
+     "transito_observado": 9842.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2894,
+     "tiempo_min": 112.582
+    },
+    "2025-09": {
+     "transito_usado": 9517.9,
+     "transito_observado": 5567.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2974,
+     "tiempo_min": 112.596
+    },
+    "2025-10": {
+     "transito_usado": 4934.0,
+     "transito_observado": 7447.7,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.1542,
+     "tiempo_min": 112.474
+    },
+    "2025-11": {
+     "transito_usado": 7976.0,
+     "transito_observado": 8522.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2493,
+     "tiempo_min": 112.529
+    },
+    "2025-12": {
+     "transito_usado": 10557.4,
+     "transito_observado": 11455.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3299,
+     "tiempo_min": 112.664
+    },
+    "2026-01": {
+     "transito_usado": 11122.6,
+     "transito_observado": 11554.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3476,
+     "tiempo_min": 112.71
+    },
+    "2026-02": {
+     "transito_usado": 8743.5,
+     "transito_observado": 9048.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2732,
+     "tiempo_min": 112.558
+    },
+    "2026-03": {
+     "transito_usado": 9191.7,
+     "transito_observado": 9825.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2872,
+     "tiempo_min": 112.579
+    },
+    "2026-04": {
+     "transito_usado": 10094.0,
+     "transito_observado": 9985.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3154,
+     "tiempo_min": 112.631
+    },
+    "2026-05": {
+     "transito_usado": 9420.9,
+     "transito_observado": 9348.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2944,
+     "tiempo_min": 112.591
+    },
+    "2026-06": {
+     "transito_usado": 10335.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.323,
+     "tiempo_min": 112.648
+    },
+    "2026-07": {
+     "transito_usado": 9385.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2933,
+     "tiempo_min": 112.589
+    },
+    "2026-08": {
+     "transito_usado": 9819.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3069,
+     "tiempo_min": 112.614
+    },
+    "2026-09": {
+     "transito_usado": 8963.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2801,
+     "tiempo_min": 112.568
+    },
+    "2026-10": {
+     "transito_usado": 9045.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2827,
+     "tiempo_min": 112.572
+    },
+    "2026-11": {
+     "transito_usado": 9123.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2851,
+     "tiempo_min": 112.575
+    },
+    "2026-12": {
+     "transito_usado": 10740.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3356,
+     "tiempo_min": 112.678
+    },
+    "2027-01": {
+     "transito_usado": 10429.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3259,
+     "tiempo_min": 112.654
+    },
+    "2027-02": {
+     "transito_usado": 8646.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2702,
+     "tiempo_min": 112.554
+    },
+    "2027-03": {
+     "transito_usado": 9127.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2852,
+     "tiempo_min": 112.576
+    },
+    "2027-04": {
+     "transito_usado": 9479.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2962,
+     "tiempo_min": 112.594
+    },
+    "2027-05": {
+     "transito_usado": 9194.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2873,
+     "tiempo_min": 112.579
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Villavicencio",
+   "destino": "Ye de Granada",
+   "peaje": "OCOA",
+   "id_peaje": 56,
+   "doble_calzada": false,
+   "distancia_km": 72.63,
+   "tiempo_libre_min": 87.156,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 11445.4,
+     "transito_observado": 11380.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3577,
+     "tiempo_min": 87.37
+    },
+    "2025-07": {
+     "transito_usado": 11307.8,
+     "transito_observado": 10814.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3534,
+     "tiempo_min": 87.36
+    },
+    "2025-08": {
+     "transito_usado": 10110.1,
+     "transito_observado": 11550.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3159,
+     "tiempo_min": 87.286
+    },
+    "2026-03": {
+     "transito_usado": 11769.6,
+     "transito_observado": 11916.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3678,
+     "tiempo_min": 87.395
+    },
+    "2026-04": {
+     "transito_usado": 11913.3,
+     "transito_observado": 11841.3,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3723,
+     "tiempo_min": 87.407
+    },
+    "2026-05": {
+     "transito_usado": 11514.9,
+     "transito_observado": 11330.4,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3598,
+     "tiempo_min": 87.375
+    },
+    "2026-06": {
+     "transito_usado": 11639.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3637,
+     "tiempo_min": 87.385
+    },
+    "2026-07": {
+     "transito_usado": 11322.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3538,
+     "tiempo_min": 87.361
+    },
+    "2026-08": {
+     "transito_usado": 11637.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3637,
+     "tiempo_min": 87.385
+    },
+    "2026-09": {
+     "transito_usado": 11264.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.352,
+     "tiempo_min": 87.357
+    },
+    "2026-10": {
+     "transito_usado": 11645.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3639,
+     "tiempo_min": 87.385
+    },
+    "2026-11": {
+     "transito_usado": 11363.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3551,
+     "tiempo_min": 87.364
+    },
+    "2026-12": {
+     "transito_usado": 13006.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.4065,
+     "tiempo_min": 87.513
+    },
+    "2027-01": {
+     "transito_usado": 12637.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3949,
+     "tiempo_min": 87.474
+    },
+    "2027-02": {
+     "transito_usado": 11422.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.357,
+     "tiempo_min": 87.368
+    },
+    "2027-03": {
+     "transito_usado": 11978.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3743,
+     "tiempo_min": 87.413
+    },
+    "2027-04": {
+     "transito_usado": 11913.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3723,
+     "tiempo_min": 87.407
+    },
+    "2027-05": {
+     "transito_usado": 11591.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3622,
+     "tiempo_min": 87.381
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Ye de Granada",
+   "destino": "Granada",
+   "peaje": null,
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 3.043507,
+   "tiempo_libre_min": 3.652,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Villavicencio",
+   "destino": "Puerto López",
+   "peaje": "LA LIBERTAD",
+   "id_peaje": 58,
+   "doble_calzada": false,
+   "distancia_km": 77.62,
+   "tiempo_libre_min": 93.144,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 3988.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1246,
+     "tiempo_min": 93.147
+    },
+    "2025-07": {
+     "transito_usado": 4021.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1257,
+     "tiempo_min": 93.147
+    },
+    "2025-08": {
+     "transito_usado": 4171.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1304,
+     "tiempo_min": 93.148
+    },
+    "2025-09": {
+     "transito_usado": 4074.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1273,
+     "tiempo_min": 93.148
+    },
+    "2025-10": {
+     "transito_usado": 4117.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1287,
+     "tiempo_min": 93.148
+    },
+    "2025-11": {
+     "transito_usado": 4150.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1297,
+     "tiempo_min": 93.148
+    },
+    "2025-12": {
+     "transito_usado": 4404.8,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1377,
+     "tiempo_min": 93.149
+    },
+    "2026-01": {
+     "transito_usado": 4089.8,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1278,
+     "tiempo_min": 93.148
+    },
+    "2026-02": {
+     "transito_usado": 3863.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1207,
+     "tiempo_min": 93.147
+    },
+    "2026-03": {
+     "transito_usado": 4069.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1272,
+     "tiempo_min": 93.148
+    },
+    "2026-04": {
+     "transito_usado": 3955.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1236,
+     "tiempo_min": 93.147
+    },
+    "2026-05": {
+     "transito_usado": 3956.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1236,
+     "tiempo_min": 93.147
+    },
+    "2026-06": {
+     "transito_usado": 3988.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1246,
+     "tiempo_min": 93.147
+    },
+    "2026-07": {
+     "transito_usado": 4021.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1257,
+     "tiempo_min": 93.147
+    },
+    "2026-08": {
+     "transito_usado": 4171.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1304,
+     "tiempo_min": 93.148
+    },
+    "2026-09": {
+     "transito_usado": 4074.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1273,
+     "tiempo_min": 93.148
+    },
+    "2026-10": {
+     "transito_usado": 4117.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1287,
+     "tiempo_min": 93.148
+    },
+    "2026-11": {
+     "transito_usado": 4150.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1297,
+     "tiempo_min": 93.148
+    },
+    "2026-12": {
+     "transito_usado": 4404.8,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1377,
+     "tiempo_min": 93.149
+    },
+    "2027-01": {
+     "transito_usado": 4089.8,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1278,
+     "tiempo_min": 93.148
+    },
+    "2027-02": {
+     "transito_usado": 3863.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1207,
+     "tiempo_min": 93.147
+    },
+    "2027-03": {
+     "transito_usado": 4069.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1272,
+     "tiempo_min": 93.148
+    },
+    "2027-04": {
+     "transito_usado": 3955.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1236,
+     "tiempo_min": 93.147
+    },
+    "2027-05": {
+     "transito_usado": 3956.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1236,
+     "tiempo_min": 93.147
+    }
+   },
+   "ultimo_mes": "2024-07",
+   "estado": "historico"
+  },
+  {
+   "origen": "Puerto López",
+   "destino": "Puerto Gaitán",
+   "peaje": "YUCAO",
+   "id_peaje": 84,
+   "doble_calzada": false,
+   "distancia_km": 108.55,
+   "tiempo_libre_min": 130.26,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 1896.1,
+     "transito_observado": 1927.1,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0593,
+     "tiempo_min": 130.26
+    },
+    "2025-07": {
+     "transito_usado": 1958.3,
+     "transito_observado": 1898.7,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0612,
+     "tiempo_min": 130.26
+    },
+    "2025-08": {
+     "transito_usado": 1953.4,
+     "transito_observado": 1912.0,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.061,
+     "tiempo_min": 130.26
+    },
+    "2025-09": {
+     "transito_usado": 1891.8,
+     "transito_observado": 1801.3,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0591,
+     "tiempo_min": 130.26
+    },
+    "2025-10": {
+     "transito_usado": 1933.2,
+     "transito_observado": 1885.8,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0604,
+     "tiempo_min": 130.26
+    },
+    "2025-11": {
+     "transito_usado": 1915.7,
+     "transito_observado": 1854.9,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0599,
+     "tiempo_min": 130.26
+    },
+    "2025-12": {
+     "transito_usado": 2081.6,
+     "transito_observado": 2104.9,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0651,
+     "tiempo_min": 130.26
+    },
+    "2026-01": {
+     "transito_usado": 2039.0,
+     "transito_observado": 2221.8,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0637,
+     "tiempo_min": 130.26
+    },
+    "2026-02": {
+     "transito_usado": 1934.4,
+     "transito_observado": 2029.5,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0604,
+     "tiempo_min": 130.26
+    },
+    "2026-03": {
+     "transito_usado": 2030.4,
+     "transito_observado": 1990.7,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0635,
+     "tiempo_min": 130.26
+    },
+    "2026-04": {
+     "transito_usado": 2021.4,
+     "transito_observado": 1885.4,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0632,
+     "tiempo_min": 130.26
+    },
+    "2026-05": {
+     "transito_usado": 1885.7,
+     "transito_observado": 1727.7,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0589,
+     "tiempo_min": 130.26
+    },
+    "2026-06": {
+     "transito_usado": 1946.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0608,
+     "tiempo_min": 130.26
+    },
+    "2026-07": {
+     "transito_usado": 1961.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0613,
+     "tiempo_min": 130.26
+    },
+    "2026-08": {
+     "transito_usado": 1960.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0613,
+     "tiempo_min": 130.26
+    },
+    "2026-09": {
+     "transito_usado": 1939.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0606,
+     "tiempo_min": 130.26
+    },
+    "2026-10": {
+     "transito_usado": 1967.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0615,
+     "tiempo_min": 130.26
+    },
+    "2026-11": {
+     "transito_usado": 1981.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0619,
+     "tiempo_min": 130.26
+    },
+    "2026-12": {
+     "transito_usado": 2125.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0664,
+     "tiempo_min": 130.26
+    },
+    "2027-01": {
+     "transito_usado": 2139.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0669,
+     "tiempo_min": 130.26
+    },
+    "2027-02": {
+     "transito_usado": 1950.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.061,
+     "tiempo_min": 130.26
+    },
+    "2027-03": {
+     "transito_usado": 1983.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.062,
+     "tiempo_min": 130.26
+    },
+    "2027-04": {
+     "transito_usado": 1972.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0616,
+     "tiempo_min": 130.26
+    },
+    "2027-05": {
+     "transito_usado": 1876.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0586,
+     "tiempo_min": 130.26
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Bogotá",
+   "destino": "Villeta",
+   "peaje": "SIBERIA",
+   "id_peaje": 15,
+   "doble_calzada": true,
+   "distancia_km": 81.0,
+   "tiempo_libre_min": 97.2,
+   "capacidad_veh_h": 8800,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 19824.7,
+     "transito_observado": 20041.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2253,
+     "tiempo_min": 97.238
+    },
+    "2025-07": {
+     "transito_usado": 19445.2,
+     "transito_observado": 18841.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.221,
+     "tiempo_min": 97.235
+    },
+    "2025-08": {
+     "transito_usado": 19474.7,
+     "transito_observado": 19736.7,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2213,
+     "tiempo_min": 97.235
+    },
+    "2025-09": {
+     "transito_usado": 18298.0,
+     "transito_observado": 18268.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2079,
+     "tiempo_min": 97.227
+    },
+    "2025-10": {
+     "transito_usado": 19463.9,
+     "transito_observado": 19558.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2212,
+     "tiempo_min": 97.235
+    },
+    "2025-11": {
+     "transito_usado": 19086.2,
+     "transito_observado": 19936.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2169,
+     "tiempo_min": 97.232
+    },
+    "2025-12": {
+     "transito_usado": 21904.3,
+     "transito_observado": 22047.7,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2489,
+     "tiempo_min": 97.256
+    },
+    "2026-01": {
+     "transito_usado": 19473.6,
+     "transito_observado": 21110.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2213,
+     "tiempo_min": 97.235
+    },
+    "2026-02": {
+     "transito_usado": 18231.6,
+     "transito_observado": 17514.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2072,
+     "tiempo_min": 97.227
+    },
+    "2026-03": {
+     "transito_usado": 18265.0,
+     "transito_observado": 18357.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2076,
+     "tiempo_min": 97.227
+    },
+    "2026-04": {
+     "transito_usado": 18559.9,
+     "transito_observado": 18499.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2109,
+     "tiempo_min": 97.229
+    },
+    "2026-05": {
+     "transito_usado": 18214.1,
+     "transito_observado": 18548.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.207,
+     "tiempo_min": 97.227
+    },
+    "2026-06": {
+     "transito_usado": 19845.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2255,
+     "tiempo_min": 97.238
+    },
+    "2026-07": {
+     "transito_usado": 19564.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2223,
+     "tiempo_min": 97.236
+    },
+    "2026-08": {
+     "transito_usado": 20119.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2286,
+     "tiempo_min": 97.24
+    },
+    "2026-09": {
+     "transito_usado": 19028.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2162,
+     "tiempo_min": 97.232
+    },
+    "2026-10": {
+     "transito_usado": 19843.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2255,
+     "tiempo_min": 97.238
+    },
+    "2026-11": {
+     "transito_usado": 19979.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.227,
+     "tiempo_min": 97.239
+    },
+    "2026-12": {
+     "transito_usado": 22109.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2512,
+     "tiempo_min": 97.258
+    },
+    "2027-01": {
+     "transito_usado": 20469.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2326,
+     "tiempo_min": 97.243
+    },
+    "2027-02": {
+     "transito_usado": 18519.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2104,
+     "tiempo_min": 97.229
+    },
+    "2027-03": {
+     "transito_usado": 18952.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2154,
+     "tiempo_min": 97.231
+    },
+    "2027-04": {
+     "transito_usado": 18819.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2139,
+     "tiempo_min": 97.23
+    },
+    "2027-05": {
+     "transito_usado": 19017.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2161,
+     "tiempo_min": 97.232
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Villeta",
+   "destino": "Honda",
+   "peaje": "BICENTENARIO",
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 58.45,
+   "tiempo_libre_min": 70.14,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Honda",
+   "destino": "Mariquita",
+   "peaje": "HONDA",
+   "id_peaje": 4,
+   "doble_calzada": false,
+   "distancia_km": 18.95,
+   "tiempo_libre_min": 22.74,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 4269.2,
+     "transito_observado": 4341.9,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1334,
+     "tiempo_min": 22.741
+    },
+    "2025-07": {
+     "transito_usado": 4216.7,
+     "transito_observado": 4250.3,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1318,
+     "tiempo_min": 22.741
+    },
+    "2025-08": {
+     "transito_usado": 4041.8,
+     "transito_observado": 4301.5,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1263,
+     "tiempo_min": 22.741
+    },
+    "2025-09": {
+     "transito_usado": 3969.0,
+     "transito_observado": 4043.0,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.124,
+     "tiempo_min": 22.741
+    },
+    "2025-10": {
+     "transito_usado": 4326.7,
+     "transito_observado": 4479.9,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1352,
+     "tiempo_min": 22.741
+    },
+    "2025-11": {
+     "transito_usado": 4410.9,
+     "transito_observado": 4271.4,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1378,
+     "tiempo_min": 22.741
+    },
+    "2025-12": {
+     "transito_usado": 4865.6,
+     "transito_observado": 4771.0,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.152,
+     "tiempo_min": 22.742
+    },
+    "2026-01": {
+     "transito_usado": 5202.9,
+     "transito_observado": 5348.6,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1626,
+     "tiempo_min": 22.742
+    },
+    "2026-02": {
+     "transito_usado": 4092.8,
+     "transito_observado": 4044.7,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1279,
+     "tiempo_min": 22.741
+    },
+    "2026-03": {
+     "transito_usado": 3945.6,
+     "transito_observado": 4299.2,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1233,
+     "tiempo_min": 22.741
+    },
+    "2026-04": {
+     "transito_usado": 4155.2,
+     "transito_observado": 4333.0,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1299,
+     "tiempo_min": 22.741
+    },
+    "2026-05": {
+     "transito_usado": 3992.6,
+     "transito_observado": 4001.1,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1248,
+     "tiempo_min": 22.741
+    },
+    "2026-06": {
+     "transito_usado": 4322.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1351,
+     "tiempo_min": 22.741
+    },
+    "2026-07": {
+     "transito_usado": 4204.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1314,
+     "tiempo_min": 22.741
+    },
+    "2026-08": {
+     "transito_usado": 4143.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1295,
+     "tiempo_min": 22.741
+    },
+    "2026-09": {
+     "transito_usado": 3997.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1249,
+     "tiempo_min": 22.741
+    },
+    "2026-10": {
+     "transito_usado": 4223.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.132,
+     "tiempo_min": 22.741
+    },
+    "2026-11": {
+     "transito_usado": 4169.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1303,
+     "tiempo_min": 22.741
+    },
+    "2026-12": {
+     "transito_usado": 4706.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1471,
+     "tiempo_min": 22.742
+    },
+    "2027-01": {
+     "transito_usado": 5209.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1628,
+     "tiempo_min": 22.742
+    },
+    "2027-02": {
+     "transito_usado": 4022.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1257,
+     "tiempo_min": 22.741
+    },
+    "2027-03": {
+     "transito_usado": 3892.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1216,
+     "tiempo_min": 22.741
+    },
+    "2027-04": {
+     "transito_usado": 4202.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1313,
+     "tiempo_min": 22.741
+    },
+    "2027-05": {
+     "transito_usado": 3918.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1224,
+     "tiempo_min": 22.741
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Bogotá",
+   "destino": "Fusagasugá",
+   "peaje": "CHUSACÁ",
+   "id_peaje": 8,
+   "doble_calzada": true,
+   "distancia_km": 59.02,
+   "tiempo_libre_min": 70.824,
+   "capacidad_veh_h": 8800,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 20792.2,
+     "transito_observado": 28040.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2363,
+     "tiempo_min": 70.857
+    },
+    "2025-07": {
+     "transito_usado": 23985.3,
+     "transito_observado": 25037.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2726,
+     "tiempo_min": 70.883
+    },
+    "2025-08": {
+     "transito_usado": 23602.8,
+     "transito_observado": 26067.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2682,
+     "tiempo_min": 70.879
+    },
+    "2025-09": {
+     "transito_usado": 24461.5,
+     "transito_observado": 23406.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.278,
+     "tiempo_min": 70.887
+    },
+    "2025-10": {
+     "transito_usado": 24436.1,
+     "transito_observado": 27569.9,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2777,
+     "tiempo_min": 70.887
+    },
+    "2025-11": {
+     "transito_usado": 24676.6,
+     "transito_observado": 27063.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2804,
+     "tiempo_min": 70.89
+    },
+    "2025-12": {
+     "transito_usado": 25490.9,
+     "transito_observado": 31728.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2897,
+     "tiempo_min": 70.899
+    },
+    "2026-01": {
+     "transito_usado": 28049.5,
+     "transito_observado": 31136.5,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.3187,
+     "tiempo_min": 70.934
+    },
+    "2026-02": {
+     "transito_usado": 23113.4,
+     "transito_observado": 23134.3,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2627,
+     "tiempo_min": 70.875
+    },
+    "2026-03": {
+     "transito_usado": 24537.5,
+     "transito_observado": 25433.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2788,
+     "tiempo_min": 70.888
+    },
+    "2026-04": {
+     "transito_usado": 25020.8,
+     "transito_observado": 25959.4,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2843,
+     "tiempo_min": 70.893
+    },
+    "2026-05": {
+     "transito_usado": 23235.9,
+     "transito_observado": 24903.4,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.264,
+     "tiempo_min": 70.876
+    },
+    "2026-06": {
+     "transito_usado": 26589.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3022,
+     "tiempo_min": 70.913
+    },
+    "2026-07": {
+     "transito_usado": 25743.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2925,
+     "tiempo_min": 70.902
+    },
+    "2026-08": {
+     "transito_usado": 25308.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2876,
+     "tiempo_min": 70.897
+    },
+    "2026-09": {
+     "transito_usado": 24635.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2799,
+     "tiempo_min": 70.889
+    },
+    "2026-10": {
+     "transito_usado": 26123.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2969,
+     "tiempo_min": 70.907
+    },
+    "2026-11": {
+     "transito_usado": 25245.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2869,
+     "tiempo_min": 70.896
+    },
+    "2026-12": {
+     "transito_usado": 29015.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3297,
+     "tiempo_min": 70.95
+    },
+    "2027-01": {
+     "transito_usado": 27205.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.3092,
+     "tiempo_min": 70.921
+    },
+    "2027-02": {
+     "transito_usado": 23660.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2689,
+     "tiempo_min": 70.88
+    },
+    "2027-03": {
+     "transito_usado": 24735.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2811,
+     "tiempo_min": 70.89
+    },
+    "2027-04": {
+     "transito_usado": 25122.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2855,
+     "tiempo_min": 70.895
+    },
+    "2027-05": {
+     "transito_usado": 24874.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2827,
+     "tiempo_min": 70.892
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Fusagasugá",
+   "destino": "Girardot",
+   "peaje": "CHINAUTA",
+   "id_peaje": 3,
+   "doble_calzada": true,
+   "distancia_km": 62.77,
+   "tiempo_libre_min": 75.324,
+   "capacidad_veh_h": 8800,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 18812.3,
+     "transito_observado": 23140.2,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2138,
+     "tiempo_min": 75.348
+    },
+    "2025-07": {
+     "transito_usado": 20569.7,
+     "transito_observado": 20338.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2337,
+     "tiempo_min": 75.358
+    },
+    "2025-08": {
+     "transito_usado": 18919.4,
+     "transito_observado": 21053.8,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.215,
+     "tiempo_min": 75.348
+    },
+    "2025-09": {
+     "transito_usado": 19422.3,
+     "transito_observado": 18852.3,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2207,
+     "tiempo_min": 75.351
+    },
+    "2025-10": {
+     "transito_usado": 17333.8,
+     "transito_observado": 22796.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.197,
+     "tiempo_min": 75.341
+    },
+    "2025-11": {
+     "transito_usado": 20235.1,
+     "transito_observado": 21732.7,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2299,
+     "tiempo_min": 75.356
+    },
+    "2025-12": {
+     "transito_usado": 21376.9,
+     "transito_observado": 25856.1,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2429,
+     "tiempo_min": 75.363
+    },
+    "2026-01": {
+     "transito_usado": 23311.8,
+     "transito_observado": 26540.6,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2649,
+     "tiempo_min": 75.38
+    },
+    "2026-02": {
+     "transito_usado": 19317.5,
+     "transito_observado": 18505.4,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2195,
+     "tiempo_min": 75.35
+    },
+    "2026-03": {
+     "transito_usado": 17651.0,
+     "transito_observado": 20420.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2006,
+     "tiempo_min": 75.342
+    },
+    "2026-04": {
+     "transito_usado": 19899.0,
+     "transito_observado": 20992.7,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2261,
+     "tiempo_min": 75.354
+    },
+    "2026-05": {
+     "transito_usado": 19239.3,
+     "transito_observado": 19987.0,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2186,
+     "tiempo_min": 75.35
+    },
+    "2026-06": {
+     "transito_usado": 22776.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2588,
+     "tiempo_min": 75.375
+    },
+    "2026-07": {
+     "transito_usado": 21671.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2463,
+     "tiempo_min": 75.366
+    },
+    "2026-08": {
+     "transito_usado": 21507.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2444,
+     "tiempo_min": 75.364
+    },
+    "2026-09": {
+     "transito_usado": 20649.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2347,
+     "tiempo_min": 75.358
+    },
+    "2026-10": {
+     "transito_usado": 23231.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.264,
+     "tiempo_min": 75.379
+    },
+    "2026-11": {
+     "transito_usado": 22036.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2504,
+     "tiempo_min": 75.368
+    },
+    "2026-12": {
+     "transito_usado": 24283.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.276,
+     "tiempo_min": 75.39
+    },
+    "2027-01": {
+     "transito_usado": 23274.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2645,
+     "tiempo_min": 75.379
+    },
+    "2027-02": {
+     "transito_usado": 20208.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2296,
+     "tiempo_min": 75.355
+    },
+    "2027-03": {
+     "transito_usado": 21030.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.239,
+     "tiempo_min": 75.361
+    },
+    "2027-04": {
+     "transito_usado": 20901.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2375,
+     "tiempo_min": 75.36
+    },
+    "2027-05": {
+     "transito_usado": 19726.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2242,
+     "tiempo_min": 75.353
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Girardot",
+   "destino": "El Espinal",
+   "peaje": "FLANDES",
+   "id_peaje": 54,
+   "doble_calzada": false,
+   "distancia_km": 20.423274,
+   "tiempo_libre_min": 24.508,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 6272.1,
+     "transito_observado": 7121.7,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.196,
+     "tiempo_min": 24.513
+    },
+    "2025-07": {
+     "transito_usado": 6678.1,
+     "transito_observado": 5664.9,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.2087,
+     "tiempo_min": 24.515
+    },
+    "2025-08": {
+     "transito_usado": 5656.3,
+     "transito_observado": 5837.2,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1768,
+     "tiempo_min": 24.512
+    },
+    "2025-09": {
+     "transito_usado": 5759.8,
+     "transito_observado": 5409.0,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.18,
+     "tiempo_min": 24.512
+    },
+    "2025-10": {
+     "transito_usado": 5802.3,
+     "transito_observado": 6410.0,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1813,
+     "tiempo_min": 24.512
+    },
+    "2025-11": {
+     "transito_usado": 6032.0,
+     "transito_observado": 5988.2,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1885,
+     "tiempo_min": 24.513
+    },
+    "2025-12": {
+     "transito_usado": 7275.1,
+     "transito_observado": 7532.3,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2273,
+     "tiempo_min": 24.518
+    },
+    "2026-01": {
+     "transito_usado": 7208.9,
+     "transito_observado": 7521.4,
+     "origen_dato": "prueba",
+     "clase": "alto",
+     "saturacion": 0.2253,
+     "tiempo_min": 24.517
+    },
+    "2026-02": {
+     "transito_usado": 5428.8,
+     "transito_observado": 5243.3,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1697,
+     "tiempo_min": 24.511
+    },
+    "2026-03": {
+     "transito_usado": 5098.7,
+     "transito_observado": 5827.5,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1593,
+     "tiempo_min": 24.51
+    },
+    "2026-04": {
+     "transito_usado": 5712.3,
+     "transito_observado": 6168.5,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1785,
+     "tiempo_min": 24.512
+    },
+    "2026-05": {
+     "transito_usado": 5545.5,
+     "transito_observado": 5640.6,
+     "origen_dato": "prueba",
+     "clase": "medio",
+     "saturacion": 0.1733,
+     "tiempo_min": 24.511
+    },
+    "2026-06": {
+     "transito_usado": 6796.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2124,
+     "tiempo_min": 24.515
+    },
+    "2026-07": {
+     "transito_usado": 6116.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1912,
+     "tiempo_min": 24.513
+    },
+    "2026-08": {
+     "transito_usado": 6081.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1901,
+     "tiempo_min": 24.513
+    },
+    "2026-09": {
+     "transito_usado": 5785.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1808,
+     "tiempo_min": 24.512
+    },
+    "2026-10": {
+     "transito_usado": 6254.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1955,
+     "tiempo_min": 24.513
+    },
+    "2026-11": {
+     "transito_usado": 6145.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.192,
+     "tiempo_min": 24.513
+    },
+    "2026-12": {
+     "transito_usado": 7206.2,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2252,
+     "tiempo_min": 24.517
+    },
+    "2027-01": {
+     "transito_usado": 7299.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "alto",
+     "saturacion": 0.2281,
+     "tiempo_min": 24.518
+    },
+    "2027-02": {
+     "transito_usado": 5654.3,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1767,
+     "tiempo_min": 24.512
+    },
+    "2027-03": {
+     "transito_usado": 5518.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1724,
+     "tiempo_min": 24.511
+    },
+    "2027-04": {
+     "transito_usado": 5900.1,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1844,
+     "tiempo_min": 24.512
+    },
+    "2027-05": {
+     "transito_usado": 5604.6,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "medio",
+     "saturacion": 0.1751,
+     "tiempo_min": 24.511
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Girardot",
+   "destino": "Cambao",
+   "peaje": "GUATAQUÍ",
+   "id_peaje": 135,
+   "doble_calzada": false,
+   "distancia_km": 88.71,
+   "tiempo_libre_min": 106.452,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 1130.2,
+     "transito_observado": 1258.8,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0353,
+     "tiempo_min": 106.452
+    },
+    "2025-07": {
+     "transito_usado": 1210.6,
+     "transito_observado": 1192.9,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0378,
+     "tiempo_min": 106.452
+    },
+    "2025-08": {
+     "transito_usado": 1197.4,
+     "transito_observado": 1230.6,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0374,
+     "tiempo_min": 106.452
+    },
+    "2025-09": {
+     "transito_usado": 1122.1,
+     "transito_observado": 1131.1,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0351,
+     "tiempo_min": 106.452
+    },
+    "2025-10": {
+     "transito_usado": 1205.5,
+     "transito_observado": 1343.7,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0377,
+     "tiempo_min": 106.452
+    },
+    "2025-11": {
+     "transito_usado": 1291.0,
+     "transito_observado": 1277.9,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0403,
+     "tiempo_min": 106.452
+    },
+    "2025-12": {
+     "transito_usado": 1463.2,
+     "transito_observado": 1717.1,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0457,
+     "tiempo_min": 106.452
+    },
+    "2026-01": {
+     "transito_usado": 1837.1,
+     "transito_observado": 2009.4,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0574,
+     "tiempo_min": 106.452
+    },
+    "2026-02": {
+     "transito_usado": 1241.8,
+     "transito_observado": 1202.5,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0388,
+     "tiempo_min": 106.452
+    },
+    "2026-03": {
+     "transito_usado": 1199.3,
+     "transito_observado": 1267.8,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0375,
+     "tiempo_min": 106.452
+    },
+    "2026-04": {
+     "transito_usado": 1401.3,
+     "transito_observado": 1298.2,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0438,
+     "tiempo_min": 106.452
+    },
+    "2026-05": {
+     "transito_usado": 1191.2,
+     "transito_observado": 1183.1,
+     "origen_dato": "prueba",
+     "clase": "bajo",
+     "saturacion": 0.0372,
+     "tiempo_min": 106.452
+    },
+    "2026-06": {
+     "transito_usado": 1259.7,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0394,
+     "tiempo_min": 106.452
+    },
+    "2026-07": {
+     "transito_usado": 1260.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0394,
+     "tiempo_min": 106.452
+    },
+    "2026-08": {
+     "transito_usado": 1279.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.04,
+     "tiempo_min": 106.452
+    },
+    "2026-09": {
+     "transito_usado": 1234.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0386,
+     "tiempo_min": 106.452
+    },
+    "2026-10": {
+     "transito_usado": 1280.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.04,
+     "tiempo_min": 106.452
+    },
+    "2026-11": {
+     "transito_usado": 1251.4,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0391,
+     "tiempo_min": 106.452
+    },
+    "2026-12": {
+     "transito_usado": 1468.0,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0459,
+     "tiempo_min": 106.452
+    },
+    "2027-01": {
+     "transito_usado": 1727.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.054,
+     "tiempo_min": 106.452
+    },
+    "2027-02": {
+     "transito_usado": 1186.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0371,
+     "tiempo_min": 106.452
+    },
+    "2027-03": {
+     "transito_usado": 1218.5,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0381,
+     "tiempo_min": 106.452
+    },
+    "2027-04": {
+     "transito_usado": 1291.9,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0404,
+     "tiempo_min": 106.452
+    },
+    "2027-05": {
+     "transito_usado": 1237.8,
+     "transito_observado": null,
+     "origen_dato": "pronostico",
+     "clase": "bajo",
+     "saturacion": 0.0387,
+     "tiempo_min": 106.452
+    }
+   },
+   "ultimo_mes": "2026-05",
+   "estado": "vigente"
+  },
+  {
+   "origen": "Puente Nacional",
+   "destino": "San Gil",
+   "peaje": "OIBA",
+   "id_peaje": 155,
+   "doble_calzada": false,
+   "distancia_km": 124.72,
+   "tiempo_libre_min": 149.664,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 3841.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.12,
+     "tiempo_min": 149.669
+    },
+    "2025-07": {
+     "transito_usado": 3211.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.1003,
+     "tiempo_min": 149.666
+    },
+    "2025-08": {
+     "transito_usado": 3523.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1101,
+     "tiempo_min": 149.667
+    },
+    "2025-09": {
+     "transito_usado": 3319.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1037,
+     "tiempo_min": 149.667
+    },
+    "2025-10": {
+     "transito_usado": 3763.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1176,
+     "tiempo_min": 149.668
+    },
+    "2025-11": {
+     "transito_usado": 3724.8,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1164,
+     "tiempo_min": 149.668
+    },
+    "2025-12": {
+     "transito_usado": 4689.8,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1466,
+     "tiempo_min": 149.674
+    },
+    "2026-01": {
+     "transito_usado": 5153.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.161,
+     "tiempo_min": 149.679
+    },
+    "2026-02": {
+     "transito_usado": 3317.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1037,
+     "tiempo_min": 149.667
+    },
+    "2026-03": {
+     "transito_usado": 3314.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1036,
+     "tiempo_min": 149.667
+    },
+    "2026-04": {
+     "transito_usado": 4232.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1323,
+     "tiempo_min": 149.671
+    },
+    "2026-05": {
+     "transito_usado": 3318.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1037,
+     "tiempo_min": 149.667
+    },
+    "2026-06": {
+     "transito_usado": 3841.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.12,
+     "tiempo_min": 149.669
+    },
+    "2026-07": {
+     "transito_usado": 3211.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.1003,
+     "tiempo_min": 149.666
+    },
+    "2026-08": {
+     "transito_usado": 3523.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1101,
+     "tiempo_min": 149.667
+    },
+    "2026-09": {
+     "transito_usado": 3319.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1037,
+     "tiempo_min": 149.667
+    },
+    "2026-10": {
+     "transito_usado": 3763.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1176,
+     "tiempo_min": 149.668
+    },
+    "2026-11": {
+     "transito_usado": 3724.8,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1164,
+     "tiempo_min": 149.668
+    },
+    "2026-12": {
+     "transito_usado": 4689.8,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1466,
+     "tiempo_min": 149.674
+    },
+    "2027-01": {
+     "transito_usado": 5153.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.161,
+     "tiempo_min": 149.679
+    },
+    "2027-02": {
+     "transito_usado": 3317.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1037,
+     "tiempo_min": 149.667
+    },
+    "2027-03": {
+     "transito_usado": 3314.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1036,
+     "tiempo_min": 149.667
+    },
+    "2027-04": {
+     "transito_usado": 4232.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1323,
+     "tiempo_min": 149.671
+    },
+    "2027-05": {
+     "transito_usado": 3318.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1037,
+     "tiempo_min": 149.667
+    }
+   },
+   "ultimo_mes": "2017-06",
+   "estado": "historico"
+  },
+  {
+   "origen": "San Gil",
+   "destino": "Bucaramanga",
+   "peaje": "LOS CUROS",
+   "id_peaje": 154,
+   "doble_calzada": false,
+   "distancia_km": 95.25,
+   "tiempo_libre_min": 114.3,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 5016.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1568,
+     "tiempo_min": 114.31
+    },
+    "2025-07": {
+     "transito_usado": 4466.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1396,
+     "tiempo_min": 114.307
+    },
+    "2025-08": {
+     "transito_usado": 4773.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1492,
+     "tiempo_min": 114.308
+    },
+    "2025-09": {
+     "transito_usado": 4568.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1428,
+     "tiempo_min": 114.307
+    },
+    "2025-10": {
+     "transito_usado": 5008.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1565,
+     "tiempo_min": 114.31
+    },
+    "2025-11": {
+     "transito_usado": 5082.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1588,
+     "tiempo_min": 114.311
+    },
+    "2025-12": {
+     "transito_usado": 6038.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1887,
+     "tiempo_min": 114.322
+    },
+    "2026-01": {
+     "transito_usado": 6333.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1979,
+     "tiempo_min": 114.326
+    },
+    "2026-02": {
+     "transito_usado": 4566.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1427,
+     "tiempo_min": 114.307
+    },
+    "2026-03": {
+     "transito_usado": 4506.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1408,
+     "tiempo_min": 114.307
+    },
+    "2026-04": {
+     "transito_usado": 5403.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1689,
+     "tiempo_min": 114.314
+    },
+    "2026-05": {
+     "transito_usado": 4475.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1399,
+     "tiempo_min": 114.307
+    },
+    "2026-06": {
+     "transito_usado": 5016.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1568,
+     "tiempo_min": 114.31
+    },
+    "2026-07": {
+     "transito_usado": 4466.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1396,
+     "tiempo_min": 114.307
+    },
+    "2026-08": {
+     "transito_usado": 4773.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1492,
+     "tiempo_min": 114.308
+    },
+    "2026-09": {
+     "transito_usado": 4568.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1428,
+     "tiempo_min": 114.307
+    },
+    "2026-10": {
+     "transito_usado": 5008.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1565,
+     "tiempo_min": 114.31
+    },
+    "2026-11": {
+     "transito_usado": 5082.1,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1588,
+     "tiempo_min": 114.311
+    },
+    "2026-12": {
+     "transito_usado": 6038.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1887,
+     "tiempo_min": 114.322
+    },
+    "2027-01": {
+     "transito_usado": 6333.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1979,
+     "tiempo_min": 114.326
+    },
+    "2027-02": {
+     "transito_usado": 4566.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1427,
+     "tiempo_min": 114.307
+    },
+    "2027-03": {
+     "transito_usado": 4506.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1408,
+     "tiempo_min": 114.307
+    },
+    "2027-04": {
+     "transito_usado": 5403.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1689,
+     "tiempo_min": 114.314
+    },
+    "2027-05": {
+     "transito_usado": 4475.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "medio",
+     "saturacion": 0.1399,
+     "tiempo_min": 114.307
+    }
+   },
+   "ultimo_mes": "2017-06",
+   "estado": "historico"
+  },
+  {
+   "origen": "Bucaramanga",
+   "destino": "Cuestaboba",
+   "peaje": null,
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 70.06,
+   "tiempo_libre_min": 84.072,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Cuestaboba",
+   "destino": "Pamplona",
+   "peaje": "EL PICACHO",
+   "id_peaje": 85,
+   "doble_calzada": false,
+   "distancia_km": 54.31,
+   "tiempo_libre_min": 65.172,
+   "capacidad_veh_h": 3200,
+   "meses": {
+    "2025-06": {
+     "transito_usado": 2597.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0812,
+     "tiempo_min": 65.172
+    },
+    "2025-07": {
+     "transito_usado": 2593.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.081,
+     "tiempo_min": 65.172
+    },
+    "2025-08": {
+     "transito_usado": 2591.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.081,
+     "tiempo_min": 65.172
+    },
+    "2025-09": {
+     "transito_usado": 2337.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.073,
+     "tiempo_min": 65.172
+    },
+    "2025-10": {
+     "transito_usado": 2342.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0732,
+     "tiempo_min": 65.172
+    },
+    "2025-11": {
+     "transito_usado": 2850.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0891,
+     "tiempo_min": 65.173
+    },
+    "2025-12": {
+     "transito_usado": 3042.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0951,
+     "tiempo_min": 65.173
+    },
+    "2026-01": {
+     "transito_usado": 2944.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.092,
+     "tiempo_min": 65.173
+    },
+    "2026-02": {
+     "transito_usado": 2483.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0776,
+     "tiempo_min": 65.172
+    },
+    "2026-03": {
+     "transito_usado": 2442.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0763,
+     "tiempo_min": 65.172
+    },
+    "2026-04": {
+     "transito_usado": 2773.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0867,
+     "tiempo_min": 65.173
+    },
+    "2026-05": {
+     "transito_usado": 2681.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0838,
+     "tiempo_min": 65.172
+    },
+    "2026-06": {
+     "transito_usado": 2597.9,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0812,
+     "tiempo_min": 65.172
+    },
+    "2026-07": {
+     "transito_usado": 2593.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.081,
+     "tiempo_min": 65.172
+    },
+    "2026-08": {
+     "transito_usado": 2591.5,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.081,
+     "tiempo_min": 65.172
+    },
+    "2026-09": {
+     "transito_usado": 2337.0,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.073,
+     "tiempo_min": 65.172
+    },
+    "2026-10": {
+     "transito_usado": 2342.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0732,
+     "tiempo_min": 65.172
+    },
+    "2026-11": {
+     "transito_usado": 2850.3,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0891,
+     "tiempo_min": 65.173
+    },
+    "2026-12": {
+     "transito_usado": 3042.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0951,
+     "tiempo_min": 65.173
+    },
+    "2027-01": {
+     "transito_usado": 2944.4,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.092,
+     "tiempo_min": 65.173
+    },
+    "2027-02": {
+     "transito_usado": 2483.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0776,
+     "tiempo_min": 65.172
+    },
+    "2027-03": {
+     "transito_usado": 2442.7,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0763,
+     "tiempo_min": 65.172
+    },
+    "2027-04": {
+     "transito_usado": 2773.6,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0867,
+     "tiempo_min": 65.173
+    },
+    "2027-05": {
+     "transito_usado": 2681.2,
+     "transito_observado": null,
+     "origen_dato": "historico",
+     "clase": "bajo",
+     "saturacion": 0.0838,
+     "tiempo_min": 65.172
+    }
+   },
+   "ultimo_mes": "2025-05",
+   "estado": "historico"
+  },
+  {
+   "origen": "Pamplona",
+   "destino": "Presidente",
+   "peaje": null,
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 68.0,
+   "tiempo_libre_min": 81.6,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "Presidente",
+   "destino": "La Palmera",
+   "peaje": null,
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 100.9,
+   "tiempo_libre_min": 121.08,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  },
+  {
+   "origen": "La Palmera",
+   "destino": "Duitama",
+   "peaje": null,
+   "id_peaje": null,
+   "doble_calzada": false,
+   "distancia_km": 141.01,
+   "tiempo_libre_min": 169.212,
+   "capacidad_veh_h": 3200,
+   "meses": {},
+   "estado": "sin_dato",
+   "ultimo_mes": null
+  }
+ ]
+}
